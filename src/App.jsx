@@ -1,12 +1,9 @@
 import "./App.css";
-import Button from "@mui/material/Button";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/Routes";
 
-function App() {
-  return (
-    <>
-      <Button variant="contained">Hello world</Button>
-    </>
-  );
-}
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;
