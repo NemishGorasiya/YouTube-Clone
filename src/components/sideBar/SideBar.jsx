@@ -1,127 +1,27 @@
-import { styled, useTheme } from "@mui/material/styles";
-import MuiDrawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import Box from "@mui/material/Box";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import PropTypes from "prop-types";
-import { SideBarLinks } from "../../utils/constant";
+import Drawer from "@mui/material/Drawer";
+import { styled } from "@mui/material/styles";
 
-const drawerWidth = 240;
+const SideBar = ({ open, toggleDrawer }) => {
+	const DrawerHeader = styled("div")(({ theme }) => ({
+		...theme.mixins.toolbar,
+	}));
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  borderWidth: 0,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  borderWidth: 0,
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
-}));
-
-export default function MiniDrawer({ open }) {
-  const theme = useTheme();
-
-  return (
-    <Drawer variant="permanent" open={open} elevation={0}>
-      <Box sx={{ outline: "none", border: "none" }}>
-        <DrawerHeader>
-          {/* <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
-        </IconButton> */}
-        </DrawerHeader>
-        {SideBarLinks.map(({ title, links }) => (
-          <Box key={title}>
-            {title}
-            <List>
-              {links.map(({ icon, label }, index) => (
-                <ListItem key={label} disablePadding sx={{ display: "block" }}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                      // textOverflow: "ellipsis",
-                      // whiteSpace: "nowrap",
-                      // overflow: "hidden",
-                      // display: "block",
-                      // width: "100px",
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={label}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-          </Box>
-        ))}
-      </Box>
-    </Drawer>
-  );
-}
-
-MiniDrawer.propTypes = {
-  open: PropTypes.bool,
+	return (
+		<Drawer
+			open={open}
+			onClose={() => {
+				console.log("called");
+				toggleDrawer(false);
+			}}
+		>
+			<DrawerHeader></DrawerHeader>
+			<h1>Home</h1>
+			<h1>Shorts</h1>
+			<h1>Subscriptions</h1>
+			<h1>Playlist</h1>
+			<h1>Setting</h1>
+		</Drawer>
+	);
 };
+
+export default SideBar;

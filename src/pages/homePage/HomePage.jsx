@@ -709,7 +709,7 @@ const HomePage = () => {
 			) : error ? (
 				<h1>Error</h1>
 			) : (
-				<VideoGalleryGrid videos={videos.items} />
+				<VideoGallery videos={videos.items} />
 			)}
 		</div>
 	);

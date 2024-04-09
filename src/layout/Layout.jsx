@@ -7,38 +7,32 @@ import { useState } from "react";
 import { styled } from "@mui/material/styles";
 
 const Layout = () => {
-  const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+	const toggleDrawer = (shouldClose) => {
+		console.log("called");
+		if (shouldClose === false) {
+			setOpen(false);
+			console.log("first");
+			return;
+		}
+		console.log("second");
+		setOpen((prevState) => !prevState);
+	};
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  }));
-  return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <TopBar
-        open={open}
-        handleDrawerClose={handleDrawerClose}
-        handleDrawerOpen={handleDrawerOpen}
-      />
-      <SideBar open={open} handleDrawerClose={handleDrawerClose} />
-      <Box component="main" sx={{ flexGrow: 1, padding: 1.5 }}>
-        <DrawerHeader />
-        <Outlet />
-      </Box>
-    </Box>
-  );
+	const DrawerHeader = styled("div")(({ theme }) => ({
+		...theme.mixins.toolbar,
+	}));
+	return (
+		<Box sx={{ display: "flex" }}>
+			<TopBar open={open} toggleDrawer={toggleDrawer} />
+			<SideBar open={open} toggleDrawer={toggleDrawer} />
+			<Box component="main" sx={{ flexGrow: 1, padding: 1.5 }}>
+				<DrawerHeader />
+				<Outlet />
+			</Box>
+		</Box>
+	);
 };
 
 export default Layout;
