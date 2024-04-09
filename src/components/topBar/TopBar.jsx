@@ -13,11 +13,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Badge from "@mui/material/Badge";
+import { useNavigate } from "react-router-dom";
 export default function PrimarySearchAppBar({
   handleDrawerOpen,
   handleDrawerClose,
   open,
 }) {
+  const navigate = useNavigate();
+
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
@@ -37,6 +40,11 @@ export default function PrimarySearchAppBar({
     //   }),
     // }),
   }));
+
+  const handleSearch = ({ target: { value } }) => {
+    navigate(`/results?search_query=${value}`);
+  };
+
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -119,6 +127,7 @@ export default function PrimarySearchAppBar({
             sx={{ border: "1px solid #000", borderRadius: "25px" }}
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
+            onChange={handleSearch}
           />
         </Search>
         <Box sx={{ display: { xs: "none", md: "flex" } }}>

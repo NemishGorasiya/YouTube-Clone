@@ -28,8 +28,8 @@ const theme = createTheme({
   },
 });
 
-const VideoCard = ({ video }) => {
-  console.log("video", video);
+const VideoCard = ({ video, isListView }) => {
+  // console.log("video", video);
   const {
     id,
     snippet,
@@ -49,15 +49,33 @@ const VideoCard = ({ video }) => {
     <ThemeProvider theme={theme}>
       <Grid item>
         <Card elevation={0}>
-          <CardActionArea>
+          <CardActionArea
+            sx={
+              isListView
+                ? {
+                    display: "flex",
+                    gap: 3,
+                    justifyContent: "start",
+                  }
+                : null
+            }
+          >
             <CardMedia
               component="img"
-              height="200"
+              height={isListView ? "250" : "200"}
               image={url}
               alt="Video Thumbnail"
-              sx={{ borderRadius: "14px" }}
+              sx={{
+                borderRadius: "14px",
+                ...(isListView
+                  ? {
+                      maxWidth: "400px",
+                      width: "50%",
+                    }
+                  : null),
+              }}
             />
-            <CardContent sx={{ paddingX: 0 }}>
+            <CardContent sx={{ paddingX: 0, alignSelf: "start" }}>
               <Box
                 sx={{
                   display: "flex",
