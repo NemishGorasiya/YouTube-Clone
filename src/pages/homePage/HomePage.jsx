@@ -1,16 +1,16 @@
-import VideoGalleryGrid from "../../components/VideoGalleryGrid";
+import VideoGallery from "../../components/VideoGallery";
 import { useAxios } from "../../hooks/useAxios";
 
 const HomePage = () => {
-  const {
-    response: videos,
-    error,
-    isLoading,
-  } = useAxios({
-    url: `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&maxResults=10&key=${
-      import.meta.env.VITE_GOOGLE_API_KEY
-    }`,
-  });
+  // const {
+  //   response: videos,
+  //   error,
+  //   isLoading,
+  // } = useAxios({
+  //   url: `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&maxResults=10&key=${
+  //     import.meta.env.VITE_GOOGLE_API_KEY
+  //   }`,
+  // });
 
   // const isLoading = false;
   // const error = "";
@@ -699,13 +699,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : error ? (
-        <h1>Error</h1>
-      ) : (
-        <VideoGalleryGrid videos={videos.items} />
-      )}
+      <VideoGallery isListView={false} />
     </div>
   );
 };
