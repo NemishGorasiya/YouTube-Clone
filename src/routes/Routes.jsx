@@ -7,6 +7,7 @@ import FeedPage from "../pages/feedPage/FeedPage";
 import SubscriptionPage from "../pages/subscriptionPage/SubscriptionPage";
 import History from "../components/history/History";
 import Playlists from "../components/playlists/Playlists";
+import SearchResultPage from "../pages/searchResultPage/SearchResultPage";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "/shorts",
         element: <ShortsPage />,
+      },
+      {
+        path: "/results",
+        element: <SearchResultPage />,
       },
       {
         path: "/feed",

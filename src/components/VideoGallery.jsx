@@ -2,16 +2,9 @@ import Grid from "@mui/material/Grid";
 import VideoCard from "./VideoCard";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "./InfiniteScroll";
-import { useAxios } from "../hooks/useAxios";
 import axios from "axios";
 
 const VideoGallery = ({ isListView = false }) => {
-  // const { response, error, isLoading, fetchMoreData, items } = useAxios({
-  //   url: `https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&maxResults=10&key=${
-  //     import.meta.env.VITE_GOOGLE_API_KEY
-  //   }`,
-  // });
-
   const renderItem = (video) => (
     <VideoCard key={video.id} video={video} isListView={isListView} />
   );
