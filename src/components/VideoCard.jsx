@@ -29,7 +29,7 @@ const theme = createTheme({
 });
 
 const VideoCard = ({ video, isListView }) => {
-  console.log("video", video);
+  // console.log("video", video);
   const {
     id,
     snippet,
