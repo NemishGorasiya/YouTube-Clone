@@ -11,9 +11,9 @@ const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
       }
     };
 
-    // if (window.scrollY === 0) {
-    //   handleScroll();
-    // }
+    if (window.scrollY === 0) {
+      handleScroll();
+    }
 
     window.addEventListener("scroll", handleScroll);
     return () => {

@@ -30,11 +30,7 @@ const theme = createTheme({
 
 const VideoCard = ({ video, isListView }) => {
   // console.log("video", video);
-  const {
-    id,
-    snippet,
-    statistics: { viewCount },
-  } = video;
+  const { id, snippet, statistics: { viewCount } = {} } = video;
 
   const {
     publishedAt,
@@ -43,7 +39,7 @@ const VideoCard = ({ video, isListView }) => {
     thumbnails: {
       medium: { url },
     },
-  } = snippet;
+  } = snippet || {};
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,7 +116,7 @@ const VideoCard = ({ video, isListView }) => {
                     />
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {formatCompactNumber(viewCount)} views •{" "}
+                    {formatCompactNumber(viewCount || "")} views •{" "}
                     {formatDistanceToNow(publishedAt, { addSuffix: true })}
                   </Typography>
                 </Box>

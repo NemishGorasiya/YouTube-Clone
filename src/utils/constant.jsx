@@ -21,7 +21,7 @@ export const SideBarLinks = [
       },
       {
         icon: <SubscriptionsIcon />,
-        label: "SubscriptionsSubscriptionsSubscriptions",
+        label: "Subscriptions",
       },
     ],
   },
