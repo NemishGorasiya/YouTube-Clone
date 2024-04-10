@@ -4,6 +4,7 @@ import VideoGallery from "../../components/VideoGallery";
 const SearchResultPage = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search_query");
+
   return (
     <div>
       <h1>Search results for {searchQuery}</h1>

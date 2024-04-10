@@ -9,23 +9,12 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import InputAdornment from "@mui/material/InputAdornment";
+
 import { useState } from "react";
+import TextField from "@mui/material/TextField";
+import SearchInput from "./SearchInput";
 
 const TopBar = ({ open, toggleDrawer }) => {
-  const [searchInputIsFocused, setSearchInputIsFocused] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearchQueryChange = (event) => {
-    // event.preventDefault();
-    setSearchQuery(event.target.value);
-    console.log(event.target.value);
-  };
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-  };
-
   const AppBar = styled(MuiAppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
   }));
@@ -54,14 +43,6 @@ const TopBar = ({ open, toggleDrawer }) => {
     paddingLeft: "5px",
   }));
 
-  const searchIconAdornment = searchInputIsFocused ? (
-    <InputAdornment position="start">
-      <SearchIcon />
-    </InputAdornment>
-  ) : (
-    <></>
-  );
-
   return (
     <AppBar
       position="fixed"
@@ -81,27 +62,9 @@ const TopBar = ({ open, toggleDrawer }) => {
             <MenuIcon />
           </IconButton>
         </Box>
-        <form onSubmit={handleSearch}>
-          <Search>
-            <StyledInputBase
-              placeholder="Search…"
-              onFocus={() => {
-                console.log("called");
-                setSearchInputIsFocused(true);
-              }}
-              onBlur={() => {
-                console.log("blur called");
-                setSearchInputIsFocused(false);
-              }}
-              onChange={handleSearchQueryChange}
-              value={searchQuery}
-              startAdornment={searchIconAdornment}
-            />
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-          </Search>
-        </form>
+        <Box>
+          <SearchInput />
+        </Box>
         <Box>
           <IconButton
             size="large"

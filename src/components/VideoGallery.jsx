@@ -39,7 +39,7 @@ const VideoGallery = ({ isListView = false, url }) => {
         }));
       }
     },
-    []
+    [url]
   );
 
   useEffect(() => {
@@ -56,6 +56,15 @@ const VideoGallery = ({ isListView = false, url }) => {
     }
   };
 
+  // useEffect(() => {
+  //   setVideos({
+  //     list: [],
+  //     isLoading: true,
+  //     nextPageToken: "",
+  //   });
+  // }, []);
+
+  console.log("re render gallery");
   return video.isLoading ? (
     <h1>Loading...</h1>
   ) : (
