@@ -1,10 +1,10 @@
-import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
+import MuiListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -12,6 +12,7 @@ import { SideBarLinks } from "../../utils/constant";
 import { Fragment } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import PropTypes from "prop-types";
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
@@ -22,13 +23,33 @@ const SideBar = ({ open, toggleDrawer }) => {
   }));
 
   const Drawer = styled(MuiDrawer)(() => ({
+    display: "flex",
+    justifyContent: "center",
     ...(open && {
       width: "224px", // 220 + 12 + 12 (paddingX=12)
     }),
     ...(!open && {
       width: "74px",
     }),
+
+    "& .MuiPaper-root": {
+      background: theme.palette.background.default,
+      color: theme.palette.primary.main,
+      padding: "0 12px",
+      border: "none",
+      ...(open && {
+        width: "224px",
+      }),
+      ...(!open && {
+        width: "74px",
+      }),
+    },
   }));
+
+  const ListItemIcon = styled(MuiListItemIcon)({
+    color: theme.palette.primary.main,
+    minWidth: 0,
+  });
 
   return (
     <Drawer
@@ -37,12 +58,13 @@ const SideBar = ({ open, toggleDrawer }) => {
       onClose={() => {
         toggleDrawer(false);
       }}
-      PaperProps={{
-        sx: {
-          paddingX: "12px",
-          border: "none",
-        },
-      }}
+      // sx={{ background: "red" }}
+      // PaperProps={{
+      //   sx: {
+      //     paddingX: "12px",
+      //     border: "none",
+      //   },
+      // }}
     >
       <DrawerHeader></DrawerHeader>
       {SideBarLinks.map((sideBarSection, idx) => (
@@ -64,7 +86,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                         }),
                   }}
                 >
-                  <ListItemIcon sx={{ minWidth: 0 }}>{link.icon}</ListItemIcon>
+                  <ListItemIcon>{link.icon}</ListItemIcon>
                   <ListItemText>
                     <Typography
                       variant="body2"
@@ -90,6 +112,11 @@ const SideBar = ({ open, toggleDrawer }) => {
       ))}
     </Drawer>
   );
+};
+
+SideBar.propTypes = {
+  open: PropTypes.bool,
+  toggleDrawer: PropTypes.func,
 };
 
 export default SideBar;

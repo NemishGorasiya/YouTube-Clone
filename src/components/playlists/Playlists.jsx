@@ -5,7 +5,6 @@ import { useSearchParams } from "react-router-dom";
 const Playlists = () => {
   const [searchParams] = useSearchParams();
   const listQuery = searchParams.get("list");
-  // console.log(listQuery);
 
   return listQuery === null ? (
     <>

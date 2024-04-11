@@ -2,70 +2,51 @@ import Grid from "@mui/material/Grid";
 import VideoCard from "./VideoCard";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "./InfiniteScroll";
-import axios from "axios";
+import PropTypes from "prop-types";
+import { fetchVideos } from "../services/services";
 
 const VideoGallery = ({ isListView = false, url }) => {
-  const renderItem = (video) => (
-    <VideoCard key={video.id} video={video} isListView={isListView} />
-  );
-
-  const [video, setVideos] = useState({
+  const [videos, setVideos] = useState({
     list: [],
     isLoading: true,
     nextPageToken: "",
   });
 
-  console.log("video", video);
-
   const fetchData = useCallback(
-    async ({
-      abortController = new AbortController(),
-      token = video.nextPageToken,
-    }) => {
-      const res = await axios.get(
-        `${
-          url ??
-          "https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&maxResults=10"
-        }&pageToken=${token}&key=${import.meta.env.VITE_GOOGLE_API_KEY}`,
-        { signal: abortController.signal }
-      );
-      if (res) {
-        setVideos((prev) => ({
-          list: !res.data.items.length
-            ? res.data.items
-            : [...prev.list, ...res.data.items],
+    async ({ nextPageToken } = {}) => {
+      try {
+        const response = await fetchVideos({
+          nextPageToken: nextPageToken,
+          url: url,
+        });
+        setVideos((prevVideos) => ({
+          ...prevVideos,
+          list: [...prevVideos.list, ...response.items],
           isLoading: false,
-          nextPageToken: res.data.nextPageToken,
+          nextPageToken: response.nextPageToken,
         }));
+      } catch (error) {
+        console.error(error);
       }
     },
     [url]
   );
 
+  const loadMore = () => {
+    console.log("called load more");
+    fetchData({ nextPageToken: videos.nextPageToken });
+  };
   useEffect(() => {
-    const abortController = new AbortController();
-    fetchData({ abortController: abortController });
-    return () => {
-      abortController.abort();
-    };
+    fetchData();
   }, [fetchData]);
 
-  const loadMore = () => {
-    if (!video.isLoading && video.nextPageToken) {
-      fetchData({ token: video.nextPageToken });
-    }
-  };
+  const renderItem = (video) => (
+    <VideoCard key={video.id} video={video} isListView={isListView} />
+  );
 
-  // useEffect(() => {
-  //   setVideos({
-  //     list: [],
-  //     isLoading: true,
-  //     nextPageToken: "",
-  //   });
-  // }, []);
+  console.log("render gallery");
 
-  console.log("re render gallery");
-  return video.isLoading ? (
+  return videos.isLoading ? (
     <h1>Loading...</h1>
   ) : (
     <Grid
@@ -85,12 +66,17 @@ const VideoGallery = ({ isListView = false, url }) => {
       }}
     >
       <InfiniteScroll
-        items={video.list}
+        items={videos.list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
       ></InfiniteScroll>
     </Grid>
   );
+};
+
+VideoGallery.propTypes = {
+  isListView: PropTypes.bool,
+  url: PropTypes.string,
 };
 
 export default VideoGallery;

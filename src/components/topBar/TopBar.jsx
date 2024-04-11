@@ -17,6 +17,8 @@ import SearchInput from "./SearchInput";
 const TopBar = ({ open, toggleDrawer }) => {
   const AppBar = styled(MuiAppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
+    background: theme.palette.background.default,
+    color: theme.palette.primary.main,
   }));
 
   const Search = styled("div")(() => ({
@@ -25,7 +27,7 @@ const TopBar = ({ open, toggleDrawer }) => {
     height: "40px",
   }));
 
-  const SearchIconWrapper = styled("div")(() => ({
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
     height: "100%",
     display: "flex",
     alignItems: "center",
@@ -44,12 +46,7 @@ const TopBar = ({ open, toggleDrawer }) => {
   }));
 
   return (
-    <AppBar
-      position="fixed"
-      open={open}
-      elevation={0}
-      sx={{ background: "#fff", color: "#000" }}
-    >
+    <AppBar position="fixed" open={open} elevation={0}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box>
           <IconButton
