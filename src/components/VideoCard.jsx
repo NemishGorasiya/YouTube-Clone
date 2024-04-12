@@ -8,18 +8,19 @@ import { CardActionArea } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { formatDistanceToNow } from "date-fns";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { formatCompactNumber } from "../utils/utilityFunction";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
 }));
 
 const VideoCard = ({ video, isListView }) => {
-  const { snippet, statistics: { viewCount } = {} } = video;
-
+  const navigate = useNavigate();
+  const { id, snippet, statistics: { viewCount } = {} } = video;
+  console.log(video);
   const {
     publishedAt,
     title,
@@ -29,8 +30,12 @@ const VideoCard = ({ video, isListView }) => {
     },
   } = snippet || {};
 
+  const handleVideoCardClick = () => {
+    navigate(`/watch?v=${id.videoId ?? id}`);
+  };
+
   return (
-    <Grid item>
+    <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0}>
         <CardActionArea
           sx={

@@ -1,0 +1,30 @@
+.videoPageContainer {
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  grid-template-areas: "videoPlayer relatedVideos" "comments relatedVideos";
+
+  .videoPlayerWrapper {
+    grid-area: videoPlayer;
+
+    iframe {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+  }
+
+  .relatedVideos {
+    grid-area: relatedVideos;
+  }
+
+  .comments {
+    grid-area: comments;
+  }
+}
+
+@media only screen and (max-width: 1536px) {
+  .videoPageContainer {
+    grid-template-columns: 1fr;
+    grid-template-areas: "videoPlayer" "relatedVideos" "comments";
+  }
+}

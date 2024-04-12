@@ -18,6 +18,15 @@ const App = () => {
         default: "#000",
       },
     },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 28,
+          },
+        },
+      },
+    },
   });
   const lightTheme = createTheme({
     palette: {
@@ -26,6 +35,15 @@ const App = () => {
       },
       background: {
         default: "#fff",
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 28,
+          },
+        },
       },
     },
   });
