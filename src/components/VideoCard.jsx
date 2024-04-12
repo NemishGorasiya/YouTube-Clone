@@ -13,8 +13,12 @@ import { formatCompactNumber } from "../utils/utilityFunction";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 
+const Card = styled(MuiCard)(({ theme }) => ({
+  background: theme.palette.background.default,
+}));
+
 const VideoCard = ({ video, isListView }) => {
-  const { id, snippet, statistics: { viewCount } = {} } = video;
+  const { snippet, statistics: { viewCount } = {} } = video;
 
   const {
     publishedAt,
@@ -24,10 +28,6 @@ const VideoCard = ({ video, isListView }) => {
       medium: { url },
     },
   } = snippet || {};
-
-  const Card = styled(MuiCard)(({ theme }) => ({
-    background: theme.palette.background.default,
-  }));
 
   return (
     <Grid item>

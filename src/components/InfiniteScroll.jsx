@@ -1,8 +1,9 @@
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 
 const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
   useEffect(() => {
     const handleScroll = () => {
+      console.log("scroll called");
       const scrolledToBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
@@ -11,9 +12,9 @@ const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
       }
     };
 
-    if (window.scrollY === 0) {
-      handleScroll();
-    }
+    // if (window.scrollY === 0) {
+    //   handleScroll();
+    // }
 
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -21,13 +22,7 @@ const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
     };
   }, [fetchMoreData]);
 
-  return (
-    <>
-      {items.map((item, idx) => (
-        <Fragment key={idx}>{renderItem(item)}</Fragment>
-      ))}
-    </>
-  );
+  return <>{items.map((item) => renderItem(item))}</>;
 };
 
 export default InfiniteScroll;
