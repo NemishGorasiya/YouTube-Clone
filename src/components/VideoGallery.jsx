@@ -33,7 +33,6 @@ const VideoGallery = ({ isListView = false, url }) => {
   );
 
   const loadMore = () => {
-    console.log("load more");
     if (videos.nextPageToken) {
       fetchData({ nextPageToken: videos.nextPageToken });
     }

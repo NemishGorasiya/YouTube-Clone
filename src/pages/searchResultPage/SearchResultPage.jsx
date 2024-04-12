@@ -10,7 +10,7 @@ const SearchResultPage = () => {
       <h1>Search results for {searchQuery}</h1>
       <VideoGallery
         isListView={true}
-        url={`/search?part=snippet&maxResults=10&order=viewCount&q=${searchQuery}&type=video&videoDefinition=high`}
+        url={`/search?part=snippet&maxResults=10&q=${searchQuery}&type=video&videoDefinition=high`}
       />
     </div>
   );

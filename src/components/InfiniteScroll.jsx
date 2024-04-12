@@ -3,7 +3,6 @@ import { useEffect } from "react";
 const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
   useEffect(() => {
     const handleScroll = () => {
-      console.log("scroll called");
       const scrolledToBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
