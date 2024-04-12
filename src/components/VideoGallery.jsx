@@ -13,12 +13,12 @@ const VideoGallery = ({ isListView = false, url }) => {
   });
 
   const fetchData = useCallback(
-    async ({ nextPageToken } = {}) => {
-      console.log("called fetchData");
+    async ({ nextPageToken, abortController } = {}) => {
       try {
         const response = await fetchVideos({
           nextPageToken: nextPageToken,
           url: url,
+          abortController: abortController,
         });
         setVideos((prevVideos) => ({
           list: [...prevVideos.list, ...response.items],
@@ -33,21 +33,23 @@ const VideoGallery = ({ isListView = false, url }) => {
   );
 
   const loadMore = () => {
-    console.log("called load more");
-    fetchData({ nextPageToken: videos.nextPageToken });
+    console.log("load more");
+    if (videos.nextPageToken) {
+      fetchData({ nextPageToken: videos.nextPageToken });
+    }
   };
 
   useEffect(() => {
-    // setInterval(() => {
-    fetchData();
-    // }, [5000]);
+    const abortController = new AbortController();
+    fetchData({ abortController: abortController });
+    return () => {
+      abortController.abort();
+    };
   }, [fetchData]);
 
   const renderItem = (video) => (
     <VideoCard key={video.id} video={video} isListView={isListView} />
   );
-
-  console.log("render gallery");
 
   return (
     <Grid
@@ -74,11 +76,7 @@ const VideoGallery = ({ isListView = false, url }) => {
         items={videos.list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
-        isListView={isListView}
       ></InfiniteScroll>
-      {/* {videos.list.map((video) => (
-        <VideoCard key={video.id} video={video} isListView={isListView} />
-      ))} */}
     </Grid>
   );
 };

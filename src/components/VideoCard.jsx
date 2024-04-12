@@ -29,8 +29,12 @@ const VideoCard = ({ video, isListView }) => {
     },
   } = snippet || {};
 
+  const handleVideoCardClick = () => {
+    console.log("clicked");
+  };
+
   return (
-    <Grid item>
+    <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0}>
         <CardActionArea
           sx={
