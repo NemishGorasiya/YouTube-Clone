@@ -8,6 +8,7 @@ import SubscriptionPage from "../pages/subscriptionPage/SubscriptionPage";
 import History from "../components/history/History";
 import Playlists from "../components/playlists/Playlists";
 import SearchResultPage from "../pages/searchResultPage/SearchResultPage";
+import WatchVideoPage from "../pages/watchVideoPage/WatchVideoPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "/results",
         element: <SearchResultPage />,
+      },
+      {
+        path: "/watch",
+        element: <WatchVideoPage />,
       },
       {
         path: "/feed",
