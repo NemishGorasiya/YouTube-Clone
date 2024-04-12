@@ -14,6 +14,7 @@ const VideoGallery = ({ isListView = false, url }) => {
 
   const fetchData = useCallback(
     async ({ nextPageToken } = {}) => {
+      console.log("called fetchData");
       try {
         const response = await fetchVideos({
           nextPageToken: nextPageToken,
@@ -35,8 +36,11 @@ const VideoGallery = ({ isListView = false, url }) => {
     console.log("called load more");
     fetchData({ nextPageToken: videos.nextPageToken });
   };
+
   useEffect(() => {
+    // setInterval(() => {
     fetchData();
+    // }, [5000]);
   }, [fetchData]);
 
   const renderItem = (video) => (
@@ -45,9 +49,7 @@ const VideoGallery = ({ isListView = false, url }) => {
 
   console.log("render gallery");
 
-  return videos.isLoading ? (
-    <h1>Loading...</h1>
-  ) : (
+  return (
     <Grid
       container
       spacing={1.5}
@@ -72,7 +74,11 @@ const VideoGallery = ({ isListView = false, url }) => {
         items={videos.list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
+        isListView={isListView}
       ></InfiniteScroll>
+      {/* {videos.list.map((video) => (
+        <VideoCard key={video.id} video={video} isListView={isListView} />
+      ))} */}
     </Grid>
   );
 };
