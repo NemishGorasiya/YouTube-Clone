@@ -20,7 +20,6 @@ const VideoGallery = ({ isListView = false, url }) => {
           url: url,
         });
         setVideos((prevVideos) => ({
-          ...prevVideos,
           list: [...prevVideos.list, ...response.items],
           isLoading: false,
           nextPageToken: response.nextPageToken,
@@ -55,7 +54,11 @@ const VideoGallery = ({ isListView = false, url }) => {
       sx={{
         display: "grid",
         ...(isListView
-          ? { gridTemplateColumns: "1fr", maxWidth: "1300px", margin: "auto" }
+          ? {
+              gridTemplateColumns: "1fr",
+              maxWidth: "1300px",
+              margin: "auto",
+            }
           : {
               gridTemplateColumns: {
                 md: "repeat(auto-fill, minmax(350px, 1fr))",
