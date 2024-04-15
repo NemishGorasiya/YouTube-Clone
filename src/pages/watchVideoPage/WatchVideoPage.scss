@@ -1,30 +1,46 @@
 .videoPageContainer {
-  display: grid;
-  grid-template-columns: 5fr 2fr;
-  grid-template-areas: "videoPlayer relatedVideos" "comments relatedVideos";
+  display: flex;
 
-  .videoPlayerWrapper {
-    grid-area: videoPlayer;
+  .videoPageLeftSection {
+    flex: 3;
+    .videoPlayerWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
 
-    iframe {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16/9;
+      iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+      }
+    }
+    .commentsSection {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .addComment {
+        display: flex;
+        gap: 12px;
+
+        img {
+          height: 50px;
+          border-radius: 50%;
+        }
+        .MuiTextField-root {
+          flex: 1;
+        }
+      }
+      .commentsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
     }
   }
 
   .relatedVideos {
-    grid-area: relatedVideos;
-  }
-
-  .comments {
-    grid-area: comments;
-  }
-}
-
-@media only screen and (max-width: 1536px) {
-  .videoPageContainer {
-    grid-template-columns: 1fr;
-    grid-template-areas: "videoPlayer" "relatedVideos" "comments";
+    flex: 1;
+    padding: 0 12px;
   }
 }

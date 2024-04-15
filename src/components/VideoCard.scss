@@ -1,0 +1,14 @@
+.videoCard {
+  span.live {
+    background: red;
+    padding: 2px;
+    font-size: 12px;
+    border-radius: 2px;
+
+    svg {
+      margin-right: 2px;
+      height: 12px;
+      width: 12px;
+    }
+  }
+}

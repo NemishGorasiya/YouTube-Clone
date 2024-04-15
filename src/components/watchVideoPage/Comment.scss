@@ -1,0 +1,28 @@
+.comment {
+  display: flex;
+  gap: 12px;
+
+  img {
+    height: 50px;
+    border-radius: 50%;
+  }
+  .commentDetails {
+    .commentMetadata {
+      display: flex;
+      gap: 8px;
+
+      .commentAuthorName {
+        max-width: 120px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    .commentEngagement {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}

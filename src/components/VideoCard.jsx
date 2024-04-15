@@ -12,6 +12,8 @@ import { formatCompactNumber } from "../utils/utilityFunction";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import "./VideoCard.scss";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
@@ -20,7 +22,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 const VideoCard = ({ video, isListView }) => {
   const navigate = useNavigate();
   const { id, snippet, statistics: { viewCount } = {} } = video;
-  console.log(video);
+  // console.log(video);
   const {
     publishedAt,
     title,
@@ -28,6 +30,7 @@ const VideoCard = ({ video, isListView }) => {
     thumbnails: {
       medium: { url },
     },
+    liveBroadcastContent,
   } = snippet || {};
 
   const handleVideoCardClick = () => {
@@ -36,7 +39,7 @@ const VideoCard = ({ video, isListView }) => {
 
   return (
     <Grid item onClick={handleVideoCardClick}>
-      <Card elevation={0}>
+      <Card elevation={0} className="videoCard">
         <CardActionArea
           sx={
             isListView
@@ -108,7 +111,15 @@ const VideoCard = ({ video, isListView }) => {
                   />
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {formatCompactNumber(viewCount || "")} views •{" "}
+                  {liveBroadcastContent === "live" ? (
+                    <span className="live">
+                      <LiveTvIcon />
+                      LIVE
+                    </span>
+                  ) : (
+                    `${formatCompactNumber(viewCount || "")}${" views "}`
+                  )}
+                  {" • "}
                   {formatDistanceToNow(publishedAt, { addSuffix: true })}
                 </Typography>
               </Box>

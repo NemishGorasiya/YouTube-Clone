@@ -17,3 +17,18 @@ export const fetchVideos = async ({
     return responseData;
   }
 };
+
+export const getComments = async ({
+  nextPageToken,
+  url: relativeUrl,
+  abortController,
+}) => {
+  const nextPageTokenParam = nextPageToken ? `&pageToken=${nextPageToken}` : "";
+  const url = BASE_URL + relativeUrl + nextPageTokenParam + API_KEY_PARAM;
+  const options = abortController ? { signal: abortController.signal } : {};
+  const response = await axios.get(url, options);
+  const responseData = response.data;
+  if (responseData) {
+    return responseData;
+  }
+};

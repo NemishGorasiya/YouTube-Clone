@@ -1,0 +1,14 @@
+.commentContentWrapper {
+  .commentContent {
+    line-height: 20px;
+    row-gap: 0;
+    position: relative;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+  .commentContent.expanded {
+    display: block;
+  }
+}
