@@ -4,16 +4,30 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import { useEffect, useRef } from "react";
 import CommentContent from "./CommentContent";
+import PropTypes from "prop-types";
+import {
+  calcDistanceToNow,
+  formatCompactNumber,
+} from "../../utils/utilityFunction";
 
-const Comment = () => {
+const Comment = ({ snippet }) => {
+  const { topLevelComment } = snippet || {};
+  const { snippet: innerSnippet } = topLevelComment || {};
+  const {
+    textDisplay,
+    authorDisplayName,
+    authorProfileImageUrl,
+    likeCount,
+    publishedAt,
+  } = innerSnippet || {};
+
   return (
     <Box className="comment">
       <Box
         component="img"
         alt="Channel Thumbnail"
-        src="https://placehold.jp/150x150.png"
+        src={authorProfileImageUrl}
       ></Box>
       <Box className="commentDetails">
         <Box className="commentMetadata">
@@ -22,24 +36,26 @@ const Comment = () => {
             variant="subtitle1"
             component="span"
           >
-            {
-              "@nemish dvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd vg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbjhdbsjdb dbj dhbjhbvg hgsdvhdsh hdbhhbd dshbdjhbjd jhdbsjdb dbj dhbjhbb dbj dhbjhb sjdbjs dj jsjdj hdbjhbsjbj sdjhdbjbsdj djhbdsjhbdb dhdsjbbjhs dhbshbjhbsbhb d bjhsbdjhsbd hbdhbdsjhbdjh jhdbhbshb djhbhdb jhsb jh "
-            }
+            {authorDisplayName}
           </Typography>
           <Typography variant="subtitle1" component="span">
-            {"45 minutes ago"}
+            {calcDistanceToNow({ time: publishedAt })}
           </Typography>
         </Box>
-        <CommentContent />
+        <CommentContent textDisplay={textDisplay} />
         <Box className="commentEngagement">
           <ThumbUpIcon />
-          {" 159 "}
+          {formatCompactNumber(likeCount)}
           <ThumbDownIcon />
           <Button variant="text">Reply</Button>
         </Box>
       </Box>
     </Box>
   );
+};
+
+Comment.propTypes = {
+  snippet: PropTypes.object,
 };
 
 export default Comment;

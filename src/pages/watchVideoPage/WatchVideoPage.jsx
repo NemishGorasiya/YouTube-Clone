@@ -19,6 +19,7 @@ import { styled } from "@mui/material/styles";
 import VideoGallery from "../../components/VideoGallery";
 import VideoDescription from "./VideoDescription";
 import Comment from "../../components/watchVideoPage/Comment";
+import InfiniteScroll from "../../components/InfiniteScroll";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -34,6 +35,12 @@ const WatchVideoPage = () => {
     isLoading: true,
     nextPageToken: "",
   });
+
+  const {
+    list: commentsList,
+    isLoading: isCommentsLoading,
+    nextPageToken: commentsNextPageToken,
+  } = comments;
 
   const { snippet, statistics } = videoDetails || {};
   const { publishedAt, channelId, title, description, channelTitle, tags } =
@@ -166,25 +173,38 @@ const WatchVideoPage = () => {
           </Box>
         </Box>
 
-        <Box className="commentsSection">
-          <h1>comments</h1>
-          <Box className="addComment">
-            <Box
-              component="img"
-              alt="Channel Thumbnail"
-              src="https://placehold.jp/150x150.png"
-            ></Box>
-            <TextField
-              id="standard-basic"
-              label="Add a comment..."
-              variant="standard"
-            />
+        {isCommentsLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <Box className="commentsSection">
+            <h1>comments</h1>
+            <Box className="addComment">
+              <Box
+                component="img"
+                alt="Channel Thumbnail"
+                src="https://placehold.jp/150x150.png"
+              ></Box>
+              <TextField
+                id="standard-basic"
+                label="Add a comment..."
+                variant="standard"
+              />
+            </Box>
+            <Box className="commentsContainer">
+              <InfiniteScroll
+                items={commentsList}
+                fetchMoreData={loadMoreComments}
+                renderItem={(comment) => (
+                  <Comment key={comment.id} snippet={comment.snippet} />
+                )}
+              ></InfiniteScroll>
+              {/* {commentsList?.map((comment) => (
+                <Comment key={comment.id} snippet={comment.snippet} />
+              ))}
+              <Comment /> */}
+            </Box>
           </Box>
-          <Box className="commentsContainer">
-            <Comment />
-            <Comment />
-          </Box>
-        </Box>
+        )}
       </Box>
       <Box className="relatedVideos">
         {tags && tags[0] && (

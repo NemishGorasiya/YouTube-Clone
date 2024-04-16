@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from "date-fns";
+
 export const formatCompactNumber = (number) => {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
   return formatter.format(number);
@@ -12,3 +14,7 @@ export function debounce(func, delay = 500) {
     }, delay);
   };
 }
+
+export const calcDistanceToNow = ({ time }) => {
+  return formatDistanceToNow(time, { addSuffix: true });
+};

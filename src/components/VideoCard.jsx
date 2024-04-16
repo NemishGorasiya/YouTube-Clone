@@ -1,10 +1,14 @@
 import MuiCard from "@mui/material/Card";
 // import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
+// import CardContent from "@mui/material/CardContent";
+import MuiCardContent from "@mui/material/CardContent";
+// import CardMedia from "@mui/material/CardMedia";
+import MuiCardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import MuiTypography from "@mui/material/Typography";
+// import { CardActionArea } from "@mui/material";
+import MuiCardActionArea from "@mui/material/CardActionArea";
 import Grid from "@mui/material/Grid";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { formatDistanceToNow } from "date-fns";
@@ -19,10 +23,54 @@ const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
 }));
 
+const CardMedia = styled(MuiCardMedia)(({ theme, isListView }) => ({
+  borderRadius: "14px",
+  aspectRatio: "16/9",
+  height: "auto",
+  ...(isListView ? {} : null),
+}));
+
+const CardContent = styled(MuiCardContent)(({ theme, isListView }) => ({
+  paddingY: "0",
+}));
+const ChannelThumbnail = styled("img")(() => ({
+  height: "50px",
+  width: "50px",
+  borderRadius: "50%",
+}));
+
+const CardActionArea = styled(MuiCardActionArea)(({ theme, isListView }) => ({
+  ...(isListView
+    ? {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        placeItems: "start",
+      }
+    : null),
+}));
+
+const VideoTitle = styled(MuiTypography)(({ theme, isListView }) => ({
+  lineHeight: "1.2",
+  textOverflow: "ellipsis",
+  WebkitLineClamp: "2",
+  overflow: "hidden",
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  wordBreak: "break-all",
+}));
+
+const ChannelName = styled(MuiTypography)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  color: theme.palette.text.secondary,
+}));
+const VideoMetadata = styled(MuiTypography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}));
+
 const VideoCard = ({ video, isListView }) => {
   const navigate = useNavigate();
   const { id, snippet, statistics: { viewCount } = {} } = video;
-  // console.log(video);
   const {
     publishedAt,
     title,
@@ -40,89 +88,40 @@ const VideoCard = ({ video, isListView }) => {
   return (
     <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0} className="videoCard">
-        <CardActionArea
-          sx={
-            isListView
-              ? {
-                  display: "flex",
-                  gap: 3,
-                  justifyContent: "start",
-                }
-              : null
-          }
-        >
+        <CardActionArea isListView={isListView}>
           <CardMedia
+            isListView={isListView}
             component="img"
-            height={isListView ? "250" : "200"}
             image={url}
             alt="Video Thumbnail"
-            sx={{
-              borderRadius: "14px",
-              ...(isListView
-                ? {
-                    maxWidth: "400px",
-                    width: "50%",
-                  }
-                : null),
-            }}
           />
-          <CardContent sx={{ paddingX: 0, alignSelf: "start" }}>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "10px",
-              }}
-            >
-              <Box
-                component="img"
-                sx={{
-                  height: 50,
-                  width: 50,
-                  borderRadius: "50%",
-                }}
-                alt="Channel Thumbnail"
-                src="https://placehold.jp/150x150.png"
-              />
-              <Box>
-                <Typography
-                  sx={{
-                    lineHeight: "1.2",
-                    textOverflow: "ellipsis",
-                    WebkitLineClamp: "2",
-                    overflow: "hidden",
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                  }}
-                  gutterBottom
-                  variant="subtitle1"
-                  component="h2"
-                >
-                  {title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  {channelTitle}
-                  <CheckCircleIcon
-                    fontSize="x-small"
-                    sx={{ marginLeft: "5px" }}
-                  />
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {liveBroadcastContent === "live" ? (
-                    <span className="live">
-                      <LiveTvIcon />
-                      LIVE
-                    </span>
-                  ) : (
-                    `${formatCompactNumber(viewCount || "")}${" views "}`
-                  )}
-                  {" • "}
-                  {formatDistanceToNow(publishedAt, { addSuffix: true })}
-                </Typography>
-              </Box>
+          <CardContent>
+            <ChannelThumbnail
+              src="https://placehold.jp/150x150.png"
+              alt="Channel Thumbnail"
+            />
+            <Box>
+              <VideoTitle>{title}</VideoTitle>
+              <ChannelName>
+                {" "}
+                {channelTitle}
+                <CheckCircleIcon
+                  fontSize="x-small"
+                  sx={{ marginLeft: "5px" }}
+                />
+              </ChannelName>
+              <VideoMetadata>
+                {liveBroadcastContent === "live" ? (
+                  <span className="live">
+                    <LiveTvIcon />
+                    LIVE
+                  </span>
+                ) : (
+                  `${formatCompactNumber(viewCount || "")}${" views "}`
+                )}
+                {" • "}
+                {formatDistanceToNow(publishedAt, { addSuffix: true })}
+              </VideoMetadata>
             </Box>
           </CardContent>
         </CardActionArea>

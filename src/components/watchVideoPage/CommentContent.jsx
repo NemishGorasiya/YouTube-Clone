@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
-const CommentContent = () => {
+const CommentContent = ({ textDisplay }) => {
   const commentContentRef = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpandable, setIsExpandable] = useState(false);
@@ -27,7 +27,7 @@ const CommentContent = () => {
         ref={commentContentRef}
         className={`commentContent ${isExpanded ? "expanded" : ""}`}
       >
-        {"comment will go here..."}
+        {textDisplay}
       </Typography>
       {isExpandable && (
         <Button

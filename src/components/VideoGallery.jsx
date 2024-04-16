@@ -1,9 +1,29 @@
-import Grid from "@mui/material/Grid";
+import MuiGrid from "@mui/material/Grid";
 import VideoCard from "./VideoCard";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "./InfiniteScroll";
 import PropTypes from "prop-types";
 import { fetchVideos } from "../services/services";
+import { styled } from "@mui/material/styles";
+
+const Grid = styled(MuiGrid)(({ isListView }) => ({
+  display: "grid",
+  ...(isListView
+    ? {
+        gridTemplateColumns: "1fr",
+        maxWidth: "1300px",
+        margin: "auto",
+      }
+    : {
+        // gridTemplateColumns: {
+        //   md: "repeat(auto-fill, minmax(350px, 1fr))",
+        //   sm: "1fr 1fr",
+        //   xs: "1fr",
+        // },
+        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+        gap: "12px",
+      }),
+}));
 
 const VideoGallery = ({ isListView = false, url }) => {
   const [videos, setVideos] = useState({
@@ -51,26 +71,7 @@ const VideoGallery = ({ isListView = false, url }) => {
   );
 
   return (
-    <Grid
-      container
-      spacing={1.5}
-      sx={{
-        display: "grid",
-        ...(isListView
-          ? {
-              gridTemplateColumns: "1fr",
-              maxWidth: "1300px",
-              margin: "auto",
-            }
-          : {
-              gridTemplateColumns: {
-                md: "repeat(auto-fill, minmax(350px, 1fr))",
-                sm: "1fr 1fr",
-                xs: "1fr",
-              },
-            }),
-      }}
-    >
+    <Grid container isListView={isListView}>
       <InfiniteScroll
         items={videos.list}
         fetchMoreData={loadMore}
