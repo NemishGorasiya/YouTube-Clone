@@ -32,6 +32,8 @@ const CardMedia = styled(MuiCardMedia)(({ theme, isListView }) => ({
 
 const CardContent = styled(MuiCardContent)(({ theme, isListView }) => ({
   paddingY: "0",
+  display: "flex",
+  gap: "8px",
 }));
 const ChannelThumbnail = styled("img")(() => ({
   height: "50px",

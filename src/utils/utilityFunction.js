@@ -18,3 +18,8 @@ export function debounce(func, delay = 500) {
 export const calcDistanceToNow = ({ time }) => {
   return formatDistanceToNow(time, { addSuffix: true });
 };
+
+export const handleFallBackImage = (event, fallBackImage) => {
+  console.log("fallback called");
+  event.target.src = fallBackImage;
+};

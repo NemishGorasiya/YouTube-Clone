@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import "./WatchVideoPage.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchVideos } from "../../services/services";
 import Typography from "@mui/material/Typography";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -28,6 +28,7 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
 const WatchVideoPage = () => {
   const [searchParams] = useSearchParams();
   const videoId = searchParams.get("v");
+  const commentsContainerRef = useRef(null);
 
   const [videoDetails, setVideoDetails] = useState({});
   const [comments, setComments] = useState({
@@ -190,29 +191,26 @@ const WatchVideoPage = () => {
                 variant="standard"
               />
             </Box>
-            <Box className="commentsContainer">
+            <Box className="commentsContainer" ref={commentsContainerRef}>
               <InfiniteScroll
+                containerRef={commentsContainerRef}
                 items={commentsList}
                 fetchMoreData={loadMoreComments}
                 renderItem={(comment) => (
                   <Comment key={comment.id} snippet={comment.snippet} />
                 )}
               ></InfiniteScroll>
-              {/* {commentsList?.map((comment) => (
-                <Comment key={comment.id} snippet={comment.snippet} />
-              ))}
-              <Comment /> */}
             </Box>
           </Box>
         )}
       </Box>
       <Box className="relatedVideos">
-        {tags && tags[0] && (
-          <VideoGallery
-            url={`/search?part=snippet&maxResults=10&order=viewCount&q=${tags[0]}&type=video&videoDefinition=high`}
-            isListView
-          />
-        )}
+        <VideoGallery
+          url={`/search?part=snippet&maxResults=10&order=viewCount&q=${
+            tags ? tags[0] : channelTitle
+          }&type=video&videoDefinition=high`}
+          isListView
+        />
       </Box>
     </Box>
   );
