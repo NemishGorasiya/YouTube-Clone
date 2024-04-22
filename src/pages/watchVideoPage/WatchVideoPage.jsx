@@ -1,25 +1,23 @@
-import { useSearchParams } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import "./WatchVideoPage.scss";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchVideos } from "../../services/services";
-import Typography from "@mui/material/Typography";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { formatCompactNumber } from "../../utils/utilityFunction";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ReplyIcon from "@mui/icons-material/Reply";
 import DownloadIcon from "@mui/icons-material/Download";
-import Stack from "@mui/material/Stack";
+import ReplyIcon from "@mui/icons-material/Reply";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import MuiDivider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import VideoGallery from "../../components/VideoGallery";
-import VideoDescription from "./VideoDescription";
-import Comment from "../../components/watchVideoPage/Comment";
+import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import InfiniteScroll from "../../components/InfiniteScroll";
+import VideoGallery from "../../components/VideoGallery";
+import Comment from "../../components/watchVideoPage/Comment";
+import { fetchVideos } from "../../services/services";
+import VideoDescription from "./VideoDescription";
+import "./WatchVideoPage.scss";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -28,7 +26,6 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
 const WatchVideoPage = () => {
   const [searchParams] = useSearchParams();
   const videoId = searchParams.get("v");
-  const commentsContainerRef = useRef(null);
 
   const [videoDetails, setVideoDetails] = useState({});
   const [comments, setComments] = useState({
@@ -191,9 +188,8 @@ const WatchVideoPage = () => {
                 variant="standard"
               />
             </Box>
-            <Box className="commentsContainer" ref={commentsContainerRef}>
+            <Box className="commentsContainer">
               <InfiniteScroll
-                containerRef={commentsContainerRef}
                 items={commentsList}
                 fetchMoreData={loadMoreComments}
                 renderItem={(comment) => (

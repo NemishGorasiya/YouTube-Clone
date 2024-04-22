@@ -1,6 +1,6 @@
 import MuiGrid from "@mui/material/Grid";
 import VideoCard from "./VideoCard";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "./InfiniteScroll";
 import PropTypes from "prop-types";
 import { fetchVideos } from "../services/services";
@@ -31,8 +31,6 @@ const VideoGallery = ({ isListView = false, url }) => {
     isLoading: true,
     nextPageToken: "",
   });
-
-  const videoGalleryRef = useRef(null);
 
   const fetchData = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
@@ -73,9 +71,8 @@ const VideoGallery = ({ isListView = false, url }) => {
   );
 
   return (
-    <Grid container isListView={isListView} ref={videoGalleryRef}>
+    <Grid container isListView={isListView}>
       <InfiniteScroll
-        containerRef={videoGalleryRef}
         items={videos.list}
         fetchMoreData={loadMore}
         renderItem={renderItem}

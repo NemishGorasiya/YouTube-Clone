@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
+const InfiniteScroll = ({ containerRef, items, renderItem, fetchMoreData }) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrolledToBottom =
