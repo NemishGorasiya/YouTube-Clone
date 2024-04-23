@@ -13,6 +13,7 @@ import { Fragment } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
@@ -71,40 +72,42 @@ const SideBar = ({ open, toggleDrawer }) => {
         <Fragment key={idx}>
           <List sx={open ? { maxWidth: "200px" } : { maxWidth: "50px" }}>
             {sideBarSection.links.map((link, idx) => (
-              <ListItem key={idx} sx={{ padding: 0 }}>
-                <ListItemButton
-                  sx={{
-                    paddingX: "13px",
-                    gap: "15px",
-                    height: "40px",
-                    ...(open
-                      ? {}
-                      : {
-                          flexDirection: "column",
-                          gap: "0",
-                          height: "auto",
-                        }),
-                  }}
-                >
-                  <ListItemIcon>{link.icon}</ListItemIcon>
-                  <ListItemText>
-                    <Typography
-                      variant="body2"
-                      noWrap
-                      sx={
-                        open
-                          ? {}
-                          : {
-                              fontSize: "10px",
-                              maxWidth: "50px",
-                            }
-                      }
-                    >
-                      {link.label}
-                    </Typography>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
+              <Link to={link.link} key={link.link}>
+                <ListItem key={idx} sx={{ padding: 0 }}>
+                  <ListItemButton
+                    sx={{
+                      paddingX: "13px",
+                      gap: "15px",
+                      height: "40px",
+                      ...(open
+                        ? {}
+                        : {
+                            flexDirection: "column",
+                            gap: "0",
+                            height: "auto",
+                          }),
+                    }}
+                  >
+                    <ListItemIcon>{link.icon}</ListItemIcon>
+                    <ListItemText>
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={
+                          open
+                            ? {}
+                            : {
+                                fontSize: "10px",
+                                maxWidth: "50px",
+                              }
+                        }
+                      >
+                        {link.label}
+                      </Typography>
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              </Link>
             ))}
           </List>
           <Divider />
