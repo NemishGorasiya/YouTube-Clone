@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import {
   calcDistanceToNow,
   formatCompactNumber,
+  handleFallBackImage,
 } from "../../utils/utilityFunction";
 
 const Comment = ({ snippet }) => {
@@ -28,6 +29,9 @@ const Comment = ({ snippet }) => {
         component="img"
         alt="Channel Thumbnail"
         src={authorProfileImageUrl}
+        onError={(event) => {
+          handleFallBackImage(event, "https://placehold.co/150x150");
+        }}
       ></Box>
       <Box className="commentDetails">
         <Box className="commentMetadata">

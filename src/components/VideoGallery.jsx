@@ -8,6 +8,7 @@ import { styled } from "@mui/material/styles";
 
 const Grid = styled(MuiGrid)(({ isListView }) => ({
   display: "grid",
+  gap: "12px",
   ...(isListView
     ? {
         gridTemplateColumns: "1fr",
@@ -15,13 +16,7 @@ const Grid = styled(MuiGrid)(({ isListView }) => ({
         margin: "auto",
       }
     : {
-        // gridTemplateColumns: {
-        //   md: "repeat(auto-fill, minmax(350px, 1fr))",
-        //   sm: "1fr 1fr",
-        //   xs: "1fr",
-        // },
         gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        gap: "12px",
       }),
 }));
 
@@ -35,6 +30,10 @@ const VideoGallery = ({ isListView = false, url }) => {
   const fetchData = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
       try {
+        setVideos((prevVideos) => ({
+          ...prevVideos,
+          isLoading: true,
+        }));
         const response = await fetchVideos({
           nextPageToken: nextPageToken,
           url: url,
@@ -76,6 +75,7 @@ const VideoGallery = ({ isListView = false, url }) => {
         items={videos.list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
+        isLoading={videos.isLoading}
       ></InfiniteScroll>
     </Grid>
   );

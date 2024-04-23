@@ -3,6 +3,7 @@ import "./CommentContent.scss";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import { htmlParser } from "../../utils/utilityFunction";
 
 const CommentContent = ({ textDisplay }) => {
   const commentContentRef = useRef(null);
@@ -23,11 +24,12 @@ const CommentContent = ({ textDisplay }) => {
     <Box className="commentContentWrapper">
       <Typography
         variant="subtitle1"
-        component="p"
+        component="pre"
+        style={{ textWrap: "wrap" }}
         ref={commentContentRef}
         className={`commentContent ${isExpanded ? "expanded" : ""}`}
       >
-        {textDisplay}
+        {htmlParser(textDisplay)}
       </Typography>
       {isExpandable && (
         <Button

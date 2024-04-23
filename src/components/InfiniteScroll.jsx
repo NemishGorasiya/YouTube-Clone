@@ -1,27 +1,47 @@
-import { useEffect } from "react";
+import { useCallback, useRef } from "react";
+import "./InfiniteScroll.scss";
+import Loader from "./loader/Loader";
 
-const InfiniteScroll = ({ items, renderItem, fetchMoreData }) => {
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrolledToBottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+const InfiniteScroll = ({
+  items,
+  renderItem,
+  fetchMoreData,
+  mediaType,
+  isLoading,
+}) => {
+  const observer = useRef();
+  const lastUserRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          fetchMoreData();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [fetchMoreData, isLoading]
+  );
 
-      if (scrolledToBottom) {
-        fetchMoreData();
-      }
-    };
-
-    if (window.scrollY === 0) {
-      handleScroll();
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [fetchMoreData]);
-
-  return <>{items.map((item) => renderItem(item))}</>;
+  return (
+    <>
+      {items.map((item, index) =>
+        items.length === index + 1 ? (
+          <div ref={lastUserRef} key={index}>
+            {renderItem({ ...item, mediaType: mediaType })}
+          </div>
+        ) : (
+          <div key={index}>{renderItem({ ...item, mediaType: mediaType })}</div>
+        )
+      )}
+      {isLoading && (
+        <div className="loaderWrapper">
+          <Loader />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default InfiniteScroll;

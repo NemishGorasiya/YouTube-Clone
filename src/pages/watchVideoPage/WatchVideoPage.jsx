@@ -66,6 +66,10 @@ const WatchVideoPage = () => {
   const fetchComments = useCallback(
     async ({ nextPageToken, abortController }) => {
       try {
+        setComments((prevComments) => ({
+          ...prevComments,
+          isLoading: true,
+        }));
         const response = await fetchVideos({
           nextPageToken: nextPageToken,
           url: `/commentThreads?part=snippet,replies&videoId=${videoId}`,
@@ -167,44 +171,39 @@ const WatchVideoPage = () => {
               </Button>
             </Stack>
           </Box>
-          <Box sx={{ background: "grey", borderRadius: "8px", padding: "8px" }}>
+          <Box
+            sx={{ background: "#272727", borderRadius: "8px", padding: "8px" }}
+          >
             <Typography variant="body1">104k views 3 years ago #TAG</Typography>
             <VideoDescription description={description} />
           </Box>
         </Box>
 
-        {isCommentsLoading ? (
-          <h1>Loading...</h1>
-        ) : (
-          <Box className="commentsSection">
-            <h1>comments</h1>
-            <Box className="addComment">
-              <Box
-                component="img"
-                alt="Channel Thumbnail"
-                src="https://placehold.jp/150x150.png"
-              ></Box>
-              <TextField
-                id="standard-basic"
-                label="Add a comment..."
-                variant="standard"
-              />
-            </Box>
-            <Box className="commentsContainer">
-              <InfiniteScroll
-                items={commentsList}
-                fetchMoreData={loadMoreComments}
-                renderItem={(comment) => (
-                  <Comment key={comment.id} snippet={comment.snippet} />
-                )}
-              ></InfiniteScroll>
-              {/* {commentsList?.map((comment) => (
-                <Comment key={comment.id} snippet={comment.snippet} />
-              ))}
-              <Comment /> */}
-            </Box>
+        <Box className="commentsSection">
+          <h1>comments</h1>
+          <Box className="addComment">
+            <Box
+              component="img"
+              alt="Channel Thumbnail"
+              src="https://placehold.jp/150x150.png"
+            ></Box>
+            <TextField
+              id="standard-basic"
+              label="Add a comment..."
+              variant="standard"
+            />
           </Box>
-        )}
+          <Box className="commentsContainer">
+            <InfiniteScroll
+              items={commentsList}
+              fetchMoreData={loadMoreComments}
+              renderItem={(comment) => (
+                <Comment key={comment.id} snippet={comment.snippet} />
+              )}
+              isLoading={isCommentsLoading}
+            ></InfiniteScroll>
+          </Box>
+        </Box>
       </Box>
       <Box className="relatedVideos">
         {tags && tags[0] && (

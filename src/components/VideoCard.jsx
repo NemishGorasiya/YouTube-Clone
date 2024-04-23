@@ -47,6 +47,7 @@ const CardActionArea = styled(MuiCardActionArea)(({ theme, isListView }) => ({
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
         placeItems: "start",
+        gap: "8px",
       }
     : null),
 }));
@@ -98,10 +99,13 @@ const VideoCard = ({ video, isListView }) => {
             alt="Video Thumbnail"
           />
           <CardContent>
-            <ChannelThumbnail
-              src="https://placehold.jp/150x150.png"
-              alt="Channel Thumbnail"
-            />
+            {!isListView && (
+              <ChannelThumbnail
+                src="https://placehold.jp/150x150.png"
+                alt="Channel Thumbnail"
+              />
+            )}
+
             <Box>
               <VideoTitle>{title}</VideoTitle>
               <ChannelName>

@@ -2,6 +2,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import "./VideoDescription.scss";
 import { useState } from "react";
+import { customParser, htmlParser } from "../../utils/utilityFunction";
 
 const VideoDescription = ({ description }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -13,9 +14,11 @@ const VideoDescription = ({ description }) => {
       <Typography
         className={`videoDescription ${isExpanded ? "expanded" : ""}`}
         variant="body1"
-        component="p"
+        component="pre"
       >
-        {description}
+        <span
+          dangerouslySetInnerHTML={{ __html: customParser(description) }}
+        ></span>
         <span
           onClick={handleToggleVisibilityOfText}
           className="toggleTextVisibilityButton"
