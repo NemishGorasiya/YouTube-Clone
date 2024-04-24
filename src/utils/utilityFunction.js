@@ -20,6 +20,10 @@ export const calcDistanceToNow = ({ time }) => {
 };
 
 export const handleFallBackImage = (event, fallBackImage) => {
-  console.log("fallback called");
   event.target.src = fallBackImage;
+};
+
+export const customParser = (str) => {
+  const asteriskToBold = str.replace(/\*(.*?)\*/g, "<b>$1</b>");
+  return asteriskToBold;
 };

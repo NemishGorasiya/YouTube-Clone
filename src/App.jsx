@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import CssBaseline from "@mui/material/CssBaseline";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/Routes";

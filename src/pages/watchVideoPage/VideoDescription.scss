@@ -5,6 +5,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
+  text-wrap: wrap;
 
   .toggleTextVisibilityButton {
     content: "show more";
@@ -13,7 +14,7 @@
     cursor: pointer;
     bottom: 0;
     right: 0;
-    background: grey;
+    background: #272727;
   }
 }
 .videoDescription.expanded {

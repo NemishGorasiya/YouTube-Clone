@@ -14,17 +14,17 @@ export const SideBarLinks = [
       {
         icon: <HomeIcon />,
         label: "Home",
-        navigateTo: "/",
+        link: "/",
       },
       {
         icon: <StrikethroughSIcon />,
         label: "Shorts",
-        navigateTo: "/",
+        link: "/shorts",
       },
       {
         icon: <SubscriptionsIcon />,
         label: "Subscriptions",
-        navigateTo: "/",
+        link: "/feed/subscription",
       },
     ],
   },
@@ -34,22 +34,22 @@ export const SideBarLinks = [
       {
         icon: <HistoryIcon />,
         label: "History",
-        navigateTo: "/",
+        link: "/feed/history",
       },
       {
         icon: <PlaylistPlayIcon />,
         label: "Playlists",
-        navigateTo: "/",
+        link: "/feed/playlists",
       },
       {
         icon: <WatchLaterIcon />,
         label: "Watch later",
-        navigateTo: "/",
+        link: "/",
       },
       {
         icon: <ThumbUpIcon />,
         label: "Liked videos",
-        navigateTo: "/",
+        link: "/",
       },
     ],
   },
@@ -59,7 +59,7 @@ export const SideBarLinks = [
       {
         icon: <AddCircleOutlineIcon />,
         label: "Browse channels",
-        navigateTo: "/",
+        link: "/feed/subscription",
       },
     ],
   },
