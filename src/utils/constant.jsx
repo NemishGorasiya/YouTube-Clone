@@ -6,6 +6,9 @@ import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 
 export const SideBarLinks = [
   {
@@ -62,5 +65,20 @@ export const SideBarLinks = [
         link: "/feed/subscription",
       },
     ],
+  },
+];
+
+export const subscriptionStatusList = [
+  {
+    icon: <NotificationsNoneIcon />,
+    label: "Subscribed",
+  },
+  {
+    icon: <NotificationsOffIcon />,
+    label: "Disabled",
+  },
+  {
+    icon: <PersonRemoveIcon />,
+    label: "Unsubscribe",
   },
 ];

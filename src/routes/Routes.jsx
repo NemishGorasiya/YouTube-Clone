@@ -9,6 +9,7 @@ import History from "../components/history/History";
 import Playlists from "../components/playlists/Playlists";
 import SearchResultPage from "../pages/searchResultPage/SearchResultPage";
 import WatchVideoPage from "../pages/watchVideoPage/WatchVideoPage";
+import ChannelPage from "../pages/channelPage/ChannelPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "/:channelName",
+        element: <ChannelPage />,
       },
       {
         path: "/shorts",
