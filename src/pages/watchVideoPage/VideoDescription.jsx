@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import "./VideoDescription.scss";
 import { useState } from "react";
-import { customParser, htmlParser } from "../../utils/utilityFunction";
+import { customParser } from "../../utils/utilityFunction";
 
 const VideoDescription = ({ description }) => {
   const [isExpanded, setIsExpanded] = useState(false);
