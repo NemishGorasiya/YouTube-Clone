@@ -1,5 +1,6 @@
 .videoPageContainer {
   display: flex;
+  gap: 12px;
 
   .videoPageLeftSection {
     flex: 3;
@@ -14,33 +15,15 @@
         aspect-ratio: 16/9;
       }
     }
-    .commentsSection {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-
-      .addComment {
-        display: flex;
-        gap: 12px;
-
-        img {
-          height: 50px;
-          border-radius: 50%;
-        }
-        .MuiTextField-root {
-          flex: 1;
-        }
-      }
-      .commentsContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-    }
   }
 
   .relatedVideos {
     flex: 1;
-    padding: 0 12px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .videoPageContainer {
+    flex-direction: column;
   }
 }

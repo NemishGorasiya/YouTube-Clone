@@ -18,6 +18,10 @@ import Comment from "../../components/watchVideoPage/Comment";
 import { fetchVideos } from "../../services/services";
 import VideoDescription from "./VideoDescription";
 import "./WatchVideoPage.scss";
+import { SwipeableDrawer } from "@mui/material";
+import SwipeableCommentsSection from "./SwipeableCommentsSection";
+import CommentsSection from "./CommentsSection";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -111,7 +115,7 @@ const WatchVideoPage = () => {
             allow="fullscreen"
           ></iframe>
           <h2 className="videoTitle">{title}</h2>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
@@ -174,10 +178,17 @@ const WatchVideoPage = () => {
           >
             <Typography variant="body1">104k views 3 years ago #TAG</Typography>
             <VideoDescription description={description} />
-          </Box>
+          </Box> */}
         </Box>
 
-        <Box className="commentsSection">
+        <CommentsSection
+          comments={comments}
+          loadMoreComments={loadMoreComments}
+        />
+
+        {/* <SwipeableCommentsSection /> */}
+
+        {/* <Box className="commentsSection">
           <h1>comments</h1>
           <Box className="addComment">
             <Box
@@ -201,7 +212,7 @@ const WatchVideoPage = () => {
               isLoading={isCommentsLoading}
             ></InfiniteScroll>
           </Box>
-        </Box>
+        </Box> */}
       </Box>
       <Box className="relatedVideos">
         <VideoGallery
@@ -211,6 +222,7 @@ const WatchVideoPage = () => {
           isListView
         />
       </Box>
+      <ScrollToTopButton />
     </Box>
   );
 };

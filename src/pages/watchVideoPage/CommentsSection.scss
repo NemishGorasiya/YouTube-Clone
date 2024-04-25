@@ -1,0 +1,23 @@
+.commentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .addComment {
+    display: flex;
+    gap: 12px;
+
+    img {
+      height: 50px;
+      border-radius: 50%;
+    }
+    .MuiTextField-root {
+      flex: 1;
+    }
+  }
+  .commentsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
