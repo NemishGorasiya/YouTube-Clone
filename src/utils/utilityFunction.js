@@ -24,6 +24,21 @@ export const handleFallBackImage = (event, fallBackImage) => {
 };
 
 export const customParser = (str) => {
-  const asteriskToBold = str.replace(/\*(.*?)\*/g, "<b>$1</b>");
-  return asteriskToBold;
+  let modifiesString;
+  modifiesString = str.replace(/\*(.*?)\*/g, "<b>$1</b>");
+  modifiesString = modifiesString.replaceAll("\n", "<br/>");
+  return modifiesString;
+};
+
+export const formatDate = (date) => {
+  if (date === "" || date === undefined) {
+    return "";
+  }
+  const dateToFormat = new Date(date);
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(dateToFormat);
+  return formattedDate;
 };

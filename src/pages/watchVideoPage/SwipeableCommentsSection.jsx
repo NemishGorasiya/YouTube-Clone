@@ -50,7 +50,6 @@ const SwipeableCommentsSection = ({ children }) => {
         }}
         sx={{
           ".MuiPaper-root": {
-            // height: `calc(50% - ${drawerBleeding}px)`,
             height: "75%",
             overflow: "visible",
             width: "calc(100% - 24px)",
