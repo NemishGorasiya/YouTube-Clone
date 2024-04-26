@@ -7,5 +7,12 @@
   z-index: 1;
   cursor: pointer;
   color: green;
-  background: red;
+  background: grey !important;
+  height: 0;
+  display: none !important;
+}
+
+.visible {
+  padding: 20px !important;
+  display: flex !important;
 }

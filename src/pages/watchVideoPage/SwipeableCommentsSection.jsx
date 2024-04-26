@@ -19,10 +19,11 @@ const Puller = styled("div")(({ theme }) => ({
   borderRadius: 3,
   position: "absolute",
   top: 8,
-  left: "calc(50% - 15px)",
+  left: "50%",
+  transform: "translateX(-50%)",
 }));
 
-const drawerBleeding = 56;
+const drawerBleeding = 0;
 
 const SwipeableCommentsSection = ({ children }) => {
   const [open, setOpen] = React.useState(false);
@@ -33,8 +34,9 @@ const SwipeableCommentsSection = ({ children }) => {
 
   return (
     <>
-      <Box sx={{ textAlign: "center", pt: 1 }}>
-        <Button onClick={toggleDrawer(true)}>Open</Button>
+      <Box sx={{ p: 1, background: "grey", borderRadius: 2 }}>
+        <h1>Comments</h1>
+        <Button onClick={toggleDrawer(true)}>View comments</Button>
       </Box>
       <SwipeableDrawer
         anchor="bottom"
@@ -48,10 +50,12 @@ const SwipeableCommentsSection = ({ children }) => {
         }}
         sx={{
           ".MuiPaper-root": {
-            height: `calc(50% - ${drawerBleeding}px)`,
+            // height: `calc(50% - ${drawerBleeding}px)`,
+            height: "75%",
             overflow: "visible",
             width: "calc(100% - 24px)",
             margin: "0 auto",
+            paddingTop: "56px",
           },
         }}
       >

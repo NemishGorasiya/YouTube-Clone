@@ -26,10 +26,11 @@ const ScrollToTopButton = () => {
   window.addEventListener("scroll", toggleVisible);
 
   return (
-    <Button className="scrollToTopButton" onClick={scrollToTop}>
-      <KeyboardDoubleArrowUpIcon
-        style={{ display: visible ? "inline" : "none" }}
-      />
+    <Button
+      className={`scrollToTopButton ${visible ? "visible" : ""}`}
+      onClick={scrollToTop}
+    >
+      <KeyboardDoubleArrowUpIcon /> Scroll To Top
     </Button>
   );
 };
