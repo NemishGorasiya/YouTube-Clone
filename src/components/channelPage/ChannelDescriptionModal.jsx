@@ -4,8 +4,11 @@ import { modalStyle } from "../styles/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { customParser, formatDate } from "../../utils/utilityFunction";
 import InfoIcon from "@mui/icons-material/Info";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
 
 const ChannelDescriptionModal = ({ onClose, open, channelInfo }) => {
+  const { snippet, contentDetails } = channelInfo;
+  const { totalItemCount } = contentDetails;
   return (
     <Modal open={open} onClose={onClose}>
       <Box className="modalContent" sx={modalStyle}>
@@ -28,6 +31,9 @@ const ChannelDescriptionModal = ({ onClose, open, channelInfo }) => {
         <h2>Channel details</h2>
         <p style={{ display: "flex", gap: "5px" }}>
           <InfoIcon /> Joined {formatDate(channelInfo.snippet.publishedAt)}
+        </p>
+        <p style={{ display: "flex", gap: "5px" }}>
+          <SlideshowIcon /> {totalItemCount} videos
         </p>
       </Box>
     </Modal>

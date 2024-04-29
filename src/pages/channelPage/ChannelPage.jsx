@@ -20,6 +20,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { modalStyle } from "../../components/styles/styles";
 import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
 import { customParser } from "../../utils/utilityFunction";
+import VideoSlider from "../../components/VideoSlider";
 
 const channelInfo = {
   kind: "youtube#subscription",
@@ -46,7 +47,15 @@ const channelInfo = {
       },
     },
   },
+  contentDetails: {
+    totalItemCount: 23,
+    newItemCount: 0,
+    activityType: "all",
+  },
 };
+
+const { snippet, contentDetails } = channelInfo;
+const { totalItemCount } = contentDetails;
 
 const ChannelPage = () => {
   const [isChannelDescriptionModalOpen, setIsChannelDescriptionModalOpen] =
@@ -87,8 +96,8 @@ const ChannelPage = () => {
       <div className="channelPage">
         <div className="channelBanner">
           <img
-            src="https://yt3.googleusercontent.com/ASgokTJ4O37KDTfhBAn5g5r78AlY8P6643_2YVaR6RfAjtf-nkuPApWqjxn2pF6PtRMiZvCocA=w2120-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
-            alt=""
+            src="https://yt3.googleusercontent.com/DpZFSiLFuhvgUL7b6MqNQZK8mtQBx57BdY3R_xvOnrHpFhkFuzjboz6CMgbnEr8bNiJ91Bwg=w2120-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+            alt="channel-banner"
           />
         </div>
         <div className="channelMetadataWrapper">
@@ -150,29 +159,13 @@ const ChannelPage = () => {
               <li>Playlists</li>
             </ul>
           </div>
+          <VideoSlider />
           <div className="videoGalleryWrapper">
             <VideoGallery url="/search?part=snippet&channelId=UCRjTtUHdDFHf-vx2vyol1Fg&maxResults=10" />
           </div>
         </div>
       </div>
-      {/* <Modal
-        open={isChannelDescriptionModalOpen}
-        onClose={closeChannelDescriptionModal}
-      >
-        <Box className="modalContent" sx={modalStyle}>
-          <IconButton
-            onClick={closeChannelDescriptionModal}
-            sx={{
-              position: "absolute",
-              right: 5,
-              top: 5,
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <h2>About</h2>
-        </Box>
-      </Modal> */}
+
       <ChannelDescriptionModal
         open={isChannelDescriptionModalOpen}
         onClose={closeChannelDescriptionModal}

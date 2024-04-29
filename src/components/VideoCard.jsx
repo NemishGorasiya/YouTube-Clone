@@ -71,7 +71,8 @@ const VideoMetadata = styled(MuiTypography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const VideoCard = ({ video, isListView }) => {
+const VideoCard = ({ video, isListView = false }) => {
+  console.log("videooo", video);
   const navigate = useNavigate();
   const { id, snippet, statistics: { viewCount } = {} } = video;
   const {

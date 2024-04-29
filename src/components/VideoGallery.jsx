@@ -1,10 +1,10 @@
 import MuiGrid from "@mui/material/Grid";
-import VideoCard from "./VideoCard";
-import { useCallback, useEffect, useState } from "react";
-import InfiniteScroll from "./InfiniteScroll";
-import PropTypes from "prop-types";
-import { fetchVideos } from "../services/services";
 import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import { useCallback, useEffect, useState } from "react";
+import { fetchVideos } from "../services/services";
+import InfiniteScroll from "./InfiniteScroll";
+import VideoCard from "./VideoCard";
 
 const Grid = styled(MuiGrid)(({ isListView }) => ({
   display: "grid",
