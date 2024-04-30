@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import MuiToolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/material/styles";
 import SearchInput from "./SearchInput";
+import { Tooltip } from "@mui/material";
+import TopBarRight from "./TopBarRight";
 
 const TopBar = ({ open, toggleDrawer }) => {
   const AppBar = styled(MuiAppBar)(({ theme }) => ({
@@ -66,26 +68,8 @@ const TopBar = ({ open, toggleDrawer }) => {
         <Box>
           <SearchInput />
         </Box>
-        <Box>
-          <IconButton
-            size="large"
-            aria-label="show 4 new mails"
-            color="inherit"
-          >
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-        </Box>
+
+        <TopBarRight />
       </Toolbar>
     </AppBar>
   );
