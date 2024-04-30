@@ -5,6 +5,7 @@ import MuiCardContent from "@mui/material/CardContent";
 // import CardMedia from "@mui/material/CardMedia";
 import MuiCardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
+import MuiBox from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import MuiTypography from "@mui/material/Typography";
 // import { CardActionArea } from "@mui/material";
@@ -21,6 +22,7 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
+  color: theme.palette.primary.main,
 }));
 
 const CardMedia = styled(MuiCardMedia)(({ theme, isListView }) => ({
@@ -36,8 +38,8 @@ const CardContent = styled(MuiCardContent)(({ theme, isListView }) => ({
   gap: "8px",
 }));
 const ChannelThumbnail = styled("img")(() => ({
-  height: "50px",
-  width: "50px",
+  height: "36px",
+  width: "36px",
   borderRadius: "50%",
 }));
 
@@ -53,26 +55,33 @@ const CardActionArea = styled(MuiCardActionArea)(({ theme, isListView }) => ({
 }));
 
 const VideoTitle = styled(MuiTypography)(({ theme, isListView }) => ({
-  lineHeight: "1.2",
-  textOverflow: "ellipsis",
-  WebkitLineClamp: "2",
+  lineHeight: "1.5",
+  fontSize: "16px",
+  fontWeight: "500",
   overflow: "hidden",
+  textOverflow: "ellipsis",
   display: "-webkit-box",
   WebkitBoxOrient: "vertical",
-  wordBreak: "break-all",
+  WebkitLineClamp: "2",
+  // flex: 1,
 }));
 
 const ChannelName = styled(MuiTypography)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  color: theme.palette.text.secondary,
+  fontSize: "14px",
 }));
-const VideoMetadata = styled(MuiTypography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+const VideoMetadata = styled(MuiBox)(({ theme }) => ({
+  color: theme.palette.primary.light,
+  fontSize: "14px",
+}));
+const VideoDetail = styled(MuiBox)(({ theme }) => ({
+  flex: 1,
+  overflow: "hidden",
 }));
 
 const VideoCard = ({ video, isListView = false }) => {
-  console.log("videooo", video);
+  // console.log("videooo", video);
   const navigate = useNavigate();
   const { id, snippet, statistics: { viewCount } = {} } = video;
   const {
@@ -107,17 +116,17 @@ const VideoCard = ({ video, isListView = false }) => {
               />
             )}
 
-            <Box>
+            <VideoDetail>
               <VideoTitle>{title}</VideoTitle>
-              <ChannelName>
-                {" "}
-                {channelTitle}
-                <CheckCircleIcon
-                  fontSize="x-small"
-                  sx={{ marginLeft: "5px" }}
-                />
-              </ChannelName>
               <VideoMetadata>
+                <ChannelName>
+                  {" "}
+                  {channelTitle}
+                  <CheckCircleIcon
+                    fontSize="x-small"
+                    sx={{ marginLeft: "5px" }}
+                  />
+                </ChannelName>
                 {liveBroadcastContent === "live" ? (
                   <span className="live">
                     <LiveTvIcon />
@@ -129,7 +138,7 @@ const VideoCard = ({ video, isListView = false }) => {
                 {" • "}
                 {formatDistanceToNow(publishedAt, { addSuffix: true })}
               </VideoMetadata>
-            </Box>
+            </VideoDetail>
           </CardContent>
         </CardActionArea>
       </Card>

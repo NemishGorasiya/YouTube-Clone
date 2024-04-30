@@ -12,10 +12,12 @@ const App = () => {
     palette: {
       mode: "dark",
       primary: {
-        main: "#fff",
+        main: "#F1F1F1",
+        light: "#AAAAAA",
       },
       background: {
         default: "#000",
+        light: "#222222",
       },
     },
     components: {

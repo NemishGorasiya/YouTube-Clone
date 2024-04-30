@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
+import MuiListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import MuiListItemIcon from "@mui/material/ListItemIcon";
 // import ListItemIcon from "@mui/material/ListItemIcon";
@@ -21,6 +21,12 @@ const SideBar = ({ open, toggleDrawer }) => {
 
   const DrawerHeader = styled("div")(({ theme }) => ({
     ...theme.mixins.toolbar,
+  }));
+  const ListItem = styled(MuiListItem)(({ theme }) => ({
+    borderRadius: "10px",
+    "&:hover": {
+      background: theme.palette.background.light,
+    },
   }));
 
   const Drawer = styled(MuiDrawer)(() => ({

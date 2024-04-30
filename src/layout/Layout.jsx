@@ -9,7 +9,7 @@ import AppBar from "../components/appBar/AppBar";
 const Layout = () => {
   const RightPanel = styled(MuiBox)(({ theme }) => ({
     flexGrow: 1,
-    padding: "0 12px",
+    padding: "0 26px",
     background: theme.palette.background.default,
   }));
 
