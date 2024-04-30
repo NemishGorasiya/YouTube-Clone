@@ -4,7 +4,8 @@ import InputBase from "@mui/material/InputBase";
 import { styled, useTheme } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./SearchInput.scss";
+
+const SEARCH_INPUT_HEIGHT = "40px";
 
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,26 +25,32 @@ const SearchInput = () => {
   const SearchIconWrapper = styled("div")(({ theme }) => ({
     height: "100%",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-    width: "50px",
-    border: `1px solid ${theme.palette.primary.main}`,
-    borderLeft: "none",
+    alignItems: "center",
+    width: "40px",
+    border: `0.5px solid #fff`,
+    background: theme.palette.background.light,
     borderRadius: "0 40px 40px 0",
   }));
 
   const InputAdornment = styled(MuiInputAdornment)(({ theme }) => ({
     color: theme.palette.primary.main,
+    position: "absolute",
+    left: "0",
+    transform: "translateX(-100%)",
+    border: "1px solid #fff",
+    minHeight: SEARCH_INPUT_HEIGHT,
+    width: "40px",
+    borderRight: "none",
+    borderTopLeftRadius: "40px",
+    borderBottomLeftRadius: "40px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   }));
 
-  // const Form = styled("form")({
-  //   display: "flex",
-  //   alignItems: "center",
-  //   height: "40px",
-  // });
-
   const searchIconAdornment = searchInputIsFocused ? (
-    <InputAdornment position="start">
+    <InputAdornment>
       <SearchIcon />
     </InputAdornment>
   ) : (
@@ -52,9 +59,29 @@ const SearchInput = () => {
 
   return (
     <>
-      <form onSubmit={handleSearch} className="searchForm">
+      <form
+        style={{
+          display: "flex",
+          alignItems: "center",
+          height: SEARCH_INPUT_HEIGHT,
+        }}
+        onSubmit={handleSearch}
+        className="searchForm"
+      >
         <InputBase
           value={searchQuery}
+          sx={{
+            height: "100%",
+            border: "1px solid #fff",
+            ...(searchInputIsFocused
+              ? {
+                  borderLeft: "none",
+                }
+              : {
+                  borderTopLeftRadius: "40px",
+                  borderBottomLeftRadius: "40px",
+                }),
+          }}
           onFocus={() => {
             setSearchInputIsFocused(true);
           }}

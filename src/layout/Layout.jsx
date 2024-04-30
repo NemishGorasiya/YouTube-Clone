@@ -21,7 +21,7 @@ const Layout = () => {
       <AppBar />
       <RightPanel component="main">
         <DrawerHeader />
-        <Outlet />
+        {/* <Outlet /> */}
       </RightPanel>
     </Box>
   );
