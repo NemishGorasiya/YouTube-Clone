@@ -192,11 +192,8 @@ const VideoSlider = () => {
     <div className="videoSliderWrapper">
       <Swiper
         navigation={true}
-        spaceBetween={5}
-        slidesPerView={3}
-        slidesPerGroup={3}
-        // slidesPerView={"auto"}
-        // slidesPerGroup={3}
+        spaceBetween={16}
+        slidesPerView={"auto"}
         modules={[Navigation]}
         className="swiper"
       >
@@ -204,10 +201,9 @@ const VideoSlider = () => {
           <SwiperSlide
             key={video.id.videoId}
             className="swiperSlide"
-            // style={{
-            //   width: "100%",
-            //   maxWidth: "400px",
-            // }}
+            style={{
+              width: "310px",
+            }}
           >
             <VideoCard video={video} />
           </SwiperSlide>

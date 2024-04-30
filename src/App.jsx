@@ -33,10 +33,12 @@ const App = () => {
   const lightTheme = createTheme({
     palette: {
       primary: {
-        main: "#000",
+        main: "#0F0F0F",
+        light: "#606060",
       },
       background: {
         default: "#fff",
+        light: "#222222",
       },
     },
     components: {

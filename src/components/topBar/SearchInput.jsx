@@ -1,14 +1,9 @@
-import TextField from "@mui/material/TextField";
-import MuiTextField from "@mui/material/TextField";
-import { useState } from "react";
-import InputBase from "@mui/material/InputBase";
-import MuiInputBase from "@mui/material/InputBase";
-import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import MuiBox from "@mui/material/Box";
 import MuiInputAdornment from "@mui/material/InputAdornment";
+import InputBase from "@mui/material/InputBase";
+import { styled, useTheme } from "@mui/material/styles";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import "./SearchInput.scss";
 
 const SearchInput = () => {

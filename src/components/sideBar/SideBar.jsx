@@ -24,6 +24,7 @@ const SideBar = ({ open, toggleDrawer }) => {
   }));
   const ListItem = styled(MuiListItem)(({ theme }) => ({
     borderRadius: "10px",
+    color: theme.palette.primary.main,
     "&:hover": {
       background: theme.palette.background.light,
     },

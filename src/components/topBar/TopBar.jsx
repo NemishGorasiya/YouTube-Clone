@@ -1,17 +1,13 @@
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import MuiAppBar from "@mui/material/AppBar";
-import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-
-import { useState } from "react";
-import TextField from "@mui/material/TextField";
+import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MuiAppBar from "@mui/material/AppBar";
+import Badge from "@mui/material/Badge";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+// import InputBase from "@mui/material/InputBase";
+import MuiToolbar from "@mui/material/Toolbar";
+import { styled } from "@mui/material/styles";
 import SearchInput from "./SearchInput";
 
 const TopBar = ({ open, toggleDrawer }) => {
@@ -19,35 +15,43 @@ const TopBar = ({ open, toggleDrawer }) => {
     zIndex: theme.zIndex.drawer + 1,
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
+    height: "56px",
   }));
 
-  const Search = styled("div")(() => ({
+  // const Search = styled("div")(() => ({
+  //   display: "flex",
+  //   alignItems: "center",
+  //   height: "40px",
+  // }));
+
+  const Toolbar = styled(MuiToolbar)(() => ({
     display: "flex",
     alignItems: "center",
-    height: "40px",
+    justifyContent: "space-between",
+    height: "56px",
   }));
 
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "50px",
-    border: "1px solid #000",
-    borderLeft: "none",
-    borderRadius: "0 40px 40px 0",
-  }));
+  // const SearchIconWrapper = styled("div")(({ theme }) => ({
+  //   height: "100%",
+  //   display: "flex",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   width: "50px",
+  //   border: "1px solid #000",
+  //   borderLeft: "none",
+  //   borderRadius: "0 40px 40px 0",
+  // }));
 
-  const StyledInputBase = styled(InputBase)(() => ({
-    height: "100%",
-    border: "1px solid #000",
-    borderRadius: "40px 0 0 40px",
-    paddingLeft: "5px",
-  }));
+  // const StyledInputBase = styled(InputBase)(() => ({
+  //   height: "100%",
+  //   border: "1px solid #000",
+  //   borderRadius: "40px 0 0 40px",
+  //   paddingLeft: "5px",
+  // }));
 
   return (
     <AppBar position="fixed" open={open} elevation={0}>
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar>
         <Box>
           <IconButton
             size="large"
