@@ -25,7 +25,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 const CardMedia = styled(MuiCardMedia)(({ theme, isListView }) => ({
   borderRadius: "14px",
-  aspectRatio: "16/9",
+  aspectRatio: "25/14",
   height: "auto",
   ...(isListView ? {} : null),
 }));

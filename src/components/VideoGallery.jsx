@@ -8,7 +8,7 @@ import VideoCard from "./VideoCard";
 
 const Grid = styled(MuiGrid)(({ isListView }) => ({
   display: "grid",
-  gap: "12px",
+  gap: "16px",
   ...(isListView
     ? {
         gridTemplateColumns: "1fr",
