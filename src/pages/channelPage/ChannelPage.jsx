@@ -161,7 +161,15 @@ const ChannelPage = () => {
           </div>
           <VideoSlider />
           <div className="videoGalleryWrapper">
-            <VideoGallery url="/search?part=snippet&channelId=UCRjTtUHdDFHf-vx2vyol1Fg&maxResults=10" />
+            <VideoGallery
+              // url="/search?part=snippet&channelId=UCRjTtUHdDFHf-vx2vyol1Fg&maxResults=10"
+              queryParams={{
+                part: "snippet",
+                channelId: "UCRjTtUHdDFHf-vx2vyol1Fg",
+                maxResults: 10,
+              }}
+              url={"/search"}
+            />
           </div>
         </div>
       </div>

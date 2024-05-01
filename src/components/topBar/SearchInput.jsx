@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 const SEARCH_INPUT_HEIGHT = "40px";
 
+const formStyle = {
+  display: "flex",
+  alignItems: "center",
+  height: SEARCH_INPUT_HEIGHT,
+};
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInputIsFocused, setSearchInputIsFocused] = useState(false);
@@ -22,13 +27,14 @@ const SearchInput = () => {
     navigate(`/results?search_query=${searchQuery}`);
   };
 
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
+  const SearchIconWrapper = styled("button")(({ theme }) => ({
     height: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "40px",
-    border: `0.5px solid #fff`,
+    color: theme.palette.primary.main,
+    border: `0.5px solid ${theme.palette.secondary.light}`,
     background: theme.palette.background.light,
     borderRadius: "0 40px 40px 0",
   }));
@@ -38,7 +44,7 @@ const SearchInput = () => {
     position: "absolute",
     left: "0",
     transform: "translateX(-100%)",
-    border: "1px solid #fff",
+    border: `1px solid ${theme.palette.secondary.light}`,
     minHeight: SEARCH_INPUT_HEIGHT,
     width: "40px",
     borderRight: "none",
@@ -47,6 +53,7 @@ const SearchInput = () => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: "10px",
   }));
 
   const searchIconAdornment = searchInputIsFocused ? (
@@ -59,27 +66,21 @@ const SearchInput = () => {
 
   return (
     <>
-      <form
-        style={{
-          display: "flex",
-          alignItems: "center",
-          height: SEARCH_INPUT_HEIGHT,
-        }}
-        onSubmit={handleSearch}
-        className="searchForm"
-      >
+      <form style={formStyle} onSubmit={handleSearch}>
         <InputBase
           value={searchQuery}
           sx={{
             height: "100%",
-            border: "1px solid #fff",
+            border: `1px solid ${theme.palette.secondary.light}`,
+            borderRight: "none",
             ...(searchInputIsFocused
               ? {
                   borderLeft: "none",
+                  paddingLeft: "11px",
                 }
               : {
-                  borderTopLeftRadius: "40px",
-                  borderBottomLeftRadius: "40px",
+                  borderRadius: "40px 0 0 40px",
+                  paddingLeft: "10px",
                 }),
           }}
           onFocus={() => {
@@ -88,14 +89,11 @@ const SearchInput = () => {
           onBlur={() => {
             setSearchInputIsFocused(false);
           }}
-          className={`searchInput ${
-            theme.palette.mode === "dark" ? "darkMode" : ""
-          }`}
           placeholder="Search"
           onChange={handleSearchQueryChange}
           startAdornment={searchIconAdornment}
         />
-        <SearchIconWrapper>
+        <SearchIconWrapper type="submit">
           <SearchIcon />
         </SearchIconWrapper>
       </form>

@@ -15,8 +15,12 @@ const App = () => {
         main: "#F1F1F1",
         light: "#AAAAAA",
       },
+      secondary: {
+        main: "#AAAAAA",
+        light: "#303030",
+      },
       background: {
-        default: "#000",
+        default: "#000000",
         light: "#222222",
       },
     },
@@ -36,9 +40,13 @@ const App = () => {
         main: "#0F0F0F",
         light: "#606060",
       },
+      secondary: {
+        main: "#AAAAAA",
+        light: "#303030",
+      },
       background: {
-        default: "#fff",
-        light: "#222222",
+        default: "#FFFFFF",
+        light: "#D9D9D9",
       },
     },
     components: {

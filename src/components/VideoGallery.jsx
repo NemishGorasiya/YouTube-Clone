@@ -20,7 +20,7 @@ const Grid = styled(MuiGrid)(({ isListView }) => ({
       }),
 }));
 
-const VideoGallery = ({ isListView = false, url }) => {
+const VideoGallery = ({ isListView = false, url, queryParams }) => {
   const [videos, setVideos] = useState({
     list: [],
     isLoading: true,
@@ -38,12 +38,15 @@ const VideoGallery = ({ isListView = false, url }) => {
           nextPageToken: nextPageToken,
           url: url,
           abortController: abortController,
+          queryParams,
         });
-        setVideos((prevVideos) => ({
-          list: [...prevVideos.list, ...response.items],
-          isLoading: false,
-          nextPageToken: response.nextPageToken,
-        }));
+        if (response) {
+          setVideos((prevVideos) => ({
+            list: [...prevVideos.list, ...response.items],
+            isLoading: false,
+            nextPageToken: response.nextPageToken,
+          }));
+        }
       } catch (error) {
         console.error(error);
       }

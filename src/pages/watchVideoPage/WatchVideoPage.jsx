@@ -216,9 +216,18 @@ const WatchVideoPage = () => {
       </Box>
       <Box className="relatedVideos">
         <VideoGallery
-          url={`/search?part=snippet&maxResults=10&order=viewCount&q=${
-            tags ? tags[0] : channelTitle
-          }&type=video&videoDefinition=high`}
+          // url={`/search?part=snippet&maxResults=10&order=viewCount&q=${
+          //   tags ? tags[0] : channelTitle
+          // }&type=video&videoDefinition=high`}
+          url="/search"
+          queryParams={{
+            part: "snippet",
+            maxResults: 10,
+            order: viewCount,
+            q: tags ? tags[0] : channelTitle,
+            type: "video",
+            videoDefinition: "high",
+          }}
           isListView
         />
       </Box>
