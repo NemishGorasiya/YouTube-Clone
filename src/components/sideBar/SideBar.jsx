@@ -72,12 +72,12 @@ const SideBar = ({ open, toggleDrawer }) => {
         <Fragment key={idx}>
           <List sx={open ? { maxWidth: "200px" } : { maxWidth: "50px" }}>
             {sideBarSection.links.map((link, idx) => (
-              <Link to={link.link} key={link.link}>
+              <Link to={link.link} key={idx}>
                 <ListItem key={idx} sx={{ padding: 0 }}>
                   <ListItemButton
                     sx={{
                       paddingX: "13px",
-                      gap: "15px",
+                      gap: "24px",
                       height: "40px",
                       ...(open
                         ? {}

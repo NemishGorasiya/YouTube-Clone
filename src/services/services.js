@@ -43,3 +43,16 @@ export const getComments = async ({
     return responseData;
   }
 };
+
+export const fetchAccessToken = async ({ queryParams }) => {
+  const res = await axios.post(
+    "https://oauth2.googleapis.com/token",
+    {},
+    {
+      params: { ...queryParams },
+    }
+  );
+  if (res) {
+    return res.data;
+  }
+};

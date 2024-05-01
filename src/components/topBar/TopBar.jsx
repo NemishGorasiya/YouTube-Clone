@@ -5,7 +5,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
+import MuiIconButton from "@mui/material/IconButton";
 // import InputBase from "@mui/material/InputBase";
 import MuiToolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/material/styles";
@@ -16,13 +16,14 @@ import logo from "../../assets/logo.svg";
 import logo_dark_mode from "../../assets/logo_dark_mode.svg";
 import { useTheme } from "@mui/material/styles";
 import { BackHand } from "@mui/icons-material";
+import { memo } from "react";
 
 const TopBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
   const {
     palette: { mode: themeMode },
   } = theme;
-  console.log("theme", themeMode);
+
   const AppBar = styled(MuiAppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     background: theme.palette.background.default,
@@ -39,19 +40,31 @@ const TopBar = ({ open, toggleDrawer }) => {
       minHeight: "100%",
     },
   }));
+
   const TopBarLeft = styled(Box)(() => ({
     display: "flex",
     alignItems: "center",
+    gap: "24px",
   }));
 
   const Logo = styled("img")(() => ({
     height: "40px",
   }));
+  const IconButton = styled(MuiIconButton)(() => ({
+    padding: 0,
+    marginLeft: "1px",
+  }));
+
   const LogoContainer = styled(MuiBox)(() => ({
     height: "40px",
     display: "flex",
     alignItems: "center",
     position: "relative",
+
+    img: {
+      height: "20px",
+    },
+
     "&:after": {
       content: `"IN"`,
       top: "0",
@@ -60,11 +73,12 @@ const TopBar = ({ open, toggleDrawer }) => {
       height: "50px",
       width: "50px",
       fontSize: "12px",
+      fontFamily: "sans-serif",
     },
   }));
 
   return (
-    <AppBar position="fixed" open={open} elevation={0} sx={{ height: "56px" }}>
+    <AppBar position="fixed" elevation={0} sx={{ height: "56px" }}>
       <Toolbar>
         <TopBarLeft>
           <IconButton
@@ -80,23 +94,8 @@ const TopBar = ({ open, toggleDrawer }) => {
             <img
               src={themeMode === "dark" ? logo_dark_mode : logo}
               alt="YouTube logo"
-              style={{
-                height: "20px",
-                color: "yellow",
-                marginLeft: "3px",
-              }}
             />
           </LogoContainer>
-          <Box
-            sx={{
-              fontSize: "25px",
-              fontFamily: "sans-serif",
-              letterSpacing: "-0.5px",
-              fontWeight: 900,
-              display: "flex",
-              alignItems: "center",
-            }}
-          ></Box>
         </TopBarLeft>
         <SearchInput />
         <TopBarRight />
@@ -105,4 +104,4 @@ const TopBar = ({ open, toggleDrawer }) => {
   );
 };
 
-export default TopBar;
+export default memo(TopBar);

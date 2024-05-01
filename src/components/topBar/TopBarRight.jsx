@@ -28,9 +28,24 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import ContrastIcon from "@mui/icons-material/Contrast";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { isLastDayOfMonth } from "date-fns";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { redirect } from "react-router-dom";
+import { fetchAccessToken } from "../../services/services";
+import useLocalStorage from "../../hooks/useLocalStotage";
+
+const REDIRECT_URI = "http:localhost:5173";
+const SCOPE = "https://www.googleapis.com/auth/youtube.force-ssl";
 
 const TopBarRight = () => {
+  const isLoggedIn = false;
+  const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
+  const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken", null);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
 
   const toggleThemeMenu = () => {
@@ -46,6 +61,48 @@ const TopBarRight = () => {
     setAnchorEl(null);
     setIsThemeMenuOpen(false);
   };
+
+  const handleSignIn = () => {
+    redirect(
+      `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
+        import.meta.env.VITE_CLIENT_ID
+      }&response_type=code&redirect_uri=${REDIRECT_URI}`
+    );
+  };
+
+  const getAccessToken = async (code) => {
+    const queryParams = {
+      code: code,
+      client_id: import.meta.env.VITE_CLIENT_ID,
+      client_secret: import.meta.env.VITE_CLIENT_SECRET,
+      redirect_uri: REDIRECT_URI,
+      grant_type: "authorization_code",
+    };
+    try {
+      const res = await fetchAccessToken({
+        queryParams: queryParams,
+      });
+      if (res) {
+        const { access_token, refresh_token } = res;
+        setAccessToken(access_token);
+        setRefreshToken(refresh_token);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    const code = searchParams.get("code");
+    const error = searchParams.get("error");
+    if (error) {
+      alert(error);
+    }
+    if (code) {
+      console.log("code", code);
+      getAccessToken(code);
+    }
+  }, []);
 
   return (
     <Box>
@@ -98,19 +155,26 @@ const TopBarRight = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
+        {isLoggedIn ? (
+          <>
+            <MenuItem>
+              <Avatar /> My account
+            </MenuItem>
+            <Divider />
+            <MenuItem>
+              <ListItemIcon>
+                <PersonAdd fontSize="small" />
+              </ListItemIcon>
+              Add another account
+            </MenuItem>
+          </>
+        ) : (
+          <MenuItem onClick={handleSignIn}>
+            <Link to="https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=https://www.googleapis.com/auth/youtube.force-ssl&client_id=98674929623-u1ckk8oivv84sdojaegmjhpna9q7nqov.apps.googleusercontent.com&response_type=code&redirect_uri=http://localhost:5173&credentials=include&withCredentials=true">
+              <Avatar /> Sign In
+            </Link>
+          </MenuItem>
+        )}
 
         <MenuItem onClick={toggleThemeMenu}>
           <ListItemIcon>
@@ -137,14 +201,18 @@ const TopBarRight = () => {
             </ListItemIcon>
             Light theme
           </MenuItem>
-          <Divider />
+          {isLoggedIn && <Divider />}
         </Collapse>
-        <MenuItem>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
+        {isLoggedIn && (
+          <>
+            <MenuItem>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Sign out
+            </MenuItem>
+          </>
+        )}
       </Menu>
     </Box>
   );

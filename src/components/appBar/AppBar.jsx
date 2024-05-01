@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import TopBar from "../topBar/TopBar";
 import SideBar from "../sideBar/SideBar";
 
 const AppBar = () => {
   const [open, setOpen] = useState(false);
-  const toggleDrawer = (shouldClose) => {
+  const toggleDrawer = useCallback((shouldClose) => {
     if (shouldClose === false) {
       setOpen(false);
       return;
     }
     setOpen((prevState) => !prevState);
-  };
+  }, []);
   return (
     <>
-      <TopBar open={open} toggleDrawer={toggleDrawer} />
+      <TopBar toggleDrawer={toggleDrawer} />
       <SideBar open={open} toggleDrawer={toggleDrawer} />
     </>
   );
