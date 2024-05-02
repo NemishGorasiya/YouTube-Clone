@@ -2,15 +2,12 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "https://youtube.googleapis.com/youtube/v3",
+
   // other configurations
 });
 
 axios.interceptors.request.use(
   (config) => {
-    // const token = localStorageService.getAccessToken();
-    // if (token) {
-    // config.headers["Authorization"] = "Bearer " + token;
-    // }
     config.headers["Content-Type"] = "application/json";
     return config;
   },
@@ -19,7 +16,7 @@ axios.interceptors.request.use(
   }
 );
 
-axiosInstance.interceptors.response.use(
+axios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {

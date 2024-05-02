@@ -33,16 +33,20 @@ import { isLastDayOfMonth } from "date-fns";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import { fetchAccessToken } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStotage";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const REDIRECT_URI = "http:localhost:5173";
 const SCOPE = "https://www.googleapis.com/auth/youtube.force-ssl";
 
 const TopBarRight = () => {
-  const isLoggedIn = false;
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
-  const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken", null);
+  const [user, setUser, removeUser] = useLocalStorage("user", {});
+  const { accessToken } = user ?? {};
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    accessToken !== undefined || accessToken !== null || accessToken !== ""
+      ? true
+      : false
+  );
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -70,26 +74,33 @@ const TopBarRight = () => {
     );
   };
 
-  const getAccessToken = async (code) => {
-    const queryParams = {
-      code: code,
-      client_id: import.meta.env.VITE_CLIENT_ID,
-      client_secret: import.meta.env.VITE_CLIENT_SECRET,
-      redirect_uri: REDIRECT_URI,
-      grant_type: "authorization_code",
-    };
+  const getAccessToken = async ({ code, abortController }) => {
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("code", code);
+    urlencoded.append("client_id", import.meta.env.VITE_CLIENT_ID);
+    urlencoded.append("client_secret", import.meta.env.VITE_CLIENT_SECRET);
+    urlencoded.append("grant_type", "authorization_code");
+    urlencoded.append("redirect_uri", "http://localhost:5173");
+
     try {
       const res = await fetchAccessToken({
-        queryParams: queryParams,
+        urlencoded: urlencoded,
+        abortController: abortController,
       });
       if (res) {
-        const { access_token, refresh_token } = res;
-        setAccessToken(access_token);
-        setRefreshToken(refresh_token);
+        navigate("/");
+        const { access_token = "", refresh_token = "" } = res;
+        setUser({ accessToken: access_token, refreshToken: refresh_token });
       }
     } catch (error) {
-      console.error(error.message);
+      alert("Something went wrong");
+      console.error(error);
     }
+  };
+
+  const handleSignOut = () => {
+    removeUser();
+    setIsLoggedIn(false);
   };
 
   useEffect(() => {
@@ -98,10 +109,13 @@ const TopBarRight = () => {
     if (error) {
       alert(error);
     }
+    const abortController = new AbortController();
     if (code) {
-      console.log("code", code);
-      getAccessToken(code);
+      getAccessToken({ code, abortController });
     }
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -111,12 +125,24 @@ const TopBarRight = () => {
           <IconButton
             onClick={handleClick}
             size="small"
-            sx={{ ml: 2 }}
+            sx={{
+              ml: 2,
+            }}
             aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar
+              sx={{
+                background: "#C2175B",
+                color: "#F1F1F1",
+                width: 32,
+                height: 32,
+                fontSize: "17px",
+              }}
+            >
+              n
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -170,7 +196,10 @@ const TopBarRight = () => {
           </>
         ) : (
           <MenuItem onClick={handleSignIn}>
-            <Link to="https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=https://www.googleapis.com/auth/youtube.force-ssl&client_id=98674929623-u1ckk8oivv84sdojaegmjhpna9q7nqov.apps.googleusercontent.com&response_type=code&redirect_uri=http://localhost:5173&credentials=include&withCredentials=true">
+            <Link
+              style={{ display: "flex", alignItems: "center" }}
+              to="https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=https://www.googleapis.com/auth/youtube.force-ssl&client_id=98674929623-u1ckk8oivv84sdojaegmjhpna9q7nqov.apps.googleusercontent.com&response_type=code&redirect_uri=http://localhost:5173&credentials=include&withCredentials=true"
+            >
               <Avatar /> Sign In
             </Link>
           </MenuItem>
@@ -205,7 +234,7 @@ const TopBarRight = () => {
         </Collapse>
         {isLoggedIn && (
           <>
-            <MenuItem>
+            <MenuItem onClick={handleSignOut}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

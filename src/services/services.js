@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import axiosInstance from "../axios/axiosInstance";
 
 const BASE_URL = "https://youtube.googleapis.com/youtube/v3";
@@ -11,7 +12,6 @@ export const fetchVideos = async ({
   abortController,
 }) => {
   // const nextPageTokenParam = nextPageToken ? `&pageToken=${nextPageToken}` : "";
-  console.log("parammam", queryParams);
   const params = {
     ...queryParams,
     pageToken: nextPageToken,
@@ -19,10 +19,12 @@ export const fetchVideos = async ({
   };
   // const url = BASE_URL + relativeUrl + nextPageTokenParam + API_KEY_PARAM;
   // const options = abortController ? { signal: abortController.signal } : {};
+
   const response = await axiosInstance.get(url, {
     params: params,
     signal: abortController?.signal,
   });
+
   const responseData = response.data;
   if (responseData) {
     return responseData;
@@ -44,15 +46,42 @@ export const getComments = async ({
   }
 };
 
-export const fetchAccessToken = async ({ queryParams }) => {
-  const res = await axios.post(
-    "https://oauth2.googleapis.com/token",
-    {},
-    {
-      params: { ...queryParams },
+export const getSubscribedChannels = async ({
+  queryParams,
+  accessToken,
+  abortController,
+}) => {
+  const params = { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY };
+  const url = "/subscriptions";
+  const response = await axiosInstance.get(url, {
+    params: params,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    signal: abortController?.signal,
+  });
+  const responseData = response.data;
+  if (responseData) {
+    return responseData;
+  }
+};
+
+export const fetchAccessToken = async ({ urlencoded, abortController }) => {
+  const requestOptions = {
+    method: "POST",
+    body: urlencoded,
+    signal: abortController ? abortController.signal : null,
+  };
+
+  try {
+    const res = await fetch(
+      "https://oauth2.googleapis.com/token",
+      requestOptions
+    );
+    if (res) {
+      return res.json();
     }
-  );
-  if (res) {
-    return res.data;
+  } catch (error) {
+    console.error(error);
   }
 };

@@ -228,7 +228,7 @@ const WatchVideoPage = () => {
             type: "video",
             videoDefinition: "high",
           }}
-          isListView
+          isListView={true}
         />
       </Box>
       <ScrollToTopButton />
