@@ -115,7 +115,7 @@ const WatchVideoPage = () => {
             allow="fullscreen"
           ></iframe>
           <h2 className="videoTitle">{title}</h2>
-          {/* <Box
+          <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
@@ -178,7 +178,7 @@ const WatchVideoPage = () => {
           >
             <Typography variant="body1">104k views 3 years ago #TAG</Typography>
             <VideoDescription description={description} />
-          </Box> */}
+          </Box>
         </Box>
 
         <CommentsSection
@@ -216,14 +216,11 @@ const WatchVideoPage = () => {
       </Box>
       <Box className="relatedVideos">
         <VideoGallery
-          // url={`/search?part=snippet&maxResults=10&order=viewCount&q=${
-          //   tags ? tags[0] : channelTitle
-          // }&type=video&videoDefinition=high`}
           url="/search"
           queryParams={{
             part: "snippet",
             maxResults: 10,
-            order: viewCount,
+            order: "viewCount",
             q: tags ? tags[0] : channelTitle,
             type: "video",
             videoDefinition: "high",

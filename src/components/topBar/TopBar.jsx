@@ -67,12 +67,13 @@ const TopBar = ({ open, toggleDrawer }) => {
 
     "&:after": {
       content: `"IN"`,
-      top: "0",
-      left: "100%",
+      top: "3px",
+      left: "103%",
       position: "absolute",
       height: "50px",
       width: "50px",
-      fontSize: "12px",
+      fontSize: "10px",
+      color: theme.palette.primary.light,
       fontFamily: "sans-serif",
     },
   }));

@@ -51,7 +51,7 @@ const VideoGallery = ({ isListView = false, url, queryParams }) => {
         console.error(error);
       }
     },
-    [url]
+    [queryParams, url]
   );
 
   const loadMore = () => {

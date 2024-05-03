@@ -7,12 +7,10 @@ const ProtectedRoute = () => {
   const { accessToken } = user;
   return accessToken ? (
     <>
-      <Layout>
-        <Outlet />
-      </Layout>
+      <Outlet />
     </>
   ) : (
-    <Navigate to="/" />
+    <h1>Sign in to view</h1>
   );
 };
 

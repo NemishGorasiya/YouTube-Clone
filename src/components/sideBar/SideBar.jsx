@@ -13,7 +13,7 @@ import { Fragment } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
@@ -23,8 +23,8 @@ const SideBar = ({ open, toggleDrawer }) => {
     ...theme.mixins.toolbar,
   }));
   const ListItem = styled(MuiListItem)(({ theme }) => ({
-    borderRadius: "10px",
     color: theme.palette.primary.main,
+    borderRadius: "10px",
     "&:hover": {
       background: theme.palette.background.light,
     },
@@ -55,7 +55,7 @@ const SideBar = ({ open, toggleDrawer }) => {
   }));
 
   const ListItemIcon = styled(MuiListItemIcon)({
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.light,
     minWidth: 0,
   });
 
@@ -72,7 +72,19 @@ const SideBar = ({ open, toggleDrawer }) => {
         <Fragment key={idx}>
           <List sx={open ? { maxWidth: "200px" } : { maxWidth: "50px" }}>
             {sideBarSection.links.map((link, idx) => (
-              <Link to={link.link} key={idx}>
+              <NavLink
+                to={link.link}
+                key={idx}
+                style={({ isActive }) =>
+                  isActive
+                    ? {
+                        display: "block",
+                        background: theme.palette.background.light,
+                        borderRadius: "10px",
+                      }
+                    : {}
+                }
+              >
                 <ListItem key={idx} sx={{ padding: 0 }}>
                   <ListItemButton
                     sx={{
@@ -107,7 +119,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
-              </Link>
+              </NavLink>
             ))}
           </List>
           <Divider />

@@ -32,7 +32,7 @@ const SearchInput = () => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "40px",
+    width: "55px",
     color: theme.palette.primary.main,
     border: `0.5px solid ${theme.palette.secondary.light}`,
     background: theme.palette.background.light,

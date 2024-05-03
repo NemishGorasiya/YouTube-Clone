@@ -11,7 +11,6 @@ import SearchResultPage from "../pages/searchResultPage/SearchResultPage";
 import WatchVideoPage from "../pages/watchVideoPage/WatchVideoPage";
 import ChannelPage from "../pages/channelPage/ChannelPage";
 import ProtectedRoute from "./ProtectedRoute";
-import { element } from "prop-types";
 import SubscribedChannelsPage from "../pages/feedPage/SubscribedChannelsPage";
 
 export const router = createBrowserRouter([
@@ -70,7 +69,7 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: "playlists",
+            path: "/playlist",
             element: <Playlists />,
           },
         ],
