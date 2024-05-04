@@ -34,7 +34,7 @@ const SwipeableCommentsSection = ({ children }) => {
 
   return (
     <>
-      <Box sx={{ p: 1, background: "grey", borderRadius: 2 }}>
+      <Box sx={{ p: 1, background: "grey", borderRadius: 2, mt: 2 }}>
         <h1>Comments</h1>
         <Button onClick={toggleDrawer(true)}>View comments</Button>
       </Box>
