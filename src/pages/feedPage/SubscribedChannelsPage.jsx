@@ -18,10 +18,6 @@ const SubscribedChannelsPage = () => {
   const fetchSubscribedChannels = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
       try {
-        console.log("====", {
-          nextPageToken,
-          abortController,
-        });
         const queryParams = {
           mine: true,
           part: "snippet,contentDetails",

@@ -65,6 +65,25 @@ export const getSubscribedChannels = async ({
     return responseData;
   }
 };
+export const fetchPlaylists = async ({
+  queryParams,
+  accessToken,
+  abortController,
+}) => {
+  const params = { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY };
+  const url = "/playlists";
+  const response = await axiosInstance.get(url, {
+    params: params,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    signal: abortController?.signal,
+  });
+  const responseData = response.data;
+  if (responseData) {
+    return responseData;
+  }
+};
 
 export const getUserInfo = async ({ accessToken }) => {
   const params = { access_token: accessToken };
