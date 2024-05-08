@@ -13,7 +13,7 @@ import { Fragment } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
@@ -59,6 +59,12 @@ const SideBar = ({ open, toggleDrawer }) => {
     minWidth: 0,
   });
 
+  const [searchParams] = useSearchParams();
+  const isActiveByQueryParam = (paramName, paramValue) => {
+    const params = new URLSearchParams(searchParams);
+    return params.get(paramName) === paramValue;
+  };
+
   return (
     <Drawer
       open={open}
@@ -76,7 +82,10 @@ const SideBar = ({ open, toggleDrawer }) => {
                 to={link.link}
                 key={idx}
                 style={({ isActive }) =>
-                  isActive
+                  isActive &&
+                  (link.queryKey
+                    ? isActiveByQueryParam(link.queryKey, link.queryValue)
+                    : true)
                     ? {
                         display: "block",
                         background: theme.palette.background.light,

@@ -46,6 +46,26 @@ export const getComments = async ({
   }
 };
 
+export const fetchPlaylistItems = async ({
+  queryParams,
+  playlistId,
+  abortController,
+  accessToken,
+}) => {
+  const url = "/playlistItems";
+  const response = await axiosInstance.get(url, {
+    params: queryParams,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    signal: abortController?.signal,
+  });
+  const responseData = response.data;
+  if (responseData) {
+    return responseData;
+  }
+};
+
 export const getSubscribedChannels = async ({
   queryParams,
   accessToken,
@@ -70,6 +90,7 @@ export const fetchPlaylists = async ({
   accessToken,
   abortController,
 }) => {
+  console.log("ac c", accessToken);
   const params = { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY };
   const url = "/playlists";
   const response = await axiosInstance.get(url, {

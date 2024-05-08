@@ -1,73 +1,129 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, styled } from "@mui/material";
+import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
+import MuiBox from "@mui/material/Box";
+import MuiGrid from "@mui/material/Grid";
+import MuiTypography from "@mui/material/Typography";
+import { calcDistanceToNow } from "../../utils/utilityFunction";
+import { fetchPlaylistItems } from "../../services/services";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { useNavigate } from "react-router-dom";
 
-const PlaylistCard = () => {
-  const data = {
-    kind: "youtube#playlist",
-    etag: "_9CboHihUFawQJ12Pzuson-sshg",
-    id: "PLCdCybB2YSyuK4OlsGZGp0DSfRXXtbr35",
-    snippet: {
-      publishedAt: "2024-05-04T12:10:31Z",
-      channelId: "UCI-GE2iPiVk-dC5bKIxCjnw",
-      title: "new",
-      description: "",
-      thumbnails: {
-        default: {
-          url: "https://i.ytimg.com/img/no_thumbnail.jpg",
-          width: 120,
-          height: 90,
-        },
-        medium: {
-          url: "https://i.ytimg.com/img/no_thumbnail.jpg",
-          width: 320,
-          height: 180,
-        },
-        high: {
-          url: "https://i.ytimg.com/img/no_thumbnail.jpg",
-          width: 480,
-          height: 360,
-        },
-      },
-      channelTitle: "nemish",
-      localized: {
-        title: "new",
-        description: "",
-      },
-    },
-    status: {
-      privacyStatus: "private",
-    },
-    contentDetails: {
-      itemCount: 0,
-    },
-    player: {
-      embedHtml:
-        '\u003ciframe width="640" height="360" src="http://www.youtube.com/embed/videoseries?list=PLCdCybB2YSyuK4OlsGZGp0DSfRXXtbr35" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen\u003e\u003c/iframe\u003e',
-    },
-  };
-
+const PlaylistCard = ({ playlist }) => {
   const {
     id,
     snippet: {
       title,
+      publishedAt,
       thumbnails: {
-        default: { url },
+        high: { url },
       },
     },
     status: { privacyStatus },
     contentDetails: { itemCount },
-  } = data;
+  } = playlist;
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useLocalStorage("user", {});
+  const { accessToken } = user;
+
+  const VideoCountBadge = styled(MuiBox)(({ theme }) => ({
+    position: "absolute",
+    bottom: "3px",
+    right: "3px",
+    display: "flex",
+    alignItems: "center",
+    fontSize: "12px",
+    background: "#000",
+    padding: "1px 4px",
+    borderRadius: "4px",
+    color: "#fff",
+  }));
+
+  const PlaylistCardThumbnail = styled(MuiBox)(({ theme }) => ({
+    display: "flex",
+    aspectRatio: "16/9",
+    borderRadius: "8px",
+    position: "relative",
+    zIndex: "1",
+    outline: `1px solid ${theme.palette.background.default}`,
+  }));
+
+  const PlaylistMetadata = styled(MuiTypography)(({ theme, isTitle }) => ({
+    fontSize: "13px",
+    lineHeight: "18px",
+    fontFamily: "Roboto, Arial, sans-serif",
+    color: theme.palette.primary.light,
+    ...(isTitle
+      ? { color: theme.palette.primary.main, fontSize: "15px", fontWeight: 600 }
+      : {}),
+  }));
+
+  const PlaylistCardStackLayer = styled(MuiBox)(({ theme, layer }) => ({
+    position: "absolute",
+    height: "90%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    borderRadius: "inherit",
+    ...(layer === 1
+      ? {
+          background: "#868686",
+          outline: `1px solid ${theme.palette.background.default}`,
+          width: "93%",
+          zIndex: "-1",
+          top: "-5px",
+        }
+      : layer === 2
+      ? {
+          width: "85%",
+          background: "rgb(96, 96, 96)",
+          top: "-10px",
+          zIndex: "-2",
+        }
+      : {}),
+  }));
+
+  const PlaylistCardComponent = styled(MuiGrid)(({ theme }) => ({
+    gap: "10px",
+    display: "grid",
+    cursor: "pointer",
+  }));
+
+  const handelPlaylistClick = async () => {
+    const queryParams = {
+      part: "snippet",
+      playlistId: id,
+      maxResults: 1,
+      key: import.meta.env.VITE_GOOGLE_API_KEY,
+    };
+
+    console.log("first");
+    try {
+      const res = await fetchPlaylistItems({
+        queryParams,
+        accessToken,
+      });
+
+      if (res) {
+        const { items } = res;
+        const {
+          snippet: {
+            resourceId: { videoId },
+          },
+        } = items[0];
+        navigate(`/watch?v=${videoId}&list=${id}`);
+      } else {
+        console.log("something went wrong");
+      }
+      console.log("res", res);
+    } catch (error) {
+      console.error(error.message ?? error);
+    }
+  };
 
   return (
-    <Grid item>
-      <Box
-        sx={{
-          display: "flex",
-          aspectRatio: "16/9",
-          borderRadius: "8px",
-          position: "relative",
-          zIndex: "1",
-        }}
-      >
+    <PlaylistCardComponent item onClick={handelPlaylistClick}>
+      <PlaylistCardThumbnail>
         <img
           style={{
             width: "100%",
@@ -78,38 +134,22 @@ const PlaylistCard = () => {
           src={url}
           alt="playlist Thumbnail"
         />
-        <Box
-          sx={{
-            position: "absolute",
-            height: "90%",
-            width: "93%",
-            background: "rgb(96, 96, 96)",
-            outline: "1px solid #000",
-            top: "-5px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            borderRadius: "inherit",
-            zIndex: "-1",
-          }}
-        ></Box>
-        <Box
-          sx={{
-            position: "absolute",
-            height: "90%",
-            width: "85%",
-            background: "rgb(96, 96, 96)",
-            top: "-10px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            borderRadius: "inherit",
-            zIndex: "-2",
-          }}
-        ></Box>
+        <PlaylistCardStackLayer layer={1} />
+        <PlaylistCardStackLayer layer={2} />
+        <VideoCountBadge>
+          <PlaylistPlayIcon sx={{ fontSize: "18px" }} />
+          {itemCount === 0 ? "No" : itemCount} videos
+        </VideoCountBadge>
+      </PlaylistCardThumbnail>
+      <Box>
+        <PlaylistMetadata isTitle>{title}</PlaylistMetadata>
+        <PlaylistMetadata>{privacyStatus}</PlaylistMetadata>
+        <PlaylistMetadata>
+          published {calcDistanceToNow({ time: publishedAt })}
+        </PlaylistMetadata>
+        <PlaylistMetadata>View full playlist</PlaylistMetadata>
       </Box>
-      <p>{title}</p>
-      <p>{itemCount} videos</p>
-      <p>{privacyStatus}</p>
-    </Grid>
+    </PlaylistCardComponent>
   );
 };
 

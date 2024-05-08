@@ -65,6 +65,8 @@ export const SideBarLinks = [
         outlinedIcon: <WatchLaterOutlinedIcon />,
         label: "Watch later",
         link: "/playlist?list=WL",
+        queryKey: "list",
+        queryValue: "WL",
       },
       {
         icon: <ThumbUpOutlinedIcon />,
@@ -72,6 +74,8 @@ export const SideBarLinks = [
         outlinedIcon: <ThumbUpOutlinedIcon />,
         label: "Liked videos",
         link: "/playlist?list=LL",
+        queryKey: "list",
+        queryValue: "LL",
       },
       {
         icon: <SubscriptionsOutlinedIcon />,

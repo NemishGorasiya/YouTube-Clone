@@ -79,7 +79,7 @@ const VideoGallery = ({ isListView = false, url, queryParams }) => {
         fetchMoreData={loadMore}
         renderItem={renderItem}
         isLoading={videos.isLoading}
-      ></InfiniteScroll>
+      />
     </Grid>
   );
 };

@@ -16,9 +16,14 @@
       }
     }
   }
-
-  .relatedVideos {
+  .relatedVideosWrapper {
     flex: 1;
+    gap: 12px;
+
+    display: flex;
+    flex-direction: column;
+    .relatedVideos {
+    }
   }
 }
 

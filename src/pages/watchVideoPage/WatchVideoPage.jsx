@@ -22,6 +22,7 @@ import { SwipeableDrawer } from "@mui/material";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import CommentsSection from "./CommentsSection";
 import ScrollToTopButton from "./ScrollToTopButton";
+import PlaylistPanel from "./PlaylistPanel";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -30,6 +31,7 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
 const WatchVideoPage = () => {
   const [searchParams] = useSearchParams();
   const videoId = searchParams.get("v");
+  const playlistId = searchParams.get("list");
 
   const [videoDetails, setVideoDetails] = useState({});
   const [comments, setComments] = useState({
@@ -185,48 +187,25 @@ const WatchVideoPage = () => {
           comments={comments}
           loadMoreComments={loadMoreComments}
         />
-
-        {/* <SwipeableCommentsSection /> */}
-
-        {/* <Box className="commentsSection">
-          <h1>comments</h1>
-          <Box className="addComment">
-            <Box
-              component="img"
-              alt="Channel Thumbnail"
-              src="https://placehold.jp/150x150.png"
-            ></Box>
-            <TextField
-              id="standard-basic"
-              label="Add a comment..."
-              variant="standard"
-            />
-          </Box>
-          <Box className="commentsContainer">
-            <InfiniteScroll
-              items={commentsList}
-              fetchMoreData={loadMoreComments}
-              renderItem={(comment) => (
-                <Comment key={comment.id} snippet={comment.snippet} />
-              )}
-              isLoading={isCommentsLoading}
-            ></InfiniteScroll>
-          </Box>
-        </Box> */}
       </Box>
-      <Box className="relatedVideos">
-        <VideoGallery
-          url="/search"
-          queryParams={{
-            part: "snippet",
-            maxResults: 10,
-            order: "viewCount",
-            q: tags ? tags[0] : channelTitle,
-            type: "video",
-            videoDefinition: "high",
-          }}
-          isListView={true}
-        />
+      <Box className="relatedVideosWrapper">
+        {playlistId && <PlaylistPanel playlistId={playlistId} />}
+
+        <Box className="relatedVideos">
+          Related Videos
+          <VideoGallery
+            url="/search"
+            queryParams={{
+              part: "snippet",
+              maxResults: 10,
+              order: "viewCount",
+              q: tags ? tags[0] : channelTitle,
+              type: "video",
+              videoDefinition: "high",
+            }}
+            isListView={true}
+          />
+        </Box>
       </Box>
       <ScrollToTopButton />
     </Box>
