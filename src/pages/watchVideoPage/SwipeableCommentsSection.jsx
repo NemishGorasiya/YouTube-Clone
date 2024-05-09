@@ -1,18 +1,13 @@
-import {
-  Box,
-  Button,
-  Skeleton,
-  SwipeableDrawer,
-  Typography,
-  styled,
-} from "@mui/material";
+import { Box, Button, Skeleton, Typography, styled } from "@mui/material";
+import MuiSwipeableDrawer from "@mui/material/SwipeableDrawer";
 import React from "react";
+import PropTypes from "prop-types";
 
-const StyledBox = styled("div")(({ theme }) => ({
+const StyledBox = styled("div")(() => ({
   backgroundColor: "grey",
 }));
 
-const Puller = styled("div")(({ theme }) => ({
+const Puller = styled("div")(() => ({
   width: 60,
   height: 6,
   backgroundColor: "#fff",
@@ -21,6 +16,16 @@ const Puller = styled("div")(({ theme }) => ({
   top: 8,
   left: "50%",
   transform: "translateX(-50%)",
+}));
+
+const SwipeableDrawer = styled(MuiSwipeableDrawer)(() => ({
+  ".MuiPaper-root": {
+    height: "75%",
+    overflow: "visible",
+    width: "calc(100% - 24px)",
+    margin: "0 auto",
+    paddingTop: "56px",
+  },
 }));
 
 const drawerBleeding = 0;
@@ -48,15 +53,17 @@ const SwipeableCommentsSection = ({ children }) => {
         ModalProps={{
           keepMounted: true,
         }}
-        sx={{
-          ".MuiPaper-root": {
-            height: "75%",
-            overflow: "visible",
-            width: "calc(100% - 24px)",
-            margin: "0 auto",
-            paddingTop: "56px",
-          },
-        }}
+        sx={
+          {
+            // ".MuiPaper-root": {
+            //   height: "75%",
+            //   overflow: "visible",
+            //   width: "calc(100% - 24px)",
+            //   margin: "0 auto",
+            //   paddingTop: "56px",
+            // },
+          }
+        }
       >
         <StyledBox
           sx={{
@@ -92,6 +99,10 @@ const SwipeableCommentsSection = ({ children }) => {
       </SwipeableDrawer>
     </>
   );
+};
+
+SwipeableCommentsSection.propTypes = {
+  children: PropTypes.node,
 };
 
 export default SwipeableCommentsSection;

@@ -1,12 +1,11 @@
-import WatchLater from "../watchLaterPage/WatchLater";
-import Liked from "../liked/Liked";
 import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { Grid } from "@mui/material";
-import InfiniteScroll from "../InfiniteScroll";
+import { styled } from "@mui/material";
+import MuiGrid from "@mui/material/Grid";
 import { fetchPlaylists } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import PlaylistCard from "./PlaylistCard";
+import InfiniteScroll from "../InfiniteScroll";
 
 const Playlists = () => {
   const [searchParams] = useSearchParams();
@@ -17,8 +16,16 @@ const Playlists = () => {
   });
   const { list, isLoading, nextPageToken } = playlists;
   const listQuery = searchParams.get("list");
-  const [user, setUser] = useLocalStorage("user", {});
+  const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
+
+  const PlaylistGrid = styled(MuiGrid)(() => ({
+    display: "grid",
+    gap: 2,
+    rowGap: 5,
+    gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+    pt: 3,
+  }));
 
   const getPlaylists = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
@@ -49,7 +56,7 @@ const Playlists = () => {
     [accessToken, listQuery]
   );
 
-  const loadMore = () => {
+  const loadMorePlaylists = () => {
     if (nextPageToken) {
       getPlaylists({ nextPageToken: nextPageToken });
     }
@@ -63,22 +70,28 @@ const Playlists = () => {
     };
   }, [getPlaylists]);
 
-  console.log("query", listQuery);
+  const renderItem = (playlist) => (
+    <PlaylistCard key={playlist.id} playlist={playlist} />
+  );
+
   return (
-    <Grid
+    <PlaylistGrid
       container
-      sx={{
-        display: "grid",
-        gap: 2,
-        rowGap: 5,
-        gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
-        pt: 3,
-      }}
+      // sx={{
+      //   display: "grid",
+      //   gap: 2,
+      //   rowGap: 5,
+      //   gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+      //   pt: 3,
+      // }}
     >
-      {list.map((playlist) => (
-        <PlaylistCard key={playlist.id} playlist={playlist} />
-      ))}
-    </Grid>
+      <InfiniteScroll
+        items={list}
+        fetchMoreData={loadMorePlaylists}
+        renderItem={renderItem}
+        isLoading={isLoading}
+      ></InfiniteScroll>
+    </PlaylistGrid>
   );
 };
 

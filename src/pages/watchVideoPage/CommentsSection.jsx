@@ -1,16 +1,11 @@
-import {
-  Box,
-  Button,
-  SwipeableDrawer,
-  TextField,
-  useMediaQuery,
-} from "@mui/material";
-import "./CommentsSection.scss";
+import { Box, TextField, useMediaQuery } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Comment from "../../components/watchVideoPage/Comment";
-import SwipeableCommentsSection from "./SwipeableCommentsSection";
-import { useCallback, useEffect, useState } from "react";
 import { fetchVideos } from "../../services/services";
+import "./CommentsSection.scss";
+import SwipeableCommentsSection from "./SwipeableCommentsSection";
+import PropTypes from "prop-types";
 
 const CommentsSection = ({ videoId }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
@@ -67,6 +62,10 @@ const CommentsSection = ({ videoId }) => {
     };
   }, [fetchComments]);
 
+  const renderItem = (comment) => (
+    <Comment key={comment.id} snippet={comment.snippet} />
+  );
+
   return (
     <>
       {isWideScreen ? (
@@ -88,9 +87,7 @@ const CommentsSection = ({ videoId }) => {
             <InfiniteScroll
               items={list}
               fetchMoreData={loadMoreComments}
-              renderItem={(comment) => (
-                <Comment key={comment.id} snippet={comment.snippet} />
-              )}
+              renderItem={renderItem}
               isLoading={isLoading}
             ></InfiniteScroll>
           </Box>
@@ -114,9 +111,7 @@ const CommentsSection = ({ videoId }) => {
               <InfiniteScroll
                 items={list}
                 fetchMoreData={loadMoreComments}
-                renderItem={(comment) => (
-                  <Comment key={comment.id} snippet={comment.snippet} />
-                )}
+                renderItem={renderItem}
                 isLoading={isLoading}
               ></InfiniteScroll>
             </Box>
@@ -125,6 +120,10 @@ const CommentsSection = ({ videoId }) => {
       )}
     </>
   );
+};
+
+CommentsSection.propTypes = {
+  videoId: PropTypes.string,
 };
 
 export default CommentsSection;

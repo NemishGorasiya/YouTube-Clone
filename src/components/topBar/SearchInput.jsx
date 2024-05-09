@@ -2,7 +2,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import MuiInputAdornment from "@mui/material/InputAdornment";
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme } from "@mui/material/styles";
-import { memo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SEARCH_INPUT_HEIGHT = "40px";
@@ -64,7 +64,6 @@ const SearchInput = () => {
     <></>
   );
 
-  console.log("search");
   return (
     <>
       <form style={formStyle} onSubmit={handleSearch}>

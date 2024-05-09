@@ -20,6 +20,7 @@ const Layout = () => {
       minHeight: "56px",
     },
   }));
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar />

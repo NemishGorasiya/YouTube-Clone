@@ -1,6 +1,7 @@
 import { useCallback, useRef } from "react";
 import "./InfiniteScroll.scss";
 import Loader from "./loader/Loader";
+import PropTypes from "prop-types";
 
 const InfiniteScroll = ({ items, renderItem, fetchMoreData, isLoading }) => {
   const observer = useRef();
@@ -42,6 +43,13 @@ const InfiniteScroll = ({ items, renderItem, fetchMoreData, isLoading }) => {
       )}
     </>
   );
+};
+
+InfiniteScroll.propTypes = {
+  items: PropTypes.array,
+  renderItem: PropTypes.func,
+  fetchMoreData: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
 
 export default InfiniteScroll;

@@ -7,22 +7,17 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiDivider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import InfiniteScroll from "../../components/InfiniteScroll";
 import VideoGallery from "../../components/VideoGallery";
-import Comment from "../../components/watchVideoPage/Comment";
 import { fetchVideos } from "../../services/services";
+import CommentsSection from "./CommentsSection";
+import PlaylistPanel from "./PlaylistPanel";
+import ScrollToTopButton from "./ScrollToTopButton";
 import VideoDescription from "./VideoDescription";
 import "./WatchVideoPage.scss";
-import { SwipeableDrawer } from "@mui/material";
-import SwipeableCommentsSection from "./SwipeableCommentsSection";
-import CommentsSection from "./CommentsSection";
-import ScrollToTopButton from "./ScrollToTopButton";
-import PlaylistPanel from "./PlaylistPanel";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -70,7 +65,6 @@ const WatchVideoPage = () => {
           <iframe
             src={`https://www.youtube.com/embed/${videoId}`}
             title="YouTube video player"
-            frameborder="0"
             allow="fullscreen"
           ></iframe>
           <h2 className="videoTitle">{title}</h2>

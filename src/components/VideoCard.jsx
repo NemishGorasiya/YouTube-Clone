@@ -1,38 +1,31 @@
-import MuiCard from "@mui/material/Card";
-// import Card from "@mui/material/Card";
-// import CardContent from "@mui/material/CardContent";
-import MuiCardContent from "@mui/material/CardContent";
-// import CardMedia from "@mui/material/CardMedia";
-import MuiCardMedia from "@mui/material/CardMedia";
-import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import MuiCard from "@mui/material/Card";
+import MuiCardContent from "@mui/material/CardContent";
+import MuiCardMedia from "@mui/material/CardMedia";
 import MuiTypography from "@mui/material/Typography";
-// import { CardActionArea } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
 import MuiCardActionArea from "@mui/material/CardActionArea";
 import Grid from "@mui/material/Grid";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { formatDistanceToNow } from "date-fns";
-import { formatCompactNumber } from "../utils/utilityFunction";
-import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
+import { formatDistanceToNow } from "date-fns";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { formatCompactNumber } from "../utils/utilityFunction";
 import "./VideoCard.scss";
-import LiveTvIcon from "@mui/icons-material/LiveTv";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
   color: theme.palette.primary.main,
 }));
 
-const CardMedia = styled(MuiCardMedia)(({ theme, isListView }) => ({
+const CardMedia = styled(MuiCardMedia)(() => ({
   borderRadius: "14px",
   aspectRatio: "25/14",
   height: "auto",
-  ...(isListView ? {} : null),
 }));
 
-const CardContent = styled(MuiCardContent)(({ theme, isListView }) => ({
+const CardContent = styled(MuiCardContent)(() => ({
   padding: "8px 0",
   display: "flex",
   gap: "8px",
@@ -43,7 +36,7 @@ const ChannelThumbnail = styled("img")(() => ({
   borderRadius: "50%",
 }));
 
-const CardActionArea = styled(MuiCardActionArea)(({ theme, isListView }) => ({
+const CardActionArea = styled(MuiCardActionArea)(({ isListView }) => ({
   ...(isListView
     ? {
         display: "grid",
@@ -54,7 +47,7 @@ const CardActionArea = styled(MuiCardActionArea)(({ theme, isListView }) => ({
     : null),
 }));
 
-const VideoTitle = styled(MuiTypography)(({ theme, isListView }) => ({
+const VideoTitle = styled(MuiTypography)(() => ({
   lineHeight: "1.5",
   fontSize: "16px",
   fontWeight: "500",
@@ -63,10 +56,9 @@ const VideoTitle = styled(MuiTypography)(({ theme, isListView }) => ({
   display: "-webkit-box",
   WebkitBoxOrient: "vertical",
   WebkitLineClamp: "2",
-  // flex: 1,
 }));
 
-const ChannelName = styled(MuiTypography)(({ theme }) => ({
+const ChannelName = styled(MuiTypography)(() => ({
   display: "flex",
   alignItems: "center",
   fontSize: "14px",
@@ -75,7 +67,7 @@ const VideoMetadata = styled(MuiBox)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "14px",
 }));
-const VideoDetail = styled(MuiBox)(({ theme }) => ({
+const VideoDetail = styled(MuiBox)(() => ({
   flex: 1,
   overflow: "hidden",
 }));

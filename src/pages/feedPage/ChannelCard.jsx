@@ -1,8 +1,8 @@
+import MuiCheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Box, styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
-import MuiBox from "@mui/material/Box";
 import { formatCompactNumber } from "../../utils/utilityFunction";
-import MuiCheckCircleIcon from "@mui/icons-material/CheckCircle";
+import PropTypes from "prop-types";
 
 const ChannelName = styled(MuiTypography)(() => ({
   fontSize: "18px",
@@ -65,6 +65,10 @@ const ChannelCard = ({ channel }) => {
       </Box>
     </Box>
   );
+};
+
+ChannelCard.propTypes = {
+  channel: PropTypes.object,
 };
 
 export default ChannelCard;

@@ -92,6 +92,7 @@ const VideoGallery = ({ isListView = false, url, queryParams }) => {
 VideoGallery.propTypes = {
   isListView: PropTypes.bool,
   url: PropTypes.string,
+  queryParams: PropTypes.object,
 };
 
 export default VideoGallery;

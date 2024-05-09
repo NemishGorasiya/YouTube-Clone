@@ -16,7 +16,6 @@ const ScrollToTopButton = () => {
   };
 
   const scrollToTop = () => {
-    console.log("first");
     window.scrollTo({
       top: 0,
       behavior: "smooth",

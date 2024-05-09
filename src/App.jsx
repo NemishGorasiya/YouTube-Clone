@@ -1,11 +1,11 @@
-import "./App.scss";
 import CssBaseline from "@mui/material/CssBaseline";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./routes/Routes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { ThemeContext, ThemeContextProvider } from "./context/ThemeContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import { RouterProvider } from "react-router-dom";
+import "./App.scss";
+import { ThemeContext } from "./context/ThemeContext";
+import { router } from "./routes/Routes";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");

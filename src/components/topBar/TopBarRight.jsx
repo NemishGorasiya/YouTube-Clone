@@ -1,41 +1,24 @@
-import {
-  AccountCircle,
-  ExpandLess,
-  ExpandMore,
-  Logout,
-  PersonAdd,
-  Settings,
-  StarBorder,
-} from "@mui/icons-material";
+import { Logout, PersonAdd } from "@mui/icons-material";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import ContrastIcon from "@mui/icons-material/Contrast";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import {
   Avatar,
-  Badge,
   Box,
+  Collapse,
   Divider,
   IconButton,
   ListItemIcon,
+  Menu,
   MenuItem,
   Tooltip,
-  Menu,
-  Collapse,
-  List,
-  ListItem,
-  ListItemText,
-  useTheme,
 } from "@mui/material";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import NightlightRoundIcon from "@mui/icons-material/NightlightRound";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import ContrastIcon from "@mui/icons-material/Contrast";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useContext, useEffect, useState } from "react";
-import { isLastDayOfMonth } from "date-fns";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { redirect } from "react-router-dom";
-import { fetchAccessToken, getUserInfo } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { Link, redirect, useNavigate, useSearchParams } from "react-router-dom";
 import { ThemeContext } from "../../context/ThemeContext";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { fetchAccessToken, getUserInfo } from "../../services/services";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -45,14 +28,14 @@ const TopBarRight = () => {
   const navigate = useNavigate();
   const { changeThemeMode } = useContext(ThemeContext);
   const [user, setUser, removeUser] = useLocalStorage("user", {});
-  const { accessToken, username, profilePicture, email } = user ?? {};
+  const { accessToken, username, email } = user ?? {};
   const [isLoggedIn, setIsLoggedIn] = useState(
     accessToken !== undefined || accessToken !== null || accessToken !== ""
       ? true
       : false
   );
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
 
@@ -160,7 +143,6 @@ const TopBarRight = () => {
         id="account-menu"
         open={open}
         onClose={closeProfileMenu}
-        // onClick={closeProfileMenu}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -204,7 +186,7 @@ const TopBarRight = () => {
                 alt="profileImage"
               />
               <div>
-                <p>{username}</p> <p>{email}</p>{" "}
+                <p>{username}</p> <p>{email}</p>
               </div>
             </MenuItem>
             <Divider />

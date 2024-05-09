@@ -1,4 +1,4 @@
-import { Box, Grid, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 import MuiBox from "@mui/material/Box";
 import MuiGrid from "@mui/material/Grid";
@@ -7,6 +7,7 @@ import { calcDistanceToNow } from "../../utils/utilityFunction";
 import { fetchPlaylistItems } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const PlaylistCard = ({ playlist }) => {
   const {
@@ -24,10 +25,10 @@ const PlaylistCard = ({ playlist }) => {
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useLocalStorage("user", {});
+  const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
-  const VideoCountBadge = styled(MuiBox)(({ theme }) => ({
+  const VideoCountBadge = styled(MuiBox)(() => ({
     position: "absolute",
     bottom: "3px",
     right: "3px",
@@ -83,7 +84,7 @@ const PlaylistCard = ({ playlist }) => {
       : {}),
   }));
 
-  const PlaylistCardComponent = styled(MuiGrid)(({ theme }) => ({
+  const PlaylistCardComponent = styled(MuiGrid)(() => ({
     gap: "10px",
     display: "grid",
     cursor: "pointer",
@@ -151,6 +152,10 @@ const PlaylistCard = ({ playlist }) => {
       </Box>
     </PlaylistCardComponent>
   );
+};
+
+PlaylistCard.propTypes = {
+  playlist: PropTypes.object,
 };
 
 export default PlaylistCard;

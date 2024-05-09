@@ -4,7 +4,6 @@ import List from "@mui/material/List";
 import MuiListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import MuiListItemIcon from "@mui/material/ListItemIcon";
-// import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -13,7 +12,7 @@ import { Fragment } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
-import { Link, NavLink, useSearchParams } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
@@ -73,7 +72,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         toggleDrawer(false);
       }}
     >
-      <DrawerHeader></DrawerHeader>
+      <DrawerHeader />
       {SideBarLinks.map((sideBarSection, idx) => (
         <Fragment key={idx}>
           <List sx={open ? { maxWidth: "200px" } : { maxWidth: "50px" }}>

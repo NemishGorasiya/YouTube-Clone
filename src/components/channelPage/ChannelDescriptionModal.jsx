@@ -1,43 +1,68 @@
-import { Box, IconButton, Modal } from "@mui/material";
-import React from "react";
+import { Box, IconButton, Modal, styled } from "@mui/material";
+import MuiTypography from "@mui/material/Typography";
 import { modalStyle } from "../styles/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { customParser, formatDate } from "../../utils/utilityFunction";
 import InfoIcon from "@mui/icons-material/Info";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
+import PropTypes from "prop-types";
 
 const ChannelDescriptionModal = ({ onClose, open, channelInfo }) => {
-  const { snippet, contentDetails } = channelInfo;
-  const { totalItemCount } = contentDetails;
+  const {
+    snippet: { description, publishedAt },
+    contentDetails: { totalItemCount },
+  } = channelInfo;
+
+  const DescriptionItem = styled(MuiTypography)(() => ({
+    display: "flex",
+    gap: "5px",
+  }));
+
+  const CloseModalButton = styled(IconButton)(() => ({
+    position: "absolute",
+    right: 5,
+    top: 5,
+  }));
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box className="modalContent" sx={modalStyle}>
-        <IconButton
+        <CloseModalButton
           onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 5,
-            top: 5,
-          }}
+          // sx={{
+          //   position: "absolute",
+          //   right: 5,
+          //   top: 5,
+          // }}
         >
           <CloseIcon />
-        </IconButton>
+        </CloseModalButton>
         <h2>About</h2>
         <p
           dangerouslySetInnerHTML={{
-            __html: customParser(channelInfo.snippet.description),
+            __html: customParser(description),
           }}
         ></p>
         <h2>Channel details</h2>
-        <p style={{ display: "flex", gap: "5px" }}>
-          <InfoIcon /> Joined {formatDate(channelInfo.snippet.publishedAt)}
-        </p>
-        <p style={{ display: "flex", gap: "5px" }}>
+        {/* <p style={{ display: "flex", gap: "5px" }}> */}
+        <DescriptionItem>
+          <InfoIcon /> Joined {formatDate(publishedAt)}
+        </DescriptionItem>
+        {/* </p> */}
+        {/* <p style={{ display: "flex", gap: "5px" }}> */}
+        <DescriptionItem>
           <SlideshowIcon /> {totalItemCount} videos
-        </p>
+        </DescriptionItem>
+        {/* </p> */}
       </Box>
     </Modal>
   );
+};
+
+ChannelDescriptionModal.propTypes = {
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  channelInfo: PropTypes.object,
 };
 
 export default ChannelDescriptionModal;

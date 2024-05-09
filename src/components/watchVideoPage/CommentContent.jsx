@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { customParser } from "../../utils/utilityFunction";
+import PropTypes from "prop-types";
 
 const CommentContent = ({ textDisplay }) => {
   const commentContentRef = useRef(null);
@@ -45,5 +46,7 @@ const CommentContent = ({ textDisplay }) => {
     </Box>
   );
 };
-
+CommentContent.propTypes = {
+  textDisplay: PropTypes.string,
+};
 export default CommentContent;

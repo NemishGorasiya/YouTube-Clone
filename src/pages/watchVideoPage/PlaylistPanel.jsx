@@ -1,17 +1,18 @@
-import { Box, styled } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import { fetchPlaylistItems } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import PlaylistItem from "./PlaylistItem";
+import { styled } from "@mui/material";
 import MuiBox from "@mui/material/Box";
+import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { fetchPlaylistItems } from "../../services/services";
+import PlaylistItem from "./PlaylistItem";
+import PropTypes from "prop-types";
 
 const PlaylistPanelComponent = styled(MuiBox)(({ theme }) => ({
   background: theme.palette.background.light,
   borderRadius: "14px",
   padding: "12px",
 }));
-const PlaylistItemsWrapper = styled(MuiBox)(({ theme }) => ({
+const PlaylistItemsWrapper = styled(MuiBox)(() => ({
   maxHeight: "500px",
   overflow: "auto",
 }));
@@ -24,7 +25,7 @@ const PlaylistPanel = ({ playlistId }) => {
   });
   const { list, isLoading, nextPageToken } = playlist;
 
-  const [user, setUser] = useLocalStorage("user", {});
+  const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
   const getPlaylistItems = useCallback(
@@ -92,6 +93,10 @@ const PlaylistPanel = ({ playlistId }) => {
       </PlaylistItemsWrapper>
     </PlaylistPanelComponent>
   );
+};
+
+PlaylistPanel.propTypes = {
+  playlistId: PropTypes.string,
 };
 
 export default PlaylistPanel;

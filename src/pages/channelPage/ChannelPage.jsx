@@ -1,26 +1,20 @@
-import { useParams } from "react-router-dom";
-import "./ChannelPage.scss";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import {
-  Box,
   FormControl,
-  IconButton,
   InputAdornment,
   MenuItem,
-  Modal,
   Select,
   styled,
 } from "@mui/material";
-import { useState } from "react";
-import { AccountCircle } from "@mui/icons-material";
-import { subscriptionStatusList } from "../../utils/constant";
-import VideoGallery from "../../components/VideoGallery";
 import MuiTypography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { modalStyle } from "../../components/styles/styles";
-import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
-import { customParser } from "../../utils/utilityFunction";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import VideoGallery from "../../components/VideoGallery";
 import VideoSlider from "../../components/VideoSlider";
+import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
+import { subscriptionStatusList } from "../../utils/constant";
+import { customParser } from "../../utils/utilityFunction";
+import "./ChannelPage.scss";
 
 const channelInfo = {
   kind: "youtube#subscription",
@@ -162,7 +156,6 @@ const ChannelPage = () => {
           <VideoSlider />
           <div className="videoGalleryWrapper">
             <VideoGallery
-              // url="/search?part=snippet&channelId=UCRjTtUHdDFHf-vx2vyol1Fg&maxResults=10"
               queryParams={{
                 part: "snippet",
                 channelId: "UCRjTtUHdDFHf-vx2vyol1Fg",

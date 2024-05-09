@@ -11,14 +11,11 @@ export const fetchVideos = async ({
   queryParams,
   abortController,
 }) => {
-  // const nextPageTokenParam = nextPageToken ? `&pageToken=${nextPageToken}` : "";
   const params = {
     ...queryParams,
     pageToken: nextPageToken,
     key: import.meta.env.VITE_GOOGLE_API_KEY,
   };
-  // const url = BASE_URL + relativeUrl + nextPageTokenParam + API_KEY_PARAM;
-  // const options = abortController ? { signal: abortController.signal } : {};
 
   const response = await axiosInstance.get(url, {
     params: params,

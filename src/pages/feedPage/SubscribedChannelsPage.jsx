@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getSubscribedChannels } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import ChannelCard from "./ChannelCard";
@@ -12,7 +12,7 @@ const SubscribedChannelsPage = () => {
     nextPageToken: "",
   });
   const { list, isLoading } = channels;
-  const [user, setUser] = useLocalStorage("user", {});
+  const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
   const fetchSubscribedChannels = useCallback(

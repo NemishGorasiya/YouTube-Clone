@@ -1,8 +1,8 @@
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import "./VideoDescription.scss";
 import { useState } from "react";
 import { customParser } from "../../utils/utilityFunction";
+import "./VideoDescription.scss";
+import PropTypes from "prop-types";
 
 const VideoDescription = ({ description }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,6 +28,10 @@ const VideoDescription = ({ description }) => {
       </Typography>
     )
   );
+};
+
+VideoDescription.propTypes = {
+  description: PropTypes.string,
 };
 
 export default VideoDescription;

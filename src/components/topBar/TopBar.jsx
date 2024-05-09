@@ -1,24 +1,19 @@
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MuiAppBar from "@mui/material/AppBar";
-import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
 import MuiIconButton from "@mui/material/IconButton";
-// import InputBase from "@mui/material/InputBase";
 import MuiToolbar from "@mui/material/Toolbar";
 import { styled } from "@mui/material/styles";
 import SearchInput from "./SearchInput";
-import { Tooltip } from "@mui/material";
 import TopBarRight from "./TopBarRight";
 import logo from "../../assets/logo.svg";
 import logo_dark_mode from "../../assets/logo_dark_mode.svg";
 import { useTheme } from "@mui/material/styles";
-import { BackHand } from "@mui/icons-material";
 import { memo } from "react";
+import PropTypes from "prop-types";
 
-const TopBar = ({ open, toggleDrawer }) => {
+const TopBar = ({ toggleDrawer }) => {
   const theme = useTheme();
   const {
     palette: { mode: themeMode },
@@ -47,9 +42,6 @@ const TopBar = ({ open, toggleDrawer }) => {
     gap: "24px",
   }));
 
-  const Logo = styled("img")(() => ({
-    height: "40px",
-  }));
   const IconButton = styled(MuiIconButton)(() => ({
     padding: 0,
     marginLeft: "1px",
@@ -105,4 +97,9 @@ const TopBar = ({ open, toggleDrawer }) => {
   );
 };
 
-export default memo(TopBar);
+TopBar.propTypes = {
+  toggleDrawer: PropTypes.func,
+};
+
+const MemoizedTopBar = memo(TopBar);
+export default MemoizedTopBar;
