@@ -32,19 +32,7 @@ const WatchVideoPage = () => {
   const [searchParams] = useSearchParams();
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
-
   const [videoDetails, setVideoDetails] = useState({});
-  const [comments, setComments] = useState({
-    list: [],
-    isLoading: true,
-    nextPageToken: "",
-  });
-
-  const {
-    list: commentsList,
-    isLoading: isCommentsLoading,
-    nextPageToken: commentsNextPageToken,
-  } = comments;
 
   const { snippet, statistics } = videoDetails || {};
   const { publishedAt, channelId, title, description, channelTitle, tags } =
@@ -67,44 +55,13 @@ const WatchVideoPage = () => {
     [videoId]
   );
 
-  const fetchComments = useCallback(
-    async ({ nextPageToken, abortController }) => {
-      try {
-        setComments((prevComments) => ({
-          ...prevComments,
-          isLoading: true,
-        }));
-        const response = await fetchVideos({
-          nextPageToken: nextPageToken,
-          url: `/commentThreads?part=snippet,replies&videoId=${videoId}`,
-          abortController: abortController,
-        });
-        setComments((prevComments) => ({
-          list: [...prevComments.list, ...response.items],
-          isLoading: false,
-          nextPageToken: response.nextPageToken,
-        }));
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [videoId]
-  );
-
-  const loadMoreComments = () => {
-    if (comments.nextPageToken) {
-      fetchComments({ nextPageToken: comments.nextPageToken });
-    }
-  };
-
   useEffect(() => {
     const abortController = new AbortController();
     fetchVideoDetails({ abortController: abortController });
-    fetchComments({ abortController: abortController });
     return () => {
       abortController.abort();
     };
-  }, [fetchComments, fetchVideoDetails]);
+  }, [fetchVideoDetails]);
 
   return (
     <Box className="videoPageContainer">
@@ -182,15 +139,10 @@ const WatchVideoPage = () => {
             <VideoDescription description={description} />
           </Box>
         </Box>
-
-        <CommentsSection
-          comments={comments}
-          loadMoreComments={loadMoreComments}
-        />
+        <CommentsSection videoId={videoId} />
       </Box>
       <Box className="relatedVideosWrapper">
         {playlistId && <PlaylistPanel playlistId={playlistId} />}
-
         <Box className="relatedVideos">
           Related Videos
           <VideoGallery
@@ -199,7 +151,7 @@ const WatchVideoPage = () => {
               part: "snippet",
               maxResults: 10,
               order: "viewCount",
-              q: tags ? tags[0] : channelTitle,
+              q: tags ? tags.slice(0, 3).join(" ") : channelTitle,
               type: "video",
               videoDefinition: "high",
             }}

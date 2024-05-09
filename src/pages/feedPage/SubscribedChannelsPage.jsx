@@ -58,7 +58,6 @@ const SubscribedChannelsPage = () => {
       nextPageToken: "",
     });
     fetchSubscribedChannels({ abortController: abortController });
-
     return () => {
       abortController.abort();
     };
@@ -67,8 +66,6 @@ const SubscribedChannelsPage = () => {
   const renderItem = (channel) => (
     <ChannelCard key={channel.id} channel={channel} />
   );
-
-  console.log("first");
 
   return (
     <Box

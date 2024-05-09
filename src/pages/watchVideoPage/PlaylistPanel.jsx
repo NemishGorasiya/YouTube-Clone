@@ -6,6 +6,16 @@ import PlaylistItem from "./PlaylistItem";
 import MuiBox from "@mui/material/Box";
 import InfiniteScroll from "../../components/InfiniteScroll";
 
+const PlaylistPanelComponent = styled(MuiBox)(({ theme }) => ({
+  background: theme.palette.background.light,
+  borderRadius: "14px",
+  padding: "12px",
+}));
+const PlaylistItemsWrapper = styled(MuiBox)(({ theme }) => ({
+  maxHeight: "500px",
+  overflow: "auto",
+}));
+
 const PlaylistPanel = ({ playlistId }) => {
   const [playlist, setPlaylist] = useState({
     list: [],
@@ -48,10 +58,20 @@ const PlaylistPanel = ({ playlistId }) => {
 
   const loadMorePlaylistItems = () => {
     if (nextPageToken) {
-      fetchPlaylistItems({ nextPageToken: nextPageToken });
+      getPlaylistItems({ nextPageToken: nextPageToken });
     }
   };
+
+  const renderItem = (playlistItem) => (
+    <PlaylistItem key={playlistItem.id} playlistItem={playlistItem} />
+  );
+
   useEffect(() => {
+    setPlaylist({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+    });
     const abortController = new AbortController();
     getPlaylistItems({ abortController });
     return () => {
@@ -59,27 +79,10 @@ const PlaylistPanel = ({ playlistId }) => {
     };
   }, [getPlaylistItems]);
 
-  const PlaylistPanelComponent = styled(MuiBox)(({ theme }) => ({
-    background: theme.palette.background.light,
-    borderRadius: "14px",
-    padding: "12px",
-  }));
-  const PlaylistItemsWrapper = styled(MuiBox)(({ theme }) => ({
-    maxHeight: "500px",
-    overflow: "auto",
-  }));
-
-  const renderItem = (playlistItem) => (
-    <PlaylistItem key={playlistItem.id} playlistItem={playlistItem} />
-  );
-
   return (
     <PlaylistPanelComponent>
       Watchlist
       <PlaylistItemsWrapper>
-        {/* {list.map((playlistItem) => (
-          <PlaylistItem key={playlistItem.id} playlistItem={playlistItem} />
-        ))} */}
         <InfiniteScroll
           items={list}
           fetchMoreData={loadMorePlaylistItems}

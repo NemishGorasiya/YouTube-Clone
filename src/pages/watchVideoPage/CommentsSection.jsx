@@ -9,23 +9,66 @@ import "./CommentsSection.scss";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Comment from "../../components/watchVideoPage/Comment";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { fetchVideos } from "../../services/services";
 
-const CommentsSection = ({ comments, loadMoreComments }) => {
+const CommentsSection = ({ videoId }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
-  const { list: commentsList, isLoading: isCommentsLoading } = comments;
-  // const [open, setOpen] = useState(false);
+  const [comments, setComments] = useState({
+    list: [],
+    isLoading: true,
+    nextPageToken: "",
+  });
 
-  // const toggleDrawer = (newOpen) => () => {
-  //   setOpen(newOpen);
-  // };
+  console.log("videoId in comment", videoId);
+
+  const { list, isLoading, nextPageToken } = comments;
+
+  const fetchComments = useCallback(
+    async ({ nextPageToken, abortController }) => {
+      try {
+        setComments((prevComments) => ({
+          ...prevComments,
+          isLoading: true,
+        }));
+        const response = await fetchVideos({
+          nextPageToken: nextPageToken,
+          url: `/commentThreads?part=snippet,replies&videoId=${videoId}`,
+          abortController: abortController,
+        });
+        setComments((prevComments) => ({
+          list: [...prevComments.list, ...response.items],
+          isLoading: false,
+          nextPageToken: response.nextPageToken,
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [videoId]
+  );
+
+  const loadMoreComments = () => {
+    if (nextPageToken) {
+      fetchComments({ nextPageToken: nextPageToken });
+    }
+  };
+
+  useEffect(() => {
+    setComments({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+    });
+    const abortController = new AbortController();
+    fetchComments({ abortController: abortController });
+    return () => {
+      abortController.abort();
+    };
+  }, [fetchComments]);
 
   return (
     <>
-      {/* <h1>Comments</h1>
-      <Box sx={{ textAlign: "center", pt: 1 }}>
-        <Button onClick={toggleDrawer(true)}>Open</Button>
-      </Box> */}
       {isWideScreen ? (
         <Box className="commentsSection">
           <h1>comments</h1>
@@ -43,12 +86,12 @@ const CommentsSection = ({ comments, loadMoreComments }) => {
           </Box>
           <Box className="commentsContainer">
             <InfiniteScroll
-              items={commentsList}
+              items={list}
               fetchMoreData={loadMoreComments}
               renderItem={(comment) => (
                 <Comment key={comment.id} snippet={comment.snippet} />
               )}
-              isLoading={isCommentsLoading}
+              isLoading={isLoading}
             ></InfiniteScroll>
           </Box>
         </Box>
@@ -69,12 +112,12 @@ const CommentsSection = ({ comments, loadMoreComments }) => {
             </Box>
             <Box className="commentsContainer">
               <InfiniteScroll
-                items={commentsList}
+                items={list}
                 fetchMoreData={loadMoreComments}
                 renderItem={(comment) => (
                   <Comment key={comment.id} snippet={comment.snippet} />
                 )}
-                isLoading={isCommentsLoading}
+                isLoading={isLoading}
               ></InfiniteScroll>
             </Box>
           </Box>

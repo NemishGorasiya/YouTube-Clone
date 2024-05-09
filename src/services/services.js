@@ -48,7 +48,6 @@ export const getComments = async ({
 
 export const fetchPlaylistItems = async ({
   queryParams,
-  playlistId,
   abortController,
   accessToken,
 }) => {

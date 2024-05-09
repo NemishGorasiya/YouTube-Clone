@@ -61,6 +61,11 @@ const VideoGallery = ({ isListView = false, url, queryParams }) => {
   };
 
   useEffect(() => {
+    setVideos({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+    });
     const abortController = new AbortController();
     fetchData({ abortController: abortController });
     return () => {
