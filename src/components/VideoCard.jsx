@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatCompactNumber } from "../utils/utilityFunction";
 import "./VideoCard.scss";
 
@@ -79,6 +79,7 @@ const VideoCard = ({ video, isListView = false }) => {
     publishedAt,
     title,
     channelTitle,
+    channelId,
     thumbnails: {
       medium: { url },
     },
@@ -86,7 +87,14 @@ const VideoCard = ({ video, isListView = false }) => {
   } = snippet || {};
 
   const handleVideoCardClick = () => {
+    console.log("first");
     navigate(`/watch?v=${id.videoId ?? id}`);
+  };
+
+  const navigateToChannelPage = (event) => {
+    console.log("second");
+    event.stopPropagation();
+    navigate(`/channel/${channelId}`);
   };
 
   return (
@@ -110,7 +118,7 @@ const VideoCard = ({ video, isListView = false }) => {
             <VideoDetail>
               <VideoTitle>{title}</VideoTitle>
               <VideoMetadata>
-                <ChannelName>
+                <ChannelName onClick={navigateToChannelPage}>
                   {" "}
                   {channelTitle}
                   <CheckCircleIcon

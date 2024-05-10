@@ -1,21 +1,67 @@
 import { Box, IconButton, Modal, styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
+import MuiBox from "@mui/material/Box";
 import { modalStyle } from "../styles/styles";
 import CloseIcon from "@mui/icons-material/Close";
-import { customParser, formatDate } from "../../utils/utilityFunction";
-import InfoIcon from "@mui/icons-material/Info";
+import {
+  customParser,
+  formatCompactNumber,
+  formatDate,
+} from "../../utils/utilityFunction";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import PropTypes from "prop-types";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 
-const ChannelDescriptionModal = ({ onClose, open, channelInfo }) => {
+const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
   const {
-    snippet: { description, publishedAt },
-    contentDetails: { totalItemCount },
-  } = channelInfo;
+    snippet: { description, customUrl, publishedAt, country },
+    statistics: { viewCount, subscriberCount, videoCount },
+  } = channelMetadata;
 
-  const DescriptionItem = styled(MuiTypography)(() => ({
+  const metadataList = [
+    {
+      icon: <LanguageOutlinedIcon />,
+      value: customUrl,
+    },
+    {
+      icon: <RecordVoiceOverOutlinedIcon />,
+      value: `${formatCompactNumber(subscriberCount)} subscribers`,
+    },
+    {
+      icon: <SlideshowIcon />,
+      value: `${formatCompactNumber(videoCount)} videos`,
+    },
+    {
+      icon: <TrendingUpOutlinedIcon />,
+      value: `${formatCompactNumber(viewCount)} views`,
+    },
+    {
+      icon: <InfoOutlinedIcon />,
+      value: `Joined ${formatDate(publishedAt)}`,
+    },
+    {
+      icon: <PublicOutlinedIcon />,
+      value: country,
+    },
+  ];
+
+  const DescriptionItem = styled(MuiTypography)(({ theme }) => ({
     display: "flex",
-    gap: "5px",
+    alignItems: "center",
+    gap: "16px",
+    color: theme.palette.primary.main,
+    "& .MuiSvgIcon-root": {
+      fontSize: "26px",
+    },
+  }));
+  const DescriptionItemsWrapper = styled(MuiBox)(() => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
   }));
 
   const CloseModalButton = styled(IconButton)(() => ({
@@ -24,36 +70,55 @@ const ChannelDescriptionModal = ({ onClose, open, channelInfo }) => {
     top: 5,
   }));
 
+  const ChannelDescription = styled(MuiTypography)(({ theme }) => ({
+    fontSize: "15px",
+    color: theme.palette.primary.main,
+  }));
+
   return (
     <Modal open={open} onClose={onClose}>
-      <Box className="modalContent" sx={modalStyle}>
-        <CloseModalButton
-          onClick={onClose}
-          // sx={{
-          //   position: "absolute",
-          //   right: 5,
-          //   top: 5,
-          // }}
-        >
+      <Box
+        className="modalContent"
+        sx={{
+          ...modalStyle,
+          padding: "24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
+        <CloseModalButton onClick={onClose}>
           <CloseIcon />
         </CloseModalButton>
         <h2>About</h2>
-        <p
+        <ChannelDescription
           dangerouslySetInnerHTML={{
             __html: customParser(description),
           }}
-        ></p>
+        ></ChannelDescription>
         <h2>Channel details</h2>
-        {/* <p style={{ display: "flex", gap: "5px" }}> */}
-        <DescriptionItem>
-          <InfoIcon /> Joined {formatDate(publishedAt)}
+        <DescriptionItemsWrapper>
+          {metadataList.map(({ icon, value }, idx) => (
+            <DescriptionItem key={idx}>
+              {icon} {value}
+            </DescriptionItem>
+          ))}
+        </DescriptionItemsWrapper>
+        {/* <DescriptionItem>
+          <RecordVoiceOverOutlinedIcon /> {subscriberCount} subscribers
         </DescriptionItem>
-        {/* </p> */}
-        {/* <p style={{ display: "flex", gap: "5px" }}> */}
         <DescriptionItem>
-          <SlideshowIcon /> {totalItemCount} videos
+          <SlideshowIcon /> {videoCount} videos
         </DescriptionItem>
-        {/* </p> */}
+        <DescriptionItem>
+          <TrendingUpOutlinedIcon /> {viewCount} views
+        </DescriptionItem>
+        <DescriptionItem>
+          <InfoOutlinedIcon /> Joined {formatDate(publishedAt)}
+        </DescriptionItem>
+        <DescriptionItem>
+          <PublicOutlinedIcon /> {country}
+        </DescriptionItem> */}
       </Box>
     </Modal>
   );
@@ -62,7 +127,7 @@ const ChannelDescriptionModal = ({ onClose, open, channelInfo }) => {
 ChannelDescriptionModal.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
-  channelInfo: PropTypes.object,
+  channelMetadata: PropTypes.object,
 };
 
 export default ChannelDescriptionModal;

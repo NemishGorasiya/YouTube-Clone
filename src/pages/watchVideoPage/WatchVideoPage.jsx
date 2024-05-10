@@ -34,6 +34,18 @@ const WatchVideoPage = () => {
     snippet || {};
   const { viewCount, likeCount, commentCount } = statistics || {};
 
+  // const {
+  //   snippet: {
+  //     publishedAt,
+  //     channelId,
+  //     title,
+  //     description,
+  //     channelTitle,
+  //     tags,
+  //   } = {},
+  //   statistics: { viewCount, likeCount, commentCount },
+  // } = videoDetails;
+
   const fetchVideoDetails = useCallback(
     async ({ abortController }) => {
       try {
@@ -66,6 +78,7 @@ const WatchVideoPage = () => {
             src={`https://www.youtube.com/embed/${videoId}`}
             title="YouTube video player"
             allow="fullscreen"
+            frameborder="0"
           ></iframe>
           <h2 className="videoTitle">{title}</h2>
           <Box

@@ -24,10 +24,6 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/:channelName",
-        element: <ChannelPage />,
-      },
-      {
         path: "/shorts",
         element: <ShortsPage />,
       },
@@ -38,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "/watch",
         element: <WatchVideoPage />,
+      },
+      {
+        path: "/channel/:channelId",
+        element: <ChannelPage />,
       },
       {
         element: <ProtectedRoute />,
