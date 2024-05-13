@@ -1,19 +1,22 @@
-import { Box, TextField, useMediaQuery } from "@mui/material";
+import { Box, Button, TextField, useMediaQuery } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Comment from "../../components/watchVideoPage/Comment";
-import { fetchVideos } from "../../services/services";
+import { addComment, fetchVideos } from "../../services/services";
 import "./CommentsSection.scss";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
-const CommentsSection = ({ videoId }) => {
+const CommentsSection = ({ videoId, channelId }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
   const [comments, setComments] = useState({
     list: [],
     isLoading: true,
     nextPageToken: "",
   });
+  const [user] = useLocalStorage("user", {});
+  const { accessToken } = user;
 
   console.log("videoId in comment", videoId);
 
@@ -49,6 +52,39 @@ const CommentsSection = ({ videoId }) => {
     }
   };
 
+  const handleAddComment = async (event) => {
+    event.preventDefault();
+    console.log("called");
+    const data = new FormData(event.target);
+    const comment = data.get("newComment");
+
+    try {
+      const queryParams = {
+        part: "snippet",
+        key: import.meta.env.VITE_GOOGLE_API_KEY,
+      };
+      const data = {
+        snippet: {
+          videoId: videoId,
+          channelId: channelId,
+          topLevelComment: {
+            snippet: {
+              textOriginal: comment,
+            },
+          },
+        },
+      };
+      const res = await addComment({ queryParams, data, accessToken });
+      if (res) {
+        console.log("done comment");
+      } else {
+        console.log("something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     setComments({
       list: [],
@@ -77,11 +113,21 @@ const CommentsSection = ({ videoId }) => {
               alt="Channel Thumbnail"
               src="https://placehold.jp/150x150.png"
             ></Box>
-            <TextField
-              id="standard-basic"
-              label="Add a comment..."
-              variant="standard"
-            />
+            <form
+              onSubmit={handleAddComment}
+              style={{ display: "flex", width: "100%" }}
+            >
+              <TextField
+                id="standard-basic"
+                label="Add a comment..."
+                variant="standard"
+                name="newComment"
+                sx={{ flex: "1" }}
+              />
+              <Button type="submit" variant="contained">
+                Comment
+              </Button>
+            </form>
           </Box>
           <Box className="commentsContainer">
             <InfiniteScroll

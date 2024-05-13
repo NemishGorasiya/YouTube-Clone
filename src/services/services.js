@@ -139,6 +139,24 @@ export const fetchPlaylists = async ({
     return responseData;
   }
 };
+export const addComment = async ({ queryParams, data, accessToken }) => {
+  const url = "/commentThreads";
+  try {
+    const response = await axiosInstance.post(url, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: data,
+    });
+    const responseData = response.data;
+    if (responseData) {
+      return responseData;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const getUserInfo = async ({ accessToken }) => {
   const params = { access_token: accessToken };

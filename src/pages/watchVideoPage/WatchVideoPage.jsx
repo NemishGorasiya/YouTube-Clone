@@ -143,7 +143,7 @@ const WatchVideoPage = () => {
             <VideoDescription description={description} />
           </Box>
         </Box>
-        <CommentsSection videoId={videoId} />
+        <CommentsSection videoId={videoId} channelId={channelId} />
       </Box>
       <Box className="relatedVideosWrapper">
         {playlistId && (
