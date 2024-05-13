@@ -17,7 +17,7 @@ const PlaylistItemsWrapper = styled(MuiBox)(() => ({
   overflow: "auto",
 }));
 
-const PlaylistPanel = ({ playlistId }) => {
+const PlaylistPanel = ({ playlistId, playlistName }) => {
   const [playlist, setPlaylist] = useState({
     list: [],
     isLoading: true,
@@ -82,7 +82,7 @@ const PlaylistPanel = ({ playlistId }) => {
 
   return (
     <PlaylistPanelComponent>
-      Watchlist
+      {playlistName}
       <PlaylistItemsWrapper>
         <InfiniteScroll
           items={list}

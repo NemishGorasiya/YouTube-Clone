@@ -2,6 +2,8 @@ import VideoSlider from "../../components/VideoSlider";
 import VideoGallery from "../../components/VideoGallery";
 import { useState } from "react";
 import ChannelHomePageContent from "./ChannelHomePageContent";
+import Playlists from "../../components/playlists/Playlists";
+import { Box, styled } from "@mui/material";
 
 const ChannelContent = ({ channelId }) => {
   const [currentContentCategory, setCurrentContentCategory] = useState("home");
@@ -13,6 +15,7 @@ const ChannelContent = ({ channelId }) => {
             onClick={() => {
               setCurrentContentCategory("home");
             }}
+            style={{ cursor: "pointer" }}
           >
             Home
           </li>
@@ -20,6 +23,7 @@ const ChannelContent = ({ channelId }) => {
             onClick={() => {
               setCurrentContentCategory("videos");
             }}
+            style={{ cursor: "pointer" }}
           >
             Videos
           </li>
@@ -27,27 +31,32 @@ const ChannelContent = ({ channelId }) => {
             onClick={() => {
               setCurrentContentCategory("playlists");
             }}
+            style={{ cursor: "pointer" }}
           >
             Playlists
           </li>
         </ul>
       </div>
-      {currentContentCategory === "home" && (
-        <ChannelHomePageContent channelId={channelId} />
-      )}
-      {currentContentCategory === "videos" && (
-        <div className="videoGalleryWrapper">
-          <VideoGallery
-            queryParams={{
-              part: "snippet",
-              channelId,
-              maxResults: 10,
-            }}
-            url={"/search"}
-          />
-        </div>
-      )}
-      {currentContentCategory === "playlists" && <h1>Playlists</h1>}
+      <Box py={2}>
+        {currentContentCategory === "home" && (
+          <ChannelHomePageContent channelId={channelId} />
+        )}
+        {currentContentCategory === "videos" && (
+          <div className="videoGalleryWrapper">
+            <VideoGallery
+              queryParams={{
+                part: "snippet",
+                channelId,
+                maxResults: 10,
+              }}
+              url={"/search"}
+            />
+          </div>
+        )}
+        {currentContentCategory === "playlists" && (
+          <Playlists channelId={channelId} />
+        )}
+      </Box>
     </div>
   );
 };

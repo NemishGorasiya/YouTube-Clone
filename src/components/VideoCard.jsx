@@ -10,9 +10,12 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatCompactNumber } from "../utils/utilityFunction";
 import "./VideoCard.scss";
+import { useCallback, useEffect, useState } from "react";
+import { fetchChannelDetails } from "../services/services";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
@@ -74,17 +77,26 @@ const VideoDetail = styled(MuiBox)(() => ({
 
 const VideoCard = ({ video, isListView = false }) => {
   const navigate = useNavigate();
+  const [channelThumbnail, setChannelThumbnail] = useState({
+    url: "",
+    isLoading: true,
+  });
+
+  const [user] = useLocalStorage("user", {});
+  const { accessToken } = user;
+  const { url: channelThumbnailUrl, isLoading: channelThumbnailIsLoading } =
+    channelThumbnail;
   const { id, snippet, statistics: { viewCount } = {} } = video;
   const {
     publishedAt,
     title,
     channelTitle,
     channelId,
-    thumbnails: {
-      medium: { url },
-    },
+    thumbnails,
     liveBroadcastContent,
   } = snippet || {};
+  const { high } = thumbnails || {};
+  const { url } = high || {};
 
   const handleVideoCardClick = () => {
     console.log("first");
@@ -97,6 +109,44 @@ const VideoCard = ({ video, isListView = false }) => {
     navigate(`/channel/${channelId}`);
   };
 
+  const getChannelDetails = useCallback(
+    async ({ abortController }) => {
+      const queryParams = {
+        part: "snippet",
+        id: channelId,
+      };
+      try {
+        const res = await fetchChannelDetails({
+          queryParams,
+          accessToken,
+          abortController,
+        });
+        if (res) {
+          const { items } = res ?? {};
+          const { snippet } = items[0] ?? {};
+          const { thumbnails } = snippet ?? {};
+          const { high } = thumbnails ?? {};
+          const { url } = high ?? {};
+          console.log(url);
+          setChannelThumbnail({
+            url: url,
+            isLoading: false,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [accessToken, channelId]
+  );
+
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   getChannelDetails({ abortController: abortController });
+  //   return () => {
+  //     abortController.abort();
+  //   };
+  // }, [getChannelDetails]);
   return (
     <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0} className="videoCard">
@@ -109,9 +159,19 @@ const VideoCard = ({ video, isListView = false }) => {
           />
           <CardContent>
             {!isListView && (
+              // <ChannelThumbnail
+              //   src={
+              //     channelThumbnailUrl
+              //       ? channelThumbnailUrl
+              //       : "https://placehold.jp/150x150.png"
+              //   }
+              //   alt="Channel Thumbnail"
+              //   referrerPolicy="no-referrer"
+              // />
               <ChannelThumbnail
-                src="https://placehold.jp/150x150.png"
+                src={"https://placehold.jp/150x150.png"}
                 alt="Channel Thumbnail"
+                referrerPolicy="no-referrer"
               />
             )}
 

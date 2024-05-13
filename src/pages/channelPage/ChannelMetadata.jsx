@@ -24,7 +24,7 @@ const ChannelMetadata = ({ channelId }) => {
   const { data, isLoading } = channelDetails;
   const { items } = data;
   const channelMetadata = items ? items[0] : {};
-  const { snippet, statistics } = channelMetadata;
+  const { snippet, statistics, brandingSettings } = channelMetadata;
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
   //   const {
@@ -40,9 +40,11 @@ const ChannelMetadata = ({ channelId }) => {
   //   } = channelMetadata;
 
   const { title, description, customUrl, thumbnails } = snippet ?? {};
-  const { default: defaultUrl } = thumbnails ?? {};
-  const { url } = defaultUrl ?? {};
+  const { high } = thumbnails ?? {};
+  const { url } = high ?? {};
   const { subscriberCount, videoCount } = statistics ?? {};
+  const { image } = brandingSettings ?? {};
+  const { bannerExternalUrl } = image ?? {};
 
   const [isChannelDescriptionModalOpen, setIsChannelDescriptionModalOpen] =
     useState(false);
@@ -51,18 +53,6 @@ const ChannelMetadata = ({ channelId }) => {
     setIsChannelDescriptionModalOpen(true);
   const closeChannelDescriptionModal = () =>
     setIsChannelDescriptionModalOpen(false);
-
-  // const [subscriptionStatus, setSubscriptionStatus] = useState(
-  //   subscriptionStatusList[0]
-  // );
-
-  // const changeSubscriptionStatus = ({ target: { value } }) => {
-  //   setSubscriptionStatus(value);
-  // };
-
-  // const filteredStatusList = subscriptionStatusList.filter(
-  //   ({ label }) => label !== subscriptionStatus.label
-  // );
 
   const Typography = styled(MuiTypography)(({ titleText }) => ({
     ...(titleText
@@ -79,7 +69,7 @@ const ChannelMetadata = ({ channelId }) => {
   const getChannelDetails = useCallback(
     async ({ abortController }) => {
       const queryParams = {
-        part: "snippet,statistics",
+        part: "snippet,statistics,brandingSettings",
         id: channelId,
         key: import.meta.env.VITE_GOOGLE_API_KEY,
       };
@@ -115,57 +105,51 @@ const ChannelMetadata = ({ channelId }) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="channelMetadataWrapper">
-          <div className="channelThumbnailWrapper">
-            <img src={url} alt="" />
+        <>
+          <div
+            className="channelBanner"
+            style={{
+              background: "grey",
+              display: "flex",
+              aspectRatio: "569/94",
+            }}
+          >
+            {bannerExternalUrl && (
+              <img
+                style={{ height: "100%", width: "100%", objectFit: "cover" }}
+                src={bannerExternalUrl}
+                alt="channel-banner"
+              />
+            )}
           </div>
-          <div className="channelDetailsWrapper">
-            <Typography variant="h4" component="h1" channelTitle>
-              {title}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {customUrl} ‧ {formatCompactNumber(subscriberCount)} subscribers ‧{" "}
-              {formatCompactNumber(videoCount)} videos
-            </Typography>
-            <Typography
-              variant="body2"
-              component="p"
-              className="channelDescription"
-              onClick={openChannelDescriptionModal}
-            >
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: customParser(description),
-                }}
-              ></p>
-              <KeyboardArrowRightIcon className="showMoreIcon" />
-            </Typography>
-
-            {/* <FormControl>
-              <Select
-                sx={{ borderRadius: 10, height: "35px", width: "fit-content" }}
-                value={subscriptionStatus}
-                onChange={changeSubscriptionStatus}
-                startAdornment={
-                  <InputAdornment position="start">
-                    {subscriptionStatus.icon} {subscriptionStatus.label}
-                  </InputAdornment>
-                }
+          <div className="channelMetadataWrapper">
+            <div className="channelThumbnailWrapper">
+              <img src={url} alt="" />
+            </div>
+            <div className="channelDetailsWrapper">
+              <Typography variant="h4" component="h1" channelTitle>
+                {title}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {customUrl} ‧ {formatCompactNumber(subscriberCount)} subscribers
+                ‧ {formatCompactNumber(videoCount)} videos
+              </Typography>
+              <Typography
+                variant="body2"
+                component="p"
+                className="channelDescription"
+                onClick={openChannelDescriptionModal}
               >
-                {filteredStatusList.map((status) => (
-                  <MenuItem
-                    key={status.label}
-                    value={status}
-                    disabled={status.label === "Disabled"}
-                  >
-                    {status.icon}
-                    {status.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl> */}
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: customParser(description),
+                  }}
+                ></p>
+                <KeyboardArrowRightIcon className="showMoreIcon" />
+              </Typography>
+            </div>
           </div>
-        </div>
+        </>
       )}
       {isChannelDescriptionModalOpen && (
         <ChannelDescriptionModal

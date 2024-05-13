@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import VideoGallery from "../../components/VideoGallery";
 import { fetchVideos } from "../../services/services";
 import CommentsSection from "./CommentsSection";
@@ -23,28 +23,22 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
 }));
 
+const ChannelLink = styled(Link)(() => ({
+  display: "flex",
+  gap: "8px",
+}));
+
 const WatchVideoPage = () => {
   const [searchParams] = useSearchParams();
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
+  const playlistName = searchParams.get("listName");
   const [videoDetails, setVideoDetails] = useState({});
 
   const { snippet, statistics } = videoDetails || {};
   const { publishedAt, channelId, title, description, channelTitle, tags } =
     snippet || {};
   const { viewCount, likeCount, commentCount } = statistics || {};
-
-  // const {
-  //   snippet: {
-  //     publishedAt,
-  //     channelId,
-  //     title,
-  //     description,
-  //     channelTitle,
-  //     tags,
-  //   } = {},
-  //   statistics: { viewCount, likeCount, commentCount },
-  // } = videoDetails;
 
   const fetchVideoDetails = useCallback(
     async ({ abortController }) => {
@@ -87,35 +81,38 @@ const WatchVideoPage = () => {
               justifyContent: "space-between",
               alignItems: "center",
               padding: "0 12px",
+              flexWrap: "wrap",
             }}
           >
             <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-              <Box
-                component="img"
-                sx={{
-                  height: 50,
-                  width: 50,
-                  borderRadius: "50%",
-                }}
-                alt="Channel Thumbnail"
-                src="https://placehold.jp/150x150.png"
-              />
-              <Stack>
-                <Typography
-                  variant="h6"
-                  color="text.secondary"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  {channelTitle}
-                  <CheckCircleIcon
-                    fontSize="x-small"
-                    sx={{ marginLeft: "5px" }}
-                  />
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  1.8M subscribers
-                </Typography>
-              </Stack>
+              <ChannelLink to={`/channel/${channelId}`}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: 50,
+                    width: 50,
+                    borderRadius: "50%",
+                  }}
+                  alt="Channel Thumbnail"
+                  src="https://placehold.jp/150x150.png"
+                />
+                <Stack>
+                  <Typography
+                    variant="h6"
+                    color="text.secondary"
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    {channelTitle}
+                    <CheckCircleIcon
+                      fontSize="x-small"
+                      sx={{ marginLeft: "5px" }}
+                    />
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    1.8M subscribers
+                  </Typography>
+                </Stack>
+              </ChannelLink>
               <Button variant="outlined">Join</Button>
               <Button variant="contained">Subscribe</Button>
             </Stack>
@@ -149,7 +146,9 @@ const WatchVideoPage = () => {
         <CommentsSection videoId={videoId} />
       </Box>
       <Box className="relatedVideosWrapper">
-        {playlistId && <PlaylistPanel playlistId={playlistId} />}
+        {playlistId && (
+          <PlaylistPanel playlistId={playlistId} playlistName={playlistName} />
+        )}
         <Box className="relatedVideos">
           Related Videos
           <VideoGallery

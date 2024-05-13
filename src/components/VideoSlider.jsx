@@ -9,27 +9,6 @@ import MuiTypography from "@mui/material/Typography";
 import { useCallback, useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { fetchPlaylistItems } from "../services/services";
-import Loader from "./loader/Loader";
-import InfiniteScroll from "./InfiniteScroll";
-
-const SliderTitle = styled(MuiTypography)(() => ({
-  fontSize: "22px",
-  fontWeight: "600",
-  marginBottom: "16px",
-}));
-
-const RenderItem = ({ video, ref }) => (
-  <SwiperSlide
-    // key={video.id}
-    className="swiperSlide"
-    style={{
-      width: "310px",
-    }}
-    ref={ref}
-  >
-    {/* <VideoCard video={video} /> */}
-  </SwiperSlide>
-);
 
 const VideoSlider = ({ playlistId }) => {
   const [videos, setVideos] = useState({
@@ -50,6 +29,7 @@ const VideoSlider = ({ playlistId }) => {
         key: import.meta.env.VITE_GOOGLE_API_KEY,
         pageToken: nextPageToken,
       };
+
       try {
         const res = await fetchPlaylistItems({
           queryParams,
@@ -71,18 +51,13 @@ const VideoSlider = ({ playlistId }) => {
     [accessToken, playlistId]
   );
 
-  const loadMorePlaylistVideos = () => {
+  const loadMorePlaylistVideos = useCallback(() => {
     if (nextPageToken) {
       getPlaylistVideos({ nextPageToken: nextPageToken });
     }
-  };
+  }, [getPlaylistVideos, nextPageToken]);
 
   useEffect(() => {
-    setVideos({
-      list: [],
-      isLoading: true,
-      nextPageToken: "",
-    });
     const abortController = new AbortController();
     getPlaylistVideos({ abortController: abortController });
     return () => {
@@ -90,39 +65,53 @@ const VideoSlider = ({ playlistId }) => {
     };
   }, [getPlaylistVideos]);
 
-  console.log("list", list);
   return (
     <div className="videoSliderWrapper">
-      <SliderTitle>For You</SliderTitle>
-      {list.length > 0 && (
-        <Swiper
-          navigation={true}
-          spaceBetween={16}
-          slidesPerView={"auto"}
-          modules={[Navigation]}
-          className="swiper"
-        >
-          <InfiniteScroll
-            items={list}
-            fetchMoreData={loadMorePlaylistVideos}
-            // renderItem={renderItem}
-            isLoading={isLoading}
-          >
-            {list.map((video) => (
-              <div>sd</div>
-              // <SwiperSlide
-              //   key={video.id}
-              //   className="swiperSlide"
-              //   style={{
-              //     width: "310px",
-              //   }}
-              // >
-              // <VideoCard video={video} />
-              // </SwiperSlide>
-            ))}
-          </InfiniteScroll>
-        </Swiper>
-      )}
+      <Swiper
+        navigation={true}
+        spaceBetween={16}
+        modules={[Navigation]}
+        className="swiper"
+        watchSlidesProgress
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            slidesPerGroup: 2,
+            spaceBetween: 8,
+          },
+          768: {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+            spaceBetween: 12,
+          },
+          1024: {
+            slidesPerView: 4,
+            slidesPerGroup: 4,
+            spaceBetween: 16,
+          },
+        }}
+      >
+        {list.length &&
+          list.map(
+            (video, idx) =>
+              video?.snippet?.thumbnails?.high && (
+                <SwiperSlide
+                  key={video.id}
+                  className="swiperSlide"
+                  style={{
+                    width: "310px",
+                  }}
+                >
+                  {({ isVisible }) => {
+                    if (list.length === idx + 1 && isVisible) {
+                      loadMorePlaylistVideos();
+                    }
+                    return <VideoCard video={video} />;
+                  }}
+                </SwiperSlide>
+              )
+          )}
+      </Swiper>
     </div>
   );
 };

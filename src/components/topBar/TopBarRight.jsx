@@ -14,7 +14,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, redirect, useNavigate, useSearchParams } from "react-router-dom";
 import { ThemeContext } from "../../context/ThemeContext";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -62,39 +62,42 @@ const TopBarRight = () => {
     );
   };
 
-  const getAccessToken = async ({ code, abortController }) => {
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("code", code);
-    urlencoded.append("client_id", import.meta.env.VITE_CLIENT_ID);
-    urlencoded.append("client_secret", import.meta.env.VITE_CLIENT_SECRET);
-    urlencoded.append("grant_type", "authorization_code");
-    urlencoded.append("redirect_uri", "http://localhost:5173");
+  const getAccessToken = useCallback(
+    async ({ code, abortController }) => {
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("code", code);
+      urlencoded.append("client_id", import.meta.env.VITE_CLIENT_ID);
+      urlencoded.append("client_secret", import.meta.env.VITE_CLIENT_SECRET);
+      urlencoded.append("grant_type", "authorization_code");
+      urlencoded.append("redirect_uri", "http://localhost:5173");
 
-    try {
-      const res = await fetchAccessToken({
-        urlencoded: urlencoded,
-        abortController: abortController,
-      });
-      if (res) {
-        const { access_token = "", refresh_token = "" } = res;
-        const userInfo = await getUserInfo({ accessToken: access_token });
-        const { name, picture, email } = userInfo;
-        if (userInfo) {
-          navigate("/");
-          setUser({
-            accessToken: access_token,
-            refreshToken: refresh_token,
-            username: name,
-            profilePicture: picture,
-            email: email,
-          });
+      try {
+        const res = await fetchAccessToken({
+          urlencoded: urlencoded,
+          abortController: abortController,
+        });
+        if (res) {
+          const { access_token = "", refresh_token = "" } = res;
+          const userInfo = await getUserInfo({ accessToken: access_token });
+          const { name, picture, email } = userInfo;
+          if (userInfo) {
+            navigate("/");
+            setUser({
+              accessToken: access_token,
+              refreshToken: refresh_token,
+              username: name,
+              profilePicture: picture,
+              email: email,
+            });
+          }
         }
+      } catch (error) {
+        alert("Something went wrong");
+        console.error(error);
       }
-    } catch (error) {
-      alert("Something went wrong");
-      console.error(error);
-    }
-  };
+    },
+    [navigate, setUser]
+  );
 
   const handleSignOut = () => {
     removeUser();
@@ -114,7 +117,7 @@ const TopBarRight = () => {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [getAccessToken, searchParams]);
 
   return (
     <Box>
@@ -134,6 +137,10 @@ const TopBarRight = () => {
               style={{ width: "32px", height: "32px", borderRadius: "50%" }}
               src="https://lh3.googleusercontent.com/a/ACg8ocLyfWhFxI_VnjHOfqj7CFp-ifqLtbCs8Wnvor9rBBfWinVU=s96-c"
               alt="user"
+              referrerPolicy="no-referrer"
+              onError={(event) => {
+                console.log("error", event.target.src);
+              }}
             />
           </IconButton>
         </Tooltip>

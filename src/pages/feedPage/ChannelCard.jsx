@@ -3,6 +3,7 @@ import { Box, styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
 import { formatCompactNumber } from "../../utils/utilityFunction";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const ChannelName = styled(MuiTypography)(() => ({
   fontSize: "18px",
@@ -31,39 +32,43 @@ const ChannelMetadata = styled(MuiTypography)(({ theme }) => ({
 
 const ChannelCard = ({ channel }) => {
   const { id, snippet, contentDetails } = channel ?? {};
-  const { title, description, thumbnails } = snippet;
+  const { title, description, thumbnails, resourceId } = snippet;
+  const { channelId } = resourceId;
   const { totalItemCount } = contentDetails;
   const {
-    default: { url: channelThumbnail },
+    high: { url: channelThumbnail },
   } = thumbnails;
 
   return (
-    <Box sx={{ display: "flex", gap: "100px" }}>
-      <div>
-        <img
-          style={{
-            height: "136px",
-            width: "136px",
-            objectFit: "cover",
-            borderRadius: "50%",
-          }}
-          src={channelThumbnail}
-          alt="channelThumbnail"
-        />
-      </div>
-      <Box>
-        <ChannelName>
-          {title}
-          <CheckCircleIcon />
-        </ChannelName>
-        <ChannelMetadata>
-          @{title}
-          {" • "}
-          {formatCompactNumber(totalItemCount)} videos
-        </ChannelMetadata>
-        <ChannelMetadata>{description}</ChannelMetadata>
+    <Link to={`/channel/${channelId}`}>
+      <Box sx={{ display: "flex", gap: "100px" }}>
+        <div>
+          <img
+            style={{
+              height: "136px",
+              width: "136px",
+              objectFit: "cover",
+              borderRadius: "50%",
+            }}
+            referrerPolicy="no-referrer"
+            src={channelThumbnail}
+            alt="channelThumbnail"
+          />
+        </div>
+        <Box>
+          <ChannelName>
+            {title}
+            <CheckCircleIcon />
+          </ChannelName>
+          <ChannelMetadata>
+            {/* @{title}
+            {" • "} */}
+            {formatCompactNumber(totalItemCount)} videos
+          </ChannelMetadata>
+          <ChannelMetadata>{description}</ChannelMetadata>
+        </Box>
       </Box>
-    </Box>
+    </Link>
   );
 };
 

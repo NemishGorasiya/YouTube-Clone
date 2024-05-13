@@ -7,7 +7,19 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import PlaylistCard from "./PlaylistCard";
 import InfiniteScroll from "../InfiniteScroll";
 
-const Playlists = () => {
+const renderItem = (playlist) => (
+  <PlaylistCard key={playlist.id} playlist={playlist} />
+);
+
+const PlaylistGrid = styled(MuiGrid)(() => ({
+  display: "grid",
+  gap: "16px",
+  rowGap: "16px",
+  gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+  pt: 3,
+}));
+
+const Playlists = ({ channelId }) => {
   const [searchParams] = useSearchParams();
   const [playlists, setPlaylists] = useState({
     list: [],
@@ -19,20 +31,14 @@ const Playlists = () => {
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
-  const PlaylistGrid = styled(MuiGrid)(() => ({
-    display: "grid",
-    gap: 2,
-    rowGap: 5,
-    gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
-    pt: 3,
-  }));
-
   const getPlaylists = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
       const queryParams = {
         part: "snippet,contentDetails,status",
         ...(listQuery === "LL"
           ? { id: "LL" }
+          : channelId
+          ? { channelId, pageToken: nextPageToken }
           : { mine: true, pageToken: nextPageToken }),
       };
       try {
@@ -53,7 +59,7 @@ const Playlists = () => {
         console.error(error.message);
       }
     },
-    [accessToken, listQuery]
+    [accessToken, channelId, listQuery]
   );
 
   const loadMorePlaylists = () => {
@@ -63,6 +69,11 @@ const Playlists = () => {
   };
 
   useEffect(() => {
+    setPlaylists({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+    });
     const abortController = new AbortController();
     getPlaylists({ abortController });
     return () => {
@@ -70,21 +81,8 @@ const Playlists = () => {
     };
   }, [getPlaylists]);
 
-  const renderItem = (playlist) => (
-    <PlaylistCard key={playlist.id} playlist={playlist} />
-  );
-
   return (
-    <PlaylistGrid
-      container
-      // sx={{
-      //   display: "grid",
-      //   gap: 2,
-      //   rowGap: 5,
-      //   gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
-      //   pt: 3,
-      // }}
-    >
+    <PlaylistGrid container>
       <InfiniteScroll
         items={list}
         fetchMoreData={loadMorePlaylists}

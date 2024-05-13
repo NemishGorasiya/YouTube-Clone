@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const VideoImageWrapper = styled(MuiBox)(() => ({
-  minWidth: "100px",
+  width: "140px",
   aspectRatio: "16/9",
 }));
 
@@ -45,7 +45,7 @@ const PlaylistItem = ({ playlistItem }) => {
       playlistId,
       resourceId: { videoId },
       thumbnails: {
-        default: { url },
+        high: { url },
       },
       videoOwnerChannelTitle,
     },

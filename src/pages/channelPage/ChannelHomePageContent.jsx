@@ -3,6 +3,9 @@ import VideoSlider from "../../components/VideoSlider";
 import { fetchChannelSections } from "../../services/services";
 import Loader from "../../components/loader/Loader";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { styled } from "@mui/material";
+import MuiDivider from "@mui/material/Divider";
+import MuiBox from "@mui/material/Box";
 
 const ChannelHomePageContent = ({ channelId }) => {
   const [channelSections, setChannelSections] = useState({
@@ -38,20 +41,44 @@ const ChannelHomePageContent = ({ channelId }) => {
     },
     [accessToken, channelId]
   );
+
+  const ContentWrapper = styled(MuiBox)(() => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+  }));
+
+  const Divider = styled(MuiDivider)(() => ({
+    borderBottomWidth: "1px",
+    background: "grey",
+  }));
+
   useEffect(() => {
-    // const abortController = new AbortController();
-    // getChannelSections({ abortController: abortController });
-    // return () => {
-    //   abortController.abort();
-    // };
+    const abortController = new AbortController();
+    getChannelSections({ abortController: abortController });
+    return () => {
+      abortController.abort();
+    };
   }, [getChannelSections]);
   return (
     <>
-      {false ? (
+      {isLoading ? (
         <Loader />
       ) : (
-        // list.map((section) => <h1 key={section.id}>{section.snippet.type}</h1>)
-        <VideoSlider playlistId={"PL9K3xwFkFqWEUOC39i3GD1mio7QMGveuU"} />
+        <ContentWrapper>
+          {list.map(
+            (section) =>
+              section?.contentDetails?.playlists?.length && (
+                <>
+                  <VideoSlider
+                    key={section.id}
+                    playlistId={section.contentDetails.playlists[0]}
+                  />
+                  <Divider />
+                </>
+              )
+          )}
+        </ContentWrapper>
       )}
     </>
   );

@@ -9,6 +9,68 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
+const VideoCountBadge = styled(MuiBox)(() => ({
+  position: "absolute",
+  bottom: "3px",
+  right: "3px",
+  display: "flex",
+  alignItems: "center",
+  fontSize: "12px",
+  background: "#000",
+  padding: "1px 4px",
+  borderRadius: "4px",
+  color: "#fff",
+}));
+
+const PlaylistCardThumbnail = styled(MuiBox)(({ theme }) => ({
+  display: "flex",
+  aspectRatio: "16/9",
+  borderRadius: "8px",
+  position: "relative",
+  zIndex: "1",
+  outline: `1px solid ${theme.palette.background.default}`,
+}));
+
+const PlaylistMetadata = styled(MuiTypography)(({ theme, isTitle }) => ({
+  fontSize: "13px",
+  lineHeight: "18px",
+  fontFamily: "Roboto, Arial, sans-serif",
+  color: theme.palette.primary.light,
+  ...(isTitle
+    ? { color: theme.palette.primary.main, fontSize: "15px", fontWeight: 600 }
+    : {}),
+}));
+
+const PlaylistCardStackLayer = styled(MuiBox)(({ theme, layer }) => ({
+  position: "absolute",
+  height: "90%",
+  left: "50%",
+  transform: "translateX(-50%)",
+  borderRadius: "inherit",
+  ...(layer === 1
+    ? {
+        background: "#868686",
+        outline: `1px solid ${theme.palette.background.default}`,
+        width: "93%",
+        zIndex: "-1",
+        top: "-5px",
+      }
+    : layer === 2
+    ? {
+        width: "85%",
+        background: "rgb(96, 96, 96)",
+        top: "-10px",
+        zIndex: "-2",
+      }
+    : {}),
+}));
+
+const PlaylistCardComponent = styled(MuiGrid)(() => ({
+  gap: "10px",
+  display: "grid",
+  cursor: "pointer",
+}));
+
 const PlaylistCard = ({ playlist }) => {
   const {
     id,
@@ -28,68 +90,6 @@ const PlaylistCard = ({ playlist }) => {
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
-  const VideoCountBadge = styled(MuiBox)(() => ({
-    position: "absolute",
-    bottom: "3px",
-    right: "3px",
-    display: "flex",
-    alignItems: "center",
-    fontSize: "12px",
-    background: "#000",
-    padding: "1px 4px",
-    borderRadius: "4px",
-    color: "#fff",
-  }));
-
-  const PlaylistCardThumbnail = styled(MuiBox)(({ theme }) => ({
-    display: "flex",
-    aspectRatio: "16/9",
-    borderRadius: "8px",
-    position: "relative",
-    zIndex: "1",
-    outline: `1px solid ${theme.palette.background.default}`,
-  }));
-
-  const PlaylistMetadata = styled(MuiTypography)(({ theme, isTitle }) => ({
-    fontSize: "13px",
-    lineHeight: "18px",
-    fontFamily: "Roboto, Arial, sans-serif",
-    color: theme.palette.primary.light,
-    ...(isTitle
-      ? { color: theme.palette.primary.main, fontSize: "15px", fontWeight: 600 }
-      : {}),
-  }));
-
-  const PlaylistCardStackLayer = styled(MuiBox)(({ theme, layer }) => ({
-    position: "absolute",
-    height: "90%",
-    left: "50%",
-    transform: "translateX(-50%)",
-    borderRadius: "inherit",
-    ...(layer === 1
-      ? {
-          background: "#868686",
-          outline: `1px solid ${theme.palette.background.default}`,
-          width: "93%",
-          zIndex: "-1",
-          top: "-5px",
-        }
-      : layer === 2
-      ? {
-          width: "85%",
-          background: "rgb(96, 96, 96)",
-          top: "-10px",
-          zIndex: "-2",
-        }
-      : {}),
-  }));
-
-  const PlaylistCardComponent = styled(MuiGrid)(() => ({
-    gap: "10px",
-    display: "grid",
-    cursor: "pointer",
-  }));
-
   const handelPlaylistClick = async () => {
     const queryParams = {
       part: "snippet",
@@ -97,8 +97,6 @@ const PlaylistCard = ({ playlist }) => {
       maxResults: 1,
       key: import.meta.env.VITE_GOOGLE_API_KEY,
     };
-
-    console.log("first");
     try {
       const res = await fetchPlaylistItems({
         queryParams,
@@ -112,7 +110,7 @@ const PlaylistCard = ({ playlist }) => {
             resourceId: { videoId },
           },
         } = items[0];
-        navigate(`/watch?v=${videoId}&list=${id}`);
+        navigate(`/watch?v=${videoId}&list=${id}&listName=${title}`);
       } else {
         console.log("something went wrong");
       }
