@@ -30,17 +30,12 @@ const ChannelLink = styled(Link)(() => ({
   gap: "8px",
 }));
 
-const LikeDislikeBtnWrapper = styled(Button)(() => ({
-  display: "flex",
-  alignItems: "center",
-  border: "1px solid",
-  borderColor: "divider",
-  borderRadius: 8,
-  bgcolor: "background.paper",
-  color: "text.secondary",
-  "& svg": {
-    m: 1,
-  },
+const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
+  maxHeight: "500px",
+  overflow: "auto",
+  background: theme.palette.background.light,
+  padding: 3,
+  borderRadius: "12px",
 }));
 
 const WatchVideoPage = () => {
@@ -175,9 +170,14 @@ const WatchVideoPage = () => {
 
         <CommentsSection videoId={videoId} channelId={channelId} />
       </Box>
-      {/* <Box className="relatedVideosWrapper">
+      <Box className="relatedVideosWrapper">
         {playlistId && (
-          <PlaylistPanel playlistId={playlistId} playlistName={playlistName} />
+          <PlaylistPanelWrapper>
+            <PlaylistPanel
+              playlistId={playlistId}
+              playlistName={playlistName}
+            />
+          </PlaylistPanelWrapper>
         )}
         <Box className="relatedVideos">
           Related Videos
@@ -194,7 +194,7 @@ const WatchVideoPage = () => {
             isListView={true}
           />
         </Box>
-      </Box> */}
+      </Box>
       <ScrollToTopButton />
     </Box>
   );

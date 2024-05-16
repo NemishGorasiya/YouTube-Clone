@@ -57,7 +57,6 @@ const CommentsSection = ({ videoId, channelId }) => {
 
   const handleAddComment = async (event) => {
     event.preventDefault();
-    console.log("called");
     const data = new FormData(event.target);
     const comment = data.get("newComment");
 

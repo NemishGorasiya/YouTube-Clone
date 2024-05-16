@@ -8,13 +8,7 @@ import PlaylistItem from "./PlaylistItem";
 import PropTypes from "prop-types";
 
 const PlaylistPanelComponent = styled(MuiBox)(({ theme }) => ({
-  background: theme.palette.background.light,
-  borderRadius: "14px",
   padding: "12px",
-}));
-const PlaylistItemsWrapper = styled(MuiBox)(() => ({
-  maxHeight: "500px",
-  overflow: "auto",
 }));
 
 const PlaylistPanel = ({ playlistId, playlistName }) => {
@@ -83,14 +77,12 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
   return (
     <PlaylistPanelComponent>
       {playlistName}
-      <PlaylistItemsWrapper>
-        <InfiniteScroll
-          items={list}
-          fetchMoreData={loadMorePlaylistItems}
-          isLoading={isLoading}
-          renderItem={renderItem}
-        />
-      </PlaylistItemsWrapper>
+      <InfiniteScroll
+        items={list}
+        fetchMoreData={loadMorePlaylistItems}
+        isLoading={isLoading}
+        renderItem={renderItem}
+      />
     </PlaylistPanelComponent>
   );
 };

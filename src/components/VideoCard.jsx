@@ -99,12 +99,10 @@ const VideoCard = ({ video, isListView = false }) => {
   const { url } = high || {};
 
   const handleVideoCardClick = () => {
-    console.log("first");
     navigate(`/watch?v=${id.videoId ?? id}`);
   };
 
   const navigateToChannelPage = (event) => {
-    console.log("second");
     event.stopPropagation();
     navigate(`/channel/${channelId}`);
   };
@@ -127,7 +125,6 @@ const VideoCard = ({ video, isListView = false }) => {
           const { thumbnails } = snippet ?? {};
           const { high } = thumbnails ?? {};
           const { url } = high ?? {};
-          console.log(url);
           setChannelThumbnail({
             url: url,
             isLoading: false,

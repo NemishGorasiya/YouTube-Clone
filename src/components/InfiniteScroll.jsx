@@ -7,11 +7,9 @@ const InfiniteScroll = ({ items, renderItem, fetchMoreData, isLoading }) => {
   const observer = useRef();
   const lastUserRef = useCallback(
     (node) => {
-      console.log("node", node);
       if (isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        console.log(entries);
         if (entries[0].isIntersecting) {
           fetchMoreData();
         }

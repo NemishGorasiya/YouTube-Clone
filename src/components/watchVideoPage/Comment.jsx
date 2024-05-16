@@ -33,7 +33,6 @@ const Comment = ({ snippet, totalReplyCount, commentId }) => {
   const { accessToken } = user;
 
   const toggleReplyInputVisibility = () => {
-    console.log("reply");
     setIsReplyCommentInputVisible((prevState) => !prevState);
   };
 

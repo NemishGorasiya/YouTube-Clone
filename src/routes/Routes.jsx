@@ -12,6 +12,7 @@ import WatchVideoPage from "../pages/watchVideoPage/WatchVideoPage";
 import ChannelPage from "../pages/channelPage/ChannelPage";
 import ProtectedRoute from "./ProtectedRoute";
 import SubscribedChannelsPage from "../pages/feedPage/SubscribedChannelsPage";
+import PlaylistPage from "../pages/playlistPage/PlaylistPage";
 
 export const router = createBrowserRouter([
   {
@@ -70,7 +71,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "/playlist",
-            element: <Playlists />,
+            element: <PlaylistPage />,
           },
         ],
       },

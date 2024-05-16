@@ -6,7 +6,7 @@ import MuiTypography from "@mui/material/Typography";
 import { calcDistanceToNow } from "../../utils/utilityFunction";
 import { fetchPlaylistItems } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const VideoCountBadge = styled(MuiBox)(() => ({
@@ -73,7 +73,7 @@ const PlaylistCardComponent = styled(MuiGrid)(() => ({
 
 const PlaylistCard = ({ playlist }) => {
   const {
-    id,
+    id: playlistId,
     snippet: {
       title,
       publishedAt,
@@ -146,7 +146,9 @@ const PlaylistCard = ({ playlist }) => {
         <PlaylistMetadata>
           published {calcDistanceToNow({ time: publishedAt })}
         </PlaylistMetadata>
-        <PlaylistMetadata>View full playlist</PlaylistMetadata>
+        <Link to={`/playlist?list=${playlistId}`}>
+          <PlaylistMetadata>View full playlist</PlaylistMetadata>
+        </Link>
       </Box>
     </PlaylistCardComponent>
   );

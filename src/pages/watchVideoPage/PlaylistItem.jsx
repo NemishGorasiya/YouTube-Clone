@@ -4,9 +4,12 @@ import MuiTypography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const VideoImageWrapper = styled(MuiBox)(() => ({
+const VideoImageWrapper = styled(MuiBox)(({ theme }) => ({
   width: "140px",
   aspectRatio: "16/9",
+  [theme.breakpoints.down("sm")]: {
+    width: "100px",
+  },
 }));
 
 const VideoImage = styled("img")(() => ({
@@ -57,7 +60,7 @@ const PlaylistItem = ({ playlistItem }) => {
         <VideoImageWrapper>
           <VideoImage src={url} alt="Video Thumbnail" />
         </VideoImageWrapper>
-        <Box sx={{ flex: 1, width: "100px" }}>
+        <Box sx={{ flex: 1 }}>
           <VideoTitle>{title}</VideoTitle>
           <ChannelName>{videoOwnerChannelTitle}</ChannelName>
         </Box>
