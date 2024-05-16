@@ -3,6 +3,7 @@ import { fetchComments } from "../../services/services";
 import Comment from "./Comment";
 import { Button } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const CommentReplies = ({ parentId, accessToken, totalReplyCount }) => {
   const [commentReplies, setCommentReplies] = useState({
@@ -59,12 +60,27 @@ const CommentReplies = ({ parentId, accessToken, totalReplyCount }) => {
     }
   };
 
+  useEffect(() => {
+    setCommentReplies({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+      hasMore: false,
+    });
+  }, [isCommentsRepliesVisible]);
+
   return (
     <>
       <Button
         variant="text"
         onClick={handleReplyCountClick}
-        startIcon={<KeyboardArrowDownIcon />}
+        startIcon={
+          isCommentsRepliesVisible ? (
+            <KeyboardArrowUpIcon />
+          ) : (
+            <KeyboardArrowDownIcon />
+          )
+        }
       >
         {totalReplyCount} Replies
       </Button>
