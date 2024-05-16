@@ -2,7 +2,7 @@ import { Box, Button, TextField, useMediaQuery } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Comment from "../../components/watchVideoPage/Comment";
-import { addComment, fetchVideos } from "../../services/services";
+import { addComment, fetchComments } from "../../services/services";
 import "./CommentsSection.scss";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
@@ -14,25 +14,28 @@ const CommentsSection = ({ videoId, channelId }) => {
     list: [],
     isLoading: true,
     nextPageToken: "",
+    hasMore: false,
   });
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
-  console.log("videoId in comment", videoId);
-
   const { list, isLoading, nextPageToken } = comments;
 
-  const fetchComments = useCallback(
+  const getComments = useCallback(
     async ({ nextPageToken, abortController }) => {
       try {
-        setComments((prevComments) => ({
-          ...prevComments,
-          isLoading: true,
-        }));
-        const response = await fetchVideos({
-          nextPageToken: nextPageToken,
-          url: `/commentThreads?part=snippet,replies&videoId=${videoId}`,
+        const queryParams = {
+          part: "snippet",
+          videoId: videoId,
+          order: "relevance",
+          key: import.meta.env.VITE_GOOGLE_API_KEY,
+          pageToken: nextPageToken,
+        };
+        const response = await fetchComments({
+          queryParams,
           abortController: abortController,
+          accessToken,
+          url: "/commentThreads",
         });
         setComments((prevComments) => ({
           list: [...prevComments.list, ...response.items],
@@ -43,12 +46,12 @@ const CommentsSection = ({ videoId, channelId }) => {
         console.error(error);
       }
     },
-    [videoId]
+    [accessToken, videoId]
   );
 
   const loadMoreComments = () => {
     if (nextPageToken) {
-      fetchComments({ nextPageToken: nextPageToken });
+      getComments({ nextPageToken: nextPageToken });
     }
   };
 
@@ -92,14 +95,19 @@ const CommentsSection = ({ videoId, channelId }) => {
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    fetchComments({ abortController: abortController });
+    getComments({ abortController: abortController });
     return () => {
       abortController.abort();
     };
-  }, [fetchComments]);
+  }, [getComments]);
 
   const renderItem = (comment) => (
-    <Comment key={comment.id} snippet={comment.snippet} />
+    <Comment
+      key={comment.id}
+      snippet={comment.snippet.topLevelComment.snippet}
+      commentId={comment.id}
+      totalReplyCount={comment.snippet.totalReplyCount}
+    />
   );
 
   return (
@@ -112,17 +120,18 @@ const CommentsSection = ({ videoId, channelId }) => {
               component="img"
               alt="Channel Thumbnail"
               src="https://placehold.jp/150x150.png"
+              referrerPolicy="no-referrer"
             ></Box>
             <form
               onSubmit={handleAddComment}
               style={{ display: "flex", width: "100%" }}
             >
               <TextField
-                id="standard-basic"
                 label="Add a comment..."
                 variant="standard"
                 name="newComment"
                 sx={{ flex: "1" }}
+                autoComplete="off"
               />
               <Button type="submit" variant="contained">
                 Comment
@@ -147,11 +156,21 @@ const CommentsSection = ({ videoId, channelId }) => {
                 alt="Channel Thumbnail"
                 src="https://placehold.jp/150x150.png"
               ></Box>
-              <TextField
-                id="standard-basic"
-                label="Add a comment..."
-                variant="standard"
-              />
+              <form
+                onSubmit={handleAddComment}
+                style={{ display: "flex", width: "100%" }}
+              >
+                <TextField
+                  label="Add a comment..."
+                  variant="standard"
+                  name="newComment"
+                  sx={{ flex: "1" }}
+                  autoComplete="off"
+                />
+                <Button type="submit" variant="contained">
+                  Comment
+                </Button>
+              </form>
             </Box>
             <Box className="commentsContainer">
               <InfiniteScroll

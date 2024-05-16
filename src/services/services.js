@@ -28,15 +28,19 @@ export const fetchVideos = async ({
   }
 };
 
-export const getComments = async ({
-  nextPageToken,
-  url: relativeUrl,
+export const fetchComments = async ({
+  queryParams,
   abortController,
+  accessToken,
+  url,
 }) => {
-  const nextPageTokenParam = nextPageToken ? `&pageToken=${nextPageToken}` : "";
-  const url = BASE_URL + relativeUrl + nextPageTokenParam + API_KEY_PARAM;
-  const options = abortController ? { signal: abortController.signal } : {};
-  const response = await axios.get(url, options);
+  const response = await axiosInstance.get(url, {
+    params: queryParams,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    signal: abortController?.signal,
+  });
   const responseData = response.data;
   if (responseData) {
     return responseData;
@@ -142,12 +146,32 @@ export const fetchPlaylists = async ({
 export const addComment = async ({ queryParams, data, accessToken }) => {
   const url = "/commentThreads";
   try {
-    const response = await axiosInstance.post(url, {
+    const response = await axiosInstance.post(url, data, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      data: data,
+    });
+    const responseData = response.data;
+    if (responseData) {
+      return responseData;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const replyComment = async ({ queryParams, data, accessToken }) => {
+  const url = "/comments";
+  try {
+    const response = await axiosInstance.post(url, data, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     });
     const responseData = response.data;
     if (responseData) {

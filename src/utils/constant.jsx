@@ -86,18 +86,18 @@ export const SideBarLinks = [
       },
     ],
   },
-  // {
-  //   title: "Browse Channels",
-  //   links: [
-  //     {
-  //       icon: <AddCircleOutlineIcon />,
-  //       filledIcon: <AddCircleOutlineOutlinedIcon />,
-  //       outlinedIcon: <AddCircleOutlineIcon />,
-  //       label: "Browse channels",
-  //       link: "/feed/subscription",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Browse Channels",
+    links: [
+      {
+        icon: <AddCircleOutlineIcon />,
+        filledIcon: <AddCircleOutlineOutlinedIcon />,
+        outlinedIcon: <AddCircleOutlineIcon />,
+        label: "Browse channels",
+        link: "/feed/subscription",
+      },
+    ],
+  },
 ];
 
 export const subscriptionStatusList = [

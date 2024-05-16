@@ -16,6 +16,7 @@ export function debounce(func, delay = 500) {
 }
 
 export const calcDistanceToNow = ({ time }) => {
+  console.log("time", time);
   return formatDistanceToNow(time, { addSuffix: true });
 };
 

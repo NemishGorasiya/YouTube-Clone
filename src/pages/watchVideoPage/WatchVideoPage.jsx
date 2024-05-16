@@ -4,6 +4,7 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Box from "@mui/material/Box";
+import MuiBox from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiDivider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -18,6 +19,7 @@ import PlaylistPanel from "./PlaylistPanel";
 import ScrollToTopButton from "./ScrollToTopButton";
 import VideoDescription from "./VideoDescription";
 import "./WatchVideoPage.scss";
+import { formatCompactNumber } from "../../utils/utilityFunction";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -26,6 +28,19 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
 const ChannelLink = styled(Link)(() => ({
   display: "flex",
   gap: "8px",
+}));
+
+const LikeDislikeBtnWrapper = styled(Button)(() => ({
+  display: "flex",
+  alignItems: "center",
+  border: "1px solid",
+  borderColor: "divider",
+  borderRadius: 8,
+  bgcolor: "background.paper",
+  color: "text.secondary",
+  "& svg": {
+    m: 1,
+  },
 }));
 
 const WatchVideoPage = () => {
@@ -56,13 +71,13 @@ const WatchVideoPage = () => {
     [videoId]
   );
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    fetchVideoDetails({ abortController: abortController });
-    return () => {
-      abortController.abort();
-    };
-  }, [fetchVideoDetails]);
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   fetchVideoDetails({ abortController: abortController });
+  //   return () => {
+  //     abortController.abort();
+  //   };
+  // }, [fetchVideoDetails]);
 
   return (
     <Box className="videoPageContainer">
@@ -117,15 +132,29 @@ const WatchVideoPage = () => {
               <Button variant="contained">Subscribe</Button>
             </Stack>
             <Stack direction="row" spacing={1.5}>
-              <Button
-                variant="outlined"
-                startIcon={<ThumbUpIcon />}
-                endIcon={<ThumbDownIcon />}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  borderRadius: 8,
+                  bgcolor: "background.paper",
+                  color: "text.secondary",
+                  "& svg": {
+                    m: 1,
+                  },
+                }}
               >
-                {likeCount}
-                <Divider orientation="vertical" />
-              </Button>
-              <Button
+                <Button sx={{ p: 0, borderRadius: 0, pr: 1 }}>
+                  <ThumbUpIcon /> {"1.8M"}
+                </Button>
+                <Divider orientation="vertical" variant="middle" flexItem />
+                <Button sx={{ p: 0, borderRadius: 0 }}>
+                  <ThumbDownIcon />
+                </Button>
+              </Box>
+              {/* <Button
                 variant="outlined"
                 startIcon={<ReplyIcon sx={{ transform: "rotateY(180deg)" }} />}
               >
@@ -133,7 +162,7 @@ const WatchVideoPage = () => {
               </Button>
               <Button variant="outlined" startIcon={<DownloadIcon />}>
                 Download
-              </Button>
+              </Button> */}
             </Stack>
           </Box>
           <Box
@@ -143,9 +172,10 @@ const WatchVideoPage = () => {
             <VideoDescription description={description} />
           </Box>
         </Box>
+
         <CommentsSection videoId={videoId} channelId={channelId} />
       </Box>
-      <Box className="relatedVideosWrapper">
+      {/* <Box className="relatedVideosWrapper">
         {playlistId && (
           <PlaylistPanel playlistId={playlistId} playlistName={playlistName} />
         )}
@@ -164,7 +194,7 @@ const WatchVideoPage = () => {
             isListView={true}
           />
         </Box>
-      </Box>
+      </Box> */}
       <ScrollToTopButton />
     </Box>
   );
