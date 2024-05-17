@@ -28,7 +28,7 @@ const TopBarRight = () => {
   const navigate = useNavigate();
   const { changeThemeMode } = useContext(ThemeContext);
   const [user, setUser, removeUser] = useLocalStorage("user", {});
-  const { accessToken, username, email } = user ?? {};
+  const { accessToken, username, email, profilePicture } = user ?? {};
   const [isLoggedIn, setIsLoggedIn] = useState(
     accessToken !== undefined || accessToken !== null || accessToken !== ""
       ? true
@@ -77,14 +77,14 @@ const TopBarRight = () => {
           abortController: abortController,
         });
         if (res) {
-          const { access_token = "", refresh_token = "" } = res;
+          const { access_token = "", id_token = "" } = res;
           const userInfo = await getUserInfo({ accessToken: access_token });
           const { name, picture, email } = userInfo;
           if (userInfo) {
             navigate("/");
             setUser({
               accessToken: access_token,
-              refreshToken: refresh_token,
+              refreshToken: id_token,
               username: name,
               profilePicture: picture,
               email: email,
@@ -135,7 +135,7 @@ const TopBarRight = () => {
           >
             <img
               style={{ width: "32px", height: "32px", borderRadius: "50%" }}
-              src="https://lh3.googleusercontent.com/a/ACg8ocLyfWhFxI_VnjHOfqj7CFp-ifqLtbCs8Wnvor9rBBfWinVU=s96-c"
+              src={profilePicture}
               alt="user"
               referrerPolicy="no-referrer"
               onError={(event) => {
@@ -189,7 +189,8 @@ const TopBarRight = () => {
                   objectFit: "cover",
                   borderRadius: "50%",
                 }}
-                src="https://placehold.co/600x400"
+                src={profilePicture}
+                referrerPolicy="no-referrer"
                 alt="profileImage"
               />
               <div>

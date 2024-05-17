@@ -5,12 +5,13 @@ import { formatCompactNumber } from "../../utils/utilityFunction";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const ChannelName = styled(MuiTypography)(() => ({
+const ChannelName = styled(MuiTypography)(({ theme }) => ({
   fontSize: "18px",
   lineHeight: "26px",
   marginBottom: "7px",
   display: "flex",
   alignItems: "center",
+  color: theme.palette.primary.main,
 }));
 const CheckCircleIcon = styled(MuiCheckCircleIcon)(({ theme }) => ({
   fontSize: "14px",

@@ -2,67 +2,210 @@ import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import List from "@mui/material/List";
 import MuiListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
+// import ListItemButton from "@mui/material/ListItemButton";
+import MuiListItemButton from "@mui/material/ListItemButton";
 import MuiListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
+import MuiTypography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import MuiBox from "@mui/material/Box";
 import { SideBarLinks } from "../../utils/constant";
-import { Fragment } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 import { NavLink, useSearchParams } from "react-router-dom";
+import { fetchData, fetchSubscribedChannels } from "../../services/services";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import Loader from "../loader/Loader";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  ...theme.mixins.toolbar,
+}));
+
+const ListItemButton = styled(MuiListItemButton)(({ open }) => ({
+  paddingRight: "13px",
+  paddingLeft: "13px",
+  gap: "24px",
+  height: "40px",
+  position: "relative",
+  ...(open
+    ? {}
+    : {
+        flexDirection: "column",
+        gap: "0",
+        height: "auto",
+      }),
+}));
+
+const ListItem = styled(MuiListItem)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  borderRadius: "10px",
+  padding: "0",
+  "&:hover": {
+    background: theme.palette.background.light,
+  },
+}));
+
+const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
+  display: "flex",
+  justifyContent: "center",
+  ...(open && {
+    width: "224px", // 220 + 12 + 12 (paddingX=12)
+  }),
+  ...(!open && {
+    width: "74px",
+  }),
+
+  "& .MuiPaper-root": {
+    background: theme.palette.background.default,
+    color: theme.palette.primary.main,
+    padding: "0 12px",
+    border: "none",
+    ...(open && {
+      width: "224px",
+    }),
+    ...(!open && {
+      width: "74px",
+    }),
+  },
+}));
+
+const ListItemIcon = styled(MuiListItemIcon)(({ theme }) => ({
+  color: theme.palette.primary.light,
+  minWidth: 0,
+  height: "24px",
+  width: "24px",
+}));
+
+const ListItemIconImage = styled("img")({
+  height: "100%",
+  width: "100%",
+  borderRadius: "50%",
+  objectFit: "cover",
+});
+const NewItemIndicator = styled(MuiBox)(({ open }) => ({
+  position: "absolute",
+  height: "4px",
+  width: "4px",
+  borderRadius: "50%",
+  top: "50%",
+  right: "5px",
+  transform: "translateY(-50%)",
+  background: "#3EA6FF",
+  ...(!open && {
+    display: "none",
+  }),
+}));
+
+const NavBarListTitle = styled("p")(({ open }) => ({
+  paddingLeft: "13px",
+  display: "flex",
+  alignItems: "center",
+  ...(!open && {
+    display: "none",
+  }),
+}));
+
+const NavBarList = styled(List)(({ open }) =>
+  open ? { maxWidth: "200px" } : { maxWidth: "50px" }
+);
+
+const NavLinkTypography = styled(MuiTypography)(({ open }) =>
+  open
+    ? {}
+    : {
+        fontSize: "10px",
+        maxWidth: "50px",
+      }
+);
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const DrawerHeader = styled("div")(({ theme }) => ({
-    ...theme.mixins.toolbar,
-  }));
-  const ListItem = styled(MuiListItem)(({ theme }) => ({
-    color: theme.palette.primary.main,
-    borderRadius: "10px",
-    "&:hover": {
-      background: theme.palette.background.light,
-    },
-  }));
-
-  const Drawer = styled(MuiDrawer)(() => ({
-    display: "flex",
-    justifyContent: "center",
-    ...(open && {
-      width: "224px", // 220 + 12 + 12 (paddingX=12)
-    }),
-    ...(!open && {
-      width: "74px",
-    }),
-
-    "& .MuiPaper-root": {
-      background: theme.palette.background.default,
-      color: theme.palette.primary.main,
-      padding: "0 12px",
-      border: "none",
-      ...(open && {
-        width: "224px",
-      }),
-      ...(!open && {
-        width: "74px",
-      }),
-    },
-  }));
-
-  const ListItemIcon = styled(MuiListItemIcon)({
-    color: theme.palette.primary.light,
-    minWidth: 0,
+  const [subscribedChannels, setSubscribedChannels] = useState({
+    list: [],
+    isLoading: true,
+    hasMore: false,
+    nextPageToken: "",
   });
+  const {
+    list: subscribedChannelsList,
+    isLoading: isSubscribedChannelsLoading,
+    hasMore: hasMoreSubscribedChannels,
+    nextPageToken: subscribedChannelsNextPageToken,
+  } = subscribedChannels;
+
+  const [user] = useLocalStorage("user", {});
+  const { accessToken } = user;
 
   const [searchParams] = useSearchParams();
   const isActiveByQueryParam = (paramName, paramValue) => {
     const params = new URLSearchParams(searchParams);
     return params.get(paramName) === paramValue;
   };
+
+  const getSubscribedChannels = useCallback(
+    async ({ abortController, nextPageToken } = {}) => {
+      try {
+        const queryParams = {
+          part: "snippet,contentDetails",
+          mine: true,
+          pageToken: nextPageToken,
+        };
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        const res = await fetchData({
+          url: "/subscriptions",
+          queryParams,
+          headers,
+          abortController,
+        });
+        if (res) {
+          const { items, nextPageToken: nextPageTokenFromResponse } = res;
+          setSubscribedChannels((prevChannels) => ({
+            list: nextPageToken ? [...prevChannels.list, ...items] : items,
+            isLoading: false,
+            hasMore: nextPageTokenFromResponse ? true : false,
+            nextPageToken: nextPageTokenFromResponse,
+          }));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [accessToken]
+  );
+
+  const handleShowLessBtnClick = () => {
+    getSubscribedChannels();
+  };
+
+  const loadMoreSubscribedChannels = useCallback(() => {
+    if (subscribedChannelsNextPageToken) {
+      getSubscribedChannels({ nextPageToken: subscribedChannelsNextPageToken });
+    }
+  }, [getSubscribedChannels, subscribedChannelsNextPageToken]);
+
+  useEffect(() => {
+    setSubscribedChannels({
+      list: [],
+      isLoading: true,
+      hasMore: false,
+      nextPageToken: "",
+    });
+    const abortController = new AbortController();
+    getSubscribedChannels({ abortController });
+    return () => {
+      abortController.abort();
+    };
+  }, [getSubscribedChannels]);
 
   return (
     <Drawer
@@ -75,7 +218,11 @@ const SideBar = ({ open, toggleDrawer }) => {
       <DrawerHeader />
       {SideBarLinks.map((sideBarSection, idx) => (
         <Fragment key={idx}>
-          <List sx={open ? { maxWidth: "200px" } : { maxWidth: "50px" }}>
+          <NavBarList open={open}>
+            <NavBarListTitle open={open}>
+              {sideBarSection.title}
+              {sideBarSection.titleIcon}
+            </NavBarListTitle>
             {sideBarSection.links.map((link, idx) => (
               <NavLink
                 to={link.link}
@@ -93,46 +240,125 @@ const SideBar = ({ open, toggleDrawer }) => {
                     : {}
                 }
               >
-                <ListItem key={idx} sx={{ padding: 0 }}>
-                  <ListItemButton
-                    sx={{
-                      paddingX: "13px",
-                      gap: "24px",
-                      height: "40px",
-                      ...(open
-                        ? {}
-                        : {
-                            flexDirection: "column",
-                            gap: "0",
-                            height: "auto",
-                          }),
-                    }}
-                  >
+                <ListItem key={idx}>
+                  <ListItemButton open={open}>
                     <ListItemIcon>{link.icon}</ListItemIcon>
                     <ListItemText>
-                      <Typography
-                        variant="body2"
-                        noWrap
-                        sx={
-                          open
-                            ? {}
-                            : {
-                                fontSize: "10px",
-                                maxWidth: "50px",
-                              }
-                        }
-                      >
+                      <NavLinkTypography variant="body2" noWrap open={open}>
                         {link.label}
-                      </Typography>
+                      </NavLinkTypography>
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
               </NavLink>
             ))}
-          </List>
+          </NavBarList>
           <Divider />
         </Fragment>
       ))}
+
+      <NavBarList open={open}>
+        <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
+        {subscribedChannelsList.map((channel) => {
+          const {
+            snippet: {
+              title = "",
+              thumbnails: { default: { url = "" } = {} } = {},
+              resourceId: { channelId = "" } = {},
+            } = {},
+            contentDetails: { newItemCount = 0 } = {},
+          } = channel || {};
+
+          return (
+            title && (
+              <NavLink
+                key={channelId}
+                to={`/channel/${channelId}`}
+                style={({ isActive }) =>
+                  isActive
+                    ? {
+                        display: "block",
+                        background: theme.palette.background.light,
+                        borderRadius: "10px",
+                      }
+                    : {}
+                }
+              >
+                <ListItem>
+                  <ListItemButton open={open}>
+                    <ListItemIcon>
+                      <ListItemIconImage
+                        src={url}
+                        referrerPolicy="no-referrer"
+                        alt="channel logo"
+                      />
+                    </ListItemIcon>
+                    <ListItemText>
+                      <NavLinkTypography variant="body2" noWrap open={open}>
+                        {title}
+                      </NavLinkTypography>
+                    </ListItemText>
+                    {/* {newItemCount > 0 && <NewItemIndicator open={open} />} */}
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            )
+          );
+        })}
+
+        {subscribedChannelsList.length > 0 && (
+          <NavLink
+            to="/feed/channels"
+            style={({ isActive }) =>
+              isActive
+                ? {
+                    display: "block",
+                    background: theme.palette.background.light,
+                    borderRadius: "10px",
+                  }
+                : {}
+            }
+          >
+            <ListItem>
+              <ListItemButton open={open}>
+                <ListItemIcon>
+                  <FormatListBulletedIcon />
+                </ListItemIcon>
+                <ListItemText>
+                  <NavLinkTypography variant="body2" noWrap open={open}>
+                    All subscription
+                  </NavLinkTypography>
+                </ListItemText>
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+        )}
+
+        {subscribedChannelsList.length > 0 && (
+          <ListItem
+            onClick={
+              hasMoreSubscribedChannels
+                ? loadMoreSubscribedChannels
+                : handleShowLessBtnClick
+            }
+          >
+            <ListItemButton open={open}>
+              <ListItemIcon>
+                {hasMoreSubscribedChannels ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                <NavLinkTypography variant="body2" noWrap open={open}>
+                  Show {hasMoreSubscribedChannels ? "more" : "less"}
+                </NavLinkTypography>
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
+        )}
+      </NavBarList>
     </Drawer>
   );
 };

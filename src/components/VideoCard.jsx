@@ -11,7 +11,10 @@ import { styled } from "@mui/material/styles";
 import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { formatCompactNumber } from "../utils/utilityFunction";
+import {
+  calcDistanceToNow,
+  formatCompactNumber,
+} from "../utils/utilityFunction";
 import "./VideoCard.scss";
 import { useCallback, useEffect, useState } from "react";
 import { fetchChannelDetails } from "../services/services";
@@ -93,13 +96,14 @@ const VideoCard = ({ video, isListView = false }) => {
     channelTitle,
     channelId,
     thumbnails,
+    resourceId: { videoId = "" } = {},
     liveBroadcastContent,
   } = snippet || {};
   const { high } = thumbnails || {};
   const { url } = high || {};
 
   const handleVideoCardClick = () => {
-    navigate(`/watch?v=${id.videoId ?? id}`);
+    navigate(`/watch?v=${videoId || id}`);
   };
 
   const navigateToChannelPage = (event) => {
@@ -189,10 +193,10 @@ const VideoCard = ({ video, isListView = false }) => {
                     LIVE
                   </span>
                 ) : (
-                  `${formatCompactNumber(viewCount || "")}${" views "}`
+                  viewCount &&
+                  `${formatCompactNumber(viewCount || "")}${" views • "}`
                 )}
-                {" • "}
-                {formatDistanceToNow(publishedAt, { addSuffix: true })}
+                {calcDistanceToNow({ time: publishedAt })}
               </VideoMetadata>
             </VideoDetail>
           </CardContent>

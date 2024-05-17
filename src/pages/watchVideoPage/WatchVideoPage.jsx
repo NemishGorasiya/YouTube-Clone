@@ -19,7 +19,10 @@ import PlaylistPanel from "./PlaylistPanel";
 import ScrollToTopButton from "./ScrollToTopButton";
 import VideoDescription from "./VideoDescription";
 import "./WatchVideoPage.scss";
-import { formatCompactNumber } from "../../utils/utilityFunction";
+import {
+  calcDistanceToNow,
+  formatCompactNumber,
+} from "../../utils/utilityFunction";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -43,11 +46,22 @@ const WatchVideoPage = () => {
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
   const playlistName = searchParams.get("listName");
-  const [videoDetails, setVideoDetails] = useState({});
+  const [videoDetails, setVideoDetails] = useState({
+    data: {},
+    isLoading: true,
+  });
 
-  const { snippet, statistics } = videoDetails || {};
-  const { publishedAt, channelId, title, description, channelTitle, tags } =
-    snippet || {};
+  const { data, isLoading } = videoDetails;
+
+  const { snippet, statistics } = data || {};
+  const {
+    publishedAt = "",
+    channelId,
+    title,
+    description,
+    channelTitle,
+    tags,
+  } = snippet || {};
   const { viewCount, likeCount, commentCount } = statistics || {};
 
   const fetchVideoDetails = useCallback(
@@ -57,8 +71,13 @@ const WatchVideoPage = () => {
           url: `/videos?part=snippet,statistics&id=${videoId}`,
           abortController: abortController,
         });
-        const { items } = response;
-        setVideoDetails(items[0]);
+        if (response) {
+          const { items } = response;
+          setVideoDetails({
+            data: items[0],
+            isLoading: false,
+          });
+        }
       } catch (error) {
         console.error(error);
       }
@@ -66,13 +85,13 @@ const WatchVideoPage = () => {
     [videoId]
   );
 
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   fetchVideoDetails({ abortController: abortController });
-  //   return () => {
-  //     abortController.abort();
-  //   };
-  // }, [fetchVideoDetails]);
+  useEffect(() => {
+    const abortController = new AbortController();
+    fetchVideoDetails({ abortController: abortController });
+    return () => {
+      abortController.abort();
+    };
+  }, [fetchVideoDetails]);
 
   return (
     <Box className="videoPageContainer">
@@ -84,90 +103,97 @@ const WatchVideoPage = () => {
             allow="fullscreen"
             frameborder="0"
           ></iframe>
-          <h2 className="videoTitle">{title}</h2>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0 12px",
-              flexWrap: "wrap",
-            }}
-          >
-            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-              <ChannelLink to={`/channel/${channelId}`}>
-                <Box
-                  component="img"
-                  sx={{
-                    height: 50,
-                    width: 50,
-                    borderRadius: "50%",
-                  }}
-                  alt="Channel Thumbnail"
-                  src="https://placehold.jp/150x150.png"
-                />
-                <Stack>
-                  <Typography
-                    variant="h6"
-                    color="text.secondary"
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    {channelTitle}
-                    <CheckCircleIcon
-                      fontSize="x-small"
-                      sx={{ marginLeft: "5px" }}
-                    />
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    1.8M subscribers
-                  </Typography>
-                </Stack>
-              </ChannelLink>
-              <Button variant="outlined">Join</Button>
-              <Button variant="contained">Subscribe</Button>
-            </Stack>
-            <Stack direction="row" spacing={1.5}>
+          {isLoading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <>
+              <h2 className="videoTitle">{title}</h2>
               <Box
                 sx={{
                   display: "flex",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 8,
-                  bgcolor: "background.paper",
-                  color: "text.secondary",
-                  "& svg": {
-                    m: 1,
-                  },
+                  padding: "0 12px",
+                  flexWrap: "wrap",
                 }}
               >
-                <Button sx={{ p: 0, borderRadius: 0, pr: 1 }}>
-                  <ThumbUpIcon /> {"1.8M"}
-                </Button>
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <Button sx={{ p: 0, borderRadius: 0 }}>
-                  <ThumbDownIcon />
-                </Button>
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ alignItems: "center" }}
+                >
+                  <ChannelLink to={`/channel/${channelId}`}>
+                    <Box
+                      component="img"
+                      sx={{
+                        height: 50,
+                        width: 50,
+                        borderRadius: "50%",
+                      }}
+                      alt="Channel Thumbnail"
+                      src="https://placehold.jp/150x150.png"
+                    />
+                    <Stack>
+                      <Typography
+                        variant="h6"
+                        color="text.secondary"
+                        sx={{ display: "flex", alignItems: "center" }}
+                      >
+                        {channelTitle}
+                        <CheckCircleIcon
+                          fontSize="x-small"
+                          sx={{ marginLeft: "5px" }}
+                        />
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        1.8M subscribers
+                      </Typography>
+                    </Stack>
+                  </ChannelLink>
+                  <Button variant="outlined">Join</Button>
+                  <Button variant="contained">Subscribe</Button>
+                </Stack>
+                <Stack direction="row" spacing={1.5}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      border: "1px solid",
+                      borderColor: "divider",
+                      borderRadius: 8,
+                      bgcolor: "background.paper",
+                      color: "text.secondary",
+                      "& svg": {
+                        m: 1,
+                      },
+                    }}
+                  >
+                    <Button sx={{ p: 0, borderRadius: 0, pr: 1 }}>
+                      <ThumbUpIcon /> {"1.8M"}
+                    </Button>
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <Button sx={{ p: 0, borderRadius: 0 }}>
+                      <ThumbDownIcon />
+                    </Button>
+                  </Box>
+                </Stack>
               </Box>
-              {/* <Button
-                variant="outlined"
-                startIcon={<ReplyIcon sx={{ transform: "rotateY(180deg)" }} />}
+              <Box
+                sx={{
+                  background: "#272727",
+                  borderRadius: "8px",
+                  padding: "8px",
+                }}
               >
-                Share
-              </Button>
-              <Button variant="outlined" startIcon={<DownloadIcon />}>
-                Download
-              </Button> */}
-            </Stack>
-          </Box>
-          <Box
-            sx={{ background: "#272727", borderRadius: "8px", padding: "8px" }}
-          >
-            <Typography variant="body1">104k views 3 years ago #TAG</Typography>
-            <VideoDescription description={description} />
-          </Box>
+                <Typography variant="body1">
+                  {formatCompactNumber(viewCount)} views{" "}
+                  {calcDistanceToNow({ time: publishedAt })} ago #TAG
+                </Typography>
+                <VideoDescription description={description} />
+              </Box>
+            </>
+          )}
         </Box>
-
         <CommentsSection videoId={videoId} channelId={channelId} />
       </Box>
       <Box className="relatedVideosWrapper">
@@ -179,7 +205,7 @@ const WatchVideoPage = () => {
             />
           </PlaylistPanelWrapper>
         )}
-        <Box className="relatedVideos">
+        {/* <Box className="relatedVideos">
           Related Videos
           <VideoGallery
             url="/search"
@@ -193,7 +219,7 @@ const WatchVideoPage = () => {
             }}
             isListView={true}
           />
-        </Box>
+        </Box> */}
       </Box>
       <ScrollToTopButton />
     </Box>

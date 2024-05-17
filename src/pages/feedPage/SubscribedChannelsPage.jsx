@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getSubscribedChannels } from "../../services/services";
+import { fetchSubscribedChannels } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import ChannelCard from "./ChannelCard";
 import InfiniteScroll from "../../components/InfiniteScroll";
@@ -15,7 +15,7 @@ const SubscribedChannelsPage = () => {
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
-  const fetchSubscribedChannels = useCallback(
+  const getSubscribedChannels = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
       try {
         const queryParams = {
@@ -23,7 +23,7 @@ const SubscribedChannelsPage = () => {
           part: "snippet,contentDetails",
           pageToken: nextPageToken,
         };
-        const res = await getSubscribedChannels({
+        const res = await fetchSubscribedChannels({
           queryParams,
           accessToken,
           abortController: abortController,
@@ -46,7 +46,7 @@ const SubscribedChannelsPage = () => {
 
   const loadMore = () => {
     if (channels.nextPageToken) {
-      fetchSubscribedChannels({ nextPageToken: channels.nextPageToken });
+      getSubscribedChannels({ nextPageToken: channels.nextPageToken });
     }
   };
 
@@ -57,11 +57,11 @@ const SubscribedChannelsPage = () => {
       isLoading: true,
       nextPageToken: "",
     });
-    fetchSubscribedChannels({ abortController: abortController });
+    getSubscribedChannels({ abortController: abortController });
     return () => {
       abortController.abort();
     };
-  }, [fetchSubscribedChannels]);
+  }, [getSubscribedChannels]);
 
   const renderItem = (channel) => (
     <ChannelCard key={channel.id} channel={channel} />

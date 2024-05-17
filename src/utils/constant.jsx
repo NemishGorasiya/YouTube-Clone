@@ -14,6 +14,7 @@ import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined
 import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export const SideBarLinks = [
   {
@@ -43,7 +44,8 @@ export const SideBarLinks = [
     ],
   },
   {
-    title: "You >",
+    title: "You ",
+    titleIcon: <KeyboardArrowRightIcon />,
     links: [
       // {
       //   icon: <HistoryIcon />,
@@ -86,18 +88,18 @@ export const SideBarLinks = [
       },
     ],
   },
-  {
-    title: "Browse Channels",
-    links: [
-      {
-        icon: <AddCircleOutlineIcon />,
-        filledIcon: <AddCircleOutlineOutlinedIcon />,
-        outlinedIcon: <AddCircleOutlineIcon />,
-        label: "Browse channels",
-        link: "/feed/subscription",
-      },
-    ],
-  },
+  // {
+  //   title: "Browse Channels",
+  //   links: [
+  //     {
+  //       icon: <AddCircleOutlineIcon />,
+  //       filledIcon: <AddCircleOutlineOutlinedIcon />,
+  //       outlinedIcon: <AddCircleOutlineIcon />,
+  //       label: "Browse channels",
+  //       link: "/feed/subscription",
+  //     },
+  //   ],
+  // },
 ];
 
 export const subscriptionStatusList = [

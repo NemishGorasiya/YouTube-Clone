@@ -90,12 +90,7 @@ const PlaylistDetails = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-}));
-
-const PlaylistDetailTypography = styled(MuiTypography)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  width: "100%",
+  color: "#F1F1F1",
 }));
 
 const PlaylistPage = () => {

@@ -85,7 +85,7 @@ export const fetchChannelSections = async ({
   }
 };
 
-export const getSubscribedChannels = async ({
+export const fetchSubscribedChannels = async ({
   queryParams,
   accessToken,
   abortController,
@@ -211,5 +211,34 @@ export const fetchAccessToken = async ({ urlencoded, abortController }) => {
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const fetchData = async ({
+  url,
+  method = "GET",
+  queryParams = {},
+  headers = {},
+  data = null,
+  abortController = null,
+}) => {
+  try {
+    const config = {
+      method,
+      url,
+      params: { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY },
+      headers,
+      data,
+      ...(abortController && { signal: abortController.signal }),
+    };
+    const res = await axiosInstance(config);
+    return res.data;
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.error("Request canceled", error.message);
+    } else {
+      console.error("Error fetching data", error);
+    }
+    throw error;
   }
 };
