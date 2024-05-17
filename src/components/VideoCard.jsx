@@ -31,6 +31,23 @@ const CardMedia = styled(MuiCardMedia)(() => ({
   height: "auto",
 }));
 
+const CardMediaWrapper = styled(MuiBox)(() => ({
+  position: "relative",
+}));
+const VideoDurationBadge = styled(MuiBox)(() => ({
+  position: "absolute",
+  bottom: "8px",
+  right: "12px",
+  display: "flex",
+  alignItems: "center",
+  fontSize: "13px",
+  background: "rgba(0,0,0,0.6)",
+  fontWeight: "600",
+  padding: "4px",
+  borderRadius: "4px",
+  color: "#fff",
+}));
+
 const CardContent = styled(MuiCardContent)(() => ({
   padding: "8px 0",
   display: "flex",
@@ -152,12 +169,15 @@ const VideoCard = ({ video, isListView = false }) => {
     <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0} className="videoCard">
         <CardActionArea isListView={isListView}>
-          <CardMedia
-            isListView={isListView}
-            component="img"
-            image={url}
-            alt="Video Thumbnail"
-          />
+          <CardMediaWrapper>
+            <CardMedia
+              isListView={isListView}
+              component="img"
+              image={url}
+              alt="Video Thumbnail"
+            />
+            <VideoDurationBadge>54:18</VideoDurationBadge>
+          </CardMediaWrapper>
           <CardContent>
             {!isListView && (
               // <ChannelThumbnail

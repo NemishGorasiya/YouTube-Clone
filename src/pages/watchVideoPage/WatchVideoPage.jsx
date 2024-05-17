@@ -13,7 +13,7 @@ import { styled } from "@mui/material/styles";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import VideoGallery from "../../components/VideoGallery";
-import { fetchVideos } from "../../services/services";
+import { fetchData, fetchVideos } from "../../services/services";
 import CommentsSection from "./CommentsSection";
 import PlaylistPanel from "./PlaylistPanel";
 import ScrollToTopButton from "./ScrollToTopButton";
@@ -23,6 +23,7 @@ import {
   calcDistanceToNow,
   formatCompactNumber,
 } from "../../utils/utilityFunction";
+import { id } from "date-fns/locale";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -50,8 +51,20 @@ const WatchVideoPage = () => {
     data: {},
     isLoading: true,
   });
+  const [channelDetails, setChannelDetails] = useState({
+    data: {},
+    isLoading: false,
+  });
 
-  const { data, isLoading } = videoDetails;
+  const { data: channelData, isLoading: isChannelDetailsLoading } =
+    channelDetails || {};
+
+  const {
+    snippet: { thumbnails: { high: { url = "" } = {} } = {} } = {},
+    statistics: { subscriberCount = "" } = {},
+  } = channelData || {};
+
+  const { data = {}, isLoading = false } = videoDetails;
 
   const { snippet, statistics } = data || {};
   const {
@@ -72,7 +85,27 @@ const WatchVideoPage = () => {
           abortController: abortController,
         });
         if (response) {
-          const { items } = response;
+          setChannelDetails({
+            data: {},
+            isLoading: true,
+          });
+          const { items = [] } = response;
+          const { snippet: { channelId = "" } = {} } = items[0] || {};
+          const channelDetails = await fetchData({
+            url: "/channels",
+            queryParams: {
+              part: "snippet,statistics",
+              id: channelId,
+            },
+          });
+          if (channelDetails) {
+            const { items } = channelDetails;
+
+            setChannelDetails({
+              data: items[0],
+              isLoading: false,
+            });
+          }
           setVideoDetails({
             data: items[0],
             isLoading: false,
@@ -131,7 +164,8 @@ const WatchVideoPage = () => {
                         borderRadius: "50%",
                       }}
                       alt="Channel Thumbnail"
-                      src="https://placehold.jp/150x150.png"
+                      src={url}
+                      referrerPolicy="no-referrer"
                     />
                     <Stack>
                       <Typography
@@ -146,7 +180,7 @@ const WatchVideoPage = () => {
                         />
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
-                        1.8M subscribers
+                        {formatCompactNumber(subscriberCount)} subscribers
                       </Typography>
                     </Stack>
                   </ChannelLink>

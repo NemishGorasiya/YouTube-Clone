@@ -8,6 +8,8 @@ import { fetchPlaylistItems, fetchPlaylists } from "../../services/services";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { Margin } from "@mui/icons-material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 
 const PlaylistPageComponent = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -90,7 +92,14 @@ const PlaylistDetails = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
+  gap: 5,
   color: "#F1F1F1",
+}));
+
+const PlaylistDetailTypography = styled(MuiTypography)(() => ({
+  display: "flex",
+  alignItems: "center",
+  gap: 2,
 }));
 
 const PlaylistPage = () => {
@@ -155,10 +164,19 @@ const PlaylistPage = () => {
         </PlaylistImageWrapper>
         <PlaylistDetails>
           <h1>{playlistTitle}</h1>
-          <p>{description}</p>
-          <p>{channelTitle}</p>
-          <p>{itemCount} videos</p>
-          <p>{privacyStatus}</p>
+          <PlaylistDetailTypography>{description}</PlaylistDetailTypography>
+          <PlaylistDetailTypography>{channelTitle}</PlaylistDetailTypography>
+          <PlaylistDetailTypography>
+            {itemCount} videos
+          </PlaylistDetailTypography>
+          <PlaylistDetailTypography>
+            {privacyStatus === "public" ? (
+              <LockOpenOutlinedIcon />
+            ) : (
+              <LockOutlinedIcon />
+            )}
+            {privacyStatus}
+          </PlaylistDetailTypography>
         </PlaylistDetails>
         <BlurredBackground playlistThumbnail={playlistThumbnail} />
       </PlaylistSidebar>

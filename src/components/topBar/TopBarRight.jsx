@@ -29,11 +29,7 @@ const TopBarRight = () => {
   const { changeThemeMode } = useContext(ThemeContext);
   const [user, setUser, removeUser] = useLocalStorage("user", {});
   const { accessToken, username, email, profilePicture } = user ?? {};
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    accessToken !== undefined || accessToken !== null || accessToken !== ""
-      ? true
-      : false
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
 
   const [searchParams] = useSearchParams();
 
@@ -54,14 +50,6 @@ const TopBarRight = () => {
     setIsThemeMenuOpen(false);
   };
 
-  const handleSignIn = () => {
-    redirect(
-      `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
-        import.meta.env.VITE_CLIENT_ID
-      }&response_type=code&redirect_uri=${REDIRECT_URI}`
-    );
-  };
-
   const getAccessToken = useCallback(
     async ({ code, abortController }) => {
       const urlencoded = new URLSearchParams();
@@ -77,14 +65,14 @@ const TopBarRight = () => {
           abortController: abortController,
         });
         if (res) {
-          const { access_token = "", id_token = "" } = res;
+          const { access_token = "", refresh_token = "" } = res;
           const userInfo = await getUserInfo({ accessToken: access_token });
           const { name, picture, email } = userInfo;
           if (userInfo) {
             navigate("/");
             setUser({
               accessToken: access_token,
-              refreshToken: id_token,
+              refreshToken: refresh_token,
               username: name,
               profilePicture: picture,
               email: email,
@@ -206,10 +194,10 @@ const TopBarRight = () => {
             </MenuItem>
           </>
         ) : (
-          <MenuItem onClick={handleSignIn}>
+          <MenuItem>
             <Link
               style={{ display: "flex", alignItems: "center" }}
-              to={`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
+              to={`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
                 import.meta.env.VITE_CLIENT_ID
               }&response_type=code&redirect_uri=${
                 import.meta.env.VITE_REDIRECT_URI
