@@ -8,89 +8,89 @@ import PlaylistCard from "./PlaylistCard";
 import InfiniteScroll from "../InfiniteScroll";
 
 const renderItem = (playlist) => (
-  <PlaylistCard key={playlist.id} playlist={playlist} />
+	<PlaylistCard key={playlist.id} playlist={playlist} />
 );
 
 const PlaylistGrid = styled(MuiGrid)(() => ({
-  display: "grid",
-  gap: "16px",
-  rowGap: "16px",
-  gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
-  pt: 3,
+	display: "grid",
+	gap: "16px",
+	rowGap: "16px",
+	gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+	paddingTop: "15px",
 }));
 
 const Playlists = ({ channelId }) => {
-  const [searchParams] = useSearchParams();
-  const [playlists, setPlaylists] = useState({
-    list: [],
-    isLoading: true,
-    nextPageToken: "",
-  });
-  const { list, isLoading, nextPageToken } = playlists;
-  const listQuery = searchParams.get("list");
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
+	const [searchParams] = useSearchParams();
+	const [playlists, setPlaylists] = useState({
+		list: [],
+		isLoading: true,
+		nextPageToken: "",
+	});
+	const { list, isLoading, nextPageToken } = playlists;
+	const listQuery = searchParams.get("list");
+	const [user] = useLocalStorage("user", {});
+	const { accessToken } = user;
 
-  const getPlaylists = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
-      const queryParams = {
-        part: "snippet,contentDetails,status",
-        ...(listQuery === "LL"
-          ? { id: "LL" }
-          : channelId
-          ? { channelId, pageToken: nextPageToken }
-          : { mine: true, pageToken: nextPageToken }),
-      };
-      try {
-        const res = await fetchPlaylists({
-          queryParams,
-          accessToken,
-          abortController,
-        });
-        if (res) {
-          const { nextPageToken, items } = res;
-          setPlaylists((prevPlaylists) => ({
-            list: [...prevPlaylists.list, ...items],
-            isLoading: false,
-            nextPageToken: nextPageToken,
-          }));
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    },
-    [accessToken, channelId, listQuery]
-  );
+	const getPlaylists = useCallback(
+		async ({ nextPageToken, abortController } = {}) => {
+			const queryParams = {
+				part: "snippet,contentDetails,status",
+				...(listQuery === "LL"
+					? { id: "LL" }
+					: channelId
+					? { channelId, pageToken: nextPageToken }
+					: { mine: true, pageToken: nextPageToken }),
+			};
+			try {
+				const res = await fetchPlaylists({
+					queryParams,
+					accessToken,
+					abortController,
+				});
+				if (res) {
+					const { nextPageToken, items } = res;
+					setPlaylists((prevPlaylists) => ({
+						list: [...prevPlaylists.list, ...items],
+						isLoading: false,
+						nextPageToken: nextPageToken,
+					}));
+				}
+			} catch (error) {
+				console.error(error.message);
+			}
+		},
+		[accessToken, channelId, listQuery]
+	);
 
-  const loadMorePlaylists = () => {
-    if (nextPageToken) {
-      getPlaylists({ nextPageToken: nextPageToken });
-    }
-  };
+	const loadMorePlaylists = () => {
+		if (nextPageToken) {
+			getPlaylists({ nextPageToken: nextPageToken });
+		}
+	};
 
-  useEffect(() => {
-    setPlaylists({
-      list: [],
-      isLoading: true,
-      nextPageToken: "",
-    });
-    const abortController = new AbortController();
-    getPlaylists({ abortController });
-    return () => {
-      abortController.abort();
-    };
-  }, [getPlaylists]);
+	useEffect(() => {
+		setPlaylists({
+			list: [],
+			isLoading: true,
+			nextPageToken: "",
+		});
+		const abortController = new AbortController();
+		getPlaylists({ abortController });
+		return () => {
+			abortController.abort();
+		};
+	}, [getPlaylists]);
 
-  return (
-    <PlaylistGrid container>
-      <InfiniteScroll
-        items={list}
-        fetchMoreData={loadMorePlaylists}
-        renderItem={renderItem}
-        isLoading={isLoading}
-      ></InfiniteScroll>
-    </PlaylistGrid>
-  );
+	return (
+		<PlaylistGrid container>
+			<InfiniteScroll
+				items={list}
+				fetchMoreData={loadMorePlaylists}
+				renderItem={renderItem}
+				isLoading={isLoading}
+			></InfiniteScroll>
+		</PlaylistGrid>
+	);
 };
 
 export default Playlists;
