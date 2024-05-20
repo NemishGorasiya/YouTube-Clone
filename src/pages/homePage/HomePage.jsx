@@ -6,7 +6,7 @@ const HomePage = () => {
       <VideoGallery
         url="/videos"
         queryParams={{
-          part: "snippet,statistics",
+          part: "snippet,statistics,contentDetails",
           chart: "mostPopular",
           maxResults: 10,
         }}

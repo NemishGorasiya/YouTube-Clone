@@ -26,6 +26,10 @@ const App = () => {
         default: "#000000",
         light: "#222222",
       },
+      secondaryBackground: {
+        default: "#3F3F3F",
+        light: "#303030",
+      },
     },
     components: {
       MuiButton: {
@@ -50,6 +54,10 @@ const App = () => {
       background: {
         default: "#FFFFFF",
         light: "#D9D9D9",
+      },
+      secondaryBackground: {
+        default: "#E5E5E5",
+        light: "#E0E0E0",
       },
     },
     components: {

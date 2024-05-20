@@ -15,6 +15,8 @@ import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 
 export const SideBarLinks = [
   {
@@ -116,3 +118,16 @@ export const subscriptionStatusList = [
     label: "Unsubscribe",
   },
 ];
+
+export const privacyOptions = {
+  public: {
+    label: "Public",
+    description: "Anyone can search for and view",
+    icon: <PublicOutlinedIcon />,
+  },
+  private: {
+    label: "Private",
+    description: "Only you can view",
+    icon: <LockOutlinedIcon />,
+  },
+};

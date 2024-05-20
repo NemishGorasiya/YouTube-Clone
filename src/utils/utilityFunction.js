@@ -1,4 +1,9 @@
-import { formatDistanceToNow } from "date-fns";
+import {
+  add,
+  formatDistanceToNow,
+  formatDistanceToNowStrict,
+  intervalToDuration,
+} from "date-fns";
 
 export const formatCompactNumber = (number) => {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
@@ -16,7 +21,7 @@ export function debounce(func, delay = 500) {
 }
 
 export const calcDistanceToNow = ({ time }) => {
-  return formatDistanceToNow(time, { addSuffix: true });
+  return formatDistanceToNowStrict(time, { addSuffix: true });
 };
 
 export const handleFallBackImage = (event, fallBackImage) => {
@@ -41,4 +46,26 @@ export const formatDate = (date) => {
     year: "numeric",
   }).format(dateToFormat);
   return formattedDate;
+};
+
+const formatNumber = (number) => {
+  if (number < 10) {
+    return `0${number}`;
+  } else {
+    return number;
+  }
+};
+
+export const isoDurationToDDHHMM = (isoDuration) => {
+  const regex = /P(?:(\d+)D)?T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+  const matches = isoDuration.match(regex);
+
+  const days = parseInt(matches[1] || 0, 10);
+  const hours = parseInt(matches[2] || 0, 10);
+  const minutes = parseInt(matches[3] || 0, 10);
+  const seconds = parseInt(matches[4] || 0, 10);
+
+  return `${days ? `${formatNumber(days)}:` : ""}${
+    hours || days ? `${formatNumber(hours)}:` : ""
+  }${formatNumber(minutes)}:${formatNumber(seconds)}`;
 };

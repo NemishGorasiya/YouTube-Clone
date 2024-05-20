@@ -119,6 +119,7 @@ const ChannelMetadata = ({ channelId }) => {
                 style={{ height: "100%", width: "100%", objectFit: "cover" }}
                 src={bannerExternalUrl}
                 alt="channel-banner"
+                referrerPolicy="no-referrer"
               />
             )}
           </div>

@@ -10,6 +10,7 @@ import {
   Divider,
   IconButton,
   ListItemIcon,
+  ListSubheader,
   Menu,
   MenuItem,
   Tooltip,
@@ -121,15 +122,19 @@ const TopBarRight = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <img
-              style={{ width: "32px", height: "32px", borderRadius: "50%" }}
-              src={profilePicture}
-              alt="user"
-              referrerPolicy="no-referrer"
-              onError={(event) => {
-                console.log("error", event.target.src);
-              }}
-            />
+            {profilePicture ? (
+              <img
+                style={{ width: "32px", height: "32px", borderRadius: "50%" }}
+                src={profilePicture}
+                alt="user"
+                referrerPolicy="no-referrer"
+                onError={(event) => {
+                  console.log("error", event.target.src);
+                }}
+              />
+            ) : (
+              <Avatar sx={{ height: "32px", width: "32px" }} />
+            )}
           </IconButton>
         </Tooltip>
       </Box>
@@ -215,36 +220,38 @@ const TopBarRight = () => {
           Appearance
         </MenuItem>
         <Collapse in={isThemeMenuOpen} timeout="auto" unmountOnExit>
-          <MenuItem
-            onClick={() => {
-              changeThemeMode("systemPreference");
-            }}
-          >
-            <ListItemIcon>
-              <ContrastIcon fontSize="small" />
-            </ListItemIcon>
-            Use device theme
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              changeThemeMode("dark");
-            }}
-          >
-            <ListItemIcon>
-              <DarkModeIcon fontSize="small" />
-            </ListItemIcon>
-            Dark theme
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              changeThemeMode("light");
-            }}
-          >
-            <ListItemIcon>
-              <LightModeIcon fontSize="small" />
-            </ListItemIcon>
-            Light theme
-          </MenuItem>
+          <ListSubheader>
+            <MenuItem
+              onClick={() => {
+                changeThemeMode("systemPreference");
+              }}
+            >
+              <ListItemIcon>
+                <ContrastIcon fontSize="small" />
+              </ListItemIcon>
+              Use device theme
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                changeThemeMode("dark");
+              }}
+            >
+              <ListItemIcon>
+                <DarkModeIcon fontSize="small" />
+              </ListItemIcon>
+              Dark theme
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                changeThemeMode("light");
+              }}
+            >
+              <ListItemIcon>
+                <LightModeIcon fontSize="small" />
+              </ListItemIcon>
+              Light theme
+            </MenuItem>
+          </ListSubheader>
           {isLoggedIn && <Divider />}
         </Collapse>
         {isLoggedIn && (

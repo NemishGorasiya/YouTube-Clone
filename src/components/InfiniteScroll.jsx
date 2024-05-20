@@ -3,7 +3,13 @@ import "./InfiniteScroll.scss";
 import Loader from "./loader/Loader";
 import PropTypes from "prop-types";
 
-const InfiniteScroll = ({ items, renderItem, fetchMoreData, isLoading }) => {
+const InfiniteScroll = ({
+  items,
+  renderItem,
+  fetchMoreData,
+  isLoading,
+  ...props
+}) => {
   const observer = useRef();
   const lastUserRef = useCallback(
     (node) => {
@@ -26,12 +32,14 @@ const InfiniteScroll = ({ items, renderItem, fetchMoreData, isLoading }) => {
           <div ref={lastUserRef} key={index}>
             {renderItem({
               ...item,
+              ...props,
             })}
           </div>
         ) : (
           <div key={index}>
             {renderItem({
               ...item,
+              ...props,
             })}
           </div>
         )

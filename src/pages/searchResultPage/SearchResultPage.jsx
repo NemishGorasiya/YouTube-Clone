@@ -7,7 +7,6 @@ const SearchResultPage = () => {
 
   return (
     <div>
-      <h1>Search results for {searchQuery}</h1>
       <VideoGallery
         isListView={true}
         url="/search"
