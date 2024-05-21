@@ -1,18 +1,17 @@
 import { Box, Modal, styled, useScrollTrigger } from "@mui/material";
 import MuiButton from "@mui/material/Button";
+import MuiBox from "@mui/material/Box";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { modalStyle } from "../../components/styles/styles";
 import IconButton from "@mui/material/IconButton";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 
-const UserActionButton = styled(MuiButton)(({ theme }) => ({
-  background: theme.palette.secondaryBackground.default,
-  color: theme.palette.primary.main,
-  "&:hover": {
-    background: theme.palette.secondaryBackground.light,
-  },
+const ButtonWrapper = styled(MuiBox)(() => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "4px",
 }));
 
 const AddToPlaylist = ({ videoId }) => {
@@ -21,9 +20,9 @@ const AddToPlaylist = ({ videoId }) => {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <UserActionButton variant="contained" onClick={handleOpen}>
+      <ButtonWrapper onClick={handleOpen}>
         <PlaylistAddIcon /> Save
-      </UserActionButton>
+      </ButtonWrapper>
       {open && (
         <AddToPlaylistModal
           videoId={videoId}

@@ -57,8 +57,25 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
     }
   };
 
+  const filterPlaylist = ({ playlistItemId }) => {
+    setPlaylist((prevPlaylist) => {
+      const { list } = prevPlaylist;
+      const filteredList = list.filter(
+        (playlistItem) => playlistItem.id !== playlistItemId
+      );
+      return {
+        ...prevPlaylist,
+        list: filteredList,
+      };
+    });
+  };
   const renderItem = (playlistItem) => (
-    <PlaylistItem key={playlistItem.id} playlistItem={playlistItem} />
+    <PlaylistItem
+      key={playlistItem.id}
+      playlistItem={playlistItem}
+      playlistName={playlistName}
+      filterPlaylist={filterPlaylist}
+    />
   );
 
   useEffect(() => {
@@ -77,6 +94,10 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
   return (
     <PlaylistPanelComponent>
       {playlistName}
+      {!isLoading && list.length === 0 && (
+        <h1>No videos in this playlist yet</h1>
+      )}
+
       <InfiniteScroll
         items={list}
         fetchMoreData={loadMorePlaylistItems}
