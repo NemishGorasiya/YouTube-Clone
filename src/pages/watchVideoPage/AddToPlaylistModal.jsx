@@ -109,7 +109,8 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   const handlePrivacyPolicyChange = ({ target: { value } }) => {
     setSelectedPrivacyPolicy(value);
   };
-  const createNewPlaylistForm = ({ target: { value } }) => {
+
+  const createNewPlaylistForm = () => {
     setIsCreateNewPlaylistFormOpen(true);
   };
 
