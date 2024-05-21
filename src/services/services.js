@@ -221,6 +221,7 @@ export const fetchData = async ({
   headers = {},
   data = null,
   abortController = null,
+  returnEntireResponseWithStatusCode = false,
 }) => {
   try {
     const config = {
@@ -232,7 +233,11 @@ export const fetchData = async ({
       ...(abortController && { signal: abortController.signal }),
     };
     const res = await axiosInstance(config);
-    return res.data;
+    if (returnEntireResponseWithStatusCode) {
+      return res;
+    } else {
+      return res.data;
+    }
   } catch (error) {
     if (axios.isCancel(error)) {
       console.error("Request canceled", error.message);

@@ -162,13 +162,13 @@ const VideoCard = ({ video, isListView = false }) => {
     [accessToken, channelId]
   );
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    getChannelDetails({ abortController: abortController });
-    return () => {
-      abortController.abort();
-    };
-  }, [getChannelDetails]);
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   getChannelDetails({ abortController: abortController });
+  //   return () => {
+  //     abortController.abort();
+  //   };
+  // }, [getChannelDetails]);
   return (
     <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0} className="videoCard">
@@ -188,20 +188,20 @@ const VideoCard = ({ video, isListView = false }) => {
           </CardMediaWrapper>
           <CardContent>
             {!isListView && (
-              <ChannelThumbnail
-                src={
-                  channelThumbnailUrl
-                    ? channelThumbnailUrl
-                    : "https://placehold.jp/150x150.png"
-                }
-                alt="Channel Thumbnail"
-                referrerPolicy="no-referrer"
-              />
               // <ChannelThumbnail
-              //   src={"https://placehold.jp/150x150.png"}
+              //   src={
+              //     channelThumbnailUrl
+              //       ? channelThumbnailUrl
+              //       : "https://placehold.jp/150x150.png"
+              //   }
               //   alt="Channel Thumbnail"
               //   referrerPolicy="no-referrer"
               // />
+              <ChannelThumbnail
+                src={"https://placehold.jp/150x150.png"}
+                alt="Channel Thumbnail"
+                referrerPolicy="no-referrer"
+              />
             )}
 
             <VideoDetail>

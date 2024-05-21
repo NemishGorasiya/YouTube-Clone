@@ -26,7 +26,6 @@ import {
   calcDistanceToNow,
   formatCompactNumber,
 } from "../../utils/utilityFunction";
-import { id } from "date-fns/locale";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import AddToPlaylist from "./AddToPlaylist";
 
@@ -43,6 +42,14 @@ const Tag = styled(MuiTypography)(() => ({
   display: "inline-block",
   marginRight: "4px",
   color: "#3EA6FF",
+}));
+
+const UserActionButton = styled(MuiButton)(({ theme }) => ({
+  background: theme.palette.secondaryBackground.default,
+  color: theme.palette.primary.main,
+  "&:hover": {
+    background: theme.palette.secondaryBackground.light,
+  },
 }));
 
 const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
@@ -293,7 +300,9 @@ const WatchVideoPage = () => {
                       <ThumbDownIcon />
                     </Button>
                   </Box>
-                  <AddToPlaylist videoId={videoId} />
+                  <UserActionButton variant="contained">
+                    <AddToPlaylist videoId={videoId} />
+                  </UserActionButton>
                 </Stack>
               </Box>
               <Box
