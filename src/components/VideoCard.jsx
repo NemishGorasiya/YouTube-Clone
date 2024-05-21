@@ -124,7 +124,7 @@ const VideoCard = ({ video, isListView = false }) => {
   const { duration = "" } = contentDetails || {};
 
   const handleVideoCardClick = () => {
-    navigate(`/watch?v=${videoId || id || id.videoId}`);
+    navigate(`/watch?v=${videoId || id.videoId || id}`);
   };
 
   const navigateToChannelPage = (event) => {

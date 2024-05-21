@@ -28,6 +28,7 @@ import {
 } from "../../utils/utilityFunction";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import AddToPlaylist from "./AddToPlaylist";
+import SubscribeButton from "../../components/SubscribeButton";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -266,6 +267,7 @@ const WatchVideoPage = () => {
                   >
                     Subscribe
                   </Button>
+                  <SubscribeButton channelId={channelId} />
                 </Stack>
                 <Stack direction="row" spacing={1.5}>
                   <Box

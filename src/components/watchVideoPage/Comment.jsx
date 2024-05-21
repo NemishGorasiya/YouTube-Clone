@@ -18,7 +18,12 @@ import { replyComment } from "../../services/services";
 import { useState } from "react";
 import CommentReplies from "./CommentReplies";
 
-const Comment = ({ snippet, totalReplyCount, commentId }) => {
+const Comment = ({
+  snippet,
+  totalReplyCount,
+  commentId,
+  addNewCommentInList,
+}) => {
   const [isReplyCommentInputVisible, setIsReplyCommentInputVisible] =
     useState(false);
   const {
@@ -54,7 +59,7 @@ const Comment = ({ snippet, totalReplyCount, commentId }) => {
       };
       const res = await replyComment({ queryParams, data, accessToken });
       if (res) {
-        console.log("done comment");
+        addNewCommentInList({ newComment: res });
       } else {
         console.log("something went wrong");
       }

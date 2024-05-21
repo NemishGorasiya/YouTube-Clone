@@ -78,13 +78,24 @@ const CommentsSection = ({ videoId, channelId }) => {
       };
       const res = await addComment({ queryParams, data, accessToken });
       if (res) {
-        console.log("done comment");
+        addNewCommentInList({ newComment: res });
       } else {
         console.log("something went wrong");
       }
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const addNewCommentInList = ({ newComment }) => {
+    console.log("called");
+    setComments((prevComments) => {
+      console.log([newComment, ...prevComments.list]);
+      return {
+        ...prevComments,
+        list: [newComment, ...prevComments.list],
+      };
+    });
   };
 
   useEffect(() => {
@@ -106,6 +117,7 @@ const CommentsSection = ({ videoId, channelId }) => {
       snippet={comment.snippet.topLevelComment.snippet}
       commentId={comment.id}
       totalReplyCount={comment.snippet.totalReplyCount}
+      addNewCommentInList={addNewCommentInList}
     />
   );
 

@@ -8,13 +8,13 @@ import {
 import MuiTypography from "@mui/material/Typography";
 import { customParser, formatCompactNumber } from "../../utils/utilityFunction";
 import { useCallback, useEffect, useState } from "react";
-import { subscriptionStatusList } from "../../utils/constant";
 import { fetchChannelDetails } from "../../services/services";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
 import Loader from "../../components/loader/Loader";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import "./ChannelMetadata.scss";
+import SubscribeButton from "../../components/SubscribeButton";
 
 const ChannelMetadata = ({ channelId }) => {
   const [channelDetails, setChannelDetails] = useState({
@@ -117,7 +117,10 @@ const ChannelMetadata = ({ channelId }) => {
             {bannerExternalUrl && (
               <img
                 style={{ height: "100%", width: "100%", objectFit: "cover" }}
-                src={bannerExternalUrl}
+                src={
+                  bannerExternalUrl +
+                  "=w1920-fcrop64=1,00000000ffffffff-nd-c0xffffffff-rj-k-no"
+                }
                 alt="channel-banner"
                 referrerPolicy="no-referrer"
               />
@@ -125,7 +128,11 @@ const ChannelMetadata = ({ channelId }) => {
           </div>
           <div className="channelMetadataWrapper">
             <div className="channelThumbnailWrapper">
-              <img src={url} alt="" />
+              <img
+                src={url}
+                alt="channelThumbnail"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div className="channelDetailsWrapper">
               <Typography variant="h4" component="h1" channelTitle>
@@ -148,6 +155,7 @@ const ChannelMetadata = ({ channelId }) => {
                 ></p>
                 <KeyboardArrowRightIcon className="showMoreIcon" />
               </Typography>
+              <SubscribeButton channelId={channelId} channelName={title} />
             </div>
           </div>
         </>
