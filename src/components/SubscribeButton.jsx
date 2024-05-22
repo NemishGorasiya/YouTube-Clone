@@ -2,17 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchData } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Loader from "./loader/Loader";
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Modal,
-  Typography,
-  styled,
-} from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
+import { Box, Button, Menu, Modal, Typography, styled } from "@mui/material";
 import MuiBox from "@mui/material/Box";
-import MuiSelect from "@mui/material/Select";
+import MuiMenuItem from "@mui/material/MenuItem";
 import MuiButton from "@mui/material/Button";
 import { modalStyle } from "./styles/styles";
 
@@ -20,51 +14,68 @@ const UserActionButtonWrapper = styled(MuiBox)(() => ({
   textAlign: "end",
 }));
 
+const MenuItem = styled(MuiMenuItem)(() => ({
+  gap: 12,
+}));
+
 const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
   color: textColor || theme.palette.primary.main,
 }));
+
 const SubscribedButton = styled(MuiButton)(({ theme }) => ({
   background: theme.palette.secondaryBackground.default,
   color: theme.palette.primary.main,
   outline: "none",
   border: "none",
+  minWidth: "fit-content",
   width: "fit-content",
+  height: "fit-content",
+  paddingLeft: "16px",
+  paddingRight: "12px",
   borderRadius: 32,
 }));
 
-const SubscribeButton = ({ channelId, channelName }) => {
+const SubscribeButton = ({
+  channelId,
+  channelName,
+  subscriptionId: subscriptionIdProp,
+}) => {
   const [subscriptionStatus, setSubscriptionStatus] = useState({
-    isSubscribed: false,
-    isLoading: true,
+    isSubscribed: subscriptionIdProp ? true : false,
+    isLoading: subscriptionIdProp ? false : true,
   });
-  const [subscriptionId, setSubscriptionId] = useState("");
+  const [subscriptionId, setSubscriptionId] = useState(subscriptionIdProp);
   const { isSubscribed, isLoading } = subscriptionStatus || {};
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpenMenu = Boolean(anchorEl);
+
   const handleOpenMenu = (event) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseMenu = () => setAnchorEl(null);
-
-  const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
-  const handleCloseConfirmationModal = () => setIsOpenConfirmationModal(false);
-
-  const handleUserAction = async ({ target: { value } }) => {
-    if (value === "unsubscribe") {
-      setIsOpenConfirmationModal(true);
-    }
+  const handleCloseMenu = (event) => {
+    event.preventDefault();
+    setAnchorEl(null);
   };
 
-  const handleOpenConfirmationModal = () => {
+  const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
+  const handleCloseConfirmationModal = (event) => {
+    event.preventDefault();
+    setIsOpenConfirmationModal(false);
+  };
+
+  const handleOpenConfirmationModal = (event) => {
+    event.preventDefault();
     setIsOpenConfirmationModal(true);
     setAnchorEl(null);
   };
 
-  const handelUnsubscribeToChannel = async () => {
+  const handleUnsubscribeToChannel = async (event) => {
+    event.preventDefault();
     try {
       const queryParams = {
         id: subscriptionId,
@@ -84,16 +95,18 @@ const SubscribeButton = ({ channelId, channelName }) => {
           ...prevState,
           isSubscribed: false,
         }));
-        console.log("unsubscribe successfully");
+        setIsOpenConfirmationModal(false);
+        console.log("Unsubscribed successfully");
       } else {
-        console.log("something went wrong");
+        console.log("Something went wrong");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleSubscribeToChannel = async () => {
+  const handleSubscribeToChannel = async (event) => {
+    event.preventDefault();
     try {
       const queryParams = {
         part: "snippet",
@@ -116,9 +129,14 @@ const SubscribeButton = ({ channelId, channelName }) => {
         headers,
       });
       if (res) {
-        alert("subscribed");
+        setSubscriptionStatus((prevState) => ({
+          ...prevState,
+          isSubscribed: true,
+        }));
+        setAnchorEl(null);
+        setIsOpenConfirmationModal(false);
       } else {
-        alert("went wrong");
+        alert("Something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -143,9 +161,11 @@ const SubscribeButton = ({ channelId, channelName }) => {
           abortController,
         });
         if (res) {
-          const { items } = res;
-          const { id } = items[0];
-          setSubscriptionId(id);
+          const { items = [] } = res;
+          if (items.length > 0) {
+            const { id = "" } = items[0];
+            setSubscriptionId(id);
+          }
           setSubscriptionStatus({
             isSubscribed: items.length > 0,
             isLoading: false,
@@ -160,28 +180,33 @@ const SubscribeButton = ({ channelId, channelName }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getSubscriptionStatus({ abortController });
+    if (!subscriptionIdProp) {
+      getSubscriptionStatus({ abortController });
+    }
     return () => {
       abortController.abort();
     };
-  }, [getSubscriptionStatus]);
+  }, [getSubscriptionStatus, subscriptionIdProp]);
+
   return isLoading ? (
     <Loader />
   ) : isSubscribed ? (
     <>
-      <SubscribedButton onClick={handleOpenMenu}>Subscribed</SubscribedButton>
+      <SubscribedButton
+        endIcon={<KeyboardArrowDownIcon />}
+        onClick={handleOpenMenu}
+      >
+        Subscribed
+      </SubscribedButton>
       <Menu
         open={isOpenMenu}
-        value="Subscribed"
-        onChange={handleUserAction}
-        renderValue={() => "Subscribed"}
         onClose={handleCloseMenu}
         anchorEl={anchorEl}
         transformOrigin={{ horizontal: "left", vertical: "top" }}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
-        <MenuItem value="unsubscribe" onClick={handleOpenConfirmationModal}>
-          Unsubscribe
+        <MenuItem onClick={handleOpenConfirmationModal}>
+          <PersonRemoveAlt1OutlinedIcon /> Unsubscribe
         </MenuItem>
       </Menu>
       <Modal
@@ -206,7 +231,7 @@ const SubscribeButton = ({ channelId, channelName }) => {
             </UserActionButton>
             <UserActionButton
               textColor="#3EA6FF"
-              onClick={handelUnsubscribeToChannel}
+              onClick={handleUnsubscribeToChannel}
             >
               Unsubscribe
             </UserActionButton>
@@ -216,7 +241,7 @@ const SubscribeButton = ({ channelId, channelName }) => {
     </>
   ) : (
     <Button
-      sx={{ width: "fit-content" }}
+      sx={{ width: "fit-content", height: "fit-content" }}
       variant="contained"
       onClick={handleSubscribeToChannel}
     >

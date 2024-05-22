@@ -1,9 +1,11 @@
 import MuiCheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Box, styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
+import MuiBox from "@mui/material/Box";
 import { formatCompactNumber } from "../../utils/utilityFunction";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import SubscribeButton from "../../components/SubscribeButton";
 
 const ChannelName = styled(MuiTypography)(({ theme }) => ({
   fontSize: "18px",
@@ -18,6 +20,11 @@ const CheckCircleIcon = styled(MuiCheckCircleIcon)(({ theme }) => ({
   marginLeft: "5px",
   color: theme.palette.primary.light,
 }));
+
+const ChannelMetadataWrapper = styled(MuiBox)(() => ({
+  flex: "1",
+}));
+
 const ChannelMetadata = styled(MuiTypography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "12px",
@@ -32,7 +39,7 @@ const ChannelMetadata = styled(MuiTypography)(({ theme }) => ({
 }));
 
 const ChannelCard = ({ channel }) => {
-  const { id, snippet, contentDetails } = channel ?? {};
+  const { id: subscriptionId = "", snippet, contentDetails } = channel ?? {};
   const { title, description, thumbnails, resourceId } = snippet;
   const { channelId } = resourceId;
   const { totalItemCount } = contentDetails;
@@ -56,7 +63,7 @@ const ChannelCard = ({ channel }) => {
             alt="channelThumbnail"
           />
         </div>
-        <Box>
+        <ChannelMetadataWrapper>
           <ChannelName>
             {title}
             <CheckCircleIcon />
@@ -67,7 +74,12 @@ const ChannelCard = ({ channel }) => {
             {formatCompactNumber(totalItemCount)} videos
           </ChannelMetadata>
           <ChannelMetadata>{description}</ChannelMetadata>
-        </Box>
+        </ChannelMetadataWrapper>
+        <SubscribeButton
+          channelId={channelId}
+          channelName={title}
+          subscriptionId={subscriptionId}
+        />
       </Box>
     </Link>
   );

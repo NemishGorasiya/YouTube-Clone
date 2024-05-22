@@ -60,6 +60,10 @@ const CommentsSection = ({ videoId, channelId }) => {
     const data = new FormData(event.target);
     const comment = data.get("newComment");
 
+    if (comment === "") {
+      return;
+    }
+
     try {
       const queryParams = {
         part: "snippet",

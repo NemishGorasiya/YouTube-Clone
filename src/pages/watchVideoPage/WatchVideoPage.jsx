@@ -146,7 +146,11 @@ const WatchVideoPage = () => {
         method: "POST",
         headers,
         queryParams,
+        returnEntireResponseWithStatusCode: true,
       });
+      if (res.status === 204) {
+        console.log("liked success");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -261,12 +265,12 @@ const WatchVideoPage = () => {
                     </Stack>
                   </ChannelLink>
                   {/* <Button variant="outlined">Join</Button> */}
-                  <Button
+                  {/* <Button
                     variant="contained"
                     onClick={handleSubscribeToChannel}
                   >
                     Subscribe
-                  </Button>
+                  </Button> */}
                   <SubscribeButton channelId={channelId} />
                 </Stack>
                 <Stack direction="row" spacing={1.5}>
@@ -335,7 +339,7 @@ const WatchVideoPage = () => {
             />
           </PlaylistPanelWrapper>
         )}
-        <Box className="relatedVideos">
+        {/* <Box className="relatedVideos">
           Related Videos
           <VideoGallery
             url="/search"
@@ -349,7 +353,7 @@ const WatchVideoPage = () => {
             }}
             isListView={true}
           />
-        </Box>
+        </Box> */}
       </Box>
       <ScrollToTopButton />
     </Box>
