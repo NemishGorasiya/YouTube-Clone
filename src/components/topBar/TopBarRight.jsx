@@ -3,6 +3,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import ContrastIcon from "@mui/icons-material/Contrast";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Avatar,
   Box,
@@ -20,6 +21,7 @@ import { Link, redirect, useNavigate, useSearchParams } from "react-router-dom";
 import { ThemeContext } from "../../context/ThemeContext";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { fetchAccessToken, getUserInfo } from "../../services/services";
+import SignInButton from "../SignInButton";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -119,18 +121,23 @@ const TopBarRight = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            {profilePicture ? (
-              <img
-                style={{ width: "32px", height: "32px", borderRadius: "50%" }}
-                src={profilePicture}
-                alt="user"
-                referrerPolicy="no-referrer"
-              />
+            {isLoggedIn ? (
+              profilePicture ? (
+                <img
+                  style={{ width: "32px", height: "32px", borderRadius: "50%" }}
+                  src={profilePicture}
+                  alt="user"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <Avatar sx={{ height: "32px", width: "32px" }} />
+              )
             ) : (
-              <Avatar sx={{ height: "32px", width: "32px" }} />
+              <MoreVertIcon />
             )}
           </IconButton>
         </Tooltip>
+        {!isLoggedIn && <SignInButton />}
       </Box>
       <Menu
         anchorEl={anchorEl}
@@ -166,7 +173,7 @@ const TopBarRight = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {isLoggedIn ? (
+        {isLoggedIn && (
           <>
             <MenuItem sx={{ display: "flex", gap: "10px" }}>
               <img
@@ -185,26 +192,7 @@ const TopBarRight = () => {
               </div>
             </MenuItem>
             <Divider />
-            <MenuItem>
-              <ListItemIcon>
-                <PersonAdd fontSize="small" />
-              </ListItemIcon>
-              Add another account
-            </MenuItem>
           </>
-        ) : (
-          <MenuItem>
-            <Link
-              style={{ display: "flex", alignItems: "center" }}
-              to={`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
-                import.meta.env.VITE_CLIENT_ID
-              }&response_type=code&redirect_uri=${
-                import.meta.env.VITE_REDIRECT_URI
-              }&credentials=include&withCredentials=true`}
-            >
-              <Avatar /> Sign In
-            </Link>
-          </MenuItem>
         )}
 
         <MenuItem onClick={toggleThemeMenu}>

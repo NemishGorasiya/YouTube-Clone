@@ -27,6 +27,7 @@ export const SideBarLinks = [
   },
   {
     title: "You ",
+    isProtected: true,
     titleIcon: <KeyboardArrowRightIcon />,
     links: [
       {

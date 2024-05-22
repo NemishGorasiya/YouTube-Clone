@@ -22,6 +22,7 @@ import Loader from "../loader/Loader";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import SignInButton from "../SignInButton";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
@@ -49,6 +50,13 @@ const ListItem = styled(MuiListItem)(({ theme }) => ({
   "&:hover": {
     background: theme.palette.background.light,
   },
+}));
+
+const SignInSection = styled(MuiBox)(() => ({
+  padding: "12px 0",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
 }));
 
 const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
@@ -238,22 +246,113 @@ const SideBar = ({ open, toggleDrawer }) => {
     >
       <DrawerHeader />
       <SideBarLinksWrapper>
-        {SideBarLinks.map((sideBarSection, idx) => (
-          <Fragment key={idx}>
+        {SideBarLinks.map(
+          (sideBarSection, idx) =>
+            (!sideBarSection.isProtected || accessToken) && (
+              <Fragment key={idx}>
+                <NavBarList open={open}>
+                  <NavBarListTitle open={open}>
+                    {sideBarSection.title}
+                    {sideBarSection.titleIcon}
+                  </NavBarListTitle>
+                  {sideBarSection.links.map((link, idx) => (
+                    <NavLink
+                      to={link.link}
+                      key={idx}
+                      style={({ isActive }) =>
+                        isActive &&
+                        (link.queryKey
+                          ? isActiveByQueryParam(link.queryKey, link.queryValue)
+                          : true)
+                          ? {
+                              display: "block",
+                              background: theme.palette.background.light,
+                              borderRadius: "10px",
+                            }
+                          : {}
+                      }
+                    >
+                      <ListItem key={idx}>
+                        <ListItemButton open={open}>
+                          <ListItemIcon>{link.icon}</ListItemIcon>
+                          <ListItemText>
+                            <NavLinkTypography
+                              variant="body2"
+                              noWrap
+                              open={open}
+                            >
+                              {link.label}
+                            </NavLinkTypography>
+                          </ListItemText>
+                        </ListItemButton>
+                      </ListItem>
+                    </NavLink>
+                  ))}
+                </NavBarList>
+                <Divider />
+              </Fragment>
+            )
+        )}
+        {accessToken && (
+          <>
             <NavBarList open={open}>
-              <NavBarListTitle open={open}>
-                {sideBarSection.title}
-                {sideBarSection.titleIcon}
-              </NavBarListTitle>
-              {sideBarSection.links.map((link, idx) => (
+              <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
+              {subscribedChannelsList.map((channel) => {
+                const {
+                  snippet: {
+                    title = "",
+                    thumbnails: { default: { url = "" } = {} } = {},
+                    resourceId: { channelId = "" } = {},
+                  } = {},
+                  contentDetails: { newItemCount = 0 } = {},
+                } = channel || {};
+
+                return (
+                  title && (
+                    <NavLink
+                      key={channelId}
+                      to={`/channel/${channelId}`}
+                      style={({ isActive }) =>
+                        isActive
+                          ? {
+                              display: "block",
+                              background: theme.palette.background.light,
+                              borderRadius: "10px",
+                            }
+                          : {}
+                      }
+                    >
+                      <ListItem>
+                        <ListItemButton open={open}>
+                          <ListItemIcon>
+                            <ListItemIconImage
+                              src={url}
+                              referrerPolicy="no-referrer"
+                              alt="channel logo"
+                            />
+                          </ListItemIcon>
+                          <ListItemText>
+                            <NavLinkTypography
+                              variant="body2"
+                              noWrap
+                              open={open}
+                            >
+                              {title}
+                            </NavLinkTypography>
+                          </ListItemText>
+                          {/* {newItemCount > 0 && <NewItemIndicator open={open} />} */}
+                        </ListItemButton>
+                      </ListItem>
+                    </NavLink>
+                  )
+                );
+              })}
+
+              {subscribedChannelsList.length > 0 && (
                 <NavLink
-                  to={link.link}
-                  key={idx}
+                  to="/feed/channels"
                   style={({ isActive }) =>
-                    isActive &&
-                    (link.queryKey
-                      ? isActiveByQueryParam(link.queryKey, link.queryValue)
-                      : true)
+                    isActive
                       ? {
                           display: "block",
                           background: theme.palette.background.light,
@@ -262,125 +361,59 @@ const SideBar = ({ open, toggleDrawer }) => {
                       : {}
                   }
                 >
-                  <ListItem key={idx}>
+                  <ListItem>
                     <ListItemButton open={open}>
-                      <ListItemIcon>{link.icon}</ListItemIcon>
+                      <ListItemIcon>
+                        <FormatListBulletedIcon />
+                      </ListItemIcon>
                       <ListItemText>
                         <NavLinkTypography variant="body2" noWrap open={open}>
-                          {link.label}
+                          All subscription
                         </NavLinkTypography>
                       </ListItemText>
                     </ListItemButton>
                   </ListItem>
                 </NavLink>
-              ))}
-            </NavBarList>
-            <Divider />
-          </Fragment>
-        ))}
-        {accessToken && (
-          <NavBarList open={open}>
-            <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
-            {subscribedChannelsList.map((channel) => {
-              const {
-                snippet: {
-                  title = "",
-                  thumbnails: { default: { url = "" } = {} } = {},
-                  resourceId: { channelId = "" } = {},
-                } = {},
-                contentDetails: { newItemCount = 0 } = {},
-              } = channel || {};
+              )}
 
-              return (
-                title && (
-                  <NavLink
-                    key={channelId}
-                    to={`/channel/${channelId}`}
-                    style={({ isActive }) =>
-                      isActive
-                        ? {
-                            display: "block",
-                            background: theme.palette.background.light,
-                            borderRadius: "10px",
-                          }
-                        : {}
-                    }
-                  >
-                    <ListItem>
-                      <ListItemButton open={open}>
-                        <ListItemIcon>
-                          <ListItemIconImage
-                            src={url}
-                            referrerPolicy="no-referrer"
-                            alt="channel logo"
-                          />
-                        </ListItemIcon>
-                        <ListItemText>
-                          <NavLinkTypography variant="body2" noWrap open={open}>
-                            {title}
-                          </NavLinkTypography>
-                        </ListItemText>
-                        {/* {newItemCount > 0 && <NewItemIndicator open={open} />} */}
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                )
-              );
-            })}
-
-            {subscribedChannelsList.length > 0 && (
-              <NavLink
-                to="/feed/channels"
-                style={({ isActive }) =>
-                  isActive
-                    ? {
-                        display: "block",
-                        background: theme.palette.background.light,
-                        borderRadius: "10px",
-                      }
-                    : {}
-                }
-              >
-                <ListItem>
+              {subscribedChannelsList.length > 0 && (
+                <ListItem
+                  onClick={
+                    hasMoreSubscribedChannels
+                      ? loadMoreSubscribedChannels
+                      : handleShowLessBtnClick
+                  }
+                >
                   <ListItemButton open={open}>
                     <ListItemIcon>
-                      <FormatListBulletedIcon />
+                      {hasMoreSubscribedChannels ? (
+                        <KeyboardArrowDownIcon />
+                      ) : (
+                        <KeyboardArrowUpIcon />
+                      )}
                     </ListItemIcon>
                     <ListItemText>
                       <NavLinkTypography variant="body2" noWrap open={open}>
-                        All subscription
+                        Show {hasMoreSubscribedChannels ? "more" : "less"}
                       </NavLinkTypography>
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
-              </NavLink>
-            )}
-
-            {subscribedChannelsList.length > 0 && (
-              <ListItem
-                onClick={
-                  hasMoreSubscribedChannels
-                    ? loadMoreSubscribedChannels
-                    : handleShowLessBtnClick
-                }
-              >
-                <ListItemButton open={open}>
-                  <ListItemIcon>
-                    {hasMoreSubscribedChannels ? (
-                      <KeyboardArrowDownIcon />
-                    ) : (
-                      <KeyboardArrowUpIcon />
-                    )}
-                  </ListItemIcon>
-                  <ListItemText>
-                    <NavLinkTypography variant="body2" noWrap open={open}>
-                      Show {hasMoreSubscribedChannels ? "more" : "less"}
-                    </NavLinkTypography>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-            )}
-          </NavBarList>
+              )}
+            </NavBarList>
+            <Divider />
+          </>
+        )}
+        {!accessToken && (
+          <>
+            <SignInSection>
+              <Typography variant="body1">
+                Sign in to like videos, comment, and subscribe.
+              </Typography>
+              <SignInButton />
+            </SignInSection>
+            <Divider />
+          </>
         )}
       </SideBarLinksWrapper>
     </Drawer>
