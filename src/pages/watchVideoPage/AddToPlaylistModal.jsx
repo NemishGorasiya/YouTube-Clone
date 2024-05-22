@@ -1,12 +1,15 @@
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
   Box,
-  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
-  MenuItem,
   InputLabel,
+  MenuItem,
   Modal,
   Select,
   TextField,
@@ -14,20 +17,16 @@ import {
   styled,
 } from "@mui/material";
 import MuiBox from "@mui/material/Box";
-import MuiMenuItem from "@mui/material/MenuItem";
 import MuiButton from "@mui/material/Button";
-import CloseIcon from "@mui/icons-material/Close";
-import { modalStyle } from "../../components/styles/styles";
 import IconButton from "@mui/material/IconButton";
+import MuiMenuItem from "@mui/material/MenuItem";
+import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import AddIcon from "@mui/icons-material/Add";
-import { fetchData } from "../../services/services";
-import Loader from "../../components/loader/Loader";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import Loader from "../../components/loader/Loader";
+import { modalStyle } from "../../components/styles/styles";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { fetchData } from "../../services/services";
 import { privacyOptions } from "../../utils/constant";
 
 const CloseModalButton = styled(IconButton)(() => ({
@@ -35,6 +34,7 @@ const CloseModalButton = styled(IconButton)(() => ({
   right: 5,
   top: 5,
 }));
+
 const CreatePlaylistButton = styled(MuiButton)(() => ({
   width: "fit-content",
   alignSelf: "end",
@@ -148,11 +148,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
           const { id: playlistId } = res;
           if (playlistId) {
             addToPlaylist({ playlistId, videoId });
-          } else {
-            console.log("Something went wrong while creating playlist");
           }
-        } else {
-          console.log("Something went wrong while creating playlist");
         }
       } catch (error) {
         console.error(error);
@@ -198,8 +194,6 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   };
 
   const handleCheckboxClick = async ({ event, playlistId, videoId }) => {
-    console.log("event", event.target.checked);
-    console.log("playlistId", playlistId);
     if (event.target.checked) {
       const res = addToPlaylist({ playlistId, videoId });
       if (res) {
@@ -341,6 +335,12 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
       </Box>
     </Modal>
   );
+};
+
+AddToPlaylistModal.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  videoId: PropTypes.string,
 };
 
 export default AddToPlaylistModal;

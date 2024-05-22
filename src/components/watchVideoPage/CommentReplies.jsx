@@ -4,6 +4,7 @@ import Comment from "./Comment";
 import { Button } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import PropTypes from "prop-types";
 
 const CommentReplies = ({ parentId, accessToken, totalReplyCount }) => {
   const [commentReplies, setCommentReplies] = useState({
@@ -106,6 +107,12 @@ const CommentReplies = ({ parentId, accessToken, totalReplyCount }) => {
       )}
     </>
   );
+};
+
+CommentReplies.propTypes = {
+  parentId: PropTypes.string,
+  accessToken: PropTypes.string,
+  totalReplyCount: PropTypes.number,
 };
 
 export default CommentReplies;

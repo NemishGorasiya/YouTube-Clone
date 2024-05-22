@@ -1,9 +1,4 @@
-import {
-  add,
-  formatDistanceToNow,
-  formatDistanceToNowStrict,
-  intervalToDuration,
-} from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export const formatCompactNumber = (number) => {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });

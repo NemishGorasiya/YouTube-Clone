@@ -2,6 +2,7 @@ import { Box, Button, Skeleton, Typography, styled } from "@mui/material";
 import MuiSwipeableDrawer from "@mui/material/SwipeableDrawer";
 import React from "react";
 import PropTypes from "prop-types";
+import { formatCompactNumber } from "../../utils/utilityFunction";
 
 const StyledBox = styled("div")(() => ({
   backgroundColor: "grey",
@@ -30,7 +31,7 @@ const SwipeableDrawer = styled(MuiSwipeableDrawer)(() => ({
 
 const drawerBleeding = 0;
 
-const SwipeableCommentsSection = ({ children }) => {
+const SwipeableCommentsSection = ({ children, commentCount }) => {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -40,7 +41,7 @@ const SwipeableCommentsSection = ({ children }) => {
   return (
     <>
       <Box sx={{ p: 1, background: "grey", borderRadius: 2, mt: 2 }}>
-        <h1>Comments</h1>
+        <h1>{formatCompactNumber(commentCount)} Comments</h1>
         <Button onClick={toggleDrawer(true)}>View comments</Button>
       </Box>
       <SwipeableDrawer
@@ -53,17 +54,6 @@ const SwipeableCommentsSection = ({ children }) => {
         ModalProps={{
           keepMounted: true,
         }}
-        sx={
-          {
-            // ".MuiPaper-root": {
-            //   height: "75%",
-            //   overflow: "visible",
-            //   width: "calc(100% - 24px)",
-            //   margin: "0 auto",
-            //   paddingTop: "56px",
-            // },
-          }
-        }
       >
         <StyledBox
           sx={{

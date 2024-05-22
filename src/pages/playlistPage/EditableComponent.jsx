@@ -47,7 +47,6 @@ const EditableComponent = ({ currentValue, playlistId }) => {
     setNewValue(value);
   };
   const handleUpdateValue = async () => {
-    console.log("calllelelelelle");
     if (newValue === currentValue) {
       return;
     }

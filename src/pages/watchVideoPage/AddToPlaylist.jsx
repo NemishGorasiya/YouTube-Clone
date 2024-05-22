@@ -1,12 +1,9 @@
-import { Box, Modal, styled, useScrollTrigger } from "@mui/material";
-import MuiButton from "@mui/material/Button";
-import MuiBox from "@mui/material/Box";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { Fragment, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import { modalStyle } from "../../components/styles/styles";
-import IconButton from "@mui/material/IconButton";
+import { styled } from "@mui/material";
+import MuiBox from "@mui/material/Box";
+import { useState } from "react";
 import AddToPlaylistModal from "./AddToPlaylistModal";
+import PropTypes from "prop-types";
 
 const ButtonWrapper = styled(MuiBox)(() => ({
   display: "flex",
@@ -32,6 +29,10 @@ const AddToPlaylist = ({ videoId }) => {
       )}
     </>
   );
+};
+
+AddToPlaylist.propTypes = {
+  videoId: PropTypes.string,
 };
 
 export default AddToPlaylist;

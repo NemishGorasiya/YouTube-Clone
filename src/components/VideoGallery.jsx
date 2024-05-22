@@ -6,7 +6,7 @@ import { fetchVideos } from "../services/services";
 import InfiniteScroll from "./InfiniteScroll";
 import VideoCard from "./VideoCard";
 
-const Grid = styled(MuiGrid)(({ isListView }) => ({
+const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
   display: "grid",
   gap: "16px",
   ...(isListView
@@ -18,6 +18,9 @@ const Grid = styled(MuiGrid)(({ isListView }) => ({
     : {
         gridTemplateColumns: "repeat(auto-fill, minmax(310px, 1fr))",
       }),
+  [theme.breakpoints.down("sm")]: {
+    gridTemplateColumns: "1fr",
+  },
 }));
 
 const VideoGallery = ({ isListView = false, url, queryParams }) => {

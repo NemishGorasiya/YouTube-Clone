@@ -238,9 +238,6 @@ const PlaylistPage = () => {
       });
       if (res.status === 204) {
         navigate("/feed/playlists");
-        console.log("playlist deleted successfully");
-      } else {
-        console.log("something went wrong while deleting playlist");
       }
     } catch (error) {
       console.error(error);

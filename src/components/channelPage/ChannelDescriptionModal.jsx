@@ -58,6 +58,7 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
       fontSize: "26px",
     },
   }));
+
   const DescriptionItemsWrapper = styled(MuiBox)(() => ({
     display: "flex",
     flexDirection: "column",
@@ -104,21 +105,6 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
             </DescriptionItem>
           ))}
         </DescriptionItemsWrapper>
-        {/* <DescriptionItem>
-          <RecordVoiceOverOutlinedIcon /> {subscriberCount} subscribers
-        </DescriptionItem>
-        <DescriptionItem>
-          <SlideshowIcon /> {videoCount} videos
-        </DescriptionItem>
-        <DescriptionItem>
-          <TrendingUpOutlinedIcon /> {viewCount} views
-        </DescriptionItem>
-        <DescriptionItem>
-          <InfoOutlinedIcon /> Joined {formatDate(publishedAt)}
-        </DescriptionItem>
-        <DescriptionItem>
-          <PublicOutlinedIcon /> {country}
-        </DescriptionItem> */}
       </Box>
     </Modal>
   );

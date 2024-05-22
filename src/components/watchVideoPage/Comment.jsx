@@ -64,8 +64,6 @@ const Comment = ({
       const res = await replyComment({ queryParams, data, accessToken });
       if (res) {
         addNewCommentInList({ newComment: res });
-      } else {
-        console.log("something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -138,6 +136,9 @@ const Comment = ({
 
 Comment.propTypes = {
   snippet: PropTypes.object,
+  totalReplyCount: PropTypes.number,
+  commentId: PropTypes.string,
+  addNewCommentInList: PropTypes.func,
 };
 
 export default Comment;

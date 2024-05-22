@@ -169,6 +169,7 @@ const VideoCard = ({ video, isListView = false }) => {
   //     abortController.abort();
   //   };
   // }, [getChannelDetails]);
+
   return (
     <Grid item onClick={handleVideoCardClick}>
       <Card elevation={0} className="videoCard">
@@ -190,9 +191,9 @@ const VideoCard = ({ video, isListView = false }) => {
             {!isListView && (
               // <ChannelThumbnail
               //   src={
-              //     channelThumbnailUrl
-              //       ? channelThumbnailUrl
-              //       : "https://placehold.jp/150x150.png"
+              //     !channelThumbnailUrl || channelThumbnailIsLoading
+              //       ? "https://placehold.jp/150x150.png"
+              //       : channelThumbnailUrl
               //   }
               //   alt="Channel Thumbnail"
               //   referrerPolicy="no-referrer"

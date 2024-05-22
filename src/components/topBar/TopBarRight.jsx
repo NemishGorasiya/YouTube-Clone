@@ -115,9 +115,6 @@ const TopBarRight = () => {
           <IconButton
             onClick={handleClick}
             size="small"
-            sx={{
-              ml: 2,
-            }}
             aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
@@ -128,9 +125,6 @@ const TopBarRight = () => {
                 src={profilePicture}
                 alt="user"
                 referrerPolicy="no-referrer"
-                onError={(event) => {
-                  console.log("error", event.target.src);
-                }}
               />
             ) : (
               <Avatar sx={{ height: "32px", width: "32px" }} />

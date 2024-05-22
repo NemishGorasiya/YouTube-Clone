@@ -11,6 +11,7 @@ const AppBar = () => {
     }
     setOpen((prevState) => !prevState);
   }, []);
+
   return (
     <>
       <TopBar toggleDrawer={toggleDrawer} />

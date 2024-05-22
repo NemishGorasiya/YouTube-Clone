@@ -1,17 +1,16 @@
-import { Box, Button, Divider, Menu, Modal, styled } from "@mui/material";
-import MuiIconButton from "@mui/material/IconButton";
-import MuiBox from "@mui/material/Box";
-import MuiTypography from "@mui/material/Typography";
-import MuiMenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, Menu, styled } from "@mui/material";
+import MuiBox from "@mui/material/Box";
+import MuiIconButton from "@mui/material/IconButton";
+import MuiMenuItem from "@mui/material/MenuItem";
+import MuiTypography from "@mui/material/Typography";
+import PropTypes from "prop-types";
 import { useState } from "react";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import AddToPlaylist from "./AddToPlaylist";
-import { fetchData } from "../../services/services";
+import { Link } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { fetchData } from "../../services/services";
+import AddToPlaylist from "./AddToPlaylist";
 
 const VideoImageWrapper = styled(MuiBox)(({ theme }) => ({
   width: "140px",
@@ -111,8 +110,6 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
       });
       if (res.status === 204) {
         filterPlaylist({ playlistItemId });
-      } else {
-        console.log("something went wrong while removing from playlist");
       }
     } catch (error) {
       console.error(error);
@@ -156,6 +153,8 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
 
 PlaylistItem.propTypes = {
   playlistItem: PropTypes.object,
+  playlistName: PropTypes.string,
+  filterPlaylist: PropTypes.func,
 };
 
 export default PlaylistItem;

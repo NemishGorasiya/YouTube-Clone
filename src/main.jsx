@@ -5,9 +5,9 @@ import "./index.scss";
 import { ThemeContextProvider } from "./context/ThemeContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  //   <React.StrictMode>
-  <ThemeContextProvider>
-    <App />
-  </ThemeContextProvider>
-  //   </React.StrictMode>
+  <React.StrictMode>
+    <ThemeContextProvider>
+      <App />
+    </ThemeContextProvider>
+  </React.StrictMode>
 );

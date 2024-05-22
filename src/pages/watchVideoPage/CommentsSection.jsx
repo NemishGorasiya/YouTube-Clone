@@ -7,8 +7,9 @@ import "./CommentsSection.scss";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { formatCompactNumber } from "../../utils/utilityFunction";
 
-const CommentsSection = ({ videoId, channelId }) => {
+const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
   const [comments, setComments] = useState({
     list: [],
@@ -83,8 +84,6 @@ const CommentsSection = ({ videoId, channelId }) => {
       const res = await addComment({ queryParams, data, accessToken });
       if (res) {
         addNewCommentInList({ newComment: res });
-      } else {
-        console.log("something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -92,9 +91,7 @@ const CommentsSection = ({ videoId, channelId }) => {
   };
 
   const addNewCommentInList = ({ newComment }) => {
-    console.log("called");
     setComments((prevComments) => {
-      console.log([newComment, ...prevComments.list]);
       return {
         ...prevComments,
         list: [newComment, ...prevComments.list],
@@ -129,7 +126,7 @@ const CommentsSection = ({ videoId, channelId }) => {
     <>
       {isWideScreen ? (
         <Box className="commentsSection">
-          <h1>comments</h1>
+          <h1>{formatCompactNumber(commentCount)} Comments</h1>
           <Box className="addComment">
             <Box
               component="img"
@@ -163,7 +160,7 @@ const CommentsSection = ({ videoId, channelId }) => {
           </Box>
         </Box>
       ) : (
-        <SwipeableCommentsSection>
+        <SwipeableCommentsSection commentCount={commentCount}>
           <Box className="commentsSection">
             <Box className="addComment">
               <Box
@@ -204,6 +201,7 @@ const CommentsSection = ({ videoId, channelId }) => {
 
 CommentsSection.propTypes = {
   videoId: PropTypes.string,
+  channelId: PropTypes.string,
 };
 
 export default CommentsSection;

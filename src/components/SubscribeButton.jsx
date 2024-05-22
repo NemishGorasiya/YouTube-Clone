@@ -9,6 +9,7 @@ import MuiBox from "@mui/material/Box";
 import MuiMenuItem from "@mui/material/MenuItem";
 import MuiButton from "@mui/material/Button";
 import { modalStyle } from "./styles/styles";
+import PropTypes from "prop-types";
 
 const UserActionButtonWrapper = styled(MuiBox)(() => ({
   textAlign: "end",
@@ -96,9 +97,6 @@ const SubscribeButton = ({
           isSubscribed: false,
         }));
         setIsOpenConfirmationModal(false);
-        console.log("Unsubscribed successfully");
-      } else {
-        console.log("Something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -248,6 +246,12 @@ const SubscribeButton = ({
       Subscribe
     </Button>
   );
+};
+
+SubscribeButton.propTypes = {
+  channelId: PropTypes.string,
+  channelName: PropTypes.string,
+  subscriptionId: PropTypes.string,
 };
 
 export default SubscribeButton;

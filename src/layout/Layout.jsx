@@ -11,6 +11,9 @@ const Layout = () => {
     flexGrow: 1,
     padding: "0 26px",
     background: theme.palette.background.default,
+    [theme.breakpoints.down("sm")]: {
+      padding: "0 16px",
+    },
   }));
 
   const DrawerHeader = styled("div")(({ theme }) => ({

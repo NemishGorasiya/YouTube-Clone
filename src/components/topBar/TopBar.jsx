@@ -40,6 +40,7 @@ const TopBar = ({ toggleDrawer }) => {
     display: "flex",
     alignItems: "center",
     gap: "24px",
+    marginRight: "24px",
   }));
 
   const IconButton = styled(MuiIconButton)(() => ({

@@ -29,6 +29,7 @@ import {
 import useLocalStorage from "../../hooks/useLocalStorage";
 import AddToPlaylist from "./AddToPlaylist";
 import SubscribeButton from "../../components/SubscribeButton";
+import Loader from "../../components/loader/Loader";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -216,8 +217,8 @@ const WatchVideoPage = () => {
             allow="fullscreen"
             frameborder="0"
           ></iframe>
-          {isLoading ? (
-            <h1>Loading...</h1>
+          {isLoading || isChannelDetailsLoading ? (
+            <Loader />
           ) : (
             <>
               <h2 className="videoTitle">{title}</h2>
@@ -328,7 +329,11 @@ const WatchVideoPage = () => {
             </>
           )}
         </Box>
-        <CommentsSection videoId={videoId} channelId={channelId} />
+        <CommentsSection
+          commentCount={commentCount}
+          videoId={videoId}
+          channelId={channelId}
+        />
       </Box>
       <Box className="relatedVideosWrapper">
         {playlistId && (
@@ -339,7 +344,7 @@ const WatchVideoPage = () => {
             />
           </PlaylistPanelWrapper>
         )}
-        {/* <Box className="relatedVideos">
+        <Box className="relatedVideos">
           Related Videos
           <VideoGallery
             url="/search"
@@ -353,7 +358,7 @@ const WatchVideoPage = () => {
             }}
             isListView={true}
           />
-        </Box> */}
+        </Box>
       </Box>
       <ScrollToTopButton />
     </Box>
