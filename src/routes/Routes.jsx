@@ -5,7 +5,6 @@ import ShortsPage from "../pages/shortsPage/ShortsPage";
 import ProfilePage from "../pages/profilePage/ProfilePage";
 import FeedPage from "../pages/feedPage/FeedPage";
 import SubscriptionPage from "../pages/subscriptionPage/SubscriptionPage";
-import History from "../components/history/History";
 import Playlists from "../components/playlists/Playlists";
 import SearchResultPage from "../pages/searchResultPage/SearchResultPage";
 import WatchVideoPage from "../pages/watchVideoPage/WatchVideoPage";
@@ -15,66 +14,62 @@ import SubscribedChannelsPage from "../pages/feedPage/SubscribedChannelsPage";
 import PlaylistPage from "../pages/playlistPage/PlaylistPage";
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <h1>Error</h1>,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: "/shorts",
-        element: <ShortsPage />,
-      },
-      {
-        path: "/results",
-        element: <SearchResultPage />,
-      },
-      {
-        path: "/watch",
-        element: <WatchVideoPage />,
-      },
-      {
-        path: "/channel/:channelId",
-        element: <ChannelPage />,
-      },
-      {
-        element: <ProtectedRoute />,
-        children: [
-          {
-            path: "/feed",
-            element: <FeedPage />,
-            children: [
-              {
-                path: "you",
-                element: <ProfilePage />,
-              },
-              {
-                path: "subscription",
-                element: <SubscriptionPage />,
-              },
-              {
-                path: "history",
-                element: <History />,
-              },
-              {
-                path: "playlists",
-                element: <Playlists />,
-              },
-              {
-                path: "channels",
-                element: <SubscribedChannelsPage />,
-              },
-            ],
-          },
-          {
-            path: "/playlist",
-            element: <PlaylistPage />,
-          },
-        ],
-      },
-    ],
-  },
+	{
+		path: "/",
+		element: <Layout />,
+		errorElement: <h1>Error</h1>,
+		children: [
+			{
+				index: true,
+				element: <HomePage />,
+			},
+			{
+				path: "/shorts",
+				element: <ShortsPage />,
+			},
+			{
+				path: "/results",
+				element: <SearchResultPage />,
+			},
+			{
+				path: "/watch",
+				element: <WatchVideoPage />,
+			},
+			{
+				path: "/channel/:channelId",
+				element: <ChannelPage />,
+			},
+			{
+				element: <ProtectedRoute />,
+				children: [
+					{
+						path: "/feed",
+						element: <FeedPage />,
+						children: [
+							{
+								path: "you",
+								element: <ProfilePage />,
+							},
+							{
+								path: "subscription",
+								element: <SubscriptionPage />,
+							},
+							{
+								path: "playlists",
+								element: <Playlists />,
+							},
+							{
+								path: "channels",
+								element: <SubscribedChannelsPage />,
+							},
+						],
+					},
+					{
+						path: "/playlist",
+						element: <PlaylistPage />,
+					},
+				],
+			},
+		],
+	},
 ]);
