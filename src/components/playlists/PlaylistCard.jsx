@@ -114,7 +114,11 @@ const PlaylistCard = ({ playlist }) => {
             resourceId: { videoId },
           },
         } = items[0];
-        navigate(`/watch?v=${videoId}&list=${id}&listName=${title}`);
+        navigate(
+          `/watch?v=${videoId}&list=${id}&listName=${
+            id === "LL" ? "Liked Videos" : title
+          }`
+        );
       }
     } catch (error) {
       console.error(error.message ?? error);

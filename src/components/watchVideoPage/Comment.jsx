@@ -1,22 +1,33 @@
 import "./Comment.scss";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import MuiButton from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentContent from "./CommentContent";
 import PropTypes from "prop-types";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 
 import {
   calcDistanceToNow,
   formatCompactNumber,
   handleFallBackImage,
 } from "../../utils/utilityFunction";
-import { TextField } from "@mui/material";
+import { TextField, styled } from "@mui/material";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import CommentReplies from "./CommentReplies";
+import { AuthContext } from "../../context/AuthContext";
+
+const Button = styled(MuiButton)(({ textColor, onHoverBackgroundColor }) => ({
+  color: textColor,
+  "&:hover": {
+    background: onHoverBackgroundColor,
+  },
+}));
 
 const Comment = ({
   snippet,
@@ -24,8 +35,25 @@ const Comment = ({
   commentId,
   addNewCommentInList,
 }) => {
+  const { isLoggedIn } = useContext(AuthContext);
+  const [isRepliesVisible, setIsRepliesVisible] = useState(false);
   const [isReplyCommentInputVisible, setIsReplyCommentInputVisible] =
     useState(false);
+
+  const [commentReplies, setCommentReplies] = useState({
+    list: [],
+    isLoading: true,
+    nextPageToken: "",
+    hasMore: false,
+  });
+
+  const {
+    list: repliesList,
+    isLoading: isRepliesLoading,
+    nextPageToken,
+    hasMore,
+  } = commentReplies || {};
+
   const {
     textDisplay,
     authorDisplayName,
@@ -34,11 +62,16 @@ const Comment = ({
     publishedAt,
   } = snippet || {};
 
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
-
   const toggleReplyInputVisibility = () => {
     setIsReplyCommentInputVisible((prevState) => !prevState);
+  };
+
+  const handleReplyCountButtonClick = () => {
+    console.log("called");
+    if (repliesList.length === 0) {
+      getComments();
+    }
+    setIsRepliesVisible((prev) => !prev);
   };
 
   const handleReplyComment = async (event) => {
@@ -67,10 +100,50 @@ const Comment = ({
         data,
       });
       if (res) {
-        addNewCommentInList({ newComment: res });
+        setCommentReplies((prev) => ({
+          ...prev,
+          list: [res, ...prev.list],
+        }));
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const getComments = useCallback(
+    async ({ nextPageToken } = {}) => {
+      try {
+        const queryParams = {
+          part: "snippet",
+          parentId: commentId,
+          ...(nextPageToken && { pageToken: nextPageToken }),
+        };
+
+        const res = await httpRequest({
+          url: "/comments",
+          queryParams,
+        });
+
+        if (res) {
+          setCommentReplies((prevComments) => ({
+            list: [...prevComments.list, ...res.items],
+            isLoading: false,
+            nextPageToken: res.nextPageToken,
+            hasMore: res.nextPageToken ? true : false,
+          }));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [commentId]
+  );
+
+  const loadMoreCommentReplies = () => {
+    if (nextPageToken && hasMore) {
+      getComments({ nextPageToken: nextPageToken });
+    } else {
+      getComments();
     }
   };
 
@@ -103,7 +176,11 @@ const Comment = ({
           <ThumbUpIcon />
           {formatCompactNumber(likeCount)}
           <ThumbDownIcon />
-          <Button variant="text" onClick={toggleReplyInputVisibility}>
+          <Button
+            disabled={!isLoggedIn}
+            variant="text"
+            onClick={toggleReplyInputVisibility}
+          >
             Reply
           </Button>
         </Box>
@@ -127,11 +204,31 @@ const Comment = ({
           </form>
         )}
         {totalReplyCount > 0 && (
-          <CommentReplies
-            accessToken={accessToken}
-            parentId={commentId}
-            totalReplyCount={totalReplyCount}
-          />
+          <Button
+            variant="text"
+            onClick={handleReplyCountButtonClick}
+            textColor="#3EA6FF"
+            onHoverBackgroundColor="#263850"
+          >
+            {isRepliesVisible ? (
+              <KeyboardArrowUpIcon />
+            ) : (
+              <KeyboardArrowDownIcon />
+            )}
+            {totalReplyCount} Replies
+          </Button>
+        )}
+        {isRepliesVisible && <CommentReplies list={repliesList} />}
+        {hasMore && isRepliesVisible && (
+          <Button
+            variant="text"
+            onClick={loadMoreCommentReplies}
+            startIcon={<SubdirectoryArrowRightIcon />}
+            textColor="#3EA6FF"
+            onHoverBackgroundColor="#263850"
+          >
+            Show More Replies
+          </Button>
         )}
       </Box>
     </Box>

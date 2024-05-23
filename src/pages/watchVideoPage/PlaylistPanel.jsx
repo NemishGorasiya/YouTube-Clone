@@ -8,7 +8,22 @@ import { httpRequest } from "../../services/services";
 import PlaylistItem from "./PlaylistItem";
 
 const PlaylistPanelComponent = styled(MuiBox)(() => ({
-  padding: "12px",
+  padding: "0 12px",
+  overflow: "auto",
+  maxHeight: "100%",
+
+  "&::-webkit-scrollbar-track": {
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    borderRadius: "12px",
+  },
+  "&::-webkit-scrollbar": {
+    width: "12px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    borderRadius: "10px",
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    backgroundColor: "#555",
+  },
 }));
 
 const PlaylistPanel = ({ playlistId, playlistName }) => {
@@ -29,15 +44,10 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
         playlistId,
         pageToken: nextPageToken,
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
       try {
         const res = await httpRequest({
           url: "/playlistItems",
           queryParams,
-          accessToken,
-          headers,
           abortController,
         });
         if (res) {
@@ -52,7 +62,7 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
         console.error(error.message ?? error);
       }
     },
-    [accessToken, playlistId]
+    [playlistId]
   );
 
   const loadMorePlaylistItems = () => {

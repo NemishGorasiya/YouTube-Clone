@@ -11,7 +11,7 @@ import MuiTypography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import MuiBox from "@mui/material/Box";
 import { SideBarLinks } from "../../utils/constant";
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
@@ -23,6 +23,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import SignInButton from "../SignInButton";
+import { AuthContext } from "../../context/AuthContext";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
@@ -128,14 +129,14 @@ const SideBarLinksWrapper = styled(MuiBox)(() => ({
     // backgroundColor: "#F5F5F5",
   },
   // "&::-webkit-scrollbar-track": {
-  // 	boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
-  // 	borderRadius: "10px",
-  // 	backgroundColor: "#F5F5F5",
+  //   boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+  //   borderRadius: "10px",
+  //   backgroundColor: "#F5F5F5",
   // },
   // "&::-webkit-scrollbar-thumb": {
-  // 	borderRadius: "10px",
-  // 	boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
-  // 	backgroundColor: "#D62929",
+  //   borderRadius: "10px",
+  //   boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+  //   backgroundColor: "#D62929",
   // },
 }));
 
@@ -154,6 +155,7 @@ const NavLinkTypography = styled(MuiTypography)(({ open }) =>
 
 const SideBar = ({ open, toggleDrawer }) => {
   const theme = useTheme();
+  const { isLoggedIn } = useContext(AuthContext);
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const [subscribedChannels, setSubscribedChannels] = useState({
     list: [],
@@ -248,7 +250,7 @@ const SideBar = ({ open, toggleDrawer }) => {
       <SideBarLinksWrapper>
         {SideBarLinks.map(
           (sideBarSection, idx) =>
-            (!sideBarSection.isProtected || accessToken) && (
+            (!sideBarSection.isProtected || isLoggedIn) && (
               <Fragment key={idx}>
                 <NavBarList open={open}>
                   <NavBarListTitle open={open}>
@@ -293,7 +295,7 @@ const SideBar = ({ open, toggleDrawer }) => {
               </Fragment>
             )
         )}
-        {accessToken && (
+        {isLoggedIn ? (
           <>
             <NavBarList open={open}>
               <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
@@ -403,8 +405,7 @@ const SideBar = ({ open, toggleDrawer }) => {
             </NavBarList>
             <Divider />
           </>
-        )}
-        {!accessToken && (
+        ) : (
           <>
             <SignInSection>
               <Typography variant="body1">

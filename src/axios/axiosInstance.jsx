@@ -6,7 +6,6 @@ console.log("access", accessToken);
 
 const axiosInstance = axios.create({
   baseURL: "https://youtube.googleapis.com/youtube/v3",
-  // other configurations
 });
 
 axiosInstance.interceptors.request.use(
@@ -21,16 +20,6 @@ axiosInstance.interceptors.request.use(
     Promise.reject(error);
   }
 );
-
-// axios.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response && error.response.status === 401) {
-//       // Handle 401 error, e.g., redirect to login or refresh token
-//     }
-//     return Promise.reject(error);
-//   }
-// );
 
 const refreshAccessToken = async () => {
   try {

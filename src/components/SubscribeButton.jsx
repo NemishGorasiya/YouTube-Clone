@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Loader from "./loader/Loader";
@@ -10,6 +10,7 @@ import MuiMenuItem from "@mui/material/MenuItem";
 import MuiButton from "@mui/material/Button";
 import { modalStyle } from "./styles/styles";
 import PropTypes from "prop-types";
+import { AuthContext } from "../context/AuthContext";
 
 const UserActionButtonWrapper = styled(MuiBox)(() => ({
   textAlign: "end",
@@ -41,9 +42,10 @@ const SubscribeButton = ({
   channelName,
   subscriptionId: subscriptionIdProp,
 }) => {
+  const { isLoggedIn } = useContext(AuthContext);
   const [subscriptionStatus, setSubscriptionStatus] = useState({
     isSubscribed: subscriptionIdProp ? true : false,
-    isLoading: subscriptionIdProp ? false : true,
+    isLoading: subscriptionIdProp || !isLoggedIn ? false : true,
   });
   const [subscriptionId, setSubscriptionId] = useState(subscriptionIdProp);
   const { isSubscribed, isLoading } = subscriptionStatus || {};
@@ -178,7 +180,7 @@ const SubscribeButton = ({
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (!subscriptionIdProp) {
+    if (!subscriptionIdProp && isLoggedIn) {
       getSubscriptionStatus({ abortController });
     }
     return () => {
@@ -242,6 +244,7 @@ const SubscribeButton = ({
       sx={{ width: "fit-content", height: "fit-content" }}
       variant="contained"
       onClick={handleSubscribeToChannel}
+      disabled={!isLoggedIn}
     >
       Subscribe
     </Button>

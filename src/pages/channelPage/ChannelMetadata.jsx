@@ -72,15 +72,11 @@ const ChannelMetadata = ({ channelId }) => {
         part: "snippet,statistics,brandingSettings",
         id: channelId,
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
       try {
         const res = await httpRequest({
           url: "/channels",
           abortController,
           queryParams,
-          headers,
         });
         if (res) {
           setChannelDetails({
@@ -92,7 +88,7 @@ const ChannelMetadata = ({ channelId }) => {
         console.error(error);
       }
     },
-    [accessToken, channelId]
+    [channelId]
   );
 
   useEffect(() => {

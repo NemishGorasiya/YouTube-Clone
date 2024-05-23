@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const ProtectedRoute = () => {
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
-  return accessToken ? (
+  const { isLoggedIn } = useContext(AuthContext);
+  return isLoggedIn ? (
     <>
       <Outlet />
     </>

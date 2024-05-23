@@ -14,6 +14,7 @@ const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
         gridTemplateColumns: "1fr",
         maxWidth: "1300px",
         margin: "auto",
+        gap: "12px",
       }
     : {
         gridTemplateColumns: "repeat(auto-fill, minmax(310px, 1fr))",

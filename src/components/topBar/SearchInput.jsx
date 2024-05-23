@@ -13,7 +13,9 @@ const formStyle = {
   display: "flex",
   alignItems: "center",
   height: SEARCH_INPUT_HEIGHT,
-  width: "600px",
+  maxWidth: "550px",
+  marginLeft: "52px",
+  flex: "1",
 };
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -91,13 +93,14 @@ const SearchInput = () => {
           ...(searchInputIsFocused && isSmallScreen
             ? {
                 position: "fixed",
-                width: "100vw",
+                minWidth: "100vw",
                 background: "#000",
                 backgroundColor: "#000",
                 zIndex: "99",
                 left: "0",
                 paddingLeft: "66px",
                 paddingRight: "43px",
+                marginLeft: 0,
               }
             : {}),
         }}

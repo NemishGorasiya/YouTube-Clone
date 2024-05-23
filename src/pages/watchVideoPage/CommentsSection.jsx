@@ -1,5 +1,5 @@
 import { Box, Button, TextField, useMediaQuery } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Comment from "../../components/watchVideoPage/Comment";
 import { httpRequest } from "../../services/services";
@@ -8,17 +8,17 @@ import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { formatCompactNumber } from "../../utils/utilityFunction";
+import { AuthContext } from "../../context/AuthContext";
 
 const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
+  const { isLoggedIn } = useContext(AuthContext);
   const [comments, setComments] = useState({
     list: [],
     isLoading: true,
     nextPageToken: "",
     hasMore: false,
   });
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
 
   const { list, isLoading, nextPageToken } = comments;
 
@@ -148,8 +148,9 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
                 name="newComment"
                 sx={{ flex: "1" }}
                 autoComplete="off"
+                disabled={!isLoggedIn}
               />
-              <Button type="submit" variant="contained">
+              <Button disabled={!isLoggedIn} type="submit" variant="contained">
                 Comment
               </Button>
             </form>
@@ -182,8 +183,13 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
                   name="newComment"
                   sx={{ flex: "1" }}
                   autoComplete="off"
+                  disabled={!isLoggedIn}
                 />
-                <Button type="submit" variant="contained">
+                <Button
+                  disabled={!isLoggedIn}
+                  type="submit"
+                  variant="contained"
+                >
                   Comment
                 </Button>
               </form>

@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import "./App.scss";
 import { ThemeContext } from "./context/ThemeContext";
 import { router } from "./routes/Routes";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -82,8 +83,10 @@ const App = () => {
 
   return (
     <ThemeProvider theme={chosenTheme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </AuthContextProvider>
     </ThemeProvider>
   );
 };

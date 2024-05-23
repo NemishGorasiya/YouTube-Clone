@@ -22,6 +22,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { fetchAccessToken, getUserInfo } from "../../services/services";
 import SignInButton from "../SignInButton";
+import { AuthContext } from "../../context/AuthContext";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -30,9 +31,10 @@ const SCOPE =
 const TopBarRight = () => {
   const navigate = useNavigate();
   const { changeThemeMode } = useContext(ThemeContext);
-  const [user, setUser, removeUser] = useLocalStorage("user", {});
-  const { accessToken, username, email, profilePicture } = user ?? {};
-  const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
+  const [user, setUser] = useLocalStorage("user", {});
+  const { username, email, profilePicture } = user ?? {};
+  // const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
+  const { isLoggedIn, handleLogin, handleLogout } = useContext(AuthContext);
 
   const [searchParams] = useSearchParams();
 
@@ -70,16 +72,23 @@ const TopBarRight = () => {
         if (res) {
           const { access_token = "", refresh_token = "" } = res;
           const userInfo = await getUserInfo({ accessToken: access_token });
-          const { name, picture, email } = userInfo;
+          const { name = "", picture = "", email = "" } = userInfo || {};
           if (userInfo) {
-            navigate("/");
-            setUser({
+            handleLogin({
               accessToken: access_token,
               refreshToken: refresh_token,
               username: name,
               profilePicture: picture,
               email: email,
             });
+            navigate("/");
+            // setUser({
+            //   accessToken: access_token,
+            //   refreshToken: refresh_token,
+            //   username: name,
+            //   profilePicture: picture,
+            //   email: email,
+            // });
           }
         }
       } catch (error) {
@@ -87,13 +96,13 @@ const TopBarRight = () => {
         console.error(error);
       }
     },
-    [navigate, setUser]
+    [handleLogin, navigate]
   );
 
-  const handleSignOut = () => {
-    removeUser();
-    setIsLoggedIn(false);
-  };
+  // const handleSignOut = () => {
+  //   removeUser();
+  //   setIsLoggedIn(false);
+  // };
 
   useEffect(() => {
     const code = searchParams.get("code");
@@ -238,7 +247,7 @@ const TopBarRight = () => {
         </Collapse>
         {isLoggedIn && (
           <>
-            <MenuItem onClick={handleSignOut}>
+            <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

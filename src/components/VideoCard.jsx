@@ -8,7 +8,6 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import MuiCardActionArea from "@mui/material/CardActionArea";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
-import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,7 +16,7 @@ import {
   isoDurationToDDHHMM,
 } from "../utils/utilityFunction";
 import "./VideoCard.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -30,11 +29,13 @@ const CardMedia = styled(MuiCardMedia)(() => ({
   borderRadius: "14px",
   aspectRatio: "25/14",
   height: "auto",
+  background: "gray",
 }));
 
 const CardMediaWrapper = styled(MuiBox)(() => ({
   position: "relative",
 }));
+
 const VideoDurationBadge = styled(MuiBox)(() => ({
   position: "absolute",
   bottom: "8px",
@@ -56,6 +57,7 @@ const CardContent = styled(MuiCardContent)(() => ({
   flex: "1",
   minWidth: "50%",
 }));
+
 const ChannelThumbnail = styled("img")(() => ({
   height: "36px",
   width: "36px",
@@ -88,10 +90,12 @@ const ChannelName = styled(MuiTypography)(() => ({
   alignItems: "center",
   fontSize: "14px",
 }));
+
 const VideoMetadata = styled(MuiBox)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "14px",
 }));
+
 const VideoDetail = styled(MuiBox)(() => ({
   flex: 1,
   overflow: "hidden",

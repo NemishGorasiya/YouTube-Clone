@@ -12,7 +12,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import MuiButton from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import VideoGallery from "../../components/VideoGallery";
 import { httpRequest } from "../../services/services";
@@ -30,6 +30,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import AddToPlaylist from "./AddToPlaylist";
 import SubscribeButton from "../../components/SubscribeButton";
 import Loader from "../../components/loader/Loader";
+import { AuthContext } from "../../context/AuthContext";
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -56,7 +57,6 @@ const UserActionButton = styled(MuiButton)(({ theme }) => ({
 
 const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
   maxHeight: "500px",
-  overflow: "auto",
   background: theme.palette.background.light,
   padding: 3,
   borderRadius: "12px",
@@ -64,6 +64,7 @@ const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
 
 const WatchVideoPage = () => {
   const [searchParams] = useSearchParams();
+  const { isLoggedIn } = useContext(AuthContext);
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
   const playlistName = searchParams.get("listName");
@@ -270,13 +271,6 @@ const WatchVideoPage = () => {
                       </Typography>
                     </Stack>
                   </ChannelLink>
-                  {/* <Button variant="outlined">Join</Button> */}
-                  {/* <Button
-                    variant="contained"
-                    onClick={handleSubscribeToChannel}
-                  >
-                    Subscribe
-                  </Button> */}
                   <SubscribeButton channelId={channelId} />
                 </Stack>
                 <Stack direction="row" spacing={1.5}>
@@ -296,6 +290,7 @@ const WatchVideoPage = () => {
                   >
                     <Button
                       sx={{ p: 0, borderRadius: 0, pr: 1 }}
+                      disabled={!isLoggedIn}
                       onClick={() => {
                         rateVideo({ rating: "like" });
                       }}
@@ -305,6 +300,7 @@ const WatchVideoPage = () => {
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <Button
                       sx={{ p: 0, borderRadius: 0 }}
+                      disabled={!isLoggedIn}
                       onClick={() => {
                         rateVideo({ rating: "dislike" });
                       }}
@@ -343,6 +339,7 @@ const WatchVideoPage = () => {
       <Box className="relatedVideosWrapper">
         {playlistId && (
           <PlaylistPanelWrapper>
+            {playlistName}
             <PlaylistPanel
               playlistId={playlistId}
               playlistName={playlistName}
