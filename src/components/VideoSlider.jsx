@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
@@ -20,6 +20,7 @@ const VideoSlider = ({ playlistId }) => {
 
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
+  const slideToObserve = useRef(null);
 
   const getPlaylistVideos = useCallback(
     async ({ nextPageToken, abortController }) => {
@@ -65,6 +66,17 @@ const VideoSlider = ({ playlistId }) => {
     };
   }, [getPlaylistVideos]);
 
+  useEffect(() => {
+    if (isLoading) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        loadMorePlaylistVideos();
+      }
+    }, {});
+    observer.observe(slideToObserve.current);
+    return () => observer.disconnect();
+  }, [isLoading, loadMorePlaylistVideos]);
+
   return (
     <div className="videoSliderWrapper">
       {isLoading ? (
@@ -95,20 +107,14 @@ const VideoSlider = ({ playlistId }) => {
             },
           }}
         >
-          {list.length &&
-            list.map(
-              (video, idx) =>
-                video?.snippet?.thumbnails?.high && (
-                  <SwiperSlide key={video.id} className="swiperSlide">
-                    {({ isVisible }) => {
-                      if (list.length === idx + 1 && isVisible) {
-                        loadMorePlaylistVideos();
-                      }
-                      return <VideoCard video={video} />;
-                    }}
-                  </SwiperSlide>
-                )
-            )}
+          {list.map((video, idx) => (
+            <SwiperSlide
+              key={video.id}
+              ref={list.length === idx + 5 ? slideToObserve : null}
+            >
+              <VideoCard video={video} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       )}
     </div>
