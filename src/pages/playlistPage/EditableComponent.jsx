@@ -3,7 +3,7 @@ import MuiBox from "@mui/material/Box";
 import MuiTextField from "@mui/material/TextField";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
-import { fetchData } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { PlaylistAddOutlined } from "@mui/icons-material";
 
@@ -64,7 +64,7 @@ const EditableComponent = ({ currentValue, playlistId }) => {
         },
       };
 
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/playlists",
         method: "PUT",
         queryParams,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import VideoSlider from "../../components/VideoSlider";
-import { fetchChannelSections } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import Loader from "../../components/loader/Loader";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { styled } from "@mui/material";
@@ -20,13 +20,16 @@ const ChannelHomePageContent = ({ channelId }) => {
       const queryParams = {
         part: "snippet,contentDetails",
         channelId,
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
+      };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
       };
       try {
-        const res = await fetchChannelSections({
+        const res = await httpRequest({
+          url: "/channelSections",
           queryParams,
           abortController,
-          accessToken,
+          headers,
         });
         if (res) {
           const { items } = res;

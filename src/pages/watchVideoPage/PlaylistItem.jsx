@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { fetchData } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import AddToPlaylist from "./AddToPlaylist";
 
 const VideoImageWrapper = styled(MuiBox)(({ theme }) => ({
@@ -101,7 +101,7 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         method: "DELETE",
         url: "/playlistItems",
         queryParams,

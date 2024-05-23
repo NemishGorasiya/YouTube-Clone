@@ -4,7 +4,7 @@ import MuiBox from "@mui/material/Box";
 import MuiGrid from "@mui/material/Grid";
 import MuiTypography from "@mui/material/Typography";
 import { calcDistanceToNow } from "../../utils/utilityFunction";
-import { fetchPlaylistItems } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -95,12 +95,16 @@ const PlaylistCard = ({ playlist }) => {
       part: "snippet",
       playlistId: id,
       maxResults: 1,
-      key: import.meta.env.VITE_GOOGLE_API_KEY,
+    };
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
     };
     try {
-      const res = await fetchPlaylistItems({
+      const res = await httpRequest({
+        url: "/playlistItems",
         queryParams,
         accessToken,
+        headers,
       });
 
       if (res) {

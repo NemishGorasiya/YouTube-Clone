@@ -2,7 +2,7 @@ import MuiGrid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
-import { fetchVideos } from "../services/services";
+import { httpRequest } from "../services/services";
 import InfiniteScroll from "./InfiniteScroll";
 import VideoCard from "./VideoCard";
 
@@ -23,7 +23,11 @@ const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
   },
 }));
 
-const VideoGallery = ({ isListView = false, url, queryParams }) => {
+const VideoGallery = ({
+  isListView = false,
+  url,
+  queryParams: queryParamsProp,
+}) => {
   const [videos, setVideos] = useState({
     list: [],
     isLoading: true,
@@ -37,10 +41,10 @@ const VideoGallery = ({ isListView = false, url, queryParams }) => {
           ...prevVideos,
           isLoading: true,
         }));
-        const response = await fetchVideos({
-          nextPageToken: nextPageToken,
+        const queryParams = { ...queryParamsProp, pageToken: nextPageToken };
+        const response = await httpRequest({
           url: url,
-          abortController: abortController,
+          abortController,
           queryParams,
         });
         if (response) {
@@ -54,7 +58,7 @@ const VideoGallery = ({ isListView = false, url, queryParams }) => {
         console.error(error);
       }
     },
-    [queryParams, url]
+    [queryParamsProp, url]
   );
 
   const loadMore = () => {

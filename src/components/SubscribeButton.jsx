@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchData } from "../services/services";
+import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Loader from "./loader/Loader";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -84,7 +84,7 @@ const SubscribeButton = ({
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/subscriptions",
         method: "DELETE",
         queryParams,
@@ -119,7 +119,7 @@ const SubscribeButton = ({
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/subscriptions",
         method: "POST",
         queryParams,
@@ -152,7 +152,7 @@ const SubscribeButton = ({
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-        const res = await fetchData({
+        const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
           headers,

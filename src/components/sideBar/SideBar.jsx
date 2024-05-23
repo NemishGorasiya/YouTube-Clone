@@ -16,7 +16,7 @@ import MuiDrawer from "@mui/material/Drawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 import { NavLink, useSearchParams } from "react-router-dom";
-import { fetchData, fetchSubscribedChannels } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import Loader from "../loader/Loader";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -188,7 +188,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-        const res = await fetchData({
+        const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
           headers,

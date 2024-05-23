@@ -26,7 +26,7 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 import Loader from "../../components/loader/Loader";
 import { modalStyle } from "../../components/styles/styles";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { fetchData } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import { privacyOptions } from "../../utils/constant";
 
 const CloseModalButton = styled(IconButton)(() => ({
@@ -136,7 +136,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-        const res = await fetchData({
+        const res = await httpRequest({
           url: "/playlists",
           method: "POST",
           queryParams,
@@ -175,7 +175,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
           },
         },
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/playlistItems",
         method: "POST",
         queryParams,
@@ -217,7 +217,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-        const res = await fetchData({
+        const res = await httpRequest({
           url: "/playlists",
           queryParams,
           headers,

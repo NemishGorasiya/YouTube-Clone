@@ -21,7 +21,7 @@ const ChannelVideos = ({ channelId }) => {
             channelId,
             maxResults: 10,
           }}
-          url={"/search"}
+          url="/search"
         />
       </div>
     </div>

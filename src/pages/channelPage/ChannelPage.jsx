@@ -10,7 +10,7 @@ const ChannelPage = () => {
     <>
       <div className="channelPage">
         <ChannelMetadata channelId={channelId} />
-        <ChannelContent channelId={channelId} />
+        {/* <ChannelContent channelId={channelId} /> */}
       </div>
     </>
   );

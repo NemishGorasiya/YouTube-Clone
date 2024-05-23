@@ -18,7 +18,7 @@ import {
 } from "../utils/utilityFunction";
 import "./VideoCard.scss";
 import { useCallback, useEffect, useState } from "react";
-import { fetchChannelDetails } from "../services/services";
+import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -138,10 +138,14 @@ const VideoCard = ({ video, isListView = false }) => {
         part: "snippet",
         id: channelId,
       };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
       try {
-        const res = await fetchChannelDetails({
+        const res = await httpRequest({
+          url: "/channels",
           queryParams,
-          accessToken,
+          headers,
           abortController,
         });
         if (res) {

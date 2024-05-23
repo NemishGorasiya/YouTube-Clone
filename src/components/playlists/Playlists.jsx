@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { styled } from "@mui/material";
 import MuiGrid from "@mui/material/Grid";
-import { fetchPlaylists } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import PlaylistCard from "./PlaylistCard";
 import InfiniteScroll from "../InfiniteScroll";
@@ -43,9 +43,9 @@ const Playlists = ({ channelId }) => {
           : { mine: true, pageToken: nextPageToken }),
       };
       try {
-        const res = await fetchPlaylists({
+        const res = await httpRequest({
+          url: "/playlists",
           queryParams,
-          accessToken,
           abortController,
         });
         if (res) {
@@ -60,7 +60,7 @@ const Playlists = ({ channelId }) => {
         console.error(error.message);
       }
     },
-    [accessToken, channelId, listQuery]
+    [channelId, listQuery]
   );
 
   const loadMorePlaylists = () => {

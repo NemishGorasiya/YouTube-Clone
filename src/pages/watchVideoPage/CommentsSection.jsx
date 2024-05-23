@@ -2,7 +2,7 @@ import { Box, Button, TextField, useMediaQuery } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Comment from "../../components/watchVideoPage/Comment";
-import { addComment, fetchComments } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import "./CommentsSection.scss";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
@@ -29,15 +29,15 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           part: "snippet",
           videoId: videoId,
           order: "relevance",
-          key: import.meta.env.VITE_GOOGLE_API_KEY,
           pageToken: nextPageToken,
         };
-        const response = await fetchComments({
+
+        const response = await httpRequest({
+          url: "/commentThreads",
           queryParams,
           abortController: abortController,
-          accessToken,
-          url: "/commentThreads",
         });
+
         setComments((prevComments) => ({
           list: [...prevComments.list, ...response.items],
           isLoading: false,
@@ -47,7 +47,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
         console.error(error);
       }
     },
-    [accessToken, videoId]
+    [videoId]
   );
 
   const loadMoreComments = () => {
@@ -68,7 +68,6 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
     try {
       const queryParams = {
         part: "snippet",
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
       };
       const data = {
         snippet: {
@@ -81,7 +80,12 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           },
         },
       };
-      const res = await addComment({ queryParams, data, accessToken });
+      const res = await httpRequest({
+        url: "/commentThreads",
+        method: "POST",
+        queryParams,
+        data,
+      });
       if (res) {
         addNewCommentInList({ newComment: res });
       }

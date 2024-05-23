@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchSubscribedChannels } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import ChannelCard from "./ChannelCard";
 import InfiniteScroll from "../../components/InfiniteScroll";
@@ -23,9 +23,13 @@ const SubscribedChannelsPage = () => {
           part: "snippet,contentDetails",
           pageToken: nextPageToken,
         };
-        const res = await fetchSubscribedChannels({
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        const res = await httpRequest({
+          url: "/subscriptions",
           queryParams,
-          accessToken,
+          headers,
           abortController: abortController,
         });
 

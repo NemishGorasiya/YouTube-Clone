@@ -2,16 +2,19 @@ import axios from "axios";
 
 const userInfo = JSON.parse(localStorage.getItem("user"));
 let { accessToken = "", refreshToken = "" } = userInfo || {};
+console.log("access", accessToken);
 
 const axiosInstance = axios.create({
   baseURL: "https://youtube.googleapis.com/youtube/v3",
   // other configurations
 });
 
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     config.headers["Content-Type"] = "application/json";
-    // config.headers["Authorization"] = `Bearer ${accessToken}`;
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     return config;
   },
   (error) => {

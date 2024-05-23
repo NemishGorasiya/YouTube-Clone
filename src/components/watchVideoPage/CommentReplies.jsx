@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { fetchComments } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import Comment from "./Comment";
 import { Button } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -31,16 +31,14 @@ const CommentReplies = ({ parentId, accessToken, totalReplyCount }) => {
         const queryParams = {
           part: "snippet",
           parentId,
-          key: import.meta.env.VITE_GOOGLE_API_KEY,
+          ...(nextPageToken && { pageToken: nextPageToken }),
         };
-        if (nextPageToken) {
-          queryParams.pageToken = nextPageToken;
-        }
-        const res = await fetchComments({
-          queryParams,
-          accessToken,
+
+        const res = await httpRequest({
           url: "/comments",
+          queryParams,
         });
+
         if (res) {
           setCommentReplies((prevComments) => ({
             list: [...prevComments.list, ...res.items],

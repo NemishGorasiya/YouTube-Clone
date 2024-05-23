@@ -5,7 +5,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { fetchPlaylistItems } from "../services/services";
+import { httpRequest } from "../services/services";
 import VideoCard from "./VideoCard";
 import "./VideoSlider.scss";
 import Loader from "./loader/Loader";
@@ -27,15 +27,18 @@ const VideoSlider = ({ playlistId }) => {
       const queryParams = {
         part: "snippet",
         playlistId,
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
         pageToken: nextPageToken,
+      };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
       };
 
       try {
-        const res = await fetchPlaylistItems({
+        const res = await httpRequest({
+          url: "/playlistItems",
           queryParams,
           abortController,
-          accessToken,
+          headers,
         });
         if (res) {
           const { nextPageToken, items } = res;

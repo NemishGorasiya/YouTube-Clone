@@ -8,7 +8,7 @@ import {
 import MuiTypography from "@mui/material/Typography";
 import { customParser, formatCompactNumber } from "../../utils/utilityFunction";
 import { useCallback, useEffect, useState } from "react";
-import { fetchChannelDetails } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
 import Loader from "../../components/loader/Loader";
@@ -71,13 +71,16 @@ const ChannelMetadata = ({ channelId }) => {
       const queryParams = {
         part: "snippet,statistics,brandingSettings",
         id: channelId,
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
+      };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
       };
       try {
-        const res = await fetchChannelDetails({
+        const res = await httpRequest({
+          url: "/channels",
           abortController,
           queryParams,
-          accessToken,
+          headers,
         });
         if (res) {
           setChannelDetails({

@@ -14,12 +14,12 @@ const Button = styled(MuiButton)(() => ({
   gap: 8,
   padding: "6px 12px",
   fontSize: 15,
-  width: "fit-content",
 }));
 
 const SignInButton = () => {
   return (
     <Link
+      style={{ minWidth: "fit-content" }}
       to={`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
         import.meta.env.VITE_CLIENT_ID
       }&response_type=code&redirect_uri=${

@@ -14,7 +14,7 @@ import {
 } from "../../utils/utilityFunction";
 import { TextField } from "@mui/material";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { replyComment } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import { useState } from "react";
 import CommentReplies from "./CommentReplies";
 
@@ -53,7 +53,6 @@ const Comment = ({
     try {
       const queryParams = {
         part: "snippet",
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
       };
       const data = {
         snippet: {
@@ -61,7 +60,12 @@ const Comment = ({
           parentId: commentId,
         },
       };
-      const res = await replyComment({ queryParams, data, accessToken });
+      const res = await httpRequest({
+        url: "/comments",
+        method: "POST",
+        queryParams,
+        data,
+      });
       if (res) {
         addNewCommentInList({ newComment: res });
       }

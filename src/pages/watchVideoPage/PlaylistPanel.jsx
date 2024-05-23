@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { fetchPlaylistItems } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import PlaylistItem from "./PlaylistItem";
 
 const PlaylistPanelComponent = styled(MuiBox)(() => ({
@@ -27,13 +27,17 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
       const queryParams = {
         part: "snippet",
         playlistId,
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
         pageToken: nextPageToken,
       };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
       try {
-        const res = await fetchPlaylistItems({
+        const res = await httpRequest({
+          url: "/playlistItems",
           queryParams,
           accessToken,
+          headers,
           abortController,
         });
         if (res) {

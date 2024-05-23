@@ -11,11 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 import PlaylistItem from "../watchVideoPage/PlaylistItem";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { modalStyle } from "../../components/styles/styles";
-import {
-  fetchData,
-  fetchPlaylistItems,
-  fetchPlaylists,
-} from "../../services/services";
+import { httpRequest } from "../../services/services";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { Margin } from "@mui/icons-material";
@@ -192,9 +188,11 @@ const PlaylistPage = () => {
       const queryParams = {
         part: "snippet,contentDetails,status",
         id: playlistId,
-        key: import.meta.env.VITE_GOOGLE_API_KEY,
       };
-      const res = await fetchPlaylists({ queryParams, accessToken });
+      const res = await httpRequest({
+        url: "/playlists",
+        queryParams,
+      });
       if (res) {
         const { items } = res;
         setPlaylist({
@@ -205,7 +203,7 @@ const PlaylistPage = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [accessToken, playlistId]);
+  }, [playlistId]);
 
   const handleCloseMoreOptionsMenu = () => {
     setAnchorEl(null);
@@ -229,7 +227,7 @@ const PlaylistPage = () => {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         method: "DELETE",
         url: "/playlists",
         queryParams,
@@ -265,7 +263,7 @@ const PlaylistPage = () => {
           title: playlistTitle,
         },
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/playlists",
         method: "PUT",
         queryParams,

@@ -15,7 +15,7 @@ import { styled } from "@mui/material/styles";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import VideoGallery from "../../components/VideoGallery";
-import { fetchData, fetchVideos } from "../../services/services";
+import { httpRequest } from "../../services/services";
 import CommentsSection from "./CommentsSection";
 import PlaylistPanel from "./PlaylistPanel";
 import ScrollToTopButton from "./ScrollToTopButton";
@@ -116,7 +116,7 @@ const WatchVideoPage = () => {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/subscriptions",
         method: "POST",
         queryParams,
@@ -142,7 +142,7 @@ const WatchVideoPage = () => {
         id: videoId,
         rating,
       };
-      const res = await fetchData({
+      const res = await httpRequest({
         url: "/videos/rate",
         method: "POST",
         headers,
@@ -160,9 +160,14 @@ const WatchVideoPage = () => {
   const fetchVideoDetails = useCallback(
     async ({ abortController }) => {
       try {
-        const response = await fetchVideos({
-          url: `/videos?part=snippet,statistics&id=${videoId}`,
-          abortController: abortController,
+        const queryParams = {
+          part: "snippet,statistics",
+          id: videoId,
+        };
+        const response = await httpRequest({
+          url: "/videos",
+          queryParams,
+          abortController,
         });
         if (response) {
           setChannelDetails({
@@ -171,7 +176,7 @@ const WatchVideoPage = () => {
           });
           const { items = [] } = response;
           const { snippet: { channelId = "" } = {} } = items[0] || {};
-          const channelDetails = await fetchData({
+          const channelDetails = await httpRequest({
             url: "/channels",
             queryParams: {
               part: "snippet,statistics",
