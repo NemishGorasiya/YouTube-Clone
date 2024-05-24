@@ -43,11 +43,12 @@ export const httpRequest = async ({
   abortController = null,
   returnEntireResponseWithStatusCode = false,
 }) => {
+  const params = { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY };
   try {
     const config = {
       method,
       url,
-      params: { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY },
+      params: params,
       headers,
       data,
       ...(abortController && { signal: abortController.signal }),

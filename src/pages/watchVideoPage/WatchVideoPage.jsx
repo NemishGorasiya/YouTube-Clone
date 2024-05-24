@@ -336,7 +336,7 @@ const WatchVideoPage = () => {
           channelId={channelId}
         />
       </Box>
-      <Box className="relatedVideosWrapper">
+      {/* <Box className="relatedVideosWrapper">
         {playlistId && (
           <PlaylistPanelWrapper>
             {playlistName}
@@ -361,7 +361,7 @@ const WatchVideoPage = () => {
             isListView={true}
           />
         </Box>
-      </Box>
+      </Box> */}
       <ScrollToTopButton />
     </Box>
   );

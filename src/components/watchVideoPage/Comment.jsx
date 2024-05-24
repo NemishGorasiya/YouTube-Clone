@@ -18,7 +18,7 @@ import {
 import { TextField, styled } from "@mui/material";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import CommentReplies from "./CommentReplies";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -42,16 +42,14 @@ const Comment = ({
 
   const [commentReplies, setCommentReplies] = useState({
     list: [],
-    isLoading: true,
+    isLoading: false,
     nextPageToken: "",
-    hasMore: false,
   });
 
   const {
     list: repliesList,
     isLoading: isRepliesLoading,
     nextPageToken,
-    hasMore,
   } = commentReplies || {};
 
   const {
@@ -67,7 +65,6 @@ const Comment = ({
   };
 
   const handleReplyCountButtonClick = () => {
-    console.log("called");
     if (repliesList.length === 0) {
       getComments();
     }
@@ -125,11 +122,11 @@ const Comment = ({
         });
 
         if (res) {
+          const { items = [], nextPageToken = "" } = res;
           setCommentReplies((prevComments) => ({
-            list: [...prevComments.list, ...res.items],
+            list: [...prevComments.list, ...items],
             isLoading: false,
-            nextPageToken: res.nextPageToken,
-            hasMore: res.nextPageToken ? true : false,
+            nextPageToken: nextPageToken,
           }));
         }
       } catch (error) {
@@ -140,10 +137,8 @@ const Comment = ({
   );
 
   const loadMoreCommentReplies = () => {
-    if (nextPageToken && hasMore) {
+    if (nextPageToken) {
       getComments({ nextPageToken: nextPageToken });
-    } else {
-      getComments();
     }
   };
 
@@ -192,7 +187,7 @@ const Comment = ({
             }}
           >
             <TextField
-              label="Add a comment..."
+              label="Add a reply..."
               variant="standard"
               name="newComment"
               sx={{ flex: 1 }}
@@ -219,7 +214,7 @@ const Comment = ({
           </Button>
         )}
         {isRepliesVisible && <CommentReplies list={repliesList} />}
-        {hasMore && isRepliesVisible && (
+        {nextPageToken && isRepliesVisible && (
           <Button
             variant="text"
             onClick={loadMoreCommentReplies}

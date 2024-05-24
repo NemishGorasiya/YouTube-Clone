@@ -18,7 +18,7 @@ import {
 import "./VideoCard.scss";
 import { useCallback, useState } from "react";
 import { httpRequest } from "../services/services";
-import useLocalStorage from "../hooks/useLocalStorage";
+import VideoThumbnailFallbackImage from "../assets/video-placeholder.jpg";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
@@ -108,8 +108,6 @@ const VideoCard = ({ video, isListView = false }) => {
     isLoading: true,
   });
 
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
   const { url: channelThumbnailUrl, isLoading: channelThumbnailIsLoading } =
     channelThumbnail;
   const { id, snippet, statistics: { viewCount } = {}, contentDetails } = video;
@@ -142,14 +140,11 @@ const VideoCard = ({ video, isListView = false }) => {
         part: "snippet",
         id: channelId,
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
       try {
         const res = await httpRequest({
           url: "/channels",
           queryParams,
-          headers,
+
           abortController,
         });
         if (res) {
@@ -167,7 +162,7 @@ const VideoCard = ({ video, isListView = false }) => {
         console.error(error);
       }
     },
-    [accessToken, channelId]
+    [channelId]
   );
 
   // useEffect(() => {
@@ -186,7 +181,7 @@ const VideoCard = ({ video, isListView = false }) => {
             <CardMedia
               isListView={isListView}
               component="img"
-              image={url}
+              image={url || VideoThumbnailFallbackImage}
               alt="Video Thumbnail"
             />
             {duration && (

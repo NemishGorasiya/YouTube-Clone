@@ -17,7 +17,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 import { NavLink, useSearchParams } from "react-router-dom";
 import { httpRequest } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import Loader from "../loader/Loader";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -170,9 +169,6 @@ const SideBar = ({ open, toggleDrawer }) => {
     nextPageToken: subscribedChannelsNextPageToken,
   } = subscribedChannels;
 
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
-
   const [searchParams] = useSearchParams();
   const isActiveByQueryParam = (paramName, paramValue) => {
     const params = new URLSearchParams(searchParams);
@@ -187,13 +183,11 @@ const SideBar = ({ open, toggleDrawer }) => {
           mine: true,
           pageToken: nextPageToken,
         };
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-        };
+
         const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
-          headers,
+
           abortController,
         });
         if (res) {
@@ -209,7 +203,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         console.error(error);
       }
     },
-    [accessToken]
+    []
   );
 
   const handleShowLessBtnClick = () => {
@@ -223,7 +217,7 @@ const SideBar = ({ open, toggleDrawer }) => {
   }, [getSubscribedChannels, subscribedChannelsNextPageToken]);
 
   useEffect(() => {
-    if (accessToken) {
+    if (isLoggedIn) {
       setSubscribedChannels({
         list: [],
         isLoading: true,
@@ -236,7 +230,7 @@ const SideBar = ({ open, toggleDrawer }) => {
         abortController.abort();
       };
     }
-  }, [accessToken, getSubscribedChannels]);
+  }, [getSubscribedChannels, isLoggedIn]);
 
   return (
     <Drawer
