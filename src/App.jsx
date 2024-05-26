@@ -9,86 +9,88 @@ import { router } from "./routes/Routes";
 import { AuthContextProvider } from "./context/AuthContext";
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const { themeMode } = useContext(ThemeContext);
+	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+	const { themeMode } = useContext(ThemeContext);
 
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-      primary: {
-        main: "#F1F1F1",
-        light: "#AAAAAA",
-      },
-      secondary: {
-        main: "#AAAAAA",
-        light: "#303030",
-      },
-      background: {
-        default: "#000000",
-        light: "#222222",
-      },
-      secondaryBackground: {
-        default: "#3F3F3F",
-        light: "#303030",
-      },
-    },
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: 28,
-          },
-        },
-      },
-    },
-  });
-  const lightTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#0F0F0F",
-        light: "#606060",
-      },
-      secondary: {
-        main: "#AAAAAA",
-        light: "#303030",
-      },
-      background: {
-        default: "#FFFFFF",
-        light: "#D9D9D9",
-      },
-      secondaryBackground: {
-        default: "#E5E5E5",
-        light: "#E0E0E0",
-      },
-    },
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: 28,
-          },
-        },
-      },
-    },
-  });
+	const darkTheme = createTheme({
+		palette: {
+			mode: "dark",
+			primary: {
+				main: "#F1F1F1",
+				light: "#AAAAAA",
+			},
+			secondary: {
+				main: "#AAAAAA",
+				light: "#303030",
+			},
+			background: {
+				default: "#000000",
+				light: "#222222",
+				secondary: "#272727",
+			},
+			secondaryBackground: {
+				default: "#3F3F3F",
+				light: "#303030",
+			},
+		},
+		components: {
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						borderRadius: 28,
+					},
+				},
+			},
+		},
+	});
+	const lightTheme = createTheme({
+		palette: {
+			primary: {
+				main: "#0F0F0F",
+				light: "#606060",
+			},
+			secondary: {
+				main: "#AAAAAA",
+				light: "#303030",
+			},
+			background: {
+				default: "#FFFFFF",
+				light: "#D9D9D9",
+				secondary: "#F2F2F2",
+			},
+			secondaryBackground: {
+				default: "#E5E5E5",
+				light: "#E0E0E0",
+			},
+		},
+		components: {
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						borderRadius: 28,
+					},
+				},
+			},
+		},
+	});
 
-  const chosenTheme =
-    themeMode === "systemPreference"
-      ? prefersDarkMode
-        ? darkTheme
-        : lightTheme
-      : themeMode === "dark"
-      ? darkTheme
-      : lightTheme;
+	const chosenTheme =
+		themeMode === "systemPreference"
+			? prefersDarkMode
+				? darkTheme
+				: lightTheme
+			: themeMode === "dark"
+			? darkTheme
+			: lightTheme;
 
-  return (
-    <ThemeProvider theme={chosenTheme}>
-      <AuthContextProvider>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </AuthContextProvider>
-    </ThemeProvider>
-  );
+	return (
+		<ThemeProvider theme={chosenTheme}>
+			<AuthContextProvider>
+				<CssBaseline />
+				<RouterProvider router={router} />
+			</AuthContextProvider>
+		</ThemeProvider>
+	);
 };
 
 export default App;

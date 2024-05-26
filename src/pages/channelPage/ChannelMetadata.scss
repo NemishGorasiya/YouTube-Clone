@@ -1,38 +1,30 @@
 .channelMetadataWrapper {
-  display: flex;
-  margin: 16px 0;
-  width: 100%;
-  gap: 16px;
+	display: flex;
+	margin: 16px 0;
+	width: 100%;
+	gap: 16px;
 
-  .channelThumbnailWrapper {
-    height: 160px;
-    width: 160px;
-    min-width: 160px;
-    min-height: 160px;
+	.channelThumbnailWrapper {
+		height: 160px;
+		width: 160px;
+		min-width: 160px;
+		min-height: 160px;
 
-    img {
-      height: 100%;
-      width: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  }
-  .channelDetailsWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+		img {
+			height: 100%;
+			width: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+	}
+	.channelDetailsWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
 
-    .channelDescription {
-      position: relative;
-      cursor: pointer;
-
-      .showMoreIcon {
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 100%;
-        background: #000;
-      }
-    }
-  }
+		.channelDescription {
+			position: relative;
+			cursor: pointer;
+		}
+	}
 }

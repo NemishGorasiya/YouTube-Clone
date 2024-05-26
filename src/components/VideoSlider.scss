@@ -1,35 +1,35 @@
 .videoSliderWrapper {
-  position: relative;
-  .swiper {
-    position: static;
-  }
-  .swiper-button-prev,
-  .swiper-button-next {
-    top: 50%;
-    height: 40px;
-    width: 40px;
+	position: relative;
+	.swiper {
+		position: static;
+	}
+	.swiper-button-prev,
+	.swiper-button-next {
+		top: 50%;
+		height: 40px;
+		width: 40px;
 
-    &::after {
-      height: 100%;
-      width: 100%;
-      font-size: 17px;
-      color: #f1f1f1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      background: #282828;
-    }
-  }
-  .swiper-button-prev {
-    left: 0;
-    transform: translate(-50%, -50%);
-  }
-  .swiper-button-next {
-    right: 0;
-    transform: translate(50%, -50%);
-  }
-  .swiper-button-disabled {
-    display: none;
-  }
+		&::after {
+			height: 100%;
+			width: 100%;
+			font-size: 17px;
+			color: #f1f1f1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50%;
+			background: #282828;
+		}
+	}
+	.swiper-button-prev {
+		left: 0;
+		transform: translate(-50%, -50%);
+	}
+	.swiper-button-next {
+		right: 0;
+		transform: translate(50%, -50%);
+	}
+	.swiper-button-disabled {
+		display: none;
+	}
 }

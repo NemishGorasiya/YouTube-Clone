@@ -1,32 +1,37 @@
 .videoPageContainer {
-  display: flex;
-  gap: 12px;
+	display: flex;
+	gap: 12px;
 
-  .videoPageLeftSection {
-    flex: 3;
-    .videoPlayerWrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+	.videoPageLeftSection {
+		flex: 3;
+		.videoPlayerWrapper {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
 
-      iframe {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-      }
-    }
-  }
-  .relatedVideosWrapper {
-    flex: 1;
-    gap: 12px;
+			iframe {
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16/9;
+			}
+		}
+	}
+	.relatedVideosWrapper {
+		flex: 1;
+		gap: 12px;
+		display: flex;
+		flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
-  }
+		.relatedVideos {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+	}
 }
 
 @media only screen and (max-width: 1199px) {
-  .videoPageContainer {
-    flex-direction: column;
-  }
+	.videoPageContainer {
+		flex-direction: column;
+	}
 }
