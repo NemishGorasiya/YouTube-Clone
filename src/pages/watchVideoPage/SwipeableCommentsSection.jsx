@@ -84,7 +84,6 @@ const SwipeableCommentsSection = ({ children, commentCount }) => {
           }}
         >
           {children}
-          <Skeleton variant="rectangular" height="100%" />
         </StyledBox>
       </SwipeableDrawer>
     </>

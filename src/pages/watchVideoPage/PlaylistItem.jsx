@@ -6,11 +6,12 @@ import MuiIconButton from "@mui/material/IconButton";
 import MuiMenuItem from "@mui/material/MenuItem";
 import MuiTypography from "@mui/material/Typography";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
 import AddToPlaylist from "./AddToPlaylist";
+import { AuthContext } from "../../context/AuthContext";
 
 const VideoImageWrapper = styled(MuiBox)(({ theme }) => ({
   width: "140px",
@@ -62,6 +63,7 @@ const IconButton = styled(MuiIconButton)(() => ({
 
 const MenuItem = styled(MuiMenuItem)(() => ({
   gap: "4px",
+  // padding: 0,
 }));
 
 const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
@@ -69,6 +71,7 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
   const isOpenMoreOptions = Boolean(anchorEl);
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
+  const { isLoggedIn } = useContext(AuthContext);
 
   const {
     id: playlistItemId,
@@ -139,7 +142,7 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        <MenuItem disabled={!isLoggedIn}>
           <AddToPlaylist videoId={videoId} />
         </MenuItem>
         <MenuItem onClick={handleRemoveFromPlaylist}>

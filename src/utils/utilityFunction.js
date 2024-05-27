@@ -1,7 +1,10 @@
 import { formatDistanceToNowStrict } from "date-fns";
 
 export const formatCompactNumber = (number) => {
+  console.log("in util", number);
+  console.log("in util", typeof number);
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  console.log("ans", formatter.format(number));
   return formatter.format(number);
 };
 
