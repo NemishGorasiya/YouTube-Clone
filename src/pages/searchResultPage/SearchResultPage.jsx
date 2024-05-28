@@ -1,5 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import VideoGallery from "../../components/VideoGallery";
+import VideoFilter from "./VideoFilter";
+import { styled } from "@mui/material";
+import MuiBox from "@mui/material/Box";
+
+const VideoFilterButtonWrapper = styled(MuiBox)(() => ({
+  textAlign: "end",
+}));
 
 const SearchResultPage = () => {
   const [searchParams] = useSearchParams();
@@ -7,7 +14,10 @@ const SearchResultPage = () => {
 
   return (
     <div>
-      <VideoGallery
+      <VideoFilterButtonWrapper>
+        <VideoFilter />
+      </VideoFilterButtonWrapper>
+      {/* <VideoGallery
         isListView={true}
         url="/search"
         queryParams={{
@@ -17,7 +27,7 @@ const SearchResultPage = () => {
           type: "video",
           videoDefinition: "high",
         }}
-      />
+      /> */}
     </div>
   );
 };
