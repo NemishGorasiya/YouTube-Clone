@@ -35,6 +35,11 @@ const SubscribedButton = styled(MuiButton)(({ theme }) => ({
   paddingLeft: "16px",
   paddingRight: "12px",
   borderRadius: 32,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "12px",
+    paddingLeft: "8px",
+    paddingRight: "6px",
+  },
 }));
 
 const SubscribeButton = ({
@@ -44,7 +49,7 @@ const SubscribeButton = ({
 }) => {
   const { isLoggedIn } = useContext(AuthContext);
   const [subscriptionStatus, setSubscriptionStatus] = useState({
-    isSubscribed: subscriptionIdProp ? true : false,
+    isSubscribed: !!subscriptionIdProp,
     isLoading: subscriptionIdProp || !isLoggedIn ? false : true,
   });
   const [subscriptionId, setSubscriptionId] = useState(subscriptionIdProp);

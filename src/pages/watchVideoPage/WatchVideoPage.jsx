@@ -2,7 +2,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DownloadIcon from "@mui/icons-material/Download";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
 import MuiTypography from "@mui/material/Typography";
@@ -43,7 +45,6 @@ const ChannelLink = styled(Link)(() => ({
 
 const VideoMetadataWrapper = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
-    background: "red",
     flexDirection: "column",
     alignItems: "start  ",
   },
@@ -83,6 +84,9 @@ const WatchVideoPage = () => {
   const playlistId = searchParams.get("list");
   const playlistName = searchParams.get("listName");
 
+  const [isVideoLiked, setIsVideoLiked] = useState(false);
+  const [isVideoDisLiked, setIsVideoDisLiked] = useState(false);
+
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
 
@@ -116,7 +120,38 @@ const WatchVideoPage = () => {
   } = snippet || {};
   const { viewCount, likeCount, commentCount } = statistics || {};
 
+  const updateLikeCount = ({ isIncreasing }) => {
+    setVideoDetails((prevVideoDetails) => {
+      const prevLikeCount = prevVideoDetails.data.statistics.likeCount;
+      let newLikeCount;
+      if (isIncreasing) {
+        newLikeCount = (+prevLikeCount + 1).toString();
+      } else {
+        newLikeCount = (+prevLikeCount - 1).toString();
+      }
+      return {
+        ...prevVideoDetails,
+        data: {
+          ...prevVideoDetails.data,
+          statistics: {
+            ...prevVideoDetails.data.statistics,
+            likeCount: newLikeCount,
+          },
+        },
+      };
+    });
+  };
+
   const rateVideo = async ({ rating }) => {
+    if (rating === "dislike") {
+      setIsVideoDisLiked((prevState) => !prevState);
+      return;
+    }
+    if (isVideoLiked && rating === "like") {
+      updateLikeCount({ isIncreasing: false });
+      setIsVideoLiked(false);
+      return;
+    }
     try {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
@@ -135,20 +170,8 @@ const WatchVideoPage = () => {
       if (res.status === 204) {
         if (rating === "like") {
           if (rating === "like") {
-            setVideoDetails((prevVideoDetails) => {
-              return {
-                ...prevVideoDetails,
-                data: {
-                  ...prevVideoDetails.data,
-                  statistics: {
-                    ...prevVideoDetails.data.statistics,
-                    likeCount: (
-                      +prevVideoDetails.data.statistics.likeCount + 1
-                    ).toString(),
-                  },
-                },
-              };
-            });
+            updateLikeCount({ isIncreasing: true });
+            setIsVideoLiked(true);
           }
         }
       }
@@ -299,7 +322,8 @@ const WatchVideoPage = () => {
                         rateVideo({ rating: "like" });
                       }}
                     >
-                      <ThumbUpIcon /> {formatCompactNumber(likeCount)}
+                      {isVideoLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+                      {formatCompactNumber(likeCount)}
                     </Button>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <Button
@@ -313,7 +337,11 @@ const WatchVideoPage = () => {
                         rateVideo({ rating: "dislike" });
                       }}
                     >
-                      <ThumbDownIcon />
+                      {isVideoDisLiked ? (
+                        <ThumbDownIcon />
+                      ) : (
+                        <ThumbDownOffAltIcon />
+                      )}
                     </Button>
                   </Box>
                   <UserActionButton variant="contained" disabled={!isLoggedIn}>

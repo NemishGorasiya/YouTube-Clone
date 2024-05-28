@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser, removeUser] = useLocalStorage("user", {});
   const { accessToken } = user;
-  const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
   const handleLogin = (userInfo) => {
     setUser(userInfo);

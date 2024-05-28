@@ -84,3 +84,6 @@ export const privacyOptions = {
     icon: <LockOutlinedIcon />,
   },
 };
+
+export const commentsAreOffGooglePageLink =
+  "https://support.google.com/youtube/answer/9706180?hl=en";

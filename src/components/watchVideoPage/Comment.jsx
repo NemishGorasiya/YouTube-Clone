@@ -3,7 +3,9 @@ import Box from "@mui/material/Box";
 import MuiButton from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import CommentContent from "./CommentContent";
 import PropTypes from "prop-types";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -16,9 +18,8 @@ import {
   handleFallBackImage,
 } from "../../utils/utilityFunction";
 import { TextField, styled } from "@mui/material";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { memo, useCallback, useContext, useState } from "react";
 import CommentReplies from "./CommentReplies";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -29,16 +30,13 @@ const Button = styled(MuiButton)(({ textColor, onHoverBackgroundColor }) => ({
   },
 }));
 
-const Comment = ({
-  snippet,
-  totalReplyCount,
-  commentId,
-  addNewCommentInList,
-}) => {
+const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   const { isLoggedIn } = useContext(AuthContext);
   const [isRepliesVisible, setIsRepliesVisible] = useState(false);
   const [isReplyCommentInputVisible, setIsReplyCommentInputVisible] =
     useState(false);
+  const [isVideoLiked, setIsVideoLiked] = useState(false);
+  const [isVideoDisLiked, setIsVideoDisLiked] = useState(false);
 
   const [commentReplies, setCommentReplies] = useState({
     list: [],
@@ -51,7 +49,6 @@ const Comment = ({
     isLoading: isRepliesLoading,
     nextPageToken,
   } = commentReplies || {};
-
   const {
     textDisplay,
     authorDisplayName,
@@ -84,7 +81,7 @@ const Comment = ({
       const queryParams = {
         part: "snippet",
       };
-      const data = {
+      const requestData = {
         snippet: {
           textOriginal: comment,
           parentId: commentId,
@@ -94,7 +91,7 @@ const Comment = ({
         url: "/comments",
         method: "POST",
         queryParams,
-        data,
+        data: requestData,
       });
       if (res) {
         setCommentReplies((prev) => ({
@@ -105,6 +102,18 @@ const Comment = ({
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleLikeComment = useCallback(() => {
+    setIsVideoLiked((prevState) => {
+      const newLikeCount = !prevState;
+      updateLikeCount({ id: commentId, isIncreasing: newLikeCount });
+      return newLikeCount;
+    });
+  }, [commentId, updateLikeCount]);
+
+  const handleDisLikeComment = () => {
+    setIsVideoDisLiked((prevState) => !prevState);
   };
 
   const getComments = useCallback(
@@ -168,9 +177,23 @@ const Comment = ({
         </Box>
         <CommentContent textDisplay={textDisplay} />
         <Box className="commentEngagement">
-          <ThumbUpIcon />
+          <Box
+            sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+            onClick={handleLikeComment}
+          >
+            {isVideoLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+          </Box>
           {formatCompactNumber(likeCount)}
-          <ThumbDownIcon />
+          <Box
+            sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+            onClick={handleDisLikeComment}
+          >
+            {isVideoDisLiked ? (
+              <ThumbDownIcon />
+            ) : (
+              <ThumbDownOffAltIcon sx={{ height: "fit-content" }} />
+            )}
+          </Box>
           <Button
             disabled={!isLoggedIn}
             variant="text"
@@ -234,7 +257,15 @@ Comment.propTypes = {
   snippet: PropTypes.object,
   totalReplyCount: PropTypes.number,
   commentId: PropTypes.string,
-  addNewCommentInList: PropTypes.func,
+  updateLikeCount: PropTypes.func.isRequired,
 };
 
-export default Comment;
+const MemoizedComment = memo(Comment, (prevProps, nextProps) => {
+  return (
+    prevProps.snippet.likeCount === nextProps.snippet.likeCount &&
+    prevProps.snippet.textDisplay === nextProps.snippet.textDisplay &&
+    prevProps.totalReplyCount === nextProps.totalReplyCount
+  );
+});
+
+export default MemoizedComment;

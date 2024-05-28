@@ -35,7 +35,7 @@ const TopBarRight = () => {
     useContext(AuthContext);
   // const [user, setUser] = useLocalStorage("user", {});
   const { username, email, profilePicture } = user ?? {};
-  // const [isLoggedIn, setIsLoggedIn] = useState(accessToken ? true : false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
   const [searchParams] = useSearchParams();
 

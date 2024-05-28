@@ -67,3 +67,7 @@ export const isoDurationToDDHHMM = (isoDuration) => {
     hours || days ? `${formatNumber(hours)}:` : ""
   }${formatNumber(minutes)}:${formatNumber(seconds)}`;
 };
+
+export const highQualityImage = (imageUrl) => {
+  return imageUrl + "=w1920-fcrop64=1,00000000ffffffff-nd-c0xffffffff-rj-k-no";
+};

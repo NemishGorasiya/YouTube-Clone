@@ -1,5 +1,5 @@
 import MuiCheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Box, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
 import MuiBox from "@mui/material/Box";
 import { formatCompactNumber } from "../../utils/utilityFunction";
@@ -15,6 +15,7 @@ const ChannelName = styled(MuiTypography)(({ theme }) => ({
   alignItems: "center",
   color: theme.palette.primary.main,
 }));
+
 const CheckCircleIcon = styled(MuiCheckCircleIcon)(({ theme }) => ({
   fontSize: "14px",
   marginLeft: "5px",
@@ -23,6 +24,40 @@ const CheckCircleIcon = styled(MuiCheckCircleIcon)(({ theme }) => ({
 
 const ChannelMetadataWrapper = styled(MuiBox)(() => ({
   flex: "1",
+}));
+
+const ChannelCardComponent = styled(MuiBox)(({ theme }) => ({
+  display: "flex",
+  gap: "100px",
+  [theme.breakpoints.down("md")]: {
+    gap: "24px",
+  },
+  "@media (max-width: 500px)": {
+    gap: "12px",
+  },
+}));
+
+const ChannelThumbnailWrapper = styled(MuiBox)(({ theme }) => ({
+  height: "136px",
+  width: "136px",
+  minWidth: "136px",
+  borderRadius: "50%",
+  [theme.breakpoints.down("sm")]: {
+    height: "75px",
+    width: "75px",
+    minWidth: "75px",
+  },
+  "@media (max-width: 500px)": {
+    height: "45px",
+    width: "45px",
+    minWidth: "45px",
+  },
+}));
+const ChannelThumbnail = styled("img")(() => ({
+  height: "100%",
+  width: "100%",
+  objectFit: "cover",
+  borderRadius: "inherit",
 }));
 
 const ChannelMetadata = styled(MuiTypography)(({ theme }) => ({
@@ -49,28 +84,20 @@ const ChannelCard = ({ channel }) => {
 
   return (
     <Link to={`/channel/${channelId}`}>
-      <Box sx={{ display: "flex", gap: "100px" }}>
-        <div>
-          <img
-            style={{
-              height: "136px",
-              width: "136px",
-              objectFit: "cover",
-              borderRadius: "50%",
-            }}
+      <ChannelCardComponent>
+        <ChannelThumbnailWrapper>
+          <ChannelThumbnail
             referrerPolicy="no-referrer"
             src={channelThumbnail}
             alt="channelThumbnail"
           />
-        </div>
+        </ChannelThumbnailWrapper>
         <ChannelMetadataWrapper>
           <ChannelName>
             {title}
             <CheckCircleIcon />
           </ChannelName>
           <ChannelMetadata>
-            {/* @{title}
-            {" • "} */}
             {formatCompactNumber(totalItemCount)} videos
           </ChannelMetadata>
           <ChannelMetadata>{description}</ChannelMetadata>
@@ -80,7 +107,7 @@ const ChannelCard = ({ channel }) => {
           channelName={title}
           subscriptionId={subscriptionId}
         />
-      </Box>
+      </ChannelCardComponent>
     </Link>
   );
 };
