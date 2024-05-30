@@ -9,6 +9,7 @@ const InfiniteScroll = ({
   fetchMoreData,
   isLoading,
   skeletonItem,
+  numberOfSkeletonItems,
   ...props
 }) => {
   const observer = useRef();
@@ -37,7 +38,7 @@ const InfiniteScroll = ({
         </div>
       ))}
       {isLoading &&
-        Array.from({ length: 12 }).map((_, idx) => (
+        Array.from({ length: numberOfSkeletonItems }).map((_, idx) => (
           <Fragment key={idx}>{skeletonItem()}</Fragment>
         ))}
       {isLoading && (
@@ -54,6 +55,7 @@ InfiniteScroll.propTypes = {
   renderItem: PropTypes.func,
   fetchMoreData: PropTypes.func,
   isLoading: PropTypes.bool,
+  skeletonItem: PropTypes.func,
 };
 
 export default InfiniteScroll;

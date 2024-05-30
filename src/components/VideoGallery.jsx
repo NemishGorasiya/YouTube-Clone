@@ -97,6 +97,7 @@ const VideoGallery = ({
         renderItem={renderItem}
         isLoading={isLoading}
         skeletonItem={VideoCardSkeleton}
+        numberOfSkeletonItems={12}
       />
     </Grid>
   );
