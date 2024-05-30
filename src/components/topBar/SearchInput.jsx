@@ -1,11 +1,12 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { TextField, useMediaQuery } from "@mui/material";
+import { Box, TextField, useMediaQuery } from "@mui/material";
 import MuiInputAdornment from "@mui/material/InputAdornment";
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme } from "@mui/material/styles";
 import { width } from "@mui/system";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import VoiceSearch from "./VoiceSearch";
 
 const SEARCH_INPUT_HEIGHT = "40px";
 
@@ -17,6 +18,53 @@ const formStyle = {
   marginLeft: "52px",
   flex: "1",
 };
+
+const SearchIconWrapper = styled("button")(({ theme, isSmallScreen }) => ({
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "55px",
+  color: theme.palette.primary.main,
+  border: `0.5px solid ${theme.palette.secondary.light}`,
+  background: theme.palette.background.light,
+  borderRadius: "0 40px 40px 0",
+  marginLeft: "auto",
+  cursor: "pointer",
+  ...(isSmallScreen
+    ? {
+        borderRadius: "50%",
+        width: "40px",
+        aspectRatio: "1/1",
+        background: "transparent",
+        border: "none",
+      }
+    : {}),
+}));
+
+const InputAdornment = styled(MuiInputAdornment)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  position: "absolute",
+  left: "0",
+  transform: "translateX(-100%)",
+  border: `1px solid ${theme.palette.secondary.light}`,
+  minHeight: SEARCH_INPUT_HEIGHT,
+  width: "40px",
+  borderRight: "none",
+  borderTopLeftRadius: "40px",
+  borderBottomLeftRadius: "40px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingLeft: "10px",
+}));
+
+const SearchInputContainer = styled(Box)(() => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+}));
+
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInputIsFocused, setSearchInputIsFocused] = useState(false);
@@ -25,57 +73,21 @@ const SearchInput = () => {
   const navigate = useNavigate();
   const searchInputRef = useRef(null);
 
-  const handleSearchQueryChange = (event) => {
-    setSearchQuery(event.target.value);
+  const handleChangeInSearchQuery = (value) => {
+    setSearchQuery(value);
+  };
+
+  const searchVideos = (queryToSearch) => {
+    if (queryToSearch === "") {
+      return;
+    }
+    navigate(`/results?search_query=${queryToSearch}`);
   };
 
   const handleSearch = (event) => {
     event.preventDefault();
-    if (searchQuery === "") {
-      return;
-    }
-    navigate(`/results?search_query=${searchQuery}`);
+    searchVideos(searchQuery);
   };
-
-  const SearchIconWrapper = styled("button")(({ theme, isSmallScreen }) => ({
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "55px",
-    color: theme.palette.primary.main,
-    border: `0.5px solid ${theme.palette.secondary.light}`,
-    background: theme.palette.background.light,
-    borderRadius: "0 40px 40px 0",
-    marginLeft: "auto",
-    cursor: "pointer",
-    ...(isSmallScreen
-      ? {
-          borderRadius: "50%",
-          width: "40px",
-          aspectRatio: "1/1",
-          background: "transparent",
-          border: "none",
-        }
-      : {}),
-  }));
-
-  const InputAdornment = styled(MuiInputAdornment)(({ theme }) => ({
-    color: theme.palette.primary.main,
-    position: "absolute",
-    left: "0",
-    transform: "translateX(-100%)",
-    border: `1px solid ${theme.palette.secondary.light}`,
-    minHeight: SEARCH_INPUT_HEIGHT,
-    width: "40px",
-    borderRight: "none",
-    borderTopLeftRadius: "40px",
-    borderBottomLeftRadius: "40px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingLeft: "10px",
-  }));
 
   const searchIconAdornment = searchInputIsFocused ? (
     <InputAdornment>
@@ -86,7 +98,7 @@ const SearchInput = () => {
   );
 
   return (
-    <>
+    <SearchInputContainer>
       <form
         style={{
           ...formStyle,
@@ -139,7 +151,9 @@ const SearchInput = () => {
             setSearchInputIsFocused(false);
           }}
           placeholder="Search"
-          onChange={handleSearchQueryChange}
+          onChange={(event) => {
+            handleChangeInSearchQuery(event.target.value);
+          }}
           startAdornment={searchIconAdornment}
         />
         {(!isSmallScreen || !searchInputIsFocused) && (
@@ -158,7 +172,11 @@ const SearchInput = () => {
           </SearchIconWrapper>
         )}
       </form>
-    </>
+      <VoiceSearch
+        handleChangeInSearchQuery={handleChangeInSearchQuery}
+        searchVideos={searchVideos}
+      />
+    </SearchInputContainer>
   );
 };
 

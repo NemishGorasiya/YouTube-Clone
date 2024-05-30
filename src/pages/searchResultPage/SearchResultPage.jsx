@@ -17,7 +17,7 @@ const SearchResultPage = () => {
       <VideoFilterButtonWrapper>
         <VideoFilter />
       </VideoFilterButtonWrapper>
-      {/* <VideoGallery
+      <VideoGallery
         isListView={true}
         url="/search"
         queryParams={{
@@ -27,7 +27,7 @@ const SearchResultPage = () => {
           type: "video",
           videoDefinition: "high",
         }}
-      /> */}
+      />
     </div>
   );
 };
