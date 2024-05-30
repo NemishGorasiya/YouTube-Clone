@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { httpRequest } from "../services/services";
 import InfiniteScroll from "./InfiniteScroll";
 import VideoCard from "./VideoCard";
+import VideoCardSkeleton from "./VideoCardSkeleton";
 
 const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
   display: "grid",
@@ -35,6 +36,8 @@ const VideoGallery = ({
     nextPageToken: "",
   });
 
+  const { list, isLoading, nextPageToken } = videos;
+
   const fetchData = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
       try {
@@ -49,10 +52,11 @@ const VideoGallery = ({
           queryParams,
         });
         if (response) {
+          const { items, nextPageToken } = response;
           setVideos((prevVideos) => ({
-            list: [...prevVideos.list, ...response.items],
+            list: [...prevVideos.list, ...items],
             isLoading: false,
-            nextPageToken: response.nextPageToken,
+            nextPageToken,
           }));
         }
       } catch (error) {
@@ -63,8 +67,8 @@ const VideoGallery = ({
   );
 
   const loadMore = () => {
-    if (videos.nextPageToken) {
-      fetchData({ nextPageToken: videos.nextPageToken });
+    if (nextPageToken) {
+      fetchData({ nextPageToken });
     }
   };
 
@@ -88,10 +92,11 @@ const VideoGallery = ({
   return (
     <Grid container isListView={isListView}>
       <InfiniteScroll
-        items={videos.list}
+        items={list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
-        isLoading={videos.isLoading}
+        isLoading={isLoading}
+        skeletonItem={VideoCardSkeleton}
       />
     </Grid>
   );
