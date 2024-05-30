@@ -56,6 +56,7 @@ InfiniteScroll.propTypes = {
   fetchMoreData: PropTypes.func,
   isLoading: PropTypes.bool,
   skeletonItem: PropTypes.func,
+  numberOfSkeletonItems: PropTypes.number,
 };
 
 export default InfiniteScroll;
