@@ -191,7 +191,7 @@ const SubscribeButton = ({
     return () => {
       abortController.abort();
     };
-  }, [getSubscriptionStatus, subscriptionIdProp]);
+  }, [getSubscriptionStatus, isLoggedIn, subscriptionIdProp]);
 
   return isLoading ? (
     <Loader />

@@ -68,3 +68,41 @@ export const isoDurationToDDHHMM = (isoDuration) => {
 export const highQualityImage = (imageUrl) => {
   return imageUrl + "=w1920-fcrop64=1,00000000ffffffff-nd-c0xffffffff-rj-k-no";
 };
+
+export const getDateOfToday = () => {
+  console.log("first");
+  const today = new Date().toISOString().split("T")[0] + "T00:00:00Z";
+  return today;
+};
+
+export const getDateOfStartOfWeek = () => {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+  const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust when Sunday
+  const startOfWeek =
+    new Date(today.setDate(diff)).toISOString().split("T")[0] + "T00:00:00Z";
+  return startOfWeek;
+};
+
+export const getDateOfStartOfMonth = () => {
+  const today = new Date();
+  const startOfMonth =
+    new Date(today.setDate(1)).toISOString().split("T")[0] + "T00:00:00Z";
+  return startOfMonth;
+};
+
+export const getDateOfStartOfYear = () => {
+  const today = new Date();
+  const startOfYear = new Date(
+    Date.UTC(today.getUTCFullYear(), 0, 1)
+  ).toISOString();
+  return startOfYear;
+};
+
+export const getDateOfStartOfCurrentHour = () => {
+  const now = new Date();
+  const startOfLastHour = new Date(
+    now.getTime() - 60 * 60 * 1000
+  ).toISOString(); // Subtracting milliseconds for one hour
+  return startOfLastHour;
+};
