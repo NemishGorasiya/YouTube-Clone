@@ -9,7 +9,7 @@ const InfiniteScroll = ({
   fetchMoreData,
   isLoading,
   skeletonItem,
-  numberOfSkeletonItems,
+  numberOfSkeletonItems = 12,
   ...props
 }) => {
   const observer = useRef();
@@ -55,7 +55,7 @@ InfiniteScroll.propTypes = {
   renderItem: PropTypes.func,
   fetchMoreData: PropTypes.func,
   isLoading: PropTypes.bool,
-  skeletonItem: PropTypes.func,
+  skeletonItem: PropTypes.element,
   numberOfSkeletonItems: PropTypes.number,
 };
 

@@ -11,6 +11,7 @@ import { formatCompactNumber } from "../../utils/utilityFunction";
 import { AuthContext } from "../../context/AuthContext";
 import Loader from "../../components/loader/Loader";
 import { commentsAreOffGooglePageLink } from "../../utils/constant";
+import CommentSkeleton from "../../components/watchVideoPage/CommentSkeleton";
 
 const initialCommentsState = {
   list: [],
@@ -192,7 +193,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           alt="Channel Thumbnail"
           src="https://placehold.jp/150x150.png"
           referrerPolicy="no-referrer"
-        ></Box>
+        />
         <form
           onSubmit={handleAddComment}
           style={{ display: "flex", width: "100%" }}
@@ -216,26 +217,21 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           fetchMoreData={loadMoreComments}
           renderItem={renderItem}
           isLoading={isLoading}
+          skeletonItem={<CommentSkeleton />}
         />
       </Box>
     </>
   );
 
-  return isLoading ? (
-    <Loader />
+  return isWideScreen ? (
+    <Box className="commentsSection">
+      <h1>{formatCompactNumber(commentCount)} Comments</h1>
+      {renderCommentsSection()}
+    </Box>
   ) : (
-    <>
-      {isWideScreen ? (
-        <Box className="commentsSection">
-          <h1>{formatCompactNumber(commentCount)} Comments</h1>
-          {renderCommentsSection()}
-        </Box>
-      ) : (
-        <SwipeableCommentsSection commentCount={commentCount}>
-          <Box className="commentsSection">{renderCommentsSection()}</Box>
-        </SwipeableCommentsSection>
-      )}
-    </>
+    <SwipeableCommentsSection commentCount={commentCount}>
+      <Box className="commentsSection">{renderCommentsSection()}</Box>
+    </SwipeableCommentsSection>
   );
 };
 

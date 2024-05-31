@@ -22,6 +22,8 @@ const VideoCardSkeleton = ({ isListView }) => {
           <CardMediaWrapper>
             <CardMedia isListView={isListView}>
               <VideoThumbnailSkeleton
+                // sx={{ bgcolor: "rgba(255,255,255,0.2)" }}
+                animation="wave"
                 variant="rectangular"
                 width="100%"
                 height="100%"
@@ -30,15 +32,20 @@ const VideoCardSkeleton = ({ isListView }) => {
           </CardMediaWrapper>
           <CardContent>
             {!isListView && (
-              <Skeleton variant="circular" width={36} height={36} />
+              <Skeleton
+                animation="wave"
+                variant="circular"
+                width={36}
+                height={36}
+              />
             )}
             <VideoDetail>
               <VideoTitle>
-                <Skeleton variant="text" width="80%" />
+                <Skeleton animation="wave" variant="text" width="80%" />
               </VideoTitle>
               <VideoMetadata>
-                <Skeleton variant="text" width="60%" />
-                <Skeleton variant="text" width="40%" />
+                <Skeleton animation="wave" variant="text" width="60%" />
+                <Skeleton animation="wave" variant="text" width="40%" />
               </VideoMetadata>
             </VideoDetail>
           </CardContent>

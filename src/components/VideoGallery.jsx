@@ -95,7 +95,7 @@ const VideoGallery = ({
         items={list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
-        isLoading={isLoading}
+        isLoading={true}
         skeletonItem={<VideoCardSkeleton isListView={isListView} />}
         numberOfSkeletonItems={12}
       />

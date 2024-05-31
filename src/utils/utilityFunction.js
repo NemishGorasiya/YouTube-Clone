@@ -23,7 +23,7 @@ export const handleFallBackImage = (event, fallBackImage) => {
   event.target.src = fallBackImage;
 };
 
-export const customParser = (str) => {
+export const customParser = (str = "") => {
   let modifiesString;
   modifiesString = str.replace(/\*(.*?)\*/g, "<b>$1</b>");
   modifiesString = modifiesString.replaceAll("\n", "<br/>");

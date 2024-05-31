@@ -1,7 +1,5 @@
-import "./Comment.scss";
+// import "./Comment.scss";
 import Box from "@mui/material/Box";
-import MuiButton from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -17,18 +15,28 @@ import {
   formatCompactNumber,
   handleFallBackImage,
 } from "../../utils/utilityFunction";
-import { TextField, styled } from "@mui/material";
+import { TextField } from "@mui/material";
 import { httpRequest } from "../../services/services";
 import { memo, useCallback, useContext, useState } from "react";
 import CommentReplies from "./CommentReplies";
 import { AuthContext } from "../../context/AuthContext";
+import {
+  Button,
+  CommentAuthorImage,
+  CommentAuthorName,
+  CommentComponent,
+  CommentDetails,
+  CommentEngagement,
+  CommentMetadata,
+  CommentPublishTime,
+} from "./CommentsStyledComponents";
 
-const Button = styled(MuiButton)(({ textColor, onHoverBackgroundColor }) => ({
-  color: textColor,
-  "&:hover": {
-    background: onHoverBackgroundColor,
-  },
-}));
+// const Button = styled(MuiButton)(({ textColor, onHoverBackgroundColor }) => ({
+//   color: textColor,
+//   "&:hover": {
+//     background: onHoverBackgroundColor,
+//   },
+// }));
 
 const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   const { isLoggedIn } = useContext(AuthContext);
@@ -152,8 +160,8 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   };
 
   return (
-    <Box className="comment">
-      <Box
+    <CommentComponent className="comment">
+      <CommentAuthorImage
         component="img"
         alt="Channel Thumbnail"
         src={authorProfileImageUrl}
@@ -161,22 +169,18 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
         onError={(event) => {
           handleFallBackImage(event, "https://placehold.co/150x150");
         }}
-      ></Box>
-      <Box className="commentDetails" style={{ flex: 1 }}>
-        <Box className="commentMetadata">
-          <Typography
-            className="commentAuthorName"
-            variant="subtitle1"
-            component="span"
-          >
+      />
+      <CommentDetails>
+        <CommentMetadata className="commentMetadata">
+          <CommentAuthorName variant="subtitle1">
             {authorDisplayName}
-          </Typography>
-          <Typography variant="subtitle1" component="span">
+          </CommentAuthorName>
+          <CommentPublishTime variant="subtitle2">
             {calcDistanceToNow({ time: publishedAt })}
-          </Typography>
-        </Box>
+          </CommentPublishTime>
+        </CommentMetadata>
         <CommentContent textDisplay={textDisplay} />
-        <Box className="commentEngagement">
+        <CommentEngagement className="commentEngagement">
           <Box
             sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
             onClick={handleLikeComment}
@@ -201,7 +205,7 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
           >
             Reply
           </Button>
-        </Box>
+        </CommentEngagement>
         {isReplyCommentInputVisible && (
           <form
             onSubmit={handleReplyComment}
@@ -248,8 +252,8 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
             Show More Replies
           </Button>
         )}
-      </Box>
-    </Box>
+      </CommentDetails>
+    </CommentComponent>
   );
 };
 
