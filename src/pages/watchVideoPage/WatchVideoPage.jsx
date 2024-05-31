@@ -376,7 +376,7 @@ const WatchVideoPage = () => {
             />
           </PlaylistPanelWrapper>
         )}
-        {/* <Box className="relatedVideos">
+        <Box className="relatedVideos">
           <h2>Related Videos</h2>
           <VideoGallery
             url="/search"
@@ -390,7 +390,7 @@ const WatchVideoPage = () => {
             }}
             isListView={true}
           />
-        </Box> */}
+        </Box>
       </Box>
       <ScrollToTopButton />
     </Box>

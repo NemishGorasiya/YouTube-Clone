@@ -39,7 +39,7 @@ const InfiniteScroll = ({
       ))}
       {isLoading &&
         Array.from({ length: numberOfSkeletonItems }).map((_, idx) => (
-          <Fragment key={idx}>{skeletonItem()}</Fragment>
+          <Fragment key={idx}>{skeletonItem}</Fragment>
         ))}
       {isLoading && (
         <div className="loaderWrapper">

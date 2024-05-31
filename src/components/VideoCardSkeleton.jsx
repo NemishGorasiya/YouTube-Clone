@@ -14,13 +14,13 @@ const VideoThumbnailSkeleton = styled(Skeleton)(() => ({
   borderRadius: "inherit",
 }));
 
-const VideoCardSkeleton = () => {
+const VideoCardSkeleton = ({ isListView }) => {
   return (
     <Grid item>
       <Card elevation={0}>
-        <CardActionArea>
+        <CardActionArea isListView={isListView}>
           <CardMediaWrapper>
-            <CardMedia>
+            <CardMedia isListView={isListView}>
               <VideoThumbnailSkeleton
                 variant="rectangular"
                 width="100%"
@@ -29,7 +29,9 @@ const VideoCardSkeleton = () => {
             </CardMedia>
           </CardMediaWrapper>
           <CardContent>
-            <Skeleton variant="circular" width={36} height={36} />
+            {!isListView && (
+              <Skeleton variant="circular" width={36} height={36} />
+            )}
             <VideoDetail>
               <VideoTitle>
                 <Skeleton variant="text" width="80%" />

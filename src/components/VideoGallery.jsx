@@ -96,7 +96,7 @@ const VideoGallery = ({
         fetchMoreData={loadMore}
         renderItem={renderItem}
         isLoading={isLoading}
-        skeletonItem={VideoCardSkeleton}
+        skeletonItem={<VideoCardSkeleton isListView={isListView} />}
         numberOfSkeletonItems={12}
       />
     </Grid>
