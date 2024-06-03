@@ -2,7 +2,6 @@ import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import List from "@mui/material/List";
 import MuiListItem from "@mui/material/ListItem";
-// import ListItemButton from "@mui/material/ListItemButton";
 import MuiListItemButton from "@mui/material/ListItemButton";
 import MuiListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -17,7 +16,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 import { NavLink, useSearchParams } from "react-router-dom";
 import { httpRequest } from "../../services/services";
-import Loader from "../loader/Loader";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -29,8 +27,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const ListItemButton = styled(MuiListItemButton)(({ open }) => ({
-  paddingRight: "13px",
-  paddingLeft: "13px",
+  paddingRight: "12px",
+  paddingLeft: "12px",
   gap: "24px",
   height: "40px",
   position: "relative",
@@ -72,13 +70,14 @@ const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
   "& .MuiPaper-root": {
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
-    padding: "0 12px",
+    padding: "0 4px",
     border: "none",
     ...(open && {
       width: "224px",
+      padding: "0 12px",
     }),
     ...(!open && {
-      width: "74px",
+      width: "72px",
     }),
   },
 }));
@@ -124,23 +123,11 @@ const SideBarLinksWrapper = styled(MuiBox)(() => ({
   overflowX: "hidden",
   "&::-webkit-scrollbar": {
     width: "0",
-    // width: "12px",
-    // backgroundColor: "#F5F5F5",
   },
-  // "&::-webkit-scrollbar-track": {
-  //   boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
-  //   borderRadius: "10px",
-  //   backgroundColor: "#F5F5F5",
-  // },
-  // "&::-webkit-scrollbar-thumb": {
-  //   borderRadius: "10px",
-  //   boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
-  //   backgroundColor: "#D62929",
-  // },
 }));
 
 const NavBarList = styled(List)(({ open }) =>
-  open ? { maxWidth: "200px" } : { maxWidth: "50px" }
+  open ? { maxWidth: "200px" } : { maxWidth: "100%" }
 );
 
 const NavLinkTypography = styled(MuiTypography)(({ open }) =>
@@ -268,7 +255,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                           : {}
                       }
                     >
-                      <ListItem key={idx}>
+                      <ListItem key={idx} open={open}>
                         <ListItemButton open={open}>
                           <ListItemIcon>{link.icon}</ListItemIcon>
                           <ListItemText>
@@ -318,7 +305,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                           : {}
                       }
                     >
-                      <ListItem>
+                      <ListItem open={open}>
                         <ListItemButton open={open}>
                           <ListItemIcon>
                             <ListItemIconImage
@@ -357,7 +344,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                       : {}
                   }
                 >
-                  <ListItem>
+                  <ListItem open={open}>
                     <ListItemButton open={open}>
                       <ListItemIcon>
                         <FormatListBulletedIcon />
@@ -375,6 +362,7 @@ const SideBar = ({ open, toggleDrawer }) => {
               {(subscribedChannelsList.length > 5 ||
                 hasMoreSubscribedChannels) && (
                 <ListItem
+                  open={open}
                   onClick={
                     hasMoreSubscribedChannels
                       ? loadMoreSubscribedChannels
