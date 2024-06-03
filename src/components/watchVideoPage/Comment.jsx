@@ -237,11 +237,11 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
             ) : (
               <KeyboardArrowDownIcon />
             )}
-            {totalReplyCount} Replies
+            {totalReplyCount <= 20 ? totalReplyCount : "20"} Replies
           </Button>
         )}
         {isRepliesVisible && <CommentReplies list={repliesList} />}
-        {nextPageToken && isRepliesVisible && (
+        {/* {nextPageToken && isRepliesVisible && (
           <Button
             variant="text"
             onClick={loadMoreCommentReplies}
@@ -251,7 +251,7 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
           >
             Show More Replies
           </Button>
-        )}
+        )} */}
       </CommentDetails>
     </CommentComponent>
   );

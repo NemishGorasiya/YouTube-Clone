@@ -36,7 +36,12 @@ const initialCommentsState = {
 const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
   const { isLoggedIn } = useContext(AuthContext);
-  const [comments, setComments] = useState(initialCommentsState);
+  const [comments, setComments] = useState({
+    list: [],
+    isLoading: true,
+    nextPageToken: "",
+    isDisabled: false,
+  });
 
   const { list, isLoading, nextPageToken, isDisabled } = comments;
 
@@ -155,7 +160,12 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
   }, []);
 
   useEffect(() => {
-    setComments(initialCommentsState);
+    setComments({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+      isDisabled: false,
+    });
     const abortController = new AbortController();
     getComments({ abortController: abortController });
     return () => {
