@@ -4,45 +4,93 @@ import MuiTypography from "@mui/material/Typography";
 import MuiButton from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
+export const VideoPageContainer = styled(Box)(({ theme }) => ({
+	display: "flex",
+	gap: "12px",
+	"@media (max-width: 780px)": {
+		flexDirection: "column",
+	},
+}));
+
+export const VideoPageLeftSection = styled(Box)(({ theme }) => ({
+	flex: 3,
+}));
+
+export const RelatedVideosWrapper = styled(Box)(({ theme }) => ({
+	flex: 1,
+	gap: "12px",
+	display: "flex",
+	flexDirection: "column",
+}));
+
+export const RelatedVideosContainer = styled(Box)(({ theme }) => ({
+	display: "flex",
+	flexDirection: "column",
+	gap: "8px",
+}));
+
+export const VideoPlayerWrapper = styled(Box)(({ theme }) => ({
+	display: "flex",
+	flexDirection: "column",
+	gap: "8px",
+}));
+
+export const YouTubeIframeWrapper = styled(Box)(() => ({
+	width: "100%",
+	height: "auto",
+	aspectRatio: "16/9",
+}));
+
+export const YouTubeIframe = styled("iframe")(() => ({
+	width: "100%",
+	height: "100%",
+	border: "none",
+}));
+
 export const Divider = styled(MuiDivider)(({ theme }) => ({
-  background: theme.palette.primary.main,
+	background: theme.palette.primary.main,
 }));
 
 export const ChannelLink = styled(Link)(() => ({
-  display: "flex",
-  gap: "8px",
+	display: "flex",
+	gap: "8px",
 }));
 
 export const VideoMetadataWrapper = styled(Box)(({ theme }) => ({
-  [theme.breakpoints.down("md")]: {
-    flexDirection: "column",
-    alignItems: "start  ",
-  },
+	display: "flex",
+	justifyContent: "space-between",
+	alignItems: "center",
+	padding: "0 12px",
+	flexWrap: "wrap",
+	[theme.breakpoints.down("md")]: {
+		flexDirection: "column",
+		alignItems: "start  ",
+	},
 }));
 
 export const Tag = styled(MuiTypography)(() => ({
-  display: "inline-block",
-  marginRight: "4px",
-  color: "#3EA6FF",
+	display: "inline-block",
+	marginRight: "4px",
+	color: "#3EA6FF",
 }));
 
 export const UserActionButton = styled(MuiButton)(({ theme }) => ({
-  background: theme.palette.secondaryBackground.default,
-  color: theme.palette.primary.main,
-  "&:hover": {
-    background: theme.palette.secondaryBackground.light,
-  },
+	background: theme.palette.secondaryBackground.default,
+	color: theme.palette.primary.main,
+	"&:hover": {
+		background: theme.palette.secondaryBackground.light,
+	},
 }));
 
 export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
-  maxHeight: "500px",
-  background: theme.palette.background.light,
-  padding: 3,
-  borderRadius: "12px",
+	maxHeight: "500px",
+	background: theme.palette.background.light,
+	padding: 3,
+	borderRadius: "12px",
 }));
 
 export const VideoDescriptionContainer = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.secondary,
-  borderRadius: "8px",
-  padding: "12px",
+	background: theme.palette.background.secondary,
+	borderRadius: "8px",
+	padding: "12px",
 }));
