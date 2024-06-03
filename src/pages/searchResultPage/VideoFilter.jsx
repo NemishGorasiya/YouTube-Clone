@@ -110,7 +110,10 @@ const VideoFilter = ({ updateQueryParams, queryParams }) => {
 											: null
 									}
 								>
-									{field.label} <StyledClearFilterIcon />
+									{field.label}{" "}
+									{queryParams[filter.filterKey] === field.value && (
+										<StyledClearFilterIcon />
+									)}
 								</FilterFieldTypography>
 							))}
 						</FilterFieldWrapper>
