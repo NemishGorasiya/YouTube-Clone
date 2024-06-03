@@ -1,8 +1,5 @@
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
-import MuiBox from "@mui/material/Box";
-import MuiGrid from "@mui/material/Grid";
-import MuiTypography from "@mui/material/Typography";
 import { calcDistanceToNow } from "../../utils/utilityFunction";
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";

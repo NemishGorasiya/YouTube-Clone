@@ -1,9 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import { styled } from "@mui/material";
-import MuiGrid from "@mui/material/Grid";
 import { httpRequest } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import PlaylistCard from "./PlaylistCard";
 import InfiniteScroll from "../InfiniteScroll";
 import PropTypes from "prop-types";
