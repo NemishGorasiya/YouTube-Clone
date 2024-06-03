@@ -9,16 +9,8 @@ import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
 import { formatCompactNumber } from "../../utils/utilityFunction";
 import { AuthContext } from "../../context/AuthContext";
-import Loader from "../../components/loader/Loader";
 import { commentsAreOffGooglePageLink } from "../../utils/constant";
 import CommentSkeleton from "../../components/watchVideoPage/CommentSkeleton";
-
-const initialCommentsState = {
-  list: [],
-  isLoading: true,
-  nextPageToken: "",
-  isDisabled: false,
-};
 
 const Typography = styled(MuiTypography)(() => ({
   textAlign: "center",
@@ -32,7 +24,12 @@ const KnowMoreLink = styled("a")(() => ({
 const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
   const { isLoggedIn } = useContext(AuthContext);
-  const [comments, setComments] = useState(initialCommentsState);
+  const [comments, setComments] = useState({
+    list: [],
+    isLoading: true,
+    nextPageToken: "",
+    isDisabled: false,
+  });
 
   const { list, isLoading, nextPageToken, isDisabled } = comments;
 
@@ -151,7 +148,12 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
   }, []);
 
   useEffect(() => {
-    setComments(initialCommentsState);
+    setComments({
+      list: [],
+      isLoading: true,
+      nextPageToken: "",
+      isDisabled: false,
+    });
     const abortController = new AbortController();
     getComments({ abortController: abortController });
     return () => {

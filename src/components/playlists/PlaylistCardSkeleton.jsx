@@ -1,7 +1,6 @@
 import { Box, Skeleton } from "@mui/material";
 import {
   PlaylistCardComponent,
-  PlaylistCardLayerSkeleton,
   PlaylistCardThumbnail,
   PlaylistMetadata,
 } from "./PlaylistsStyledComponents";
@@ -10,7 +9,7 @@ const PlaylistCardSkeleton = () => {
   return (
     <PlaylistCardComponent item>
       <PlaylistCardThumbnail>
-        <PlaylistCardLayerSkeleton
+        <Skeleton
           animation="wave"
           variant="rectangular"
           width="100%"
