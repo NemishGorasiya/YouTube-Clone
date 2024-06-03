@@ -7,6 +7,7 @@ import "./App.scss";
 import { ThemeContext } from "./context/ThemeContext";
 import { router } from "./routes/Routes";
 import { AuthContextProvider } from "./context/AuthContext";
+import { UserPreferencesContextProvider } from "./context/UserPreferencesContext";
 
 const App = () => {
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -85,10 +86,12 @@ const App = () => {
 
 	return (
 		<ThemeProvider theme={chosenTheme}>
-			<AuthContextProvider>
-				<CssBaseline />
-				<RouterProvider router={router} />
-			</AuthContextProvider>
+			<UserPreferencesContextProvider>
+				<AuthContextProvider>
+					<CssBaseline />
+					<RouterProvider router={router} />
+				</AuthContextProvider>
+			</UserPreferencesContextProvider>
 		</ThemeProvider>
 	);
 };
