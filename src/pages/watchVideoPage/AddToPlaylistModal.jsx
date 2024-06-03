@@ -12,6 +12,7 @@ import {
   MenuItem,
   Modal,
   Select,
+  Skeleton,
   TextField,
   Typography,
   styled,
@@ -28,6 +29,7 @@ import { modalStyle } from "../../components/styles/styles";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
 import { privacyOptions } from "../../utils/constant";
+import PlaylistChecklistItemSkeleton from "./PlaylistChecklistItemSkeleton";
 
 const CloseModalButton = styled(IconButton)(() => ({
   position: "absolute",
@@ -275,20 +277,18 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
         <Typography variant="h5" gutterBottom>
           Save video to...
         </Typography>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <FormGroup>
-            <InfiniteScroll
-              items={list}
-              fetchMoreData={loadMorePlaylists}
-              renderItem={renderItem}
-              isLoading={isLoading}
-              handleCheckboxClick={handleCheckboxClick}
-              videoId={videoId}
-            />
-          </FormGroup>
-        )}
+        <FormGroup>
+          <InfiniteScroll
+            items={list}
+            fetchMoreData={loadMorePlaylists}
+            renderItem={renderItem}
+            isLoading={isLoading}
+            handleCheckboxClick={handleCheckboxClick}
+            videoId={videoId}
+            skeletonItem={<PlaylistChecklistItemSkeleton />}
+            numberOfSkeletonItems={6}
+          />
+        </FormGroup>
         {isCreateNewPlaylistFormOpen ? (
           <NewPlaylistForm action="" onSubmit={createPlaylistAndAddVideo}>
             <TextField label="Name" variant="standard" name="playlistName" />
