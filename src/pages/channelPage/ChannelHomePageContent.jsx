@@ -66,24 +66,20 @@ const ChannelHomePageContent = ({ channelId }) => {
   }, [getChannelSections]);
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <ContentWrapper>
-          {list.map(
-            (section) =>
-              section?.contentDetails?.playlists?.length && (
-                <>
-                  <VideoSlider
-                    key={section.id}
-                    playlistId={section.contentDetails.playlists[0]}
-                  />
-                  <Divider />
-                </>
-              )
-          )}
-        </ContentWrapper>
-      )}
+      <ContentWrapper>
+        {list.map(
+          (section) =>
+            section?.contentDetails?.playlists?.length && (
+              <>
+                <VideoSlider
+                  key={section.id}
+                  playlistId={section.contentDetails.playlists[0]}
+                />
+                <Divider />
+              </>
+            )
+        )}
+      </ContentWrapper>
     </>
   );
 };

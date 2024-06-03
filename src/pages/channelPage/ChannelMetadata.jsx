@@ -19,6 +19,7 @@ import {
   KeyboardArrowRightStyledIcon,
   Typography,
 } from "./ChannelPageStyledComponents";
+import ChannelMetadataSkeleton from "./ChannelMetadataSkeleton";
 
 const ChannelMetadata = ({ channelId }) => {
   const [channelDetails, setChannelDetails] = useState({
@@ -84,16 +85,10 @@ const ChannelMetadata = ({ channelId }) => {
   return (
     <>
       {isLoading ? (
-        <Loader />
+        <ChannelMetadataSkeleton />
       ) : (
         <>
-          <ChannelBannerWrapper
-            style={{
-              background: "grey",
-              display: "flex",
-              aspectRatio: "569/94",
-            }}
-          >
+          <ChannelBannerWrapper>
             {bannerExternalUrl && (
               <ChannelBanner
                 src={highQualityImage(bannerExternalUrl)}

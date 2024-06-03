@@ -1,21 +1,22 @@
 import { Box, Skeleton } from "@mui/material";
 import {
   PlaylistCardComponent,
-  PlaylistCardThumbnail,
+  PlaylistCardThumbnailSkeleton,
+  PlaylistCardThumbnailWrapper,
   PlaylistMetadata,
 } from "./PlaylistsStyledComponents";
 
 const PlaylistCardSkeleton = () => {
   return (
     <PlaylistCardComponent item>
-      <PlaylistCardThumbnail>
-        <Skeleton
+      <PlaylistCardThumbnailWrapper>
+        <PlaylistCardThumbnailSkeleton
           animation="wave"
           variant="rectangular"
           width="100%"
           height="100%"
         />
-      </PlaylistCardThumbnail>
+      </PlaylistCardThumbnailWrapper>
       <Box>
         <PlaylistMetadata isTitle>
           <Skeleton animation="wave" variant="text" width="50%" />

@@ -13,6 +13,8 @@ export const ChannelPageComponent = styled(Box)({
 export const ChannelBannerWrapper = styled(Box)({
   width: "100%",
   borderRadius: "13px",
+  display: "flex",
+  aspectRatio: "569/94",
 });
 
 export const ChannelBanner = styled("img")({

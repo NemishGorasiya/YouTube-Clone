@@ -71,7 +71,6 @@ const Playlists = ({ channelId }) => {
     };
   }, [getPlaylists]);
 
-  if (list.length === 0) return <h1>No Playlists</h1>;
   if (!isLoading && list.length === 0) return <h1>No Playlists</h1>;
 
   return (

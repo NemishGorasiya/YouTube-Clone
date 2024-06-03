@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { Skeleton, styled } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiGrid from "@mui/material/Grid";
 import MuiTypography from "@mui/material/Typography";
@@ -83,4 +83,8 @@ export const PlaylistGrid = styled(MuiGrid)(() => ({
   rowGap: "16px",
   gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
   paddingTop: "15px",
+}));
+
+export const PlaylistCardThumbnailSkeleton = styled(Skeleton)(() => ({
+  borderRadius: "inherit",
 }));
