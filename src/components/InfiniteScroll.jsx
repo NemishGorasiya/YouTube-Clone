@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useRef } from "react";
-import "./InfiniteScroll.scss";
 import Loader from "./loader/Loader";
 import PropTypes from "prop-types";
+import { LoaderWrapper } from "./InfiniteScrollStyledComponents";
 
 const InfiniteScroll = ({
   items,
@@ -42,9 +42,9 @@ const InfiniteScroll = ({
           <Fragment key={idx}>{skeletonItem}</Fragment>
         ))}
       {isLoading && (
-        <div className="loaderWrapper">
+        <LoaderWrapper>
           <Loader />
-        </div>
+        </LoaderWrapper>
       )}
     </>
   );

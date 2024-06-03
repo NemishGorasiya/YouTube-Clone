@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { styled, MenuItem } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
@@ -38,6 +38,12 @@ export const ProfilePictureImage = styled("img")(() => ({
   width: "32px",
   height: "32px",
   borderRadius: "50%",
+  objectFit: "cover",
+}));
+
+export const UsernameMenuItem = styled(MenuItem)(() => ({
+  display: "flex",
+  gap: "10px",
 }));
 
 export const LogoContainer = styled(MuiBox)(({ theme }) => ({

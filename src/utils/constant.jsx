@@ -92,6 +92,21 @@ export const privacyOptions = {
   },
 };
 
+export const channelSectionTabs = [
+  {
+    label: "Home",
+    value: "home",
+  },
+  {
+    label: "Videos",
+    value: "videos",
+  },
+  {
+    label: "Playlists",
+    value: "playlists",
+  },
+];
+
 export const commentsAreOffGooglePageLink =
   "https://support.google.com/youtube/answer/9706180?hl=en";
 

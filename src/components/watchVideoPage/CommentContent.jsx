@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import "./CommentContent.scss";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { customParser } from "../../utils/utilityFunction";
 import PropTypes from "prop-types";
+import {
+  CommentContentTypography,
+  ReadMoreCommentContent,
+} from "./CommentsStyledComponents";
 
 const CommentContent = ({ textDisplay }) => {
   const commentContentRef = useRef(null);
@@ -23,25 +24,18 @@ const CommentContent = ({ textDisplay }) => {
 
   return (
     <Box className="commentContentWrapper">
-      <Typography
+      <CommentContentTypography
         variant="subtitle1"
         component="pre"
-        style={{ textWrap: "wrap" }}
         ref={commentContentRef}
-        className={`commentContent ${isExpanded ? "expanded" : ""}`}
+        isExpanded={isExpanded}
       >
-        <span
-          dangerouslySetInnerHTML={{ __html: customParser(textDisplay) }}
-        ></span>
-      </Typography>
+        <span dangerouslySetInnerHTML={{ __html: customParser(textDisplay) }} />
+      </CommentContentTypography>
       {isExpandable && (
-        <Button
-          className="readMoreBtn"
-          variant="text"
-          onClick={handleReadMoreBtnClick}
-        >
+        <ReadMoreCommentContent variant="text" onClick={handleReadMoreBtnClick}>
           Read {isExpanded ? "less" : "more"}
-        </Button>
+        </ReadMoreCommentContent>
       )}
     </Box>
   );

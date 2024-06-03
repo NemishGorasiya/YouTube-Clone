@@ -6,7 +6,6 @@ import {
   formatCompactNumber,
   isoDurationToDDHHMM,
 } from "../utils/utilityFunction";
-import "./VideoCard.scss";
 import { useCallback, useState } from "react";
 import { httpRequest } from "../services/services";
 import VideoThumbnailFallbackImage from "../assets/video-placeholder.jpg";

@@ -30,7 +30,8 @@ export const VideoIsLiveIndicator = styled("span")(() => ({
   borderRadius: "2px",
   color: "#FFFFFF",
   marginRight: "4px",
-  padding: "1px 4px",
+  padding: "2px 4px",
+  display: "inline-block",
 }));
 
 export const LiveTvStyledIcon = styled(LiveTvIcon)(() => ({

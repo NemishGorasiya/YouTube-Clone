@@ -23,7 +23,10 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { fetchAccessToken, getUserInfo } from "../../services/services";
 import SignInButton from "../SignInButton";
 import { AuthContext } from "../../context/AuthContext";
-import { ProfilePictureImage } from "./TopBarStyledComponents";
+import {
+  ProfilePictureImage,
+  UsernameMenuItem,
+} from "./TopBarStyledComponents";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -185,14 +188,8 @@ const TopBarRight = () => {
       >
         {isLoggedIn && (
           <>
-            <MenuItem sx={{ display: "flex", gap: "10px" }}>
-              <img
-                style={{
-                  height: 32,
-                  width: 32,
-                  objectFit: "cover",
-                  borderRadius: "50%",
-                }}
+            <UsernameMenuItem>
+              <ProfilePictureImage
                 src={profilePicture}
                 referrerPolicy="no-referrer"
                 alt="profileImage"
@@ -200,7 +197,7 @@ const TopBarRight = () => {
               <div>
                 <p>{username}</p> <p>{email}</p>
               </div>
-            </MenuItem>
+            </UsernameMenuItem>
             <Divider />
           </>
         )}

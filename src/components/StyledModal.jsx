@@ -4,6 +4,7 @@ import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   CloseModalButton,
+  ModalContentComponent,
   ModalContentWrapper,
 } from "./StyledModalStyledComponents";
 
@@ -16,7 +17,7 @@ const StyledModal = memo(({ children, open, handleClose }) => {
             <CloseModalButton onClick={handleClose}>
               <CloseIcon />
             </CloseModalButton>
-            {children}
+            <ModalContentComponent>{children}</ModalContentComponent>
           </div>
         </ModalContentWrapper>
       </div>

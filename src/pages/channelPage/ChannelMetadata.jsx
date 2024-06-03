@@ -1,6 +1,3 @@
-import { styled } from "@mui/material";
-import MuiTypography from "@mui/material/Typography";
-import MuiBox from "@mui/material/Box";
 import {
   customParser,
   formatCompactNumber,
@@ -8,85 +5,20 @@ import {
 } from "../../utils/utilityFunction";
 import { useCallback, useEffect, useState } from "react";
 import { httpRequest } from "../../services/services";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
 import Loader from "../../components/loader/Loader";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import SubscribeButton from "../../components/SubscribeButton";
 import PropTypes from "prop-types";
-
-const KeyboardArrowRightStyledIcon = styled(KeyboardArrowRightIcon)(
-  ({ theme }) => ({
-    position: "absolute",
-    top: 0,
-    right: 0,
-    height: "100%",
-    background: theme.palette.background.default,
-  })
-);
-const ChannelDetailsWrapper = styled(MuiBox)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  gap: "12px",
-}));
-
-const ChannelMetadataWrapper = styled(MuiBox)(() => ({
-  display: "flex",
-  margin: "16px 0",
-  width: "100%",
-  gap: "16px",
-  "@media (max-width: 480px)": {
-    flexDirection: "column",
-  },
-}));
-const ChannelThumbnailWrapper = styled(MuiBox)(({ theme }) => ({
-  height: "160px",
-  width: "160px",
-  minWidth: "160px",
-  minHeight: "160px",
-  borderRadius: "50%",
-  [theme.breakpoints.down("md")]: {
-    height: "60px",
-    width: "60px",
-    minWidth: "60px",
-    minHeight: "60px",
-  },
-}));
-
-const ChannelThumbnail = styled("img")(() => ({
-  height: "100%",
-  width: "100%",
-  objectFit: "cover",
-  borderRadius: "inherit",
-}));
-
-const Typography = styled(MuiTypography)(
-  ({ channelTitle, channelDescription }) => ({
-    ...(channelTitle
-      ? {
-          fontWeight: 500,
-        }
-      : {
-          color: "#AAAAAA",
-          overflow: "hidden",
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
-          WebkitLineClamp: 1,
-        }),
-    ...(channelDescription && {
-      position: "relative",
-      cursor: "pointer",
-    }),
-    "@media (max-width: 480px)": {
-      ...(channelTitle
-        ? {
-            fontSize: "22px",
-            fontWeight: 400,
-          }
-        : {}),
-    },
-  })
-);
+import {
+  ChannelBanner,
+  ChannelBannerWrapper,
+  ChannelDetailsWrapper,
+  ChannelMetadataWrapper,
+  ChannelThumbnail,
+  ChannelThumbnailWrapper,
+  KeyboardArrowRightStyledIcon,
+  Typography,
+} from "./ChannelPageStyledComponents";
 
 const ChannelMetadata = ({ channelId }) => {
   const [channelDetails, setChannelDetails] = useState({
@@ -96,8 +28,6 @@ const ChannelMetadata = ({ channelId }) => {
   const { data, isLoading } = channelDetails;
   const { items } = data;
   const channelMetadata = items ? items[0] : {};
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
 
   const {
     snippet: {
@@ -157,8 +87,7 @@ const ChannelMetadata = ({ channelId }) => {
         <Loader />
       ) : (
         <>
-          <div
-            className="channelBanner"
+          <ChannelBannerWrapper
             style={{
               background: "grey",
               display: "flex",
@@ -166,14 +95,13 @@ const ChannelMetadata = ({ channelId }) => {
             }}
           >
             {bannerExternalUrl && (
-              <img
-                style={{ height: "100%", width: "100%", objectFit: "cover" }}
+              <ChannelBanner
                 src={highQualityImage(bannerExternalUrl)}
                 alt="channel-banner"
                 referrerPolicy="no-referrer"
               />
             )}
-          </div>
+          </ChannelBannerWrapper>
           <ChannelMetadataWrapper>
             <ChannelThumbnailWrapper>
               <ChannelThumbnail
@@ -200,7 +128,7 @@ const ChannelMetadata = ({ channelId }) => {
                   dangerouslySetInnerHTML={{
                     __html: customParser(description),
                   }}
-                ></p>
+                />
                 <KeyboardArrowRightStyledIcon />
               </Typography>
               <SubscribeButton channelId={channelId} channelName={title} />

@@ -1,4 +1,3 @@
-// import "./Comment.scss";
 import Box from "@mui/material/Box";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -29,14 +28,8 @@ import {
   CommentEngagement,
   CommentMetadata,
   CommentPublishTime,
+  ReplyCommentForm,
 } from "./CommentsStyledComponents";
-
-// const Button = styled(MuiButton)(({ textColor, onHoverBackgroundColor }) => ({
-//   color: textColor,
-//   "&:hover": {
-//     background: onHoverBackgroundColor,
-//   },
-// }));
 
 const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   const { isLoggedIn } = useContext(AuthContext);
@@ -160,9 +153,8 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   };
 
   return (
-    <CommentComponent className="comment">
+    <CommentComponent>
       <CommentAuthorImage
-        component="img"
         alt="Channel Thumbnail"
         src={authorProfileImageUrl}
         referrerPolicy="no-referrer"
@@ -207,12 +199,7 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
           </Button>
         </CommentEngagement>
         {isReplyCommentInputVisible && (
-          <form
-            onSubmit={handleReplyComment}
-            style={{
-              display: "flex",
-            }}
-          >
+          <ReplyCommentForm onSubmit={handleReplyComment}>
             <TextField
               label="Add a reply..."
               variant="standard"
@@ -223,7 +210,7 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
             <Button type="submit" variant="contained">
               Reply
             </Button>
-          </form>
+          </ReplyCommentForm>
         )}
         {totalReplyCount > 0 && (
           <Button

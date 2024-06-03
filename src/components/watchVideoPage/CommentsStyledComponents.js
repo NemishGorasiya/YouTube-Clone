@@ -52,3 +52,32 @@ export const CommentAuthorImage = styled("img")(() => ({
   height: "50px",
   borderRadius: "50%",
 }));
+
+export const ReplyCommentForm = styled("form")(() => ({
+  display: "flex",
+}));
+
+export const ReadMoreCommentContent = styled(MuiTypography)(({ theme }) => ({
+  padding: 0,
+  color: theme.palette.primary.light,
+  cursor: "pointer",
+  "&: hover": {
+    textDecoration: "underline",
+  },
+}));
+
+export const CommentContentTypography = styled(MuiTypography)(
+  ({ isExpanded }) => ({
+    textWrap: "wrap",
+    lineHeight: "20px",
+    rowGap: 0,
+    position: "relative",
+    overflow: "hidden",
+    display: "-webkit-box",
+    WebkitLineClamp: 4,
+    WebkitBoxOrient: "vertical",
+    ...(isExpanded && {
+      display: "block",
+    }),
+  })
+);

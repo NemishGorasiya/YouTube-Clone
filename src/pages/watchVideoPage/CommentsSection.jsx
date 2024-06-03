@@ -4,7 +4,6 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import MemoizedComment from "../../components/watchVideoPage/Comment";
 import { httpRequest } from "../../services/services";
-import "./CommentsSection.scss";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
 import { formatCompactNumber } from "../../utils/utilityFunction";
@@ -12,8 +11,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { commentsAreOffGooglePageLink } from "../../utils/constant";
 import CommentSkeleton from "../../components/watchVideoPage/CommentSkeleton";
 import {
+  AddComment,
   AddCommentForm,
+  CommentsSectionComponent,
   KnowMoreLink,
+  MyProfileImage,
   Typography,
 } from "./CommentsSectionStyledComponents";
 
@@ -201,9 +203,8 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
 
   const renderCommentsSection = () => (
     <>
-      <Box className="addComment">
-        <Box
-          component="img"
+      <AddComment>
+        <MyProfileImage
           alt="Channel Thumbnail"
           src="https://placehold.jp/150x150.png"
           referrerPolicy="no-referrer"
@@ -221,8 +222,8 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
             Comment
           </Button>
         </AddCommentForm>
-      </Box>
-      <Box className="commentsContainer">
+      </AddComment>
+      <Box>
         <InfiniteScroll
           items={memoizedComments}
           fetchMoreData={loadMoreComments}
@@ -235,13 +236,13 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
   );
 
   return isWideScreen ? (
-    <Box className="commentsSection">
+    <CommentsSectionComponent>
       <h1>{formatCompactNumber(commentCount)} Comments</h1>
       {renderCommentsSection()}
-    </Box>
+    </CommentsSectionComponent>
   ) : (
     <SwipeableCommentsSection commentCount={commentCount}>
-      <Box className="commentsSection">{renderCommentsSection()}</Box>
+      <Box>{renderCommentsSection()}</Box>
     </SwipeableCommentsSection>
   );
 };

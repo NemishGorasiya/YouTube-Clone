@@ -20,3 +20,22 @@ export const CloseModalButton = styled(IconButton)(() => ({
   right: 5,
   top: 5,
 }));
+
+export const ModalContentComponent = styled(MuiBox)(() => ({
+  overflow: "auto",
+  maxHeight: "80vh",
+  "&::-webkit-scrollbar": {
+    width: "8px",
+    backgroundColor: "transparent",
+  },
+  "&::-webkit-scrollbar-track": {
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    borderRadius: "10px",
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    backgroundColor: "#555",
+  },
+}));
