@@ -2,6 +2,7 @@ import { styled } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiGrid from "@mui/material/Grid";
 import MuiTypography from "@mui/material/Typography";
+import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 
 export const VideoCountBadge = styled(MuiBox)(() => ({
   position: "absolute",
@@ -23,6 +24,10 @@ export const PlaylistCardThumbnailWrapper = styled(MuiBox)(({ theme }) => ({
   position: "relative",
   zIndex: "1",
   outline: `1px solid ${theme.palette.background.default}`,
+}));
+
+export const PlaylistPlayStyledIcon = styled(PlaylistPlayIcon)(() => ({
+  fontSize: "18px",
 }));
 
 export const PlaylistCardThumbnail = styled("img")(() => ({

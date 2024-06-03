@@ -22,7 +22,6 @@ const VideoCardSkeleton = ({ isListView }) => {
           <CardMediaWrapper>
             <CardMedia isListView={isListView}>
               <VideoThumbnailSkeleton
-                // sx={{ bgcolor: "rgba(255,255,255,0.2)" }}
                 animation="wave"
                 variant="rectangular"
                 width="100%"

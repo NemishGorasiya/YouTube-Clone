@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { Button, styled } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiMenuItem from "@mui/material/MenuItem";
@@ -36,4 +36,15 @@ export const SubscribedButton = styled(MuiButton)(({ theme }) => ({
     paddingLeft: "8px",
     paddingRight: "6px",
   },
+}));
+
+export const ModalContent = styled(MuiBox)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
+}));
+
+export const DoSubscribeButton = styled(MuiButton)(() => ({
+  width: "fit-content",
+  height: "fit-content",
 }));

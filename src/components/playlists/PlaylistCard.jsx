@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
+
 import { calcDistanceToNow } from "../../utils/utilityFunction";
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -11,6 +11,7 @@ import {
   PlaylistCardThumbnail,
   PlaylistCardThumbnailWrapper,
   PlaylistMetadata,
+  PlaylistPlayStyledIcon,
   VideoCountBadge,
 } from "./PlaylistsStyledComponents";
 
@@ -80,7 +81,7 @@ const PlaylistCard = ({ playlist }) => {
         <PlaylistCardStackLayer layer={1} />
         <PlaylistCardStackLayer layer={2} />
         <VideoCountBadge>
-          <PlaylistPlayIcon sx={{ fontSize: "18px" }} />
+          <PlaylistPlayStyledIcon />
           {itemCount === 0 ? "No" : itemCount} videos
         </VideoCountBadge>
       </PlaylistCardThumbnailWrapper>

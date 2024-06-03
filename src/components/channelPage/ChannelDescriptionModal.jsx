@@ -15,6 +15,7 @@ import {
   ChannelDescription,
   DescriptionItem,
   DescriptionItemsWrapper,
+  ModalContent,
 } from "./ChannelDescriptionModalStyledComponents";
 import StyledModal from "../StyledModal";
 
@@ -53,13 +54,7 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
 
   return (
     <StyledModal open={open} handleClose={onClose}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-        }}
-      >
+      <ModalContent>
         <h2>About</h2>
         <ChannelDescription
           dangerouslySetInnerHTML={{
@@ -74,7 +69,7 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
             </DescriptionItem>
           ))}
         </DescriptionItemsWrapper>
-      </Box>
+      </ModalContent>
     </StyledModal>
   );
 };

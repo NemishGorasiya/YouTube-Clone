@@ -24,6 +24,8 @@ const CheckCircleIcon = styled(MuiCheckCircleIcon)(({ theme }) => ({
 
 const ChannelMetadataWrapper = styled(MuiBox)(() => ({
   flex: "1",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 }));
 
 const ChannelCardComponent = styled(MuiBox)(({ theme }) => ({
@@ -71,6 +73,7 @@ const ChannelMetadata = styled(MuiTypography)(({ theme }) => ({
   display: "-webkit-box",
   WebkitBoxOrient: "vertical",
   WebkitLineClamp: "2",
+  // wordBreak: "break-all",
 }));
 
 const ChannelCard = ({ channel }) => {

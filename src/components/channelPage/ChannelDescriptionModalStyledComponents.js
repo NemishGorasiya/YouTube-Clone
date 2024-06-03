@@ -28,3 +28,9 @@ export const ChannelDescription = styled(MuiTypography)(({ theme }) => ({
   fontSize: "15px",
   color: theme.palette.primary.main,
 }));
+
+export const ModalContent = styled(MuiBox)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
+}));

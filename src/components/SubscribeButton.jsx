@@ -7,7 +7,9 @@ import { Box, Button, Menu, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { AuthContext } from "../context/AuthContext";
 import {
+  DoSubscribeButton,
   MenuItem,
+  ModalContent,
   SubscribeButtonSkeleton,
   SubscribedButton,
   UserActionButton,
@@ -196,13 +198,7 @@ const SubscribeButton = ({
         open={isOpenConfirmationModal}
         handleClose={handleCloseConfirmationModal}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-          }}
-        >
+        <ModalContent>
           <Typography variant="subtitle1">
             Unsubscribe from {channelName}?
           </Typography>
@@ -217,18 +213,17 @@ const SubscribeButton = ({
               Unsubscribe
             </UserActionButton>
           </UserActionButtonWrapper>
-        </Box>
+        </ModalContent>
       </StyledModal>
     </>
   ) : (
-    <Button
-      sx={{ width: "fit-content", height: "fit-content" }}
+    <DoSubscribeButton
       variant="contained"
       onClick={handleSubscribeToChannel}
       disabled={!isLoggedIn}
     >
       Subscribe
-    </Button>
+    </DoSubscribeButton>
   );
 };
 
