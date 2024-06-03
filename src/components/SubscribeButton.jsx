@@ -4,7 +4,15 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import Loader from "./loader/Loader";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
-import { Box, Button, Menu, Modal, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Menu,
+  Modal,
+  Skeleton,
+  Typography,
+  styled,
+} from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiMenuItem from "@mui/material/MenuItem";
 import MuiButton from "@mui/material/Button";
@@ -18,6 +26,10 @@ const UserActionButtonWrapper = styled(MuiBox)(() => ({
 
 const MenuItem = styled(MuiMenuItem)(() => ({
   gap: 12,
+}));
+
+const SubscribeButtonSkeleton = styled(Skeleton)(() => ({
+  borderRadius: 24,
 }));
 
 const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
@@ -194,7 +206,12 @@ const SubscribeButton = ({
   }, [getSubscriptionStatus, isLoggedIn, subscriptionIdProp]);
 
   return isLoading ? (
-    <Loader />
+    <SubscribeButtonSkeleton
+      animation="wave"
+      variant="circular"
+      height={36}
+      width={100}
+    />
   ) : isSubscribed ? (
     <>
       <SubscribedButton
