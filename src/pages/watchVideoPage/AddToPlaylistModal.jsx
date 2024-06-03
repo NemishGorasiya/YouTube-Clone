@@ -1,5 +1,4 @@
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
@@ -10,32 +9,22 @@ import {
   FormGroup,
   InputLabel,
   MenuItem,
-  Modal,
   Select,
-  Skeleton,
   TextField,
   Typography,
   styled,
 } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiButton from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import MuiMenuItem from "@mui/material/MenuItem";
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import Loader from "../../components/loader/Loader";
-import { modalStyle } from "../../components/styles/styles";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
 import { privacyOptions } from "../../utils/constant";
 import PlaylistChecklistItemSkeleton from "./PlaylistChecklistItemSkeleton";
-
-const CloseModalButton = styled(IconButton)(() => ({
-  position: "absolute",
-  right: 5,
-  top: 5,
-}));
+import StyledModal from "../../components/StyledModal";
 
 const CreatePlaylistButton = styled(MuiButton)(() => ({
   width: "fit-content",
@@ -260,20 +249,14 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   }, [getPlaylists]);
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <StyledModal open={open} handleClose={handleClose}>
       <Box
-        className="modalContent"
         sx={{
-          ...modalStyle,
-          padding: "24px",
           display: "flex",
           flexDirection: "column",
           gap: "12px",
         }}
       >
-        <CloseModalButton onClick={handleClose}>
-          <CloseIcon />
-        </CloseModalButton>
         <Typography variant="h5" gutterBottom>
           Save video to...
         </Typography>
@@ -333,7 +316,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
           </CreateNewPlaylistButton>
         )}
       </Box>
-    </Modal>
+    </StyledModal>
   );
 };
 

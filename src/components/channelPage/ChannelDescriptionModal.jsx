@@ -1,8 +1,4 @@
-import { Box, IconButton, Modal, styled } from "@mui/material";
-import MuiTypography from "@mui/material/Typography";
-import MuiBox from "@mui/material/Box";
-import { modalStyle } from "../styles/styles";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box } from "@mui/material";
 import {
   customParser,
   formatCompactNumber,
@@ -17,10 +13,10 @@ import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutl
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import {
   ChannelDescription,
-  CloseModalButton,
   DescriptionItem,
   DescriptionItemsWrapper,
 } from "./ChannelDescriptionModalStyledComponents";
+import StyledModal from "../StyledModal";
 
 const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
   const {
@@ -56,20 +52,14 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
   ];
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <StyledModal open={open} handleClose={onClose}>
       <Box
-        className="modalContent"
         sx={{
-          ...modalStyle,
-          padding: "24px",
           display: "flex",
           flexDirection: "column",
           gap: "12px",
         }}
       >
-        <CloseModalButton onClick={onClose}>
-          <CloseIcon />
-        </CloseModalButton>
         <h2>About</h2>
         <ChannelDescription
           dangerouslySetInnerHTML={{
@@ -85,7 +75,7 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
           ))}
         </DescriptionItemsWrapper>
       </Box>
-    </Modal>
+    </StyledModal>
   );
 };
 

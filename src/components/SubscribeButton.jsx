@@ -3,8 +3,7 @@ import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
-import { Box, Button, Menu, Modal, Typography } from "@mui/material";
-import { modalStyle } from "./styles/styles";
+import { Box, Button, Menu, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { AuthContext } from "../context/AuthContext";
 import {
@@ -14,6 +13,7 @@ import {
   UserActionButton,
   UserActionButtonWrapper,
 } from "./SubscribeButtonStyledComponents";
+import StyledModal from "./StyledModal";
 
 const SubscribeButton = ({
   channelId,
@@ -192,14 +192,12 @@ const SubscribeButton = ({
           <PersonRemoveAlt1OutlinedIcon /> Unsubscribe
         </MenuItem>
       </Menu>
-      <Modal
+      <StyledModal
         open={isOpenConfirmationModal}
-        onClose={handleCloseConfirmationModal}
+        handleClose={handleCloseConfirmationModal}
       >
         <Box
           sx={{
-            ...modalStyle,
-            padding: "24px",
             display: "flex",
             flexDirection: "column",
             gap: "12px",
@@ -220,7 +218,7 @@ const SubscribeButton = ({
             </UserActionButton>
           </UserActionButtonWrapper>
         </Box>
-      </Modal>
+      </StyledModal>
     </>
   ) : (
     <Button
