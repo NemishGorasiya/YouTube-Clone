@@ -1,11 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { httpRequest } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import PlaylistCard from "./PlaylistCard";
 import InfiniteScroll from "../InfiniteScroll";
 import PropTypes from "prop-types";
 import { PlaylistGrid } from "./PlaylistsStyledComponents";
+import PlaylistCardSkeleton from "./PlaylistCardSkeleton";
 
 const renderItem = (playlist) => (
   <PlaylistCard key={playlist.id} playlist={playlist} />
@@ -72,6 +72,7 @@ const Playlists = ({ channelId }) => {
   }, [getPlaylists]);
 
   if (list.length === 0) return <h1>No Playlists</h1>;
+  if (!isLoading && list.length === 0) return <h1>No Playlists</h1>;
 
   return (
     <PlaylistGrid container>
@@ -80,6 +81,7 @@ const Playlists = ({ channelId }) => {
         fetchMoreData={loadMorePlaylists}
         renderItem={renderItem}
         isLoading={isLoading}
+        skeletonItem={<PlaylistCardSkeleton />}
       />
     </PlaylistGrid>
   );
