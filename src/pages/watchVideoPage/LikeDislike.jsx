@@ -48,19 +48,11 @@ const LikeDislike = ({ isLoggedIn, videoId, likeCount: likeCountProp }) => {
     }),
     [videoId]
   );
-  let data, loading, error;
-
-  if (isLoggedIn) {
-    const {
-      data: responseData,
-      loading,
-      error,
-    } = useFetch({
-      url: "/videos/getRating",
-      queryParams,
-    });
-    data = responseData;
-  }
+  const { data, loading, error } = useFetch({
+    url: "/videos/getRating",
+    queryParams,
+    enabled: isLoggedIn,
+  });
 
   useEffect(() => {
     if (data && data.items && data.items.length > 0) {

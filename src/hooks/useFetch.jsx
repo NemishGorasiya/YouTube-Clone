@@ -7,6 +7,7 @@ const useFetch = (requestProps) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!requestProps.enabled) return;
     const abortController = new AbortController();
     const fetchData = async () => {
       setLoading(true);
