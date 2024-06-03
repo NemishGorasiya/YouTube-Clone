@@ -37,9 +37,7 @@ const VideoDescription = ({ description }) => {
         variant="body1"
         component="pre"
       >
-        <span
-          dangerouslySetInnerHTML={{ __html: customParser(description) }}
-        ></span>
+        <span dangerouslySetInnerHTML={{ __html: customParser(description) }} />
         <ToggleButton
           onClick={handleToggleVisibilityOfText}
           className="toggleTextVisibilityButton"

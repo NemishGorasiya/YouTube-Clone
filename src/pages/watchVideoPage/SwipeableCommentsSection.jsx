@@ -1,4 +1,4 @@
-import { Box, Button, Skeleton, Typography, styled } from "@mui/material";
+import { Box, Button, Typography, styled } from "@mui/material";
 import MuiSwipeableDrawer from "@mui/material/SwipeableDrawer";
 import React from "react";
 import PropTypes from "prop-types";
@@ -92,6 +92,7 @@ const SwipeableCommentsSection = ({ children, commentCount }) => {
 
 SwipeableCommentsSection.propTypes = {
   children: PropTypes.node,
+  commentCount: PropTypes.string,
 };
 
 export default SwipeableCommentsSection;

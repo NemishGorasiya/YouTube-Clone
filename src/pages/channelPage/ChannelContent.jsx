@@ -1,9 +1,9 @@
-import VideoSlider from "../../components/VideoSlider";
 import VideoGallery from "../../components/VideoGallery";
 import { useState } from "react";
 import ChannelHomePageContent from "./ChannelHomePageContent";
 import Playlists from "../../components/playlists/Playlists";
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
+import PropTypes from "prop-types";
 
 const ChannelContent = ({ channelId }) => {
   const [currentContentCategory, setCurrentContentCategory] = useState("home");
@@ -59,6 +59,10 @@ const ChannelContent = ({ channelId }) => {
       </Box>
     </div>
   );
+};
+
+ChannelContent.propTypes = {
+  channelId: PropTypes.string.isRequired,
 };
 
 export default ChannelContent;

@@ -1,75 +1,18 @@
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
-import MuiBox from "@mui/material/Box";
-import MuiGrid from "@mui/material/Grid";
-import MuiTypography from "@mui/material/Typography";
 import { calcDistanceToNow } from "../../utils/utilityFunction";
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-
-const VideoCountBadge = styled(MuiBox)(() => ({
-  position: "absolute",
-  bottom: "3px",
-  right: "3px",
-  display: "flex",
-  alignItems: "center",
-  fontSize: "12px",
-  background: "#000",
-  padding: "1px 4px",
-  borderRadius: "4px",
-  color: "#fff",
-}));
-
-const PlaylistCardThumbnail = styled(MuiBox)(({ theme }) => ({
-  display: "flex",
-  aspectRatio: "16/9",
-  borderRadius: "8px",
-  position: "relative",
-  zIndex: "1",
-  outline: `1px solid ${theme.palette.background.default}`,
-}));
-
-const PlaylistMetadata = styled(MuiTypography)(({ theme, isTitle }) => ({
-  fontSize: "13px",
-  lineHeight: "18px",
-  fontFamily: "Roboto, Arial, sans-serif",
-  color: theme.palette.primary.light,
-  ...(isTitle
-    ? { color: theme.palette.primary.main, fontSize: "15px", fontWeight: 600 }
-    : {}),
-}));
-
-const PlaylistCardStackLayer = styled(MuiBox)(({ theme, layer }) => ({
-  position: "absolute",
-  height: "90%",
-  left: "50%",
-  transform: "translateX(-50%)",
-  borderRadius: "inherit",
-  ...(layer === 1
-    ? {
-        background: "#868686",
-        outline: `1px solid ${theme.palette.background.default}`,
-        width: "93%",
-        zIndex: "-1",
-        top: "-5px",
-      }
-    : layer === 2
-    ? {
-        width: "85%",
-        background: "rgb(96, 96, 96)",
-        top: "-9px",
-        zIndex: "-2",
-      }
-    : {}),
-}));
-
-const PlaylistCardComponent = styled(MuiGrid)(() => ({
-  gap: "10px",
-  display: "grid",
-  cursor: "pointer",
-}));
+import {
+  PlaylistCardComponent,
+  PlaylistCardStackLayer,
+  PlaylistCardThumbnail,
+  PlaylistCardThumbnailWrapper,
+  PlaylistMetadata,
+  VideoCountBadge,
+} from "./PlaylistsStyledComponents";
 
 const PlaylistCard = ({ playlist }) => {
   const {
@@ -132,24 +75,15 @@ const PlaylistCard = ({ playlist }) => {
         handelPlaylistClick(playlistId);
       }}
     >
-      <PlaylistCardThumbnail>
-        <img
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: "inherit",
-          }}
-          src={url}
-          alt="playlist Thumbnail"
-        />
+      <PlaylistCardThumbnailWrapper>
+        <PlaylistCardThumbnail src={url} alt="playlist Thumbnail" />
         <PlaylistCardStackLayer layer={1} />
         <PlaylistCardStackLayer layer={2} />
         <VideoCountBadge>
           <PlaylistPlayIcon sx={{ fontSize: "18px" }} />
           {itemCount === 0 ? "No" : itemCount} videos
         </VideoCountBadge>
-      </PlaylistCardThumbnail>
+      </PlaylistCardThumbnailWrapper>
       <Box>
         <PlaylistMetadata isTitle>{title}</PlaylistMetadata>
         <PlaylistMetadata>{privacyStatus}</PlaylistMetadata>

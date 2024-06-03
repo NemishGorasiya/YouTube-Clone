@@ -4,10 +4,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import useLocalStorage from "../hooks/useLocalStorage";
 import { httpRequest } from "../services/services";
 import VideoCard from "./VideoCard";
-import Loader from "./loader/Loader";
 import "./VideoSlider.scss";
 import { Box } from "@mui/material";
 import VideoCardSkeleton from "./VideoCardSkeleton";
@@ -20,8 +18,6 @@ const VideoSlider = ({ playlistId }) => {
   });
   const { list, isLoading, nextPageToken } = videos;
 
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
   const slideToObserve = useRef(null);
 
   const getPlaylistVideos = useCallback(

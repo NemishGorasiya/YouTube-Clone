@@ -1,58 +1,19 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
-import Loader from "./loader/Loader";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
-import {
-  Box,
-  Button,
-  Menu,
-  Modal,
-  Skeleton,
-  Typography,
-  styled,
-} from "@mui/material";
-import MuiBox from "@mui/material/Box";
-import MuiMenuItem from "@mui/material/MenuItem";
-import MuiButton from "@mui/material/Button";
+import { Box, Button, Menu, Modal, Typography } from "@mui/material";
 import { modalStyle } from "./styles/styles";
 import PropTypes from "prop-types";
 import { AuthContext } from "../context/AuthContext";
-
-const UserActionButtonWrapper = styled(MuiBox)(() => ({
-  textAlign: "end",
-}));
-
-const MenuItem = styled(MuiMenuItem)(() => ({
-  gap: 12,
-}));
-
-const SubscribeButtonSkeleton = styled(Skeleton)(() => ({
-  borderRadius: 24,
-}));
-
-const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
-  color: textColor || theme.palette.primary.main,
-}));
-
-const SubscribedButton = styled(MuiButton)(({ theme }) => ({
-  background: theme.palette.secondaryBackground.default,
-  color: theme.palette.primary.main,
-  outline: "none",
-  border: "none",
-  minWidth: "fit-content",
-  width: "fit-content",
-  height: "fit-content",
-  paddingLeft: "16px",
-  paddingRight: "12px",
-  borderRadius: 32,
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "12px",
-    paddingLeft: "8px",
-    paddingRight: "6px",
-  },
-}));
+import {
+  MenuItem,
+  SubscribeButtonSkeleton,
+  SubscribedButton,
+  UserActionButton,
+  UserActionButtonWrapper,
+} from "./SubscribeButtonStyledComponents";
 
 const SubscribeButton = ({
   channelId,

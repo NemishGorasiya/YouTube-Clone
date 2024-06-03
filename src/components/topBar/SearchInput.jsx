@@ -1,69 +1,16 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, TextField, useMediaQuery } from "@mui/material";
-import MuiInputAdornment from "@mui/material/InputAdornment";
+import { useMediaQuery } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
-import { styled, useTheme } from "@mui/material/styles";
-import { width } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import VoiceSearch from "./VoiceSearch";
-
-const SEARCH_INPUT_HEIGHT = "40px";
-
-const formStyle = {
-  display: "flex",
-  alignItems: "center",
-  height: SEARCH_INPUT_HEIGHT,
-  maxWidth: "550px",
-  marginLeft: "52px",
-  flex: "1",
-};
-
-const SearchIconWrapper = styled("button")(({ theme, isSmallScreen }) => ({
-  height: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "55px",
-  color: theme.palette.primary.main,
-  border: `0.5px solid ${theme.palette.secondary.light}`,
-  background: theme.palette.background.light,
-  borderRadius: "0 40px 40px 0",
-  marginLeft: "auto",
-  cursor: "pointer",
-  ...(isSmallScreen
-    ? {
-        borderRadius: "50%",
-        width: "40px",
-        aspectRatio: "1/1",
-        background: "transparent",
-        border: "none",
-      }
-    : {}),
-}));
-
-const InputAdornment = styled(MuiInputAdornment)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  position: "absolute",
-  left: "0",
-  transform: "translateX(-100%)",
-  border: `1px solid ${theme.palette.secondary.light}`,
-  minHeight: SEARCH_INPUT_HEIGHT,
-  width: "40px",
-  borderRight: "none",
-  borderTopLeftRadius: "40px",
-  borderBottomLeftRadius: "40px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  paddingLeft: "10px",
-}));
-
-const SearchInputContainer = styled(Box)(() => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-}));
+import {
+  InputAdornment,
+  SearchIconWrapper,
+  SearchInputContainer,
+  formStyle,
+} from "./SearchInputStyledComponents";
 
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");

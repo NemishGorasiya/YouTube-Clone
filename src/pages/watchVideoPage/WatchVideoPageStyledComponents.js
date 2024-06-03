@@ -4,7 +4,7 @@ import MuiTypography from "@mui/material/Typography";
 import MuiButton from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-export const VideoPageContainer = styled(Box)(({ theme }) => ({
+export const VideoPageContainer = styled(Box)(() => ({
   display: "flex",
   gap: "12px",
   "@media (max-width: 780px)": {
@@ -12,24 +12,24 @@ export const VideoPageContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const VideoPageLeftSection = styled(Box)(({ theme }) => ({
+export const VideoPageLeftSection = styled(Box)(() => ({
   flex: 3,
 }));
 
-export const RelatedVideosWrapper = styled(Box)(({ theme }) => ({
+export const RelatedVideosWrapper = styled(Box)(() => ({
   flex: 1,
   gap: "12px",
   display: "flex",
   flexDirection: "column",
 }));
 
-export const RelatedVideosContainer = styled(Box)(({ theme }) => ({
+export const RelatedVideosContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
 }));
 
-export const VideoPlayerWrapper = styled(Box)(({ theme }) => ({
+export const VideoPlayerWrapper = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "8px",

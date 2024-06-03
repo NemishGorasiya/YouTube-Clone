@@ -1,9 +1,6 @@
-import React from "react";
 import {
-  VideoDescriptionContainer,
   VideoFunctionButtonSkeletonWrapper,
   VideoMetadataSkeletonWrapper,
-  VideoMetadataWrapper,
   VideoPlayerWrapper,
   VideoTitleSkeletonWrapper,
   YouTubeIframeWrapper,
