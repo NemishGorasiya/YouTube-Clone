@@ -23,6 +23,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { fetchAccessToken, getUserInfo } from "../../services/services";
 import SignInButton from "../SignInButton";
 import { AuthContext } from "../../context/AuthContext";
+import { ProfilePictureImage } from "./TopBarStyledComponents";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -133,14 +134,13 @@ const TopBarRight = () => {
           >
             {isLoggedIn ? (
               profilePicture ? (
-                <img
-                  style={{ width: "32px", height: "32px", borderRadius: "50%" }}
+                <ProfilePictureImage
                   src={profilePicture}
                   alt="user"
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <Avatar sx={{ height: "32px", width: "32px" }} />
+                <Avatar />
               )
             ) : (
               <MoreVertIcon />

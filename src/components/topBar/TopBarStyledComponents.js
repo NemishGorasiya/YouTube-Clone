@@ -34,6 +34,12 @@ export const IconButton = styled(MuiIconButton)(() => ({
   marginLeft: "1px",
 }));
 
+export const ProfilePictureImage = styled("img")(() => ({
+  width: "32px",
+  height: "32px",
+  borderRadius: "50%",
+}));
+
 export const LogoContainer = styled(MuiBox)(({ theme }) => ({
   height: "40px",
   display: "flex",

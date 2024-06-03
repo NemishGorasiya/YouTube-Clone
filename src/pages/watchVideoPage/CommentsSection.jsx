@@ -9,9 +9,13 @@ import SwipeableCommentsSection from "./SwipeableCommentsSection";
 import PropTypes from "prop-types";
 import { formatCompactNumber } from "../../utils/utilityFunction";
 import { AuthContext } from "../../context/AuthContext";
-import Loader from "../../components/loader/Loader";
 import { commentsAreOffGooglePageLink } from "../../utils/constant";
 import CommentSkeleton from "../../components/watchVideoPage/CommentSkeleton";
+import {
+  AddCommentForm,
+  KnowMoreLink,
+  Typography,
+} from "./CommentsSectionStyledComponents";
 
 const initialCommentsState = {
   list: [],
@@ -20,14 +24,14 @@ const initialCommentsState = {
   isDisabled: false,
 };
 
-const Typography = styled(MuiTypography)(() => ({
-  textAlign: "center",
-  margin: "24px auto",
-}));
+// const Typography = styled(MuiTypography)(() => ({
+//   textAlign: "center",
+//   margin: "24px auto",
+// }));
 
-const KnowMoreLink = styled("a")(() => ({
-  color: "#3EA6FF",
-}));
+// const KnowMoreLink = styled("a")(() => ({
+//   color: "#3EA6FF",
+// }));
 
 const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
@@ -194,10 +198,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           src="https://placehold.jp/150x150.png"
           referrerPolicy="no-referrer"
         />
-        <form
-          onSubmit={handleAddComment}
-          style={{ display: "flex", width: "100%" }}
-        >
+        <AddCommentForm onSubmit={handleAddComment}>
           <TextField
             label="Add a comment..."
             variant="standard"
@@ -209,7 +210,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           <Button disabled={!isLoggedIn} type="submit" variant="contained">
             Comment
           </Button>
-        </form>
+        </AddCommentForm>
       </Box>
       <Box className="commentsContainer">
         <InfiniteScroll
