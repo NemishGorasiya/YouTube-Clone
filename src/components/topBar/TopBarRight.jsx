@@ -27,6 +27,7 @@ import {
   ProfilePictureImage,
   UsernameMenuItem,
 } from "./TopBarStyledComponents";
+import LocationMenuItem from "./LocationMenuItem";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -241,10 +242,11 @@ const TopBarRight = () => {
               Light theme
             </MenuItem>
           </ListSubheader>
-          {isLoggedIn && <Divider />}
         </Collapse>
+        <LocationMenuItem />
         {isLoggedIn && (
           <>
+            <Divider />
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />

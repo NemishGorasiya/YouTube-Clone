@@ -1,4 +1,4 @@
-import { styled, MenuItem } from "@mui/material";
+import { styled, MenuItem, ListSubheader } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
@@ -44,6 +44,25 @@ export const ProfilePictureImage = styled("img")(() => ({
 export const UsernameMenuItem = styled(MenuItem)(() => ({
   display: "flex",
   gap: "10px",
+}));
+
+export const CountryListSubheader = styled(ListSubheader)(() => ({
+  maxHeight: "50vh",
+  overflow: "auto",
+  "&::-webkit-scrollbar": {
+    width: "8px",
+    backgroundColor: "transparent",
+  },
+  "&::-webkit-scrollbar-track": {
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    borderRadius: "10px",
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    backgroundColor: "#555",
+  },
 }));
 
 export const LogoContainer = styled(MuiBox)(({ theme }) => ({
