@@ -28,10 +28,10 @@ export const CountryMenuItem = styled(MenuItem)(() => ({
   gap: "8px",
 }));
 
-export const TopBarRightDivider = styled(Divider)(() => ({
+export const TopBarRightDivider = styled(Divider)(({ theme }) => ({
   "&.MuiDivider-root": {
     margin: "0",
-    display: "block",
+    background: theme.palette.secondary.light,
   },
 }));
 

@@ -190,9 +190,9 @@ const TopBarRight = () => {
         )}
         <ThemeMenuItem />
         <LocationMenuItem />
-        <TopBarRightDivider />
         {isLoggedIn && (
           <>
+            <TopBarRightDivider />
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />

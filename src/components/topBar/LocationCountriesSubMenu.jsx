@@ -15,7 +15,7 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   const queryParams = {
     part: "snippet",
   };
-  const { data, error } = useFetch({
+  const { data } = useFetch({
     url: "/i18nRegions",
     queryParams,
   });
@@ -25,10 +25,6 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   const handleChangeLocation = (countryCode) => {
     changeLocation(countryCode);
   };
-
-  if (error) {
-    return <h1>Something went wrong</h1>;
-  }
 
   return (
     <Collapse in={isLocationMenuOpen} timeout="auto" unmountOnExit>
