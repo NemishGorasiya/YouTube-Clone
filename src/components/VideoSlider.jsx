@@ -26,6 +26,7 @@ const VideoSlider = ({ playlistId }) => {
         part: "snippet",
         playlistId,
         pageToken: nextPageToken,
+        maxResults: 6,
       };
 
       try {
@@ -113,7 +114,7 @@ const VideoSlider = ({ playlistId }) => {
         {list.map((video, idx) => (
           <SwiperSlide
             key={video.id}
-            ref={idx + 5 === list.length ? slideToObserve : null}
+            ref={idx + 6 === list.length ? slideToObserve : null}
           >
             <VideoCard video={video} />
           </SwiperSlide>

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const VideoPageContainer = styled(Box)(() => ({
   display: "flex",
   gap: "12px",
-  "@media (max-width: 780px)": {
+  "@media (max-width: 1200px)": {
     flexDirection: "column",
   },
 }));

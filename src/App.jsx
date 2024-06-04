@@ -1,8 +1,8 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useContext } from "react";
-import { RouterProvider } from "react-router-dom";
+import { useContext, useLayoutEffect } from "react";
+import { RouterProvider, useLocation } from "react-router-dom";
 import "./App.scss";
 import { ThemeContext } from "./context/ThemeContext";
 import { router } from "./routes/Routes";
