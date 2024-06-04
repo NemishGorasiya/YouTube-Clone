@@ -51,7 +51,7 @@ const LikeDislike = ({ isLoggedIn, videoId, likeCount: likeCountProp }) => {
   const { data, loading, error } = useFetch({
     url: "/videos/getRating",
     queryParams,
-    enabled: isLoggedIn,
+    disabled: !isLoggedIn,
   });
 
   useEffect(() => {

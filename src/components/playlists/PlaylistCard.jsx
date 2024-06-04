@@ -17,17 +17,19 @@ import {
 
 const PlaylistCard = ({ playlist }) => {
   const {
-    id: playlistId,
+    id: playlistId = "",
     snippet: {
       title,
       publishedAt,
       thumbnails: {
-        high: { url },
-      },
-    },
-    status: { privacyStatus },
-    contentDetails: { itemCount },
-  } = playlist;
+        high: { url: highResolutionUrl = "" } = {},
+        maxres: { url: maxResolutionUrl = "" } = {},
+        standard: { url: standardResolutionUrl = "" } = {},
+      } = {},
+    } = {},
+    status: { privacyStatus } = {},
+    contentDetails: { itemCount } = {},
+  } = playlist || {};
 
   const navigate = useNavigate();
 
@@ -77,7 +79,11 @@ const PlaylistCard = ({ playlist }) => {
       }}
     >
       <PlaylistCardThumbnailWrapper>
-        <PlaylistCardThumbnail src={url} alt="playlist Thumbnail" />
+        <PlaylistCardThumbnail
+          src={highResolutionUrl || standardResolutionUrl || maxResolutionUrl}
+          alt="playlist Thumbnail"
+          referrerPolicy="no-referrer"
+        />
         <PlaylistCardStackLayer layer={1} />
         <PlaylistCardStackLayer layer={2} />
         <VideoCountBadge>

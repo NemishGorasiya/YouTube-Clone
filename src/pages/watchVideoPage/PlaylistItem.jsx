@@ -18,6 +18,7 @@ import {
   VideoImageWrapper,
   VideoTitle,
 } from "./PlaylistItemStyledComponents";
+import VideoFallbackImage from "../../assets/video-placeholder.jpg";
 
 // const VideoImageWrapper = styled(MuiBox)(({ theme }) => ({
 //   width: "140px",
@@ -83,13 +84,11 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
     snippet: {
       title,
       playlistId,
-      resourceId: { videoId },
-      thumbnails: {
-        high: { url },
-      },
+      resourceId: { videoId } = {},
+      thumbnails: { high: { url = "" } = {} } = {},
       videoOwnerChannelTitle,
     },
-  } = playlistItem;
+  } = playlistItem || {};
 
   const openMoreOptionsMenu = (event) => {
     event.preventDefault();
@@ -131,7 +130,7 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
       >
         <PlaylistContent>
           <VideoImageWrapper>
-            <VideoImage src={url} alt="Video Thumbnail" />
+            <VideoImage src={url || VideoFallbackImage} alt="Video Thumbnail" />
           </VideoImageWrapper>
           <Box sx={{ flex: 1 }}>
             <VideoTitle>{title}</VideoTitle>
