@@ -1,4 +1,4 @@
-import { styled, MenuItem, ListSubheader } from "@mui/material";
+import { styled, MenuItem, ListSubheader, Divider } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
@@ -19,6 +19,19 @@ export const Toolbar = styled(MuiToolbar)(() => ({
   height: "56px",
   "@media (min-width: 600px)": {
     minHeight: "100%",
+  },
+}));
+
+export const CountryMenuItem = styled(MenuItem)(() => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+}));
+
+export const TopBarRightDivider = styled(Divider)(() => ({
+  "&.MuiDivider-root": {
+    margin: "0",
+    display: "block",
   },
 }));
 

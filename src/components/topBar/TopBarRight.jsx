@@ -1,33 +1,26 @@
-import { Logout, PersonAdd } from "@mui/icons-material";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import ContrastIcon from "@mui/icons-material/Contrast";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
+import { Logout } from "@mui/icons-material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Avatar,
   Box,
-  Collapse,
-  Divider,
   IconButton,
   ListItemIcon,
-  ListSubheader,
   Menu,
   MenuItem,
   Tooltip,
 } from "@mui/material";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, redirect, useNavigate, useSearchParams } from "react-router-dom";
-import { ThemeContext } from "../../context/ThemeContext";
-// import useLocalStorage from "../../hooks/useLocalStorage";
 import { fetchAccessToken, getUserInfo } from "../../services/services";
 import SignInButton from "../SignInButton";
 import { AuthContext } from "../../context/AuthContext";
 import {
   ProfilePictureImage,
+  TopBarRightDivider,
   UsernameMenuItem,
 } from "./TopBarStyledComponents";
 import LocationMenuItem from "./LocationMenuItem";
+import ThemeMenuItem from "./ThemeMenuItem";
 
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE =
@@ -35,7 +28,7 @@ const SCOPE =
 
 const TopBarRight = () => {
   const navigate = useNavigate();
-  const { changeThemeMode } = useContext(ThemeContext);
+
   const { user, isLoggedIn, handleLogin, handleLogout } =
     useContext(AuthContext);
   // const [user, setUser] = useLocalStorage("user", {});
@@ -43,12 +36,6 @@ const TopBarRight = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
   const [searchParams] = useSearchParams();
-
-  const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
-
-  const toggleThemeMenu = () => {
-    setIsThemeMenuOpen((prev) => !prev);
-  };
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -58,7 +45,6 @@ const TopBarRight = () => {
 
   const closeProfileMenu = () => {
     setAnchorEl(null);
-    setIsThemeMenuOpen(false);
   };
 
   const getAccessToken = useCallback(
@@ -199,54 +185,14 @@ const TopBarRight = () => {
                 <p>{username}</p> <p>{email}</p>
               </div>
             </UsernameMenuItem>
-            <Divider />
+            <TopBarRightDivider />
           </>
         )}
-
-        <MenuItem onClick={toggleThemeMenu}>
-          <ListItemIcon>
-            <Brightness4Icon fontSize="small" />
-          </ListItemIcon>
-          Appearance
-        </MenuItem>
-        <Collapse in={isThemeMenuOpen} timeout="auto" unmountOnExit>
-          <ListSubheader>
-            <MenuItem
-              onClick={() => {
-                changeThemeMode("systemPreference");
-              }}
-            >
-              <ListItemIcon>
-                <ContrastIcon fontSize="small" />
-              </ListItemIcon>
-              Use device theme
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                changeThemeMode("dark");
-              }}
-            >
-              <ListItemIcon>
-                <DarkModeIcon fontSize="small" />
-              </ListItemIcon>
-              Dark theme
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                changeThemeMode("light");
-              }}
-            >
-              <ListItemIcon>
-                <LightModeIcon fontSize="small" />
-              </ListItemIcon>
-              Light theme
-            </MenuItem>
-          </ListSubheader>
-        </Collapse>
+        <ThemeMenuItem />
         <LocationMenuItem />
+        <TopBarRightDivider />
         {isLoggedIn && (
           <>
-            <Divider />
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />
