@@ -1,4 +1,10 @@
-import { styled, MenuItem, ListSubheader, Divider } from "@mui/material";
+import {
+  styled,
+  MenuItem,
+  ListSubheader,
+  Divider,
+  ListItemIcon,
+} from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MuiBox from "@mui/material/Box";
@@ -22,9 +28,21 @@ export const Toolbar = styled(MuiToolbar)(() => ({
   },
 }));
 
-export const CountryMenuItem = styled(MenuItem)(() => ({
+export const ListItemLabel = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
+  gap: "8px",
+}));
+
+export const TopBarRightMenuItem = styled(MenuItem)(({ theme, isActive }) => ({
+  ...(isActive && { color: theme.palette.blue.primary }),
+}));
+
+export const ListItemStyledIcon = styled(ListItemIcon)(() => ({
+  color: "inherit",
+}));
+export const CountryMenuItem = styled(MenuItem)(() => ({
+  display: "flex",
   gap: "8px",
 }));
 

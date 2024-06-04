@@ -250,7 +250,7 @@ const WatchVideoPage = () => {
             />
           </PlaylistPanelWrapper>
         )}
-        {/* <RelatedVideos tags={tags} channelTitle={channelTitle} /> */}
+        <RelatedVideos tags={tags} channelTitle={channelTitle} />
       </RelatedVideosWrapper>
       <ScrollToTopButton />
     </VideoPageContainer>
