@@ -4,6 +4,8 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import ChannelCard from "./ChannelCard";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import Box from "@mui/material/Box";
+import { SubscribedChannelsPageComponent } from "./SubscribedChannelsPageStyledComponents";
+import ChannelCardSkeleton from "./ChannelCardSkeleton";
 
 const SubscribedChannelsPage = () => {
   const [channels, setChannels] = useState({
@@ -72,22 +74,15 @@ const SubscribedChannelsPage = () => {
   );
 
   return (
-    <Box
-      sx={{
-        maxWidth: "1300px",
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-      }}
-    >
+    <SubscribedChannelsPageComponent>
       <InfiniteScroll
         items={list}
         fetchMoreData={loadMore}
         renderItem={renderItem}
         isLoading={isLoading}
-      ></InfiniteScroll>
-    </Box>
+        skeletonItem={<ChannelCardSkeleton />}
+      />
+    </SubscribedChannelsPageComponent>
   );
 };
 
