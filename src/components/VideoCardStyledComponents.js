@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { Skeleton, styled } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiCard from "@mui/material/Card";
 import MuiCardContent from "@mui/material/CardContent";
@@ -41,6 +41,10 @@ export const CardMedia = styled(MuiCardMedia)(() => ({
   borderRadius: "14px",
   aspectRatio: "25/14",
   height: "auto",
+}));
+
+export const VideoThumbnailSkeleton = styled(Skeleton)(() => ({
+  borderRadius: "inherit",
 }));
 
 export const CardMediaWrapper = styled(MuiBox)(() => ({

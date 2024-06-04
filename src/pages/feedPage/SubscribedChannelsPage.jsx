@@ -3,7 +3,6 @@ import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import ChannelCard from "./ChannelCard";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import Box from "@mui/material/Box";
 import { SubscribedChannelsPageComponent } from "./SubscribedChannelsPageStyledComponents";
 import ChannelCardSkeleton from "./ChannelCardSkeleton";
 

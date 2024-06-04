@@ -3,7 +3,7 @@ import { httpRequest } from "../services/services";
 import useLocalStorage from "../hooks/useLocalStorage";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
-import { Box, Button, Menu, Typography } from "@mui/material";
+import { Menu, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { AuthContext } from "../context/AuthContext";
 import {

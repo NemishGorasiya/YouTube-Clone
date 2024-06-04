@@ -2,9 +2,6 @@ import { Collapse, ListItemIcon, ListSubheader, MenuItem } from "@mui/material";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
-import ContrastIcon from "@mui/icons-material/Contrast";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 import DoneIcon from "@mui/icons-material/Done";
 import {
   ListItemLabel,

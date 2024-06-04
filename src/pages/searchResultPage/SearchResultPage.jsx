@@ -12,7 +12,7 @@ const VideoFilterButtonWrapper = styled(MuiBox)(() => ({
 
 const SearchResultPage = () => {
   const [searchParams] = useSearchParams();
-  const { location } = useContext(UserPreferencesContext);
+  // const { location } = useContext(UserPreferencesContext);
   const searchQuery = searchParams.get("search_query");
 
   const [queryParams, setQueryParams] = useState({

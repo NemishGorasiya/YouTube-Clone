@@ -1,20 +1,8 @@
-import { Box, Skeleton, styled } from "@mui/material";
-import React from "react";
-
-const PlaylistChecklistItemSkeletonComponent = styled(Box)(() => ({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: 8,
-  margin: "8px 0",
-}));
-
-const PlaylistChecklistLeftSkeleton = styled(Box)(() => ({
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-  flex: 1,
-}));
+import { Skeleton } from "@mui/material";
+import {
+  PlaylistChecklistItemSkeletonComponent,
+  PlaylistChecklistLeftSkeleton,
+} from "./PlaylistChecklistItemSkeletonStyledComponents";
 
 const PlaylistChecklistItemSkeleton = () => {
   return (

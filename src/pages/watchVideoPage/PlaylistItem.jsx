@@ -20,58 +20,6 @@ import {
 } from "./PlaylistItemStyledComponents";
 import VideoFallbackImage from "../../assets/video-placeholder.jpg";
 
-// const VideoImageWrapper = styled(MuiBox)(({ theme }) => ({
-//   width: "140px",
-//   aspectRatio: "16/9",
-//   [theme.breakpoints.down("sm")]: {
-//     width: "100px",
-//   },
-// }));
-
-// const VideoImage = styled("img")(() => ({
-//   height: "100%",
-//   width: "100%",
-//   objectFit: "cover",
-//   borderRadius: "8px",
-// }));
-
-// const PlaylistItemComponent = styled(MuiBox)(() => ({
-//   display: "flex",
-//   justifyContent: "space-between",
-//   gap: "12px",
-// }));
-// const PlaylistContent = styled(MuiBox)(() => ({
-//   display: "flex",
-//   gap: "12px",
-// }));
-
-// const VideoTitle = styled(MuiTypography)(({ theme }) => ({
-//   overflow: "hidden",
-//   textOverflow: "ellipsis",
-//   display: "-webkit-box",
-//   WebkitBoxOrient: "vertical",
-//   WebkitLineClamp: "2",
-//   color: theme.palette.primary.main,
-//   fontWeight: 600,
-// }));
-
-// const ChannelName = styled(MuiTypography)(({ theme }) => ({
-//   overflow: "hidden",
-//   textOverflow: "ellipsis",
-//   color: theme.palette.primary.light,
-//   fontSize: "14px",
-// }));
-
-// const IconButton = styled(MuiIconButton)(() => ({
-//   height: "35px",
-//   width: "35px",
-//   padding: "5px",
-// }));
-
-// const MenuItem = styled(MuiMenuItem)(() => ({
-//   gap: "4px",
-// }));
-
 const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpenMoreOptions = Boolean(anchorEl);

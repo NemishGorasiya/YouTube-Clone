@@ -6,6 +6,7 @@ import MuiListItemIcon from "@mui/material/ListItemIcon";
 import MuiTypography from "@mui/material/Typography";
 import MuiBox from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
+import { NavLink } from "react-router-dom";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
@@ -17,13 +18,11 @@ export const ListItemButton = styled(MuiListItemButton)(({ open }) => ({
   gap: "24px",
   height: "40px",
   position: "relative",
-  ...(open
-    ? {}
-    : {
-        flexDirection: "column",
-        gap: "0",
-        height: "auto",
-      }),
+  ...(!open && {
+    flexDirection: "column",
+    gap: "0",
+    height: "auto",
+  }),
 }));
 
 export const ListItem = styled(MuiListItem)(({ theme }) => ({
@@ -45,25 +44,27 @@ export const SignInSection = styled(MuiBox)(() => ({
 export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
   display: "flex",
   justifyContent: "center",
-  ...(open && {
-    width: "224px", // 220 + 12 + 12 (paddingX=12)
-  }),
-  ...(!open && {
-    width: "74px",
-  }),
+  ...(open
+    ? {
+        width: "224px", // 220 + 12 + 12 (paddingX=12)
+      }
+    : {
+        width: "74px",
+      }),
 
   "& .MuiPaper-root": {
     background: theme.palette.background.default,
     color: theme.palette.primary.main,
     padding: "0 4px",
     border: "none",
-    ...(open && {
-      width: "224px",
-      padding: "0 12px",
-    }),
-    ...(!open && {
-      width: "72px",
-    }),
+    ...(open
+      ? {
+          width: "224px",
+          padding: "0 12px",
+        }
+      : {
+          width: "72px",
+        }),
   },
 }));
 
@@ -72,6 +73,14 @@ export const ListItemIcon = styled(MuiListItemIcon)(({ theme }) => ({
   minWidth: 0,
   height: "24px",
   width: "24px",
+}));
+
+export const StyledNavLink = styled(NavLink)(({ theme }) => ({
+  "&.active li": {
+    display: "block",
+    background: theme.palette.background.light,
+    borderRadius: "10px",
+  },
 }));
 
 export const ListItemIconImage = styled("img")({
@@ -115,11 +124,10 @@ export const NavBarList = styled(List)(({ open }) =>
   open ? { maxWidth: "200px" } : { maxWidth: "100%" }
 );
 
-export const NavLinkTypography = styled(MuiTypography)(({ open }) =>
-  open
-    ? {}
-    : {
-        fontSize: "10px",
-        maxWidth: "50px",
-      }
+export const NavLinkTypography = styled(MuiTypography)(
+  ({ open }) =>
+    !open && {
+      fontSize: "10px",
+      maxWidth: "50px",
+    }
 );

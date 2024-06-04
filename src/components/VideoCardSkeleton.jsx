@@ -1,4 +1,4 @@
-import { Grid, Skeleton, styled } from "@mui/material";
+import { Grid, Skeleton } from "@mui/material";
 import {
   Card,
   CardActionArea,
@@ -7,12 +7,10 @@ import {
   CardMediaWrapper,
   VideoDetail,
   VideoMetadata,
+  VideoThumbnailSkeleton,
   VideoTitle,
 } from "./VideoCardStyledComponents";
-
-const VideoThumbnailSkeleton = styled(Skeleton)(() => ({
-  borderRadius: "inherit",
-}));
+import PropTypes from "prop-types";
 
 const VideoCardSkeleton = ({ isListView }) => {
   return (
@@ -52,6 +50,10 @@ const VideoCardSkeleton = ({ isListView }) => {
       </Card>
     </Grid>
   );
+};
+
+VideoCardSkeleton.propTypes = {
+  isListView: PropTypes.bool,
 };
 
 export default VideoCardSkeleton;

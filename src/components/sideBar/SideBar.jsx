@@ -26,6 +26,7 @@ import {
   NavLinkTypography,
   SideBarLinksWrapper,
   SignInSection,
+  StyledNavLink,
 } from "./SideBarStyledComponents";
 
 const SideBar = ({ open, toggleDrawer }) => {
@@ -181,19 +182,7 @@ const SideBar = ({ open, toggleDrawer }) => {
 
                 return (
                   title && (
-                    <NavLink
-                      key={channelId}
-                      to={`/channel/${channelId}`}
-                      style={({ isActive }) =>
-                        isActive
-                          ? {
-                              display: "block",
-                              background: theme.palette.background.light,
-                              borderRadius: "10px",
-                            }
-                          : {}
-                      }
-                    >
+                    <StyledNavLink key={channelId} to={`/channel/${channelId}`}>
                       <ListItem open={open}>
                         <ListItemButton open={open}>
                           <ListItemIcon>
@@ -215,23 +204,23 @@ const SideBar = ({ open, toggleDrawer }) => {
                           {/* {newItemCount > 0 && <NewItemIndicator open={open} />} */}
                         </ListItemButton>
                       </ListItem>
-                    </NavLink>
+                    </StyledNavLink>
                   )
                 );
               })}
 
               {subscribedChannelsList.length > 0 && (
-                <NavLink
+                <StyledNavLink
                   to="/feed/channels"
-                  style={({ isActive }) =>
-                    isActive
-                      ? {
-                          display: "block",
-                          background: theme.palette.background.light,
-                          borderRadius: "10px",
-                        }
-                      : {}
-                  }
+                  // style={({ isActive }) =>
+                  //   isActive
+                  //     ? {
+                  //         display: "block",
+                  //         background: theme.palette.background.light,
+                  //         borderRadius: "10px",
+                  //       }
+                  //     : {}
+                  // }
                 >
                   <ListItem open={open}>
                     <ListItemButton open={open}>
@@ -245,7 +234,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                       </ListItemText>
                     </ListItemButton>
                   </ListItem>
-                </NavLink>
+                </StyledNavLink>
               )}
 
               {(subscribedChannelsList.length > 5 ||

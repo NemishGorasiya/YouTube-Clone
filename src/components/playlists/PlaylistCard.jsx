@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-
 import { calcDistanceToNow } from "../../utils/utilityFunction";
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -19,8 +18,8 @@ const PlaylistCard = ({ playlist }) => {
   const {
     id: playlistId = "",
     snippet: {
-      title,
-      publishedAt,
+      title = "",
+      publishedAt = "",
       thumbnails: {
         high: { url: highResolutionUrl = "" } = {},
         maxres: { url: maxResolutionUrl = "" } = {},

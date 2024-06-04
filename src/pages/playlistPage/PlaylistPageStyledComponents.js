@@ -46,21 +46,19 @@ export const PlaylistSidebar = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const BlurredBackground = styled(Box)(
-  ({ theme, playlistThumbnail }) => ({
-    position: "absolute",
-    backgroundImage: `url(${playlistThumbnail})`,
-    filter: "blur(75px)",
-    backdropFilter: "blur(5px)",
-    height: "100%",
-    width: "100%",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: -1,
-    borderRadius: "inherit",
-  })
-);
+export const BlurredBackground = styled(Box)(({ playlistThumbnail }) => ({
+  position: "absolute",
+  backgroundImage: `url(${playlistThumbnail})`,
+  filter: "blur(75px)",
+  backdropFilter: "blur(5px)",
+  height: "100%",
+  width: "100%",
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: -1,
+  borderRadius: "inherit",
+}));
 
 export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
   flex: 1,
@@ -134,4 +132,8 @@ export const MenuItemTextWrapper = styled(MuiMenuItem)(() => ({
 
 export const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
   color: textColor || theme.palette.primary.main,
+}));
+
+export const PlaylistSidebarSkeletonWrapper = styled(PlaylistSidebar)(() => ({
+  padding: 0,
 }));

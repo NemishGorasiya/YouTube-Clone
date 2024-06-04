@@ -12,11 +12,8 @@ import {
   Select,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
-import MuiBox from "@mui/material/Box";
-import MuiButton from "@mui/material/Button";
-import MuiMenuItem from "@mui/material/MenuItem";
+
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
@@ -25,12 +22,13 @@ import { httpRequest } from "../../services/services";
 import { privacyOptions } from "../../utils/constant";
 import PlaylistChecklistItemSkeleton from "./PlaylistChecklistItemSkeleton";
 import StyledModal from "../../components/StyledModal";
-
-const CreatePlaylistButton = styled(MuiButton)(() => ({
-  width: "fit-content",
-  alignSelf: "end",
-  padding: "8px",
-}));
+import {
+  CreateNewPlaylistButton,
+  CreatePlaylistButton,
+  FormControlWrapper,
+  MenuItemTextWrapper,
+  NewPlaylistForm,
+} from "./AddToPlaylistStyledComponents";
 
 const renderItem = (props) => {
   const { snippet, id, status, handleCheckboxClick, videoId } = props || {};
@@ -54,36 +52,6 @@ const renderItem = (props) => {
     </FormControlWrapper>
   );
 };
-
-const CreateNewPlaylistButton = styled(MuiButton)(() => ({
-  display: "flex",
-  justifyContent: "flex-start",
-  paddingLeft: 0,
-  gap: 8,
-  borderRadius: 4,
-  textTransform: "capitalize",
-}));
-
-const FormControlWrapper = styled(MuiBox)(() => ({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-}));
-
-const NewPlaylistForm = styled("form")(() => ({
-  display: "flex",
-  flexDirection: "column",
-  gap: 16,
-}));
-
-const MenuItemTextWrapper = styled(MuiMenuItem)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "start",
-  "&:hover": {
-    background: "none",
-  },
-}));
 
 const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   const [user] = useLocalStorage("user", {});

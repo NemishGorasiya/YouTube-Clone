@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { Skeleton, styled } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiIconButton from "@mui/material/IconButton";
 import MuiMenuItem from "@mui/material/MenuItem";
@@ -18,6 +18,10 @@ export const VideoImage = styled("img")(() => ({
   height: "100%",
   width: "100%",
   objectFit: "cover",
+  borderRadius: "inherit",
+}));
+
+export const VideoThumbnailSkeleton = styled(Skeleton)(() => ({
   borderRadius: "inherit",
 }));
 

@@ -13,13 +13,16 @@ import {
 } from "./SubscribedChannelsPageStyledComponents";
 
 const ChannelCard = ({ channel }) => {
-  const { id: subscriptionId = "", snippet, contentDetails } = channel ?? {};
-  const { title, description, thumbnails, resourceId } = snippet;
-  const { channelId } = resourceId;
-  const { totalItemCount } = contentDetails;
   const {
-    high: { url: channelThumbnail },
-  } = thumbnails;
+    id: subscriptionId = "",
+    snippet: {
+      title = "",
+      description = "",
+      thumbnails: { high: { url: channelThumbnail = "" } = {} },
+      resourceId: { channelId = "" } = {},
+    } = {},
+    contentDetails: { totalItemCount = "" } = {},
+  } = channel || {};
 
   return (
     <Link to={`/channel/${channelId}`}>

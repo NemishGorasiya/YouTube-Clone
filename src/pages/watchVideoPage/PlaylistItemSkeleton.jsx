@@ -1,13 +1,10 @@
-import { Box, Skeleton, styled } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import {
   PlaylistContent,
   PlaylistItemComponent,
   VideoImageWrapper,
+  VideoThumbnailSkeleton,
 } from "./PlaylistItemStyledComponents";
-
-const VideoThumbnailSkeleton = styled(Skeleton)(() => ({
-  borderRadius: "inherit",
-}));
 
 const PlaylistItemSkeleton = () => {
   return (

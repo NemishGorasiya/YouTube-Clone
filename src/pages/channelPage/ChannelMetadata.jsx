@@ -6,7 +6,6 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { httpRequest } from "../../services/services";
 import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
-import Loader from "../../components/loader/Loader";
 import SubscribeButton from "../../components/SubscribeButton";
 import PropTypes from "prop-types";
 import {

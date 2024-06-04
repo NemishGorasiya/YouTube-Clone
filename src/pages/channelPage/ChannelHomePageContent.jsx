@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import VideoSlider from "../../components/VideoSlider";
 import { httpRequest } from "../../services/services";
-import Loader from "../../components/loader/Loader";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { styled } from "@mui/material";
 import MuiDivider from "@mui/material/Divider";

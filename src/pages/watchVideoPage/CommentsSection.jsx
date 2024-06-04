@@ -1,5 +1,4 @@
-import { Box, Button, TextField, styled, useMediaQuery } from "@mui/material";
-import MuiTypography from "@mui/material/Typography";
+import { Box, Button, TextField, useMediaQuery } from "@mui/material";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import MemoizedComment from "../../components/watchVideoPage/Comment";
@@ -18,22 +17,6 @@ import {
   MyProfileImage,
   Typography,
 } from "./CommentsSectionStyledComponents";
-
-const initialCommentsState = {
-  list: [],
-  isLoading: true,
-  nextPageToken: "",
-  isDisabled: false,
-};
-
-// const Typography = styled(MuiTypography)(() => ({
-//   textAlign: "center",
-//   margin: "24px auto",
-// }));
-
-// const KnowMoreLink = styled("a")(() => ({
-//   color: "#3EA6FF",
-// }));
 
 const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");

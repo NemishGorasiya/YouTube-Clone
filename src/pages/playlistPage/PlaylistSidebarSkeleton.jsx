@@ -1,9 +1,5 @@
-import { Skeleton, styled } from "@mui/material";
-import { PlaylistSidebar } from "./PlaylistPageStyledComponents";
-
-const PlaylistSidebarSkeletonWrapper = styled(PlaylistSidebar)(() => ({
-  padding: 0,
-}));
+import { Skeleton } from "@mui/material";
+import { PlaylistSidebarSkeletonWrapper } from "./PlaylistPageStyledComponents";
 
 const PlaylistSidebarSkeleton = () => {
   return (

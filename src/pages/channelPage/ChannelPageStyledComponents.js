@@ -89,12 +89,10 @@ export const Typography = styled(MuiTypography)(
       cursor: "pointer",
     }),
     "@media (max-width: 480px)": {
-      ...(channelTitle
-        ? {
-            fontSize: "22px",
-            fontWeight: 400,
-          }
-        : {}),
+      ...(channelTitle && {
+        fontSize: "22px",
+        fontWeight: 400,
+      }),
     },
   })
 );

@@ -3,6 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Avatar,
   Box,
+  Divider,
   IconButton,
   ListItemIcon,
   Menu,
@@ -16,24 +17,19 @@ import SignInButton from "../SignInButton";
 import { AuthContext } from "../../context/AuthContext";
 import {
   ProfilePictureImage,
+  StyledMenuPaper,
   TopBarRightDivider,
   UsernameMenuItem,
 } from "./TopBarStyledComponents";
 import LocationMenuItem from "./LocationMenuItem";
 import ThemeMenuItem from "./ThemeMenuItem";
 
-const REDIRECT_URI = "http://localhost:5173";
-const SCOPE =
-  "https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
-
 const TopBarRight = () => {
   const navigate = useNavigate();
 
   const { user, isLoggedIn, handleLogin, handleLogout } =
     useContext(AuthContext);
-  // const [user, setUser] = useLocalStorage("user", {});
   const { username, email, profilePicture } = user ?? {};
-  // const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
   const [searchParams] = useSearchParams();
 
@@ -54,7 +50,7 @@ const TopBarRight = () => {
       urlencoded.append("client_id", import.meta.env.VITE_CLIENT_ID);
       urlencoded.append("client_secret", import.meta.env.VITE_CLIENT_SECRET);
       urlencoded.append("grant_type", "authorization_code");
-      urlencoded.append("redirect_uri", "http://localhost:5173");
+      urlencoded.append("redirect_uri", import.meta.env.VITE_REDIRECT_URI);
 
       try {
         const res = await fetchAccessToken({
@@ -74,13 +70,6 @@ const TopBarRight = () => {
               email: email,
             });
             navigate("/");
-            // setUser({
-            //   accessToken: access_token,
-            //   refreshToken: refresh_token,
-            //   username: name,
-            //   profilePicture: picture,
-            //   email: email,
-            // });
           }
         }
       } catch (error) {
@@ -90,11 +79,6 @@ const TopBarRight = () => {
     },
     [handleLogin, navigate]
   );
-
-  // const handleSignOut = () => {
-  //   removeUser();
-  //   setIsLoggedIn(false);
-  // };
 
   useEffect(() => {
     const code = searchParams.get("code");
@@ -145,30 +129,8 @@ const TopBarRight = () => {
         open={open}
         onClose={closeProfileMenu}
         PaperProps={{
+          component: StyledMenuPaper,
           elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&::before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}

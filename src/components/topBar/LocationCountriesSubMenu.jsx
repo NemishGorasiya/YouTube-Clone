@@ -29,20 +29,23 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   return (
     <Collapse in={isLocationMenuOpen} timeout="auto" unmountOnExit>
       <CountryListSubheader>
-        {countryList.map((country) => (
-          <CountryMenuItem
-            key={country.id}
-            sx={{
-              color: location === country.id ? "#3EA6FF" : "",
-            }}
-            onClick={() => {
-              handleChangeLocation(country.snippet.gl);
-            }}
-          >
-            {country.snippet.name}{" "}
-            {location === country.id && <DoneIcon fontSize="small" />}
-          </CountryMenuItem>
-        ))}
+        {countryList.map((country) => {
+          const { id = "", snippet: { gl = "", name = "" } = {} } =
+            country || {};
+          const isActive = location === id;
+
+          return (
+            <CountryMenuItem
+              key={id}
+              isActive={isActive}
+              onClick={() => {
+                handleChangeLocation(gl);
+              }}
+            >
+              {name} {isActive && <DoneIcon fontSize="small" />}
+            </CountryMenuItem>
+          );
+        })}
       </CountryListSubheader>
     </Collapse>
   );
