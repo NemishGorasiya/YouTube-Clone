@@ -11,7 +11,7 @@ const VideoDescription = ({ description, parentRef }) => {
   const handleToggleVisibilityOfText = () => {
     setIsExpanded((prevState) => !prevState);
 
-    parentRef.curren?.scrollIntoView({
+    parentRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
