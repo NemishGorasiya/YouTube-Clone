@@ -20,10 +20,27 @@ export const TabsList = styled("ul")(() => ({
   },
 }));
 
-export const ChannelSectionTab = styled("li")({
+export const ChannelSectionTab = styled("li")(({ theme, isActive }) => ({
   cursor: "pointer",
   padding: "8px 4px",
-});
+  position: "relative",
+  color: theme.palette.primary.light,
+
+  ...(isActive && {
+    color: theme.palette.primary.main,
+
+    "&:after": {
+      content: `""`,
+      position: "absolute",
+      height: "4px",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      background: theme.palette.primary.main,
+      display: "block",
+    },
+  }),
+}));
 
 export const VideoGalleryWrapper = styled(Box)({
   margin: "8px 0",

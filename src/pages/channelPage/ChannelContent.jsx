@@ -26,6 +26,7 @@ const ChannelContent = ({ channelId }) => {
                 onClick={() => {
                   setCurrentContentCategory(value);
                 }}
+                isActive={value === currentContentCategory}
               >
                 {label}
               </ChannelSectionTab>
