@@ -4,7 +4,10 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 import { httpRequest } from "../../services/services";
 import PlaylistItem from "./PlaylistItem";
 import PlaylistItemSkeleton from "./PlaylistItemSkeleton";
-import { PlaylistPanelComponent } from "./PlaylistPanelStyledComponents";
+import {
+  PlaylistPanelComponent,
+  PlaylistPanelTitle,
+} from "./PlaylistPanelStyledComponents";
 
 const PlaylistPanel = ({ playlistId, playlistName }) => {
   const [playlist, setPlaylist] = useState({
@@ -84,7 +87,8 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
 
   return (
     <PlaylistPanelComponent>
-      <h2>{playlistName}</h2>
+      <PlaylistPanelTitle>{playlistName}</PlaylistPanelTitle>
+
       {!isLoading && list.length === 0 && (
         <h3>No videos in this playlist yet</h3>
       )}

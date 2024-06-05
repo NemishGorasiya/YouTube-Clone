@@ -74,7 +74,9 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
   return (
     <PlaylistItemComponent>
       <Link
-        to={`/watch?v=${videoId}&list=${playlistId}&listName=${playlistName}`}
+        to={`/watch?v=${videoId}&list=${playlistId}&listName=${encodeURIComponent(
+          playlistName
+        )}`}
       >
         <PlaylistContent>
           <VideoImageWrapper>

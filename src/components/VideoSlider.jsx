@@ -7,8 +7,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { httpRequest } from "../services/services";
 import VideoCard from "./VideoCard";
 import "./VideoSlider.scss";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import VideoCardSkeleton from "./VideoCardSkeleton";
+import {
+  PlaylistTitleTypography,
+  PlaylistTitleWrapper,
+  PlaylistViewAllButton,
+} from "./VideoSliderStyledComponents";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { Link } from "react-router-dom";
 
 const VideoSlider = ({ playlistId }) => {
   const [videos, setVideos] = useState({
@@ -16,7 +23,11 @@ const VideoSlider = ({ playlistId }) => {
     isLoading: true,
     nextPageToken: "",
   });
+  const [playlistTitle, setPlaylistTitle] = useState("");
   const { list, isLoading, nextPageToken } = videos;
+
+  const { snippet: { resourceId: { videoId: firstVideoId = "" } = {} } = {} } =
+    list.length > 0 ? list[0] : {};
 
   const slideToObserve = useRef(null);
 
@@ -49,6 +60,31 @@ const VideoSlider = ({ playlistId }) => {
     },
     [playlistId]
   );
+  const getPlaylistDetails = useCallback(
+    async ({ abortController } = {}) => {
+      const queryParams = {
+        part: "snippet",
+        id: playlistId,
+      };
+
+      try {
+        const res = await httpRequest({
+          url: "/playlists",
+          queryParams,
+          abortController,
+        });
+        if (res) {
+          const { items = [] } = res;
+          const { snippet: { title: playlistTitle = "" } = {} } =
+            items.length > 0 ? items[0] : {};
+          setPlaylistTitle(playlistTitle);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [playlistId]
+  );
 
   const loadMorePlaylistVideos = useCallback(() => {
     if (nextPageToken) {
@@ -59,6 +95,7 @@ const VideoSlider = ({ playlistId }) => {
   useEffect(() => {
     const abortController = new AbortController();
     getPlaylistVideos({ abortController: abortController });
+    getPlaylistDetails({ abortController: abortController });
     return () => {
       abortController.abort();
     };
@@ -82,6 +119,20 @@ const VideoSlider = ({ playlistId }) => {
 
   return (
     <Box className="videoSliderWrapper">
+      <PlaylistTitleWrapper>
+        <PlaylistTitleTypography component="h3">
+          {playlistTitle}
+        </PlaylistTitleTypography>
+        <Link
+          to={`/watch?v=${firstVideoId}&list=${playlistId}&listName=${encodeURIComponent(
+            playlistTitle
+          )}`}
+        >
+          <PlaylistViewAllButton variant="text" startIcon={<PlayArrowIcon />}>
+            Play all
+          </PlaylistViewAllButton>
+        </Link>
+      </PlaylistTitleWrapper>
       <Swiper
         navigation={true}
         modules={[Navigation]}

@@ -1,4 +1,5 @@
 import { Box, styled } from "@mui/material";
+import MuiDivider from "@mui/material/Divider";
 
 export const TabsWrapper = styled(Box)(() => ({
   position: "relative",
@@ -45,3 +46,14 @@ export const ChannelSectionTab = styled("li")(({ theme, isActive }) => ({
 export const VideoGalleryWrapper = styled(Box)({
   margin: "8px 0",
 });
+
+export const ContentWrapper = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+}));
+
+export const Divider = styled(MuiDivider)(() => ({
+  borderBottomWidth: "1px",
+  background: "grey",
+}));

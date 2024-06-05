@@ -60,9 +60,9 @@ const PlaylistCard = ({ playlist }) => {
           },
         } = items[0];
         navigate(
-          `/watch?v=${videoId}&list=${id}&listName=${
+          `/watch?v=${videoId}&list=${id}&listName=${encodeURIComponent(
             id === "LL" ? "Liked Videos" : title
-          }`
+          )}`
         );
       }
     } catch (error) {

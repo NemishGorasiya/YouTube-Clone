@@ -34,7 +34,7 @@ const ChannelContent = ({ channelId }) => {
           })}
         </TabsList>
       </TabsWrapper>
-      <Box py={2}>
+      <Box>
         {currentContentCategory === "home" && (
           <ChannelHomePageContent channelId={channelId} />
         )}

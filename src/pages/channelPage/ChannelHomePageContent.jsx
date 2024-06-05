@@ -6,6 +6,7 @@ import { styled } from "@mui/material";
 import MuiDivider from "@mui/material/Divider";
 import MuiBox from "@mui/material/Box";
 import PropTypes from "prop-types";
+import { ContentWrapper, Divider } from "./ChannelContentStyledComponents";
 
 const ChannelHomePageContent = ({ channelId }) => {
   const [channelSections, setChannelSections] = useState({
@@ -45,17 +46,6 @@ const ChannelHomePageContent = ({ channelId }) => {
     [accessToken, channelId]
   );
 
-  const ContentWrapper = styled(MuiBox)(() => ({
-    display: "flex",
-    flexDirection: "column",
-    gap: "16px",
-  }));
-
-  const Divider = styled(MuiDivider)(() => ({
-    borderBottomWidth: "1px",
-    background: "grey",
-  }));
-
   useEffect(() => {
     const abortController = new AbortController();
     getChannelSections({ abortController: abortController });
@@ -63,6 +53,7 @@ const ChannelHomePageContent = ({ channelId }) => {
       abortController.abort();
     };
   }, [getChannelSections]);
+
   return (
     <>
       <ContentWrapper>

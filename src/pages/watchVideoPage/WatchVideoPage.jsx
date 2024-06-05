@@ -40,7 +40,8 @@ const WatchVideoPage = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
-  const playlistName = searchParams.get("listName");
+  const playlistName = decodeURIComponent(searchParams.get("listName"));
+  console.log("name", playlistName);
   const videoDescriptionRef = useRef(null);
 
   const [videoDetails, setVideoDetails] = useState({
