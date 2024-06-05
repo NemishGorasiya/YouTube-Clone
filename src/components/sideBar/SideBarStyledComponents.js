@@ -45,6 +45,7 @@ export const SignInSection = styled(MuiBox)(() => ({
 export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
   display: "flex",
   justifyContent: "center",
+  zIndex: 1,
 
   ...(open
     ? {
