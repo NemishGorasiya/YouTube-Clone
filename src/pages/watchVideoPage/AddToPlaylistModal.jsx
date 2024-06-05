@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import {
   Box,
   Checkbox,
@@ -47,7 +47,7 @@ const renderItem = (props) => {
       {privacyStatus === "private" ? (
         <LockOutlinedIcon />
       ) : (
-        <LockOpenOutlinedIcon />
+        <PublicOutlinedIcon />
       )}
     </FormControlWrapper>
   );
