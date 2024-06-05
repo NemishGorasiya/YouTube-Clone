@@ -29,6 +29,7 @@ import {
   MenuItemTextWrapper,
   NewPlaylistForm,
 } from "./AddToPlaylistStyledComponents";
+import toast from "react-hot-toast";
 
 const renderItem = (props) => {
   const { snippet, id, status, handleCheckboxClick, videoId } = props || {};
@@ -41,7 +42,7 @@ const renderItem = (props) => {
         control={<Checkbox />}
         label={title}
         onChange={(event) => {
-          handleCheckboxClick({ event, playlistId: id, videoId });
+          handleCheckboxClick({ event, playlistId: id, videoId, title });
         }}
       />
       {privacyStatus === "private" ? (
@@ -152,13 +153,13 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
     }
   };
 
-  const handleCheckboxClick = async ({ event, playlistId, videoId }) => {
+  const handleCheckboxClick = async ({ event, playlistId, videoId, title }) => {
     if (event.target.checked) {
-      const res = addToPlaylist({ playlistId, videoId });
+      const res = await addToPlaylist({ playlistId, videoId });
       if (res) {
-        alert("Video added to playlist successfully");
+        toast(`Added to ${title}`);
       } else {
-        alert("something went wrong");
+        toast.error("something went wrong while adding into playlist");
       }
     }
   };

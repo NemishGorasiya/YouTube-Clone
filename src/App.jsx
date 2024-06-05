@@ -10,6 +10,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { UserPreferencesContextProvider } from "./context/UserPreferencesContext";
 import { SubscriptionListContextProvider } from "./context/SubscriptionListContext";
 import "nprogress/nprogress.css";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -98,6 +99,12 @@ const App = () => {
         <AuthContextProvider>
           <SubscriptionListContextProvider>
             <CssBaseline />
+            <Toaster
+              position="bottom-left"
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
             <RouterProvider router={router} />
           </SubscriptionListContextProvider>
         </AuthContextProvider>

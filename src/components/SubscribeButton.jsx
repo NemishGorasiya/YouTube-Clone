@@ -17,6 +17,7 @@ import {
 } from "./SubscribeButtonStyledComponents";
 import StyledModal from "./StyledModal";
 import { SubscriptionListContext } from "../context/SubscriptionListContext";
+import toast from "react-hot-toast";
 
 const SubscribeButton = ({
   channelId,
@@ -123,7 +124,7 @@ const SubscribeButton = ({
         setAnchorEl(null);
         setIsOpenConfirmationModal(false);
       } else {
-        alert("Something went wrong");
+        toast.error("Something went wrong while subscribing to channel");
       }
     } catch (error) {
       console.error(error);

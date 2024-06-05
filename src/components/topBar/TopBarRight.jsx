@@ -23,6 +23,7 @@ import {
 } from "./TopBarStyledComponents";
 import LocationMenuItem from "./LocationMenuItem";
 import ThemeMenuItem from "./ThemeMenuItem";
+import toast from "react-hot-toast";
 
 const TopBarRight = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const TopBarRight = () => {
           }
         }
       } catch (error) {
-        alert("Something went wrong");
+        toast.error("Something went wrong while subscribing to channel");
         console.error(error);
       }
     },
@@ -84,7 +85,7 @@ const TopBarRight = () => {
     const code = searchParams.get("code");
     const error = searchParams.get("error");
     if (error) {
-      alert(error);
+      toast.error("Authentication failed, please try again");
     }
     const abortController = new AbortController();
     if (code) {
