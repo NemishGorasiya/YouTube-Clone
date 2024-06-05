@@ -9,6 +9,7 @@ import { router } from "./routes/Routes";
 import { AuthContextProvider } from "./context/AuthContext";
 import { UserPreferencesContextProvider } from "./context/UserPreferencesContext";
 import { SubscriptionListContextProvider } from "./context/SubscriptionListContext";
+import "nprogress/nprogress.css";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
