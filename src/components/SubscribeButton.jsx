@@ -16,12 +16,16 @@ import {
   UserActionButtonWrapper,
 } from "./SubscribeButtonStyledComponents";
 import StyledModal from "./StyledModal";
+import { SubscriptionListContext } from "../context/SubscriptionListContext";
 
 const SubscribeButton = ({
   channelId,
   channelName,
   subscriptionId: subscriptionIdProp,
 }) => {
+  const { handleAddChannel, handleRemoveChannel } = useContext(
+    SubscriptionListContext
+  );
   const { isLoggedIn } = useContext(AuthContext);
   const [subscriptionStatus, setSubscriptionStatus] = useState({
     isSubscribed: !!subscriptionIdProp,
@@ -74,6 +78,7 @@ const SubscribeButton = ({
         returnEntireResponseWithStatusCode: true,
       });
       if (res.status === 204) {
+        handleRemoveChannel(subscriptionId);
         setSubscriptionStatus((prevState) => ({
           ...prevState,
           isSubscribed: false,
@@ -109,6 +114,8 @@ const SubscribeButton = ({
         headers,
       });
       if (res) {
+        const { id: subscriptionId } = res;
+        handleAddChannel(subscriptionId);
         setSubscriptionStatus((prevState) => ({
           ...prevState,
           isSubscribed: true,

@@ -1,17 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import ChannelCard from "./ChannelCard";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import { SubscribedChannelsPageComponent } from "./SubscribedChannelsPageStyledComponents";
 import ChannelCardSkeleton from "./ChannelCardSkeleton";
+import { SubscriptionListContext } from "../../context/SubscriptionListContext";
 
 const SubscribedChannelsPage = () => {
+  const { channelToRemove } = useContext(SubscriptionListContext);
   const [channels, setChannels] = useState({
     list: [],
     isLoading: true,
     nextPageToken: "",
   });
+
   const { list, isLoading } = channels;
   const [user] = useLocalStorage("user", {});
   const { accessToken } = user;
@@ -67,6 +70,17 @@ const SubscribedChannelsPage = () => {
       abortController.abort();
     };
   }, [getSubscribedChannels]);
+
+  useEffect(() => {
+    if (channelToRemove) {
+      setChannels((prevChannels) => ({
+        ...prevChannels,
+        list: prevChannels.list.filter(
+          (channel) => channel.id != channelToRemove
+        ),
+      }));
+    }
+  }, [channelToRemove]);
 
   const renderItem = (channel) => (
     <ChannelCard key={channel.id} channel={channel} />

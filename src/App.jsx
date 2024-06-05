@@ -1,13 +1,14 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useContext, useLayoutEffect } from "react";
-import { RouterProvider, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { RouterProvider } from "react-router-dom";
 import "./App.scss";
 import { ThemeContext } from "./context/ThemeContext";
 import { router } from "./routes/Routes";
 import { AuthContextProvider } from "./context/AuthContext";
 import { UserPreferencesContextProvider } from "./context/UserPreferencesContext";
+import { SubscriptionListContextProvider } from "./context/SubscriptionListContext";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -94,8 +95,10 @@ const App = () => {
     <ThemeProvider theme={chosenTheme}>
       <UserPreferencesContextProvider>
         <AuthContextProvider>
-          <CssBaseline />
-          <RouterProvider router={router} />
+          <SubscriptionListContextProvider>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </SubscriptionListContextProvider>
         </AuthContextProvider>
       </UserPreferencesContextProvider>
     </ThemeProvider>
