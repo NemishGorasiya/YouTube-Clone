@@ -1,33 +1,20 @@
-import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { customParser } from "../../utils/utilityFunction";
 import PropTypes from "prop-types";
-import { styled } from "@mui/material";
+import {
+  ToggleButton,
+  VideoDescriptionComponent,
+} from "./VideoDescriptionStyledComponents";
 
-const VideoDescriptionComponent = styled(Typography)(({ isExpanded }) => ({
-  display: isExpanded ? "block" : "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  position: "relative",
-  textWrap: "wrap",
-  wordBreak: "break-word",
-}));
-
-const ToggleButton = styled("span")(({ theme }) => ({
-  position: "absolute",
-  paddingLeft: "8px",
-  cursor: "pointer",
-  bottom: 0,
-  right: 0,
-  background: theme.palette.background.secondary,
-}));
-
-const VideoDescription = ({ description }) => {
+const VideoDescription = ({ description, parentRef }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const handleToggleVisibilityOfText = () => {
     setIsExpanded((prevState) => !prevState);
+
+    parentRef.curren?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
   return (
     description && (
@@ -51,6 +38,7 @@ const VideoDescription = ({ description }) => {
 
 VideoDescription.propTypes = {
   description: PropTypes.string,
+  parentRef: PropTypes.object,
 };
 
 export default VideoDescription;

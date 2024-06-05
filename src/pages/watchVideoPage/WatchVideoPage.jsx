@@ -2,7 +2,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { httpRequest } from "../../services/services";
 import CommentsSection from "./CommentsSection";
 import PlaylistPanel from "./PlaylistPanel";
@@ -14,7 +14,6 @@ import {
 } from "../../utils/utilityFunction";
 import AddToPlaylist from "./AddToPlaylist";
 import SubscribeButton from "../../components/SubscribeButton";
-import Loader from "../../components/loader/Loader";
 import { AuthContext } from "../../context/AuthContext";
 import LikeDislike from "./LikeDislike";
 import RelatedVideos from "./RelatedVideos";
@@ -42,6 +41,7 @@ const WatchVideoPage = () => {
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
   const playlistName = searchParams.get("listName");
+  const videoDescriptionRef = useRef(null);
 
   const [videoDetails, setVideoDetails] = useState({
     data: {},
@@ -214,13 +214,16 @@ const WatchVideoPage = () => {
                 </UserActionButton>
               </Stack>
             </VideoMetadataWrapper>
-            <VideoDescriptionContainer>
+            <VideoDescriptionContainer ref={videoDescriptionRef}>
               <Typography variant="body1">
                 {formatCompactNumber(viewCount)} views{" "}
                 {calcDistanceToNow({ time: publishedAt })}{" "}
                 {tags && tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
               </Typography>
-              <VideoDescription description={description} />
+              <VideoDescription
+                parentRef={videoDescriptionRef}
+                description={description}
+              />
             </VideoDescriptionContainer>
           </VideoPlayerWrapper>
         )}

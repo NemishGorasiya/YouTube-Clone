@@ -108,4 +108,5 @@ export const VideoDescriptionContainer = styled(Box)(({ theme }) => ({
   background: theme.palette.background.secondary,
   borderRadius: "8px",
   padding: "12px",
+  scrollMargin: "60px",
 }));
