@@ -117,7 +117,7 @@ const SubscriptionList = ({ open }) => {
   }, [channelToRemove]);
   return (
     open && (
-      <Box sx={open ? { display: "visible" } : {}}>
+      <Box>
         <NavBarList open={open}>
           <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
           {subscribedChannelsList.map((channel) => {

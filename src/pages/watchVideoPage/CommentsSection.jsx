@@ -12,6 +12,7 @@ import CommentSkeleton from "../../components/watchVideoPage/CommentSkeleton";
 import {
   AddComment,
   AddCommentForm,
+  AddCommentTextField,
   CommentsSectionComponent,
   KnowMoreLink,
   MyProfileImage,
@@ -193,11 +194,10 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
           referrerPolicy="no-referrer"
         />
         <AddCommentForm onSubmit={handleAddComment}>
-          <TextField
+          <AddCommentTextField
             label="Add a comment..."
             variant="standard"
             name="newComment"
-            sx={{ flex: "1" }}
             autoComplete="off"
             disabled={!isLoggedIn}
           />

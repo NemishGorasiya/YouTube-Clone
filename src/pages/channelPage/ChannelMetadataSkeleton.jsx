@@ -1,6 +1,7 @@
 import { Skeleton } from "@mui/material";
 import { SubscribeButtonSkeleton } from "../../components/SubscribeButtonStyledComponents";
 import {
+  ChannelBannerSkeleton,
   ChannelBannerWrapper,
   ChannelDetailsWrapper,
   ChannelMetadataWrapper,
@@ -12,12 +13,11 @@ const ChannelMetadataSkeleton = () => {
   return (
     <>
       <ChannelBannerWrapper>
-        <Skeleton
+        <ChannelBannerSkeleton
           animation="wave"
           variant="rounded"
           width="100%"
           height="100%"
-          sx={{ borderRadius: "inherit" }}
         />
       </ChannelBannerWrapper>
       <ChannelMetadataWrapper>

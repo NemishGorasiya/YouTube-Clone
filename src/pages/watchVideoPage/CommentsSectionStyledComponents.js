@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, TextField, styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
 
 export const AddCommentForm = styled("form")({
@@ -29,4 +29,8 @@ export const AddComment = styled(Box)(() => ({
 export const MyProfileImage = styled("img")(() => ({
   height: "50px",
   borderRadius: "50%",
+}));
+
+export const AddCommentTextField = styled(TextField)(() => ({
+  flex: "1",
 }));

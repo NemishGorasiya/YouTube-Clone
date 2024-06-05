@@ -137,3 +137,9 @@ export const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
 export const PlaylistSidebarSkeletonWrapper = styled(PlaylistSidebar)(() => ({
   padding: 0,
 }));
+
+export const ConfirmationModalContent = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
+}));

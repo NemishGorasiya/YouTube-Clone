@@ -46,3 +46,9 @@ export const MenuItemTextWrapper = styled(MuiMenuItem)(() => ({
     background: "none",
   },
 }));
+
+export const AddToPlaylistModalContent = styled(MuiBox)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
+}));

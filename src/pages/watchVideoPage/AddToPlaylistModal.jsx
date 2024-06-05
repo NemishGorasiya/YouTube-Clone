@@ -23,6 +23,7 @@ import { privacyOptions } from "../../utils/constant";
 import PlaylistChecklistItemSkeleton from "./PlaylistChecklistItemSkeleton";
 import StyledModal from "../../components/StyledModal";
 import {
+  AddToPlaylistModalContent,
   CreateNewPlaylistButton,
   CreatePlaylistButton,
   FormControlWrapper,
@@ -219,13 +220,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
 
   return (
     <StyledModal open={open} handleClose={handleClose}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-        }}
-      >
+      <AddToPlaylistModalContent>
         <Typography variant="h5" gutterBottom>
           Save video to...
         </Typography>
@@ -284,7 +279,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
             <AddIcon /> Create new playlist
           </CreateNewPlaylistButton>
         )}
-      </Box>
+      </AddToPlaylistModalContent>
     </StyledModal>
   );
 };

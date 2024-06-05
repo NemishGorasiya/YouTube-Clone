@@ -4,6 +4,7 @@ import {
   PlaylistItemComponent,
   VideoImageWrapper,
   VideoThumbnailSkeleton,
+  VideoTitleWrapper,
 } from "./PlaylistItemStyledComponents";
 
 const PlaylistItemSkeleton = () => {
@@ -17,10 +18,10 @@ const PlaylistItemSkeleton = () => {
             height="100%"
           />
         </VideoImageWrapper>
-        <Box sx={{ flex: 1 }}>
+        <VideoTitleWrapper>
           <Skeleton variant="text" width="100%" />
           <Skeleton variant="text" width="30%" />
-        </Box>
+        </VideoTitleWrapper>
       </PlaylistContent>
     </PlaylistItemComponent>
   );

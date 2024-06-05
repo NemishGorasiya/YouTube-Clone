@@ -10,6 +10,7 @@ import EditableComponent from "./EditableComponent";
 import { privacyOptions } from "../../utils/constant";
 import {
   BlurredBackground,
+  ConfirmationModalContent,
   IconButton,
   MenuItem,
   MenuItemTextWrapper,
@@ -244,13 +245,7 @@ const PlaylistPage = () => {
                   open={isOpenConfirmationModal}
                   handleClose={handleCloseConfirmationModal}
                 >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "12px",
-                    }}
-                  >
+                  <ConfirmationModalContent>
                     <Typography variant="subtitle1">Delete playlist</Typography>
                     <SecondaryTypography variant="body2">
                       Are you sure you want to delete {playlistTitle}?
@@ -270,7 +265,7 @@ const PlaylistPage = () => {
                         Delete
                       </UserActionButton>
                     </UserActionButtonWrapper>
-                  </Box>
+                  </ConfirmationModalContent>
                 </StyledModal>
               </>
             )}

@@ -63,3 +63,7 @@ export const IconButton = styled(MuiIconButton)(() => ({
 export const MenuItem = styled(MuiMenuItem)(() => ({
   gap: "4px",
 }));
+
+export const VideoTitleWrapper = styled(MuiBox)(() => ({
+  flex: 1,
+}));

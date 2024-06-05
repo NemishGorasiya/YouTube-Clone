@@ -99,6 +99,12 @@ export const UsernameMenuItem = styled(MenuItem)(() => ({
   gap: "10px",
 }));
 
+export const AvatarWrapper = styled(Box)(() => ({
+  display: "flex",
+  alignItems: "center",
+  textAlign: "center",
+}));
+
 export const CountryListSubheader = styled(ListSubheader)(() => ({
   maxHeight: "50vh",
   overflow: "auto",

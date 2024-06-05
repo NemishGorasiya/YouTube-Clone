@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, Skeleton, styled } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import MuiTypography from "@mui/material/Typography";
 import MuiBox from "@mui/material/Box";
@@ -68,6 +68,10 @@ export const ChannelThumbnail = styled("img")(() => ({
   height: "100%",
   width: "100%",
   objectFit: "cover",
+  borderRadius: "inherit",
+}));
+
+export const ChannelBannerSkeleton = styled(Skeleton)(() => ({
   borderRadius: "inherit",
 }));
 

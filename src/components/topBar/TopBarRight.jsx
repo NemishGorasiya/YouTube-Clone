@@ -3,7 +3,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Avatar,
   Box,
-  Divider,
   IconButton,
   ListItemIcon,
   Menu,
@@ -11,11 +10,12 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { Link, redirect, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchAccessToken, getUserInfo } from "../../services/services";
 import SignInButton from "../SignInButton";
 import { AuthContext } from "../../context/AuthContext";
 import {
+  AvatarWrapper,
   ProfilePictureImage,
   StyledMenuPaper,
   TopBarRightDivider,
@@ -98,7 +98,7 @@ const TopBarRight = () => {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      <AvatarWrapper>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -123,7 +123,7 @@ const TopBarRight = () => {
           </IconButton>
         </Tooltip>
         {!isLoggedIn && <SignInButton />}
-      </Box>
+      </AvatarWrapper>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

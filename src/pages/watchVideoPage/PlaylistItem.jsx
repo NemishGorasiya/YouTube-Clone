@@ -17,6 +17,7 @@ import {
   VideoImage,
   VideoImageWrapper,
   VideoTitle,
+  VideoTitleWrapper,
 } from "./PlaylistItemStyledComponents";
 import VideoFallbackImage from "../../assets/video-placeholder.jpg";
 
@@ -82,10 +83,10 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
           <VideoImageWrapper>
             <VideoImage src={url || VideoFallbackImage} alt="Video Thumbnail" />
           </VideoImageWrapper>
-          <Box sx={{ flex: 1 }}>
+          <VideoTitleWrapper>
             <VideoTitle>{title}</VideoTitle>
             <ChannelName>{videoOwnerChannelTitle}</ChannelName>
-          </Box>
+          </VideoTitleWrapper>
         </PlaylistContent>
       </Link>
       <IconButton onClick={openMoreOptionsMenu}>
