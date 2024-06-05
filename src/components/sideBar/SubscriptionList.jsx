@@ -16,8 +16,9 @@ import {
 import { useCallback, useContext, useEffect, useState } from "react";
 import { httpRequest } from "../../services/services";
 import { SubscriptionListContext } from "../../context/SubscriptionListContext";
+import { Box } from "@mui/material";
 
-const SubscriptionList = (open) => {
+const SubscriptionList = ({ open }) => {
   const { channelToAdd, channelToRemove } = useContext(SubscriptionListContext);
 
   const [subscribedChannels, setSubscribedChannels] = useState({
@@ -114,91 +115,92 @@ const SubscriptionList = (open) => {
       }));
     }
   }, [channelToRemove]);
-
   return (
-    <>
-      <NavBarList open={open}>
-        <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
-        {subscribedChannelsList.map((channel) => {
-          const {
-            snippet: {
-              title = "",
-              thumbnails: { default: { url = "" } = {} } = {},
-              resourceId: { channelId = "" } = {},
-            } = {},
-            contentDetails: { newItemCount = 0 } = {},
-          } = channel || {};
+    open && (
+      <Box sx={open ? { display: "visible" } : {}}>
+        <NavBarList open={open}>
+          <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
+          {subscribedChannelsList.map((channel) => {
+            const {
+              snippet: {
+                title = "",
+                thumbnails: { default: { url = "" } = {} } = {},
+                resourceId: { channelId = "" } = {},
+              } = {},
+              contentDetails: { newItemCount = 0 } = {},
+            } = channel || {};
 
-          return (
-            title && (
-              <StyledNavLink key={channelId} to={`/channel/${channelId}`}>
-                <ListItem open={open}>
-                  <ListItemButton open={open}>
-                    <ListItemIcon>
-                      <ListItemIconImage
-                        src={url}
-                        referrerPolicy="no-referrer"
-                        alt="channel logo"
-                      />
-                    </ListItemIcon>
-                    <ListItemText>
-                      <NavLinkTypography variant="body2" noWrap open={open}>
-                        {title}
-                      </NavLinkTypography>
-                    </ListItemText>
-                    {/* {newItemCount > 0 && <NewItemIndicator open={open} />} */}
-                  </ListItemButton>
-                </ListItem>
-              </StyledNavLink>
-            )
-          );
-        })}
+            return (
+              title && (
+                <StyledNavLink key={channelId} to={`/channel/${channelId}`}>
+                  <ListItem open={open}>
+                    <ListItemButton open={open}>
+                      <ListItemIcon>
+                        <ListItemIconImage
+                          src={url}
+                          referrerPolicy="no-referrer"
+                          alt="channel logo"
+                        />
+                      </ListItemIcon>
+                      <ListItemText>
+                        <NavLinkTypography variant="body2" noWrap open={open}>
+                          {title}
+                        </NavLinkTypography>
+                      </ListItemText>
+                      {/* {newItemCount > 0 && <NewItemIndicator open={open} />} */}
+                    </ListItemButton>
+                  </ListItem>
+                </StyledNavLink>
+              )
+            );
+          })}
 
-        {subscribedChannelsList.length > 0 && (
-          <StyledNavLink to="/feed/channels">
-            <ListItem open={open}>
+          {subscribedChannelsList.length > 0 && (
+            <StyledNavLink to="/feed/channels">
+              <ListItem open={open}>
+                <ListItemButton open={open}>
+                  <ListItemIcon>
+                    <FormatListBulletedIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <NavLinkTypography variant="body2" noWrap open={open}>
+                      All subscription
+                    </NavLinkTypography>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+            </StyledNavLink>
+          )}
+
+          {(subscribedChannelsList.length > 5 || hasMoreSubscribedChannels) && (
+            <ListItem
+              open={open}
+              onClick={
+                hasMoreSubscribedChannels
+                  ? loadMoreSubscribedChannels
+                  : handleShowLessBtnClick
+              }
+            >
               <ListItemButton open={open}>
                 <ListItemIcon>
-                  <FormatListBulletedIcon />
+                  {hasMoreSubscribedChannels ? (
+                    <KeyboardArrowDownIcon />
+                  ) : (
+                    <KeyboardArrowUpIcon />
+                  )}
                 </ListItemIcon>
                 <ListItemText>
                   <NavLinkTypography variant="body2" noWrap open={open}>
-                    All subscription
+                    Show {hasMoreSubscribedChannels ? "more" : "less"}
                   </NavLinkTypography>
                 </ListItemText>
               </ListItemButton>
             </ListItem>
-          </StyledNavLink>
-        )}
-
-        {(subscribedChannelsList.length > 5 || hasMoreSubscribedChannels) && (
-          <ListItem
-            open={open}
-            onClick={
-              hasMoreSubscribedChannels
-                ? loadMoreSubscribedChannels
-                : handleShowLessBtnClick
-            }
-          >
-            <ListItemButton open={open}>
-              <ListItemIcon>
-                {hasMoreSubscribedChannels ? (
-                  <KeyboardArrowDownIcon />
-                ) : (
-                  <KeyboardArrowUpIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                <NavLinkTypography variant="body2" noWrap open={open}>
-                  Show {hasMoreSubscribedChannels ? "more" : "less"}
-                </NavLinkTypography>
-              </ListItemText>
-            </ListItemButton>
-          </ListItem>
-        )}
-      </NavBarList>
-      <Divider />
-    </>
+          )}
+        </NavBarList>
+        <Divider />
+      </Box>
+    )
   );
 };
 

@@ -92,7 +92,7 @@ const SideBar = ({ open, toggleDrawer }) => {
               </Fragment>
             )
         )}
-        {isLoggedIn && open ? (
+        {isLoggedIn ? (
           <SubscriptionList open={open} />
         ) : (
           open && (
