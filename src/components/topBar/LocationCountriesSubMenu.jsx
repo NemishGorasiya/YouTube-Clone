@@ -12,10 +12,6 @@ import PropTypes from "prop-types";
 const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   const { location, changeLocation } = useContext(UserPreferencesContext);
 
-  // const queryParams = useMemo({
-  //   part: "snippet",
-  // },[]);
-
   const queryParams = useMemo(
     () => ({
       part: "snippet",
