@@ -41,7 +41,6 @@ const WatchVideoPage = () => {
   const videoId = searchParams.get("v");
   const playlistId = searchParams.get("list");
   const playlistName = decodeURIComponent(searchParams.get("listName"));
-  console.log("name", playlistName);
   const videoDescriptionRef = useRef(null);
 
   const [videoDetails, setVideoDetails] = useState({

@@ -1,5 +1,5 @@
 import { Collapse } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import {
   CountryListSubheader,
   CountryMenuItem,
@@ -12,13 +12,26 @@ import PropTypes from "prop-types";
 const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   const { location, changeLocation } = useContext(UserPreferencesContext);
 
-  const queryParams = {
-    part: "snippet",
-  };
-  const { data } = useFetch({
-    url: "/i18nRegions",
-    queryParams,
-  });
+  // const queryParams = useMemo({
+  //   part: "snippet",
+  // },[]);
+
+  const queryParams = useMemo(
+    () => ({
+      part: "snippet",
+    }),
+    []
+  );
+
+  const requestProps = useMemo(
+    () => ({
+      url: "/i18nRegions",
+      queryParams,
+    }),
+    [queryParams]
+  );
+
+  const { data } = useFetch(requestProps);
   const { items } = data || {};
   const countryList = items || [];
 

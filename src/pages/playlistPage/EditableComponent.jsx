@@ -9,6 +9,7 @@ import {
   TextField,
   UserActionButtonsWrapper,
 } from "./EditableComponentStyledComponents";
+import toast from "react-hot-toast";
 
 const EditableComponent = ({ currentValue, playlistId }) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -52,7 +53,7 @@ const EditableComponent = ({ currentValue, playlistId }) => {
       });
 
       if (res) {
-        console.log("title updated successfully");
+        toast("title updated successfully");
       }
     } catch (error) {
       console.error(error);

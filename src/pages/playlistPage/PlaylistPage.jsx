@@ -27,6 +27,7 @@ import {
 } from "./PlaylistPageStyledComponents";
 import PlaylistSidebarSkeleton from "./PlaylistSidebarSkeleton";
 import StyledModal from "../../components/StyledModal";
+import toast from "react-hot-toast";
 
 const PlaylistPage = () => {
   const [searchParams] = useSearchParams();
@@ -154,7 +155,7 @@ const PlaylistPage = () => {
         headers,
       });
       if (res) {
-        console.log("privacy policy changed successfully");
+        toast("privacy policy changed successfully");
       }
     } catch (error) {
       console.error(error);
