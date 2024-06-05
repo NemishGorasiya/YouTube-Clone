@@ -7,7 +7,6 @@ const useFetch = (requestProps) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(requestProps.disabled);
     if (requestProps.disabled) return;
     const abortController = new AbortController();
     const fetchData = async () => {
@@ -36,7 +35,7 @@ const useFetch = (requestProps) => {
     return () => {
       abortController.abort();
     };
-  }, [JSON.stringify(requestProps)]);
+  }, [requestProps]);
 
   return { data, loading, error };
 };
