@@ -26,7 +26,11 @@ const VideoGallery = ({
           ...prevVideos,
           isLoading: true,
         }));
-        const queryParams = { ...queryParamsProp, pageToken: nextPageToken };
+        const queryParams = {
+          ...queryParamsProp,
+          pageToken: nextPageToken,
+          maxResults: 20,
+        };
         const response = await httpRequest({
           url: url,
           abortController,

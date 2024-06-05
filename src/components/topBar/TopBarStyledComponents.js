@@ -12,7 +12,7 @@ import MuiIconButton from "@mui/material/IconButton";
 import MuiToolbar from "@mui/material/Toolbar";
 
 export const AppBar = styled(MuiAppBar)(({ theme }) => ({
-  zIndex: theme.zIndex.drawer + 1,
+  zIndex: 1000,
   background: theme.palette.background.default,
   color: theme.palette.primary.main,
   height: "56px",

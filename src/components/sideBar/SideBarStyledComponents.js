@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
+  top: "50px",
 }));
 
 export const ListItemButton = styled(MuiListItemButton)(({ open }) => ({
@@ -44,6 +45,7 @@ export const SignInSection = styled(MuiBox)(() => ({
 export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
   display: "flex",
   justifyContent: "center",
+
   ...(open
     ? {
         width: "224px", // 220 + 12 + 12 (paddingX=12)
@@ -57,6 +59,7 @@ export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
     color: theme.palette.primary.main,
     padding: "0 4px",
     border: "none",
+    zIndex: "999",
     ...(open
       ? {
           width: "224px",

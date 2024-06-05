@@ -25,6 +25,7 @@ const Playlists = ({ channelId }) => {
     async ({ nextPageToken, abortController } = {}) => {
       const queryParams = {
         part: "snippet,contentDetails,status",
+        maxResults: 20,
         ...(listQuery === "LL"
           ? { id: "LL" }
           : channelId

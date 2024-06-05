@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import NProgress from "nprogress";
 
 import AppBar from "../components/appBar/AppBar";
 import NoInternetPage from "../pages/noInternetPage/NoInternetPage";
@@ -12,8 +13,14 @@ import {
 
 const Layout = () => {
   const { pathname } = useLocation();
+  NProgress.configure({ showSpinner: false, easing: "ease", speed: 1000 });
+
   useEffect(() => {
+    NProgress.done();
     window.scrollTo(0, 0);
+    return () => {
+      NProgress.start();
+    };
   }, [pathname]);
 
   return (
