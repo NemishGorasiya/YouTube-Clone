@@ -222,7 +222,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
 
   return isWideScreen ? (
     <CommentsSectionComponent>
-      <h1>{formatCompactNumber(commentCount)} Comments</h1>
+      <h2>{formatCompactNumber(commentCount)} Comments</h2>
       {renderCommentsSection()}
     </CommentsSectionComponent>
   ) : (

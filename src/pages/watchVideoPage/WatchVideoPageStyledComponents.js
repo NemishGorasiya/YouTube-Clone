@@ -35,7 +35,7 @@ export const VideoPlayerWrapper = styled(Box)({
   gap: "8px",
 });
 
-export const ChannelDetailsWrapper = styled(Stack)({
+export const ChannelDetailsWrapper = styled(Box)({
   display: "flex",
   gap: "12px",
   alignItems: "center",
@@ -81,6 +81,15 @@ export const YouTubeIframeWrapper = styled(Box)({
 
 export const VideoTitleSkeletonWrapper = styled(Box)({
   height: "50px",
+});
+
+export const VideoTitle = styled(MuiTypography)({
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: "vertical",
+  fontWeight: 500,
 });
 
 export const YouTubeIframe = styled("iframe")({

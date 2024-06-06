@@ -32,6 +32,7 @@ import {
   VideoPageContainer,
   VideoPageLeftSection,
   VideoPlayerWrapper,
+  VideoTitle,
   YouTubeIframe,
   YouTubeIframeWrapper,
 } from "./WatchVideoPageStyledComponents";
@@ -162,7 +163,9 @@ const WatchVideoPage = () => {
                 allow="fullscreen"
               />
             </YouTubeIframeWrapper>
-            <h2>{title}</h2>
+            <VideoTitle variant="h5" component="h2">
+              {title}
+            </VideoTitle>
             <VideoMetadataWrapper>
               <ChannelDetailsWrapper>
                 <ChannelLink to={`/channel/${channelId}`}>

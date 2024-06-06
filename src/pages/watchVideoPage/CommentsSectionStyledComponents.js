@@ -2,35 +2,36 @@ import { Box, TextField, styled } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
 
 export const AddCommentForm = styled("form")({
-	display: "flex",
-	width: "100%",
+  display: "flex",
+  width: "100%",
 });
 
 export const Typography = styled(MuiTypography)({
-	textAlign: "center",
-	margin: "24px auto",
+  textAlign: "center",
+  margin: "24px auto",
 });
 
 export const KnowMoreLink = styled("a")({
-	color: "#3EA6FF",
+  color: "#3EA6FF",
 });
 
 export const CommentsSectionComponent = styled(Box)({
-	display: "flex",
-	flexDirection: "column",
-	gap: "20px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+  paddingTop: "16px",
 });
 
 export const AddComment = styled(Box)({
-	display: "flex",
-	gap: "12px",
+  display: "flex",
+  gap: "12px",
 });
 
 export const MyProfileImage = styled("img")({
-	height: "50px",
-	borderRadius: "50%",
+  height: "50px",
+  borderRadius: "50%",
 });
 
 export const AddCommentTextField = styled(TextField)({
-	flex: "1",
+  flex: "1",
 });
