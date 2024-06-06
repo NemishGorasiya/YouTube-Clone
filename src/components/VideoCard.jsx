@@ -18,6 +18,7 @@ import {
 	ChannelThumbnail,
 	CheckCircleStyledIcon,
 	LiveTvStyledIcon,
+	UpcomingIndicator,
 	VideoDetail,
 	VideoDurationBadge,
 	VideoIsLiveIndicator,
@@ -152,6 +153,8 @@ const VideoCard = ({ video, isListView = false }) => {
 									<LiveTvStyledIcon />
 									LIVE
 								</VideoIsLiveIndicator>
+							) : liveBroadcastContent === "upcoming" ? (
+								<UpcomingIndicator>Upcoming</UpcomingIndicator>
 							) : (
 								viewCount &&
 								`${formatCompactNumber(viewCount || "")}${" views • "}`

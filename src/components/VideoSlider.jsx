@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { httpRequest } from "../services/services";
 import VideoCard from "./VideoCard";
 import "./VideoSlider.scss";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import VideoCardSkeleton from "./VideoCardSkeleton";
 import {
   PlaylistTitleTypography,
@@ -99,7 +99,7 @@ const VideoSlider = ({ playlistId }) => {
     return () => {
       abortController.abort();
     };
-  }, [getPlaylistVideos]);
+  }, [getPlaylistDetails, getPlaylistVideos]);
 
   useEffect(() => {
     if (isLoading) return;

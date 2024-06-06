@@ -2,80 +2,77 @@ import { useCallback, useEffect, useState } from "react";
 import VideoSlider from "../../components/VideoSlider";
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { styled } from "@mui/material";
-import MuiDivider from "@mui/material/Divider";
-import MuiBox from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { ContentWrapper, Divider } from "./ChannelContentStyledComponents";
 
 const ChannelHomePageContent = ({ channelId }) => {
-  const [channelSections, setChannelSections] = useState({
-    list: [],
-    isLoading: true,
-  });
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
-  const { list, isLoading } = channelSections;
-  const getChannelSections = useCallback(
-    async ({ abortController }) => {
-      const queryParams = {
-        part: "snippet,contentDetails",
-        channelId,
-      };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-      try {
-        const res = await httpRequest({
-          url: "/channelSections",
-          queryParams,
-          abortController,
-          headers,
-        });
-        if (res) {
-          const { items } = res;
-          setChannelSections({
-            list: items,
-            isLoading: false,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [accessToken, channelId]
-  );
+	const [channelSections, setChannelSections] = useState({
+		list: [],
+		isLoading: true,
+	});
+	const [user] = useLocalStorage("user", {});
+	const { accessToken } = user;
+	const { list, isLoading } = channelSections;
+	const getChannelSections = useCallback(
+		async ({ abortController }) => {
+			const queryParams = {
+				part: "snippet,contentDetails",
+				channelId,
+			};
+			const headers = {
+				Authorization: `Bearer ${accessToken}`,
+			};
+			try {
+				const res = await httpRequest({
+					url: "/channelSections",
+					queryParams,
+					abortController,
+					headers,
+				});
+				if (res) {
+					const { items } = res;
+					setChannelSections({
+						list: items,
+						isLoading: false,
+					});
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		[accessToken, channelId]
+	);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    getChannelSections({ abortController: abortController });
-    return () => {
-      abortController.abort();
-    };
-  }, [getChannelSections]);
+	useEffect(() => {
+		const abortController = new AbortController();
+		getChannelSections({ abortController: abortController });
+		return () => {
+			abortController.abort();
+		};
+	}, [getChannelSections]);
 
-  return (
-    <>
-      <ContentWrapper>
-        {list.map(
-          (section) =>
-            section?.contentDetails?.playlists?.length && (
-              <>
-                <VideoSlider
-                  key={section.id}
-                  playlistId={section.contentDetails.playlists[0]}
-                />
-                <Divider />
-              </>
-            )
-        )}
-      </ContentWrapper>
-    </>
-  );
+	return (
+		<>
+			<ContentWrapper>
+				{list.map(
+					(section) =>
+						section?.contentDetails?.playlists?.length && (
+							<>
+								<VideoSlider
+									key={section.id}
+									playlistId={section.contentDetails.playlists[0]}
+								/>
+								<Divider />
+							</>
+						)
+				)}
+			</ContentWrapper>
+		</>
+	);
 };
 
 ChannelHomePageContent.propTypes = {
-  channelId: PropTypes.string,
+	channelId: PropTypes.string,
 };
 
 export default ChannelHomePageContent;

@@ -7,139 +7,139 @@ import MuiMenuItem from "@mui/material/MenuItem";
 import { Box, styled } from "@mui/material";
 
 export const PlaylistPageComponent = styled(Box)(({ theme }) => ({
-  display: "flex",
-  height: "calc(100vh - 56px)",
-  minHeight: "calc(100vh - 56px)",
+	display: "flex",
+	height: "calc(100vh - 56px)",
+	minHeight: "calc(100vh - 56px)",
 
-  overflow: "hidden",
-  gap: "8px",
-  [theme.breakpoints.down("lg")]: {
-    overflowY: "auto",
-    flexDirection: "column",
-    height: "auto",
-  },
+	overflow: "hidden",
+	gap: "8px",
+	[theme.breakpoints.down("lg")]: {
+		overflowY: "auto",
+		flexDirection: "column",
+		height: "auto",
+	},
 }));
 
 export const PlaylistSidebar = styled(Box)(({ theme }) => ({
-  width: "360px",
-  height: "calc(100vh - 56px)",
-  borderRadius: 16,
-  padding: 24,
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-  zIndex: 2,
-  position: "relative",
-  overflow: "hidden",
-  [theme.breakpoints.down("lg")]: {
-    overflow: "visible",
-    height: "auto",
-    width: "100%",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    gap: "16px",
-    maxWidth: "768px",
-    margin: "0 auto",
-    padding: 12,
-  },
+	width: "360px",
+	height: "calc(100vh - 56px)",
+	borderRadius: 16,
+	padding: 24,
+	borderBottomLeftRadius: 0,
+	borderBottomRightRadius: 0,
+	zIndex: 2,
+	position: "relative",
+	overflow: "hidden",
+	[theme.breakpoints.down("lg")]: {
+		overflow: "visible",
+		height: "auto",
+		width: "100%",
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "center",
+		borderBottomLeftRadius: 16,
+		borderBottomRightRadius: 16,
+		gap: "16px",
+		maxWidth: "768px",
+		margin: "0 auto",
+		padding: 12,
+	},
 }));
 
 export const BlurredBackground = styled(Box)(({ playlistThumbnail }) => ({
-  position: "absolute",
-  backgroundImage: `url(${playlistThumbnail})`,
-  filter: "blur(75px)",
-  backdropFilter: "blur(5px)",
-  height: "100%",
-  width: "100%",
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: -1,
-  borderRadius: "inherit",
+	position: "absolute",
+	backgroundImage: `url(${playlistThumbnail})`,
+	filter: "blur(75px)",
+	backdropFilter: "blur(5px)",
+	height: "100%",
+	width: "100%",
+	top: 0,
+	left: 0,
+	right: 0,
+	zIndex: -1,
+	borderRadius: "inherit",
 }));
 
 export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
-  flex: 1,
-  overflow: "auto",
-  height: "calc(100vh - 56px)",
-  [theme.breakpoints.down("lg")]: {
-    maxWidth: "768px",
-    margin: "0 auto",
-  },
+	flex: 1,
+	overflow: "auto",
+	height: "calc(100vh - 56px)",
+	[theme.breakpoints.down("lg")]: {
+		maxWidth: "768px",
+		margin: "0 auto",
+	},
 }));
 
 export const PlaylistImageWrapper = styled(Box)(({ theme }) => ({
-  width: "100%",
-  aspectRatio: "16/9",
-  borderRadius: 12,
-  [theme.breakpoints.down("lg")]: {
-    width: "100%",
-    maxWidth: "400px",
-  },
+	width: "100%",
+	aspectRatio: "16/9",
+	borderRadius: 12,
+	[theme.breakpoints.down("lg")]: {
+		width: "100%",
+		maxWidth: "400px",
+	},
 }));
-export const PlaylistImage = styled("img")(() => ({
-  width: "100%",
-  height: "100%",
-  borderRadius: "inherit",
-  objectFit: "cover",
-}));
+export const PlaylistImage = styled("img")({
+	width: "100%",
+	height: "100%",
+	borderRadius: "inherit",
+	objectFit: "cover",
+});
 
 export const SecondaryTypography = styled(MuiTypography)(({ theme }) => ({
-  color: theme.palette.primary.light,
+	color: theme.palette.primary.light,
 }));
 
-export const PlaylistDetails = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  width: "100%",
-  gap: 5,
-  color: "#F1F1F1",
-}));
+export const PlaylistDetails = styled(Box)({
+	display: "flex",
+	flexDirection: "column",
+	width: "100%",
+	gap: 5,
+	color: "#F1F1F1",
+});
 
-export const PlaylistDetailTypography = styled(MuiTypography)(() => ({
-  display: "flex",
-  alignItems: "center",
-  gap: 2,
-}));
+export const PlaylistDetailTypography = styled(MuiTypography)({
+	display: "flex",
+	alignItems: "center",
+	gap: 2,
+});
 
-export const MenuItem = styled(MuiMenuItem)(() => ({
-  gap: 4,
-}));
+export const MenuItem = styled(MuiMenuItem)({
+	gap: 4,
+});
 
-export const UserActionButtonWrapper = styled(MuiBox)(() => ({
-  textAlign: "end",
-}));
+export const UserActionButtonWrapper = styled(MuiBox)({
+	textAlign: "end",
+});
 
-export const IconButton = styled(MuiIconButton)(() => ({
-  background: "rgba(255,255,255,0.2)",
-  width: "fit-content",
-}));
+export const IconButton = styled(MuiIconButton)({
+	background: "rgba(255,255,255,0.2)",
+	width: "fit-content",
+});
 
-export const PrivacyPolicySelect = styled(MuiSelect)(() => ({
-  width: "fit-content",
-}));
+export const PrivacyPolicySelect = styled(MuiSelect)({
+	width: "fit-content",
+});
 
-export const MenuItemTextWrapper = styled(MuiMenuItem)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "start",
-  "&:hover": {
-    background: "none",
-  },
-}));
+export const MenuItemTextWrapper = styled(MuiMenuItem)({
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "start",
+	"&:hover": {
+		background: "none",
+	},
+});
 
 export const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
-  color: textColor || theme.palette.primary.main,
+	color: textColor || theme.palette.primary.main,
 }));
 
-export const PlaylistSidebarSkeletonWrapper = styled(PlaylistSidebar)(() => ({
-  padding: 0,
-}));
+export const PlaylistSidebarSkeletonWrapper = styled(PlaylistSidebar)({
+	padding: 0,
+});
 
-export const ConfirmationModalContent = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "column",
-  gap: "12px",
-}));
+export const ConfirmationModalContent = styled(Box)({
+	display: "flex",
+	flexDirection: "column",
+	gap: "12px",
+});

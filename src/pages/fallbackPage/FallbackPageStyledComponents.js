@@ -1,6 +1,6 @@
 import { Box, styled } from "@mui/material";
 
-export const FallbackPageContainer = styled(Box)(() => ({
+export const FallbackPageContainer = styled(Box)({
 	height: "calc(100vh - 56px)",
 	width: "100%",
 	display: "flex",
@@ -8,4 +8,4 @@ export const FallbackPageContainer = styled(Box)(() => ({
 	alignItems: "center",
 	flexDirection: "column",
 	gap: "16px",
-}));
+});

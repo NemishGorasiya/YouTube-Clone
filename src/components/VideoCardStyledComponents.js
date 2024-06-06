@@ -37,22 +37,22 @@ export const Card = styled(MuiCard)(({ theme }) => ({
 	},
 }));
 
-export const CardMedia = styled(MuiCardMedia)(() => ({
+export const CardMedia = styled(MuiCardMedia)({
 	borderRadius: "14px",
 	aspectRatio: "25/14",
 	height: "auto",
-}));
+});
 
-export const VideoThumbnailSkeleton = styled(Skeleton)(() => ({
+export const VideoThumbnailSkeleton = styled(Skeleton)({
 	borderRadius: "inherit",
-}));
+});
 
-export const CardMediaWrapper = styled(MuiBox)(() => ({
+export const CardMediaWrapper = styled(MuiBox)({
 	position: "relative",
 	width: "100%",
-}));
+});
 
-export const VideoIsLiveIndicator = styled("span")(() => ({
+export const VideoIsLiveIndicator = styled("span")({
 	background: "red",
 	fontSize: "12px",
 	borderRadius: "2px",
@@ -60,14 +60,25 @@ export const VideoIsLiveIndicator = styled("span")(() => ({
 	marginRight: "4px",
 	padding: "2px 4px",
 	display: "inline-block",
-}));
+});
 
-export const LiveTvStyledIcon = styled(LiveTvIcon)(() => ({
+export const UpcomingIndicator = styled("span")({
+	background: "#000",
+	fontSize: "12px",
+	borderRadius: "2px",
+	color: "#FFFFFF",
+	padding: "2px 4px",
+	display: "inline-block",
+	textTransform: "uppercase",
+	marginRight: "4px",
+});
+
+export const LiveTvStyledIcon = styled(LiveTvIcon)({
 	fontSize: "12px",
 	marginRight: "4px",
-}));
+});
 
-export const VideoDurationBadge = styled(MuiBox)(() => ({
+export const VideoDurationBadge = styled(MuiBox)({
 	position: "absolute",
 	bottom: "8px",
 	right: "12px",
@@ -79,9 +90,9 @@ export const VideoDurationBadge = styled(MuiBox)(() => ({
 	padding: "4px",
 	borderRadius: "4px",
 	color: "#fff",
-}));
+});
 
-export const CardContent = styled(MuiCardContent)(() => ({
+export const CardContent = styled(MuiCardContent)({
 	padding: "0",
 	display: "flex",
 	gap: "8px",
@@ -92,13 +103,13 @@ export const CardContent = styled(MuiCardContent)(() => ({
 	"&.MuiCardContent-root": {
 		paddingBottom: 0,
 	},
-}));
+});
 
-export const ChannelThumbnail = styled("img")(() => ({
+export const ChannelThumbnail = styled("img")({
 	height: "36px",
 	width: "36px",
 	borderRadius: "50%",
-}));
+});
 
 export const CardActionArea = styled(MuiBox)(({ isListView }) => ({
 	display: "flex",
@@ -113,7 +124,7 @@ export const CardActionArea = styled(MuiBox)(({ isListView }) => ({
 		  }),
 }));
 
-export const VideoTitle = styled(MuiTypography)(() => ({
+export const VideoTitle = styled(MuiTypography)({
 	lineHeight: "1.5",
 	fontSize: "16px",
 	fontWeight: "500",
@@ -122,24 +133,24 @@ export const VideoTitle = styled(MuiTypography)(() => ({
 	display: "-webkit-box",
 	WebkitBoxOrient: "vertical",
 	WebkitLineClamp: "2",
-}));
+});
 
-export const ChannelName = styled(MuiTypography)(() => ({
+export const ChannelName = styled(MuiTypography)({
 	display: "flex",
 	alignItems: "center",
 	fontSize: "14px",
-}));
+});
 
 export const VideoMetadata = styled(MuiBox)(({ theme }) => ({
 	color: theme.palette.primary.light,
 	fontSize: "14px",
 }));
 
-export const VideoDetail = styled(MuiBox)(() => ({
+export const VideoDetail = styled(MuiBox)({
 	flex: 1,
 	overflow: "hidden",
-}));
+});
 
-export const CheckCircleStyledIcon = styled(CheckCircleIcon)(() => ({
+export const CheckCircleStyledIcon = styled(CheckCircleIcon)({
 	marginLeft: "5px",
-}));
+});
