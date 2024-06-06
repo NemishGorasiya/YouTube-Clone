@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import {
   PlaylistContent,
   PlaylistItemComponent,
@@ -13,14 +13,15 @@ const PlaylistItemSkeleton = () => {
       <PlaylistContent>
         <VideoImageWrapper>
           <VideoThumbnailSkeleton
+            animation="wave"
             variant="rounded"
             width="100%"
             height="100%"
           />
         </VideoImageWrapper>
         <VideoTitleWrapper>
-          <Skeleton variant="text" width="100%" />
-          <Skeleton variant="text" width="30%" />
+          <Skeleton animation="wave" variant="text" width="100%" />
+          <Skeleton animation="wave" variant="text" width="30%" />
         </VideoTitleWrapper>
       </PlaylistContent>
     </PlaylistItemComponent>
