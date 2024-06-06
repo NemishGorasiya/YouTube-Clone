@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Box, styled } from "@mui/material";
+import { Box, Skeleton, Stack, styled } from "@mui/material";
 import MuiDivider from "@mui/material/Divider";
 import MuiTypography from "@mui/material/Typography";
 import MuiButton from "@mui/material/Button";
@@ -33,6 +33,33 @@ export const VideoPlayerWrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
+});
+
+export const ChannelDetailsWrapper = styled(Stack)({
+  display: "flex",
+  gap: "12px",
+  alignItems: "center",
+});
+
+export const ChannelTitleTypography = styled(MuiTypography)({
+  display: "flex",
+  alignItems: "center",
+  fontSize: "18px",
+});
+
+export const SubscriberCountTypography = styled(MuiTypography)({
+  fontSize: "15px",
+});
+
+export const ChannelThumbnail = styled("img")({
+  height: 50,
+  width: 50,
+  borderRadius: "50%",
+});
+
+export const CommentSectionSkeleton = styled(Skeleton)({
+  margin: "24px 0",
+  transform: "scale(1)",
 });
 
 export const VideoMetadataSkeletonWrapper = styled(Box)({

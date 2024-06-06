@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import VoiceSearch from "./VoiceSearch";
@@ -9,7 +8,8 @@ import {
   InputAdornment,
   SearchIconWrapper,
   SearchInputContainer,
-  formStyle,
+  StyledForm,
+  StyledInputBase,
 } from "./SearchInputStyledComponents";
 
 const SearchInput = () => {
@@ -49,51 +49,17 @@ const SearchInput = () => {
 
   return (
     <SearchInputContainer isSmallScreen={isSmallScreen}>
-      <form
-        style={{
-          ...formStyle,
-          ...(searchInputIsFocused && isSmallScreen
-            ? {
-                position: "fixed",
-                minWidth: "100vw",
-                background: "#000",
-                backgroundColor: "#000",
-                zIndex: "99",
-                left: "0",
-                paddingLeft: "66px",
-                paddingRight: "43px",
-                marginLeft: 0,
-              }
-            : {}),
-        }}
+      <StyledForm
         onSubmit={handleSearch}
+        searchInputIsFocused={searchInputIsFocused}
+        isSmallScreen={isSmallScreen}
       >
-        <InputBase
+        <StyledInputBase
           inputRef={searchInputRef}
           value={searchQuery}
-          sx={{
-            height: "100%",
-            width: "100%",
-            border: `1px solid ${theme.palette.secondary.light}`,
-            borderRight: "none",
-            ...(searchInputIsFocused
-              ? {
-                  borderLeft: "none",
-                  paddingLeft: "11px",
-                }
-              : {
-                  borderRadius: "40px 0 0 40px",
-                  paddingLeft: "10px",
-                }),
-            ...(isSmallScreen &&
-              (searchInputIsFocused
-                ? {
-                    borderRight: `1px solid ${theme.palette.secondary.light}`,
-                    borderTopRightRadius: "40px",
-                    borderBottomRightRadius: "40px",
-                  }
-                : { opacity: 0 })),
-          }}
+          searchInputIsFocused={searchInputIsFocused}
+          isSmallScreen={isSmallScreen}
+          type="search"
           onFocus={() => {
             setSearchInputIsFocused(true);
           }}
@@ -121,7 +87,7 @@ const SearchInput = () => {
             <SearchIcon />
           </SearchIconWrapper>
         )}
-      </form>
+      </StyledForm>
       <VoiceSearch
         handleChangeInSearchQuery={handleChangeInSearchQuery}
         searchVideos={searchVideos}

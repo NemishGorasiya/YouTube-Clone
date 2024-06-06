@@ -21,7 +21,7 @@ export const Card = styled(MuiCard)(({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    background: "rgba(255,255,255,0.2)",
+    background: theme.palette.secondaryBackground.light,
     transition: "transform 0.2s ease-in-out",
     zIndex: 0,
     opacity: 0,
@@ -62,16 +62,16 @@ export const VideoIsLiveIndicator = styled("span")({
   display: "inline-block",
 });
 
-export const UpcomingIndicator = styled("span")({
-  background: "#000",
+export const UpcomingIndicator = styled("span")(({ theme }) => ({
+  background: theme.palette.background.light,
   fontSize: "12px",
   borderRadius: "2px",
-  color: "#FFFFFF",
+  color: theme.palette.primary.light,
   padding: "2px 4px",
   display: "inline-block",
   textTransform: "uppercase",
   marginRight: "4px",
-});
+}));
 
 export const LiveTvStyledIcon = styled(LiveTvIcon)({
   fontSize: "12px",
@@ -143,6 +143,10 @@ export const ChannelName = styled(MuiTypography)({
 
 export const VideoMetadata = styled(MuiBox)(({ theme }) => ({
   color: theme.palette.primary.light,
+  fontSize: "14px",
+}));
+
+export const VideoMetadataTypography = styled(MuiTypography)(() => ({
   fontSize: "14px",
 }));
 

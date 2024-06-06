@@ -20,9 +20,14 @@ import SubscribeButton from "../../components/SubscribeButton";
 import LikeDislike from "./LikeDislike";
 import RelatedVideos from "./RelatedVideos";
 import {
+  ChannelDetailsWrapper,
   ChannelLink,
+  ChannelThumbnail,
+  ChannelTitleTypography,
+  CommentSectionSkeleton,
   PlaylistPanelWrapper,
   RelatedVideosWrapper,
+  SubscriberCountTypography,
   Tag,
   UserActionButton,
   VideoDescriptionContainer,
@@ -162,42 +167,27 @@ const WatchVideoPage = () => {
             </YouTubeIframeWrapper>
             <h2>{title}</h2>
             <VideoMetadataWrapper>
-              <Stack
-                direction="row"
-                spacing={1.5}
-                sx={{ alignItems: "center" }}
-              >
+              <ChannelDetailsWrapper>
                 <ChannelLink to={`/channel/${channelId}`}>
-                  <Box
-                    component="img"
-                    sx={{
-                      height: 50,
-                      width: 50,
-                      borderRadius: "50%",
-                    }}
+                  <ChannelThumbnail
                     alt="Channel Thumbnail"
                     src={url}
                     referrerPolicy="no-referrer"
                   />
                   <Stack>
-                    <Typography
-                      variant="h6"
-                      color="text.secondary"
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
+                    <ChannelTitleTypography variant="h6" color="text.main">
                       {channelTitle}
-                      <CheckCircleIcon
-                        fontSize="x-small"
-                        sx={{ marginLeft: "5px" }}
-                      />
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    </ChannelTitleTypography>
+                    <SubscriberCountTypography
+                      variant="body1"
+                      color="text.secondary"
+                    >
                       {formatCompactNumber(subscriberCount)} subscribers
-                    </Typography>
+                    </SubscriberCountTypography>
                   </Stack>
                 </ChannelLink>
                 <SubscribeButton channelId={channelId} />
-              </Stack>
+              </ChannelDetailsWrapper>
               <Stack direction="row" spacing={1.5}>
                 <LikeDislike
                   isLoggedIn={isLoggedIn}
@@ -225,11 +215,10 @@ const WatchVideoPage = () => {
         )}
 
         {isLoading ? (
-          <Skeleton
-            sx={{ margin: "24px 0" }}
+          <CommentSectionSkeleton
             animation="wave"
             variant="text"
-            width="40%"
+            width="100%"
             height={70}
           />
         ) : (

@@ -16,13 +16,13 @@ import {
   CardMediaWrapper,
   ChannelName,
   ChannelThumbnail,
-  CheckCircleStyledIcon,
   LiveTvStyledIcon,
   UpcomingIndicator,
   VideoDetail,
   VideoDurationBadge,
   VideoIsLiveIndicator,
   VideoMetadata,
+  VideoMetadataTypography,
   VideoTitle,
 } from "./VideoCardStyledComponents";
 
@@ -141,23 +141,22 @@ const VideoCard = ({ video, isListView = false }) => {
 
             <VideoMetadata>
               <ChannelName onClick={navigateToChannelPage}>
-                {" "}
                 {channelTitle}
-                <CheckCircleStyledIcon fontSize="x-small" />
               </ChannelName>
-
-              {liveBroadcastContent === "live" ? (
-                <VideoIsLiveIndicator>
-                  <LiveTvStyledIcon />
-                  LIVE
-                </VideoIsLiveIndicator>
-              ) : liveBroadcastContent === "upcoming" ? (
-                <UpcomingIndicator>Upcoming</UpcomingIndicator>
-              ) : (
-                viewCount &&
-                `${formatCompactNumber(viewCount || "")}${" views • "}`
-              )}
-              {calcDistanceToNow({ time: publishedAt })}
+              <VideoMetadataTypography>
+                {liveBroadcastContent === "live" ? (
+                  <VideoIsLiveIndicator>
+                    <LiveTvStyledIcon />
+                    LIVE
+                  </VideoIsLiveIndicator>
+                ) : liveBroadcastContent === "upcoming" ? (
+                  <UpcomingIndicator>Upcoming</UpcomingIndicator>
+                ) : (
+                  viewCount &&
+                  `${formatCompactNumber(viewCount || "")}${" views • "}`
+                )}
+                {calcDistanceToNow({ time: publishedAt })}
+              </VideoMetadataTypography>
             </VideoMetadata>
           </VideoDetail>
         </CardContent>

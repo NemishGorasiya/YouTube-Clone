@@ -77,7 +77,7 @@ export const TopBarRightDivider = styled(Divider)({
 export const TopBarLeft = styled(Box)({
   display: "flex",
   alignItems: "center",
-  gap: "24px",
+  gap: "12px",
   marginRight: "24px",
 });
 

@@ -18,8 +18,9 @@ const VideoPlayerSkeleton = () => {
           height="100%"
         />
       </YouTubeIframeWrapper>
+
       <VideoTitleSkeletonWrapper>
-        <Skeleton animation="wave" variant="text" width="50%" height={70} />
+        <Skeleton animation="wave" variant="text" width="50%" height="100%" />
       </VideoTitleSkeletonWrapper>
       <VideoMetadataSkeletonWrapper>
         <Skeleton animation="wave" variant="text" width="40%" height={100} />
