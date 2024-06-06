@@ -1,18 +1,11 @@
-import Box from "@mui/material/Box";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import CommentContent from "./CommentContent";
 import PropTypes from "prop-types";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-// import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import CommentSkeleton from "./CommentSkeleton";
 
 import {
   calcDistanceToNow,
-  formatCompactNumber,
   handleFallBackImage,
 } from "../../utils/utilityFunction";
 import { httpRequest } from "../../services/services";
@@ -31,15 +24,14 @@ import {
   ReplyCommentForm,
   ReplyTextField,
 } from "./CommentsStyledComponents";
+import LikeDislike from "../../pages/watchVideoPage/LikeDislike";
 
-const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
+const Comment = ({ snippet, totalReplyCount, commentId }) => {
   const { isLoggedIn } = useContext(AuthContext);
 
   const [isRepliesVisible, setIsRepliesVisible] = useState(false);
   const [isReplyCommentInputVisible, setIsReplyCommentInputVisible] =
     useState(false);
-  const [isVideoLiked, setIsVideoLiked] = useState(false);
-  const [isVideoDisLiked, setIsVideoDisLiked] = useState(false);
 
   const [commentReplies, setCommentReplies] = useState({
     list: [],
@@ -47,11 +39,8 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
     nextPageToken: "",
   });
 
-  const {
-    list: repliesList,
-    isLoading: isRepliesLoading,
-    // nextPageToken,
-  } = commentReplies || {};
+  const { list: repliesList, isLoading: isRepliesLoading } =
+    commentReplies || {};
 
   const {
     textDisplay,
@@ -108,18 +97,6 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
     }
   };
 
-  const handleLikeComment = useCallback(() => {
-    setIsVideoLiked((prevState) => {
-      const newLikeCount = !prevState;
-      updateLikeCount({ id: commentId, isIncreasing: newLikeCount });
-      return newLikeCount;
-    });
-  }, [commentId, updateLikeCount]);
-
-  const handleDisLikeComment = () => {
-    setIsVideoDisLiked((prevState) => !prevState);
-  };
-
   const getComments = useCallback(
     async ({ nextPageToken } = {}) => {
       setCommentReplies((prevComments) => ({
@@ -153,12 +130,6 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
     [commentId]
   );
 
-  // const loadMoreCommentReplies = () => {
-  //   if (nextPageToken) {
-  //     getComments({ nextPageToken: nextPageToken });
-  //   }
-  // };
-
   return (
     <CommentComponent>
       <CommentAuthorImage
@@ -180,23 +151,11 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
         </CommentMetadata>
         <CommentContent textDisplay={textDisplay} />
         <CommentEngagement className="commentEngagement">
-          <Box
-            sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-            onClick={handleLikeComment}
-          >
-            {isVideoLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-          </Box>
-          {formatCompactNumber(likeCount)}
-          <Box
-            sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-            onClick={handleDisLikeComment}
-          >
-            {isVideoDisLiked ? (
-              <ThumbDownIcon />
-            ) : (
-              <ThumbDownOffAltIcon sx={{ height: "fit-content" }} />
-            )}
-          </Box>
+          <LikeDislike
+            isLoggedIn={isLoggedIn}
+            likeCount={likeCount}
+            isCommentLikeDislike={true}
+          />
           <Button
             disabled={!isLoggedIn}
             variant="text"
@@ -243,18 +202,6 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
           ) : (
             <CommentReplies list={repliesList} />
           ))}
-
-        {/* {nextPageToken && isRepliesVisible && (
-          <Button
-            variant="text"
-            onClick={loadMoreCommentReplies}
-            startIcon={<SubdirectoryArrowRightIcon />}
-            textColor="#3EA6FF"
-            onHoverBackgroundColor="#263850"
-          >
-            Show More Replies
-          </Button>
-        )} */}
       </CommentDetails>
     </CommentComponent>
   );
@@ -264,7 +211,6 @@ Comment.propTypes = {
   snippet: PropTypes.object,
   totalReplyCount: PropTypes.number,
   commentId: PropTypes.string,
-  updateLikeCount: PropTypes.func.isRequired,
 };
 
 const MemoizedComment = memo(Comment, (prevProps, nextProps) => {

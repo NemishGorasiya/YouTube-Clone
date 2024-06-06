@@ -4,6 +4,7 @@ import MuiGrid from "@mui/material/Grid";
 export const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
   display: "grid",
   gap: "16px",
+  paddingTop: "8px",
   ...(isListView
     ? {
         gridTemplateColumns: "1fr",

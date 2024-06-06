@@ -15,7 +15,7 @@ export const RightPanel = styled(Box)(({ theme }) => ({
 }));
 
 export const OutletWrapper = styled(Box)({
-  paddingTop: "8px",
+  // paddingTop: "8px",
 });
 
 export const DrawerHeader = styled("div")(({ theme }) => ({

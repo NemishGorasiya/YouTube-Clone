@@ -13,7 +13,12 @@ import {
   LikeDislikeButtonWrapper,
 } from "./LikeDislikeStyledComponents";
 
-const LikeDislike = ({ isLoggedIn, videoId, likeCount: likeCountProp }) => {
+const LikeDislike = ({
+  isLoggedIn,
+  videoId,
+  likeCount: likeCountProp,
+  isCommentLikeDislike = false,
+}) => {
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const [rating, setRating] = useState(null);
 
@@ -66,22 +71,26 @@ const LikeDislike = ({ isLoggedIn, videoId, likeCount: likeCountProp }) => {
   }, [data]);
 
   return (
-    <LikeDislikeButtonWrapper>
+    <LikeDislikeButtonWrapper isCommentLikeDislike={isCommentLikeDislike}>
       <LikeButton
         disabled={!isLoggedIn}
         onClick={() => {
           rateVideo("like");
         }}
+        isCommentLikeDislike={isCommentLikeDislike}
       >
         {rating === "like" ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
         {formatCompactNumber(likeCount)}
       </LikeButton>
-      <Divider orientation="vertical" variant="middle" flexItem />
+      {!isCommentLikeDislike && (
+        <Divider orientation="vertical" variant="middle" flexItem />
+      )}
       <DislikeButton
         disabled={!isLoggedIn}
         onClick={() => {
           rateVideo("dislike");
         }}
+        isCommentLikeDislike={isCommentLikeDislike}
       >
         {rating === "dislike" ? <ThumbDownIcon /> : <ThumbDownOffAltIcon />}
       </DislikeButton>
