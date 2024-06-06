@@ -1,6 +1,6 @@
-import { formatCompactNumber } from "../../utils/utilityFunction";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { formatCompactNumber } from "../../utils/utilityFunction";
 import SubscribeButton from "../../components/SubscribeButton";
 import {
   ChannelCardComponent,

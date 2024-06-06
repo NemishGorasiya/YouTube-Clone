@@ -1,5 +1,4 @@
-import { styled } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { styled, Typography } from "@mui/material";
 
 export const VideoDescriptionComponent = styled(Typography)(
   ({ isExpanded }) => ({

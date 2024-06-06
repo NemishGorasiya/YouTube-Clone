@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useRef } from "react";
-import Loader from "./loader/Loader";
 import PropTypes from "prop-types";
+import Loader from "./loader/Loader";
 import { LoaderWrapper } from "./InfiniteScrollStyledComponents";
 
 const InfiniteScroll = ({
@@ -13,6 +13,7 @@ const InfiniteScroll = ({
   ...props
 }) => {
   const observer = useRef();
+
   const lastUserRef = useCallback(
     (node) => {
       if (isLoading) return;
@@ -37,10 +38,14 @@ const InfiniteScroll = ({
           })}
         </div>
       ))}
+
+      {/* skeleton */}
       {isLoading &&
         Array.from({ length: numberOfSkeletonItems }).map((_, idx) => (
           <Fragment key={idx}>{skeletonItem}</Fragment>
         ))}
+
+      {/* loader */}
       {isLoading && (
         <LoaderWrapper>
           <Loader />

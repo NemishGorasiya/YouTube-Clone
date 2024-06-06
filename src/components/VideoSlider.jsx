@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { httpRequest } from "../services/services";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { httpRequest } from "../services/services";
-import VideoCard from "./VideoCard";
-import "./VideoSlider.scss";
 import { Box } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import VideoCard from "./VideoCard";
 import VideoCardSkeleton from "./VideoCardSkeleton";
 import {
   PlaylistTitleTypography,
   PlaylistTitleWrapper,
   PlaylistViewAllButton,
 } from "./VideoSliderStyledComponents";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { Link } from "react-router-dom";
+import "./VideoSlider.scss";
 
 const VideoSlider = ({ playlistId }) => {
   const [videos, setVideos] = useState({
@@ -24,6 +24,7 @@ const VideoSlider = ({ playlistId }) => {
     nextPageToken: "",
   });
   const [playlistTitle, setPlaylistTitle] = useState("");
+
   const { list, isLoading, nextPageToken } = videos;
 
   const { snippet: { resourceId: { videoId: firstVideoId = "" } = {} } = {} } =
@@ -60,6 +61,7 @@ const VideoSlider = ({ playlistId }) => {
     },
     [playlistId]
   );
+
   const getPlaylistDetails = useCallback(
     async ({ abortController } = {}) => {
       const queryParams = {

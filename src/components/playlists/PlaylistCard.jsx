@@ -1,9 +1,8 @@
-import { Box } from "@mui/material";
-import { calcDistanceToNow } from "../../utils/utilityFunction";
-import { httpRequest } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { httpRequest } from "../../services/services";
+import { calcDistanceToNow } from "../../utils/utilityFunction";
 import {
   PlaylistCardComponent,
   PlaylistCardStackLayer,
@@ -32,33 +31,22 @@ const PlaylistCard = ({ playlist }) => {
 
   const navigate = useNavigate();
 
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
-
   const handelPlaylistClick = async (id) => {
     const queryParams = {
       part: "snippet",
       playlistId: id,
       maxResults: 1,
     };
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
     try {
       const res = await httpRequest({
         url: "/playlistItems",
         queryParams,
-        accessToken,
-        headers,
       });
 
       if (res) {
         const { items } = res;
-        const {
-          snippet: {
-            resourceId: { videoId },
-          },
-        } = items[0];
+        const { snippet: { resourceId: { videoId } } = {} } =
+          items.length > 0 ? items[0] : {};
         navigate(
           `/watch?v=${videoId}&list=${id}&listName=${encodeURIComponent(
             id === "LL" ? "Liked Videos" : title
@@ -66,7 +54,7 @@ const PlaylistCard = ({ playlist }) => {
         );
       }
     } catch (error) {
-      console.error(error.message ?? error);
+      console.error(error.message || error);
     }
   };
 

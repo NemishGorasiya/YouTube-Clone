@@ -1,31 +1,31 @@
-import { Button, IconButton } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
 import { httpRequest } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import PropTypes from "prop-types";
+import { Button, IconButton } from "@mui/material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import toast from "react-hot-toast";
 import {
   EditableContentWrapper,
   TextField,
   UserActionButtonsWrapper,
 } from "./EditableComponentStyledComponents";
-import toast from "react-hot-toast";
 
 const EditableComponent = ({ currentValue, playlistId }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [newValue, setNewValue] = useState(currentValue);
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
 
   const handleEditButtonClick = () => {
     setIsEditMode(true);
   };
+
   const handleCancelButtonClick = () => {
     setIsEditMode(false);
   };
+
   const handleInputChange = ({ target: { value } }) => {
     setNewValue(value);
   };
+
   const handleUpdateValue = async () => {
     if (newValue === currentValue) {
       return;
@@ -34,9 +34,7 @@ const EditableComponent = ({ currentValue, playlistId }) => {
       const queryParams = {
         part: "snippet",
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
+
       const data = {
         id: playlistId,
         snippet: {
@@ -48,7 +46,6 @@ const EditableComponent = ({ currentValue, playlistId }) => {
         url: "/playlists",
         method: "PUT",
         queryParams,
-        headers,
         data,
       });
 

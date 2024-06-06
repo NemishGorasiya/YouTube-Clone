@@ -1,20 +1,22 @@
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Skeleton } from "@mui/material";
 import { httpRequest } from "../../services/services";
-import CommentsSection from "./CommentsSection";
-import PlaylistPanel from "./PlaylistPanel";
-import ScrollToTopButton from "./ScrollToTopButton";
-import VideoDescription from "./VideoDescription";
+import { AuthContext } from "../../context/AuthContext";
 import {
   calcDistanceToNow,
   formatCompactNumber,
 } from "../../utils/utilityFunction";
+import CommentsSection from "./CommentsSection";
+import PlaylistPanel from "./PlaylistPanel";
+import ScrollToTopButton from "./ScrollToTopButton";
+import VideoDescription from "./VideoDescription";
 import AddToPlaylist from "./AddToPlaylist";
 import SubscribeButton from "../../components/SubscribeButton";
-import { AuthContext } from "../../context/AuthContext";
 import LikeDislike from "./LikeDislike";
 import RelatedVideos from "./RelatedVideos";
 import {
@@ -31,37 +33,33 @@ import {
   YouTubeIframe,
   YouTubeIframeWrapper,
 } from "./WatchVideoPageStyledComponents";
-import { useSearchParams } from "react-router-dom";
 import VideoPlayerSkeleton from "./VideoPlayerSkeleton";
-import { Skeleton } from "@mui/material";
 
 const WatchVideoPage = () => {
-  const [searchParams] = useSearchParams();
-  const { isLoggedIn } = useContext(AuthContext);
-  const videoId = searchParams.get("v");
-  const playlistId = searchParams.get("list");
-  const playlistName = decodeURIComponent(searchParams.get("listName"));
-  const videoDescriptionRef = useRef(null);
-
   const [videoDetails, setVideoDetails] = useState({
     data: {},
     isLoading: true,
   });
   const [channelDetails, setChannelDetails] = useState({
     data: {},
-    isLoading: true,
   });
 
-  const { data: channelData, isLoading: isChannelDetailsLoading } =
-    channelDetails || {};
+  const { isLoggedIn } = useContext(AuthContext);
+
+  const videoDescriptionRef = useRef(null);
+
+  const [searchParams] = useSearchParams();
+  const videoId = searchParams.get("v");
+  const playlistId = searchParams.get("list");
+  const playlistName = decodeURIComponent(searchParams.get("listName"));
+
+  const { data: channelData } = channelDetails || {};
 
   const {
     snippet: { thumbnails: { high: { url = "" } = {} } = {} } = {},
     statistics: { subscriberCount = "" } = {},
   } = channelData || {};
-
   const { data = {}, isLoading = false } = videoDetails;
-
   const { snippet, statistics } = data || {};
   const {
     publishedAt = "",
@@ -110,7 +108,6 @@ const WatchVideoPage = () => {
         if (response) {
           setChannelDetails({
             data: {},
-            isLoading: true,
           });
           const { items = [] } = response;
           const { snippet: { channelId = "" } = {} } = items[0] || {};
@@ -126,7 +123,6 @@ const WatchVideoPage = () => {
 
             setChannelDetails({
               data: items[0],
-              isLoading: false,
             });
           }
           setVideoDetails({

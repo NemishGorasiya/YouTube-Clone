@@ -18,9 +18,6 @@ const useFetch = (requestProps) => {
           ...requestProps,
           abortController,
         });
-        // if (!response.ok) {
-        //   throw new Error("Network response was not ok");
-        // }
         if (response) {
           setData(response);
         }

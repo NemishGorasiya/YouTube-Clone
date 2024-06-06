@@ -1,13 +1,13 @@
+import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { httpRequest } from "../../services/services";
 import {
   customParser,
   formatCompactNumber,
   highQualityImage,
 } from "../../utils/utilityFunction";
-import { useCallback, useEffect, useState } from "react";
-import { httpRequest } from "../../services/services";
 import ChannelDescriptionModal from "../../components/channelPage/ChannelDescriptionModal";
 import SubscribeButton from "../../components/SubscribeButton";
-import PropTypes from "prop-types";
 import {
   ChannelBanner,
   ChannelBannerWrapper,
@@ -25,9 +25,12 @@ const ChannelMetadata = ({ channelId }) => {
     data: {},
     isLoading: true,
   });
+  const [isChannelDescriptionModalOpen, setIsChannelDescriptionModalOpen] =
+    useState(false);
+
   const { data, isLoading } = channelDetails;
-  const { items } = data;
-  const channelMetadata = items ? items[0] : {};
+  const { items = [] } = data || {};
+  const channelMetadata = items.length > 0 ? items[0] : {};
 
   const {
     snippet: {
@@ -40,11 +43,9 @@ const ChannelMetadata = ({ channelId }) => {
     brandingSettings: { image: { bannerExternalUrl = "" } = {} } = {},
   } = channelMetadata || {};
 
-  const [isChannelDescriptionModalOpen, setIsChannelDescriptionModalOpen] =
-    useState(false);
-
   const openChannelDescriptionModal = () =>
     setIsChannelDescriptionModalOpen(true);
+
   const closeChannelDescriptionModal = () =>
     setIsChannelDescriptionModalOpen(false);
 

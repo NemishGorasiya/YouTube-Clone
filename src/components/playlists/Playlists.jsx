@@ -1,11 +1,11 @@
-import { useSearchParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import { httpRequest } from "../../services/services";
-import PlaylistCard from "./PlaylistCard";
-import InfiniteScroll from "../InfiniteScroll";
 import PropTypes from "prop-types";
-import { PlaylistGrid } from "./PlaylistsStyledComponents";
+import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { httpRequest } from "../../services/services";
+import InfiniteScroll from "../InfiniteScroll";
+import PlaylistCard from "./PlaylistCard";
 import PlaylistCardSkeleton from "./PlaylistCardSkeleton";
+import { PlaylistGrid } from "./PlaylistsStyledComponents";
 
 const renderItem = (playlist) => (
   <PlaylistCard key={playlist.id} playlist={playlist} />
@@ -43,11 +43,11 @@ const Playlists = ({ channelId }) => {
           setPlaylists((prevPlaylists) => ({
             list: [...prevPlaylists.list, ...items],
             isLoading: false,
-            nextPageToken: nextPageToken,
+            nextPageToken,
           }));
         }
       } catch (error) {
-        console.error(error.message);
+        console.error(error.message || error);
       }
     },
     [channelId, listQuery]
@@ -55,7 +55,7 @@ const Playlists = ({ channelId }) => {
 
   const loadMorePlaylists = () => {
     if (nextPageToken) {
-      getPlaylists({ nextPageToken: nextPageToken });
+      getPlaylists({ nextPageToken });
     }
   };
 

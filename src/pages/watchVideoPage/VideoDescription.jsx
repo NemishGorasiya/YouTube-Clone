@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { customParser } from "../../utils/utilityFunction";
 import PropTypes from "prop-types";
+import { customParser } from "../../utils/utilityFunction";
 import {
   ToggleButton,
   VideoDescriptionComponent,
@@ -8,14 +8,15 @@ import {
 
 const VideoDescription = ({ description, parentRef }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
   const handleToggleVisibilityOfText = () => {
     setIsExpanded((prevState) => !prevState);
-
     parentRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
   };
+
   return (
     description && (
       <VideoDescriptionComponent

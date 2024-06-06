@@ -1,28 +1,28 @@
-import {
-  customParser,
-  formatCompactNumber,
-  formatDate,
-} from "../../utils/utilityFunction";
+import PropTypes from "prop-types";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
-import PropTypes from "prop-types";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import StyledModal from "../StyledModal";
 import {
   ChannelDescription,
   DescriptionItem,
   DescriptionItemsWrapper,
   ModalContent,
 } from "./ChannelDescriptionModalStyledComponents";
-import StyledModal from "../StyledModal";
+import {
+  customParser,
+  formatCompactNumber,
+  formatDate,
+} from "../../utils/utilityFunction";
 
 const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
   const {
     snippet: { description, customUrl, publishedAt, country },
     statistics: { viewCount, subscriberCount, videoCount },
-  } = channelMetadata;
+  } = channelMetadata || {};
 
   const metadataList = [
     {
@@ -62,11 +62,14 @@ const ChannelDescriptionModal = ({ onClose, open, channelMetadata }) => {
         />
         <h2>Channel details</h2>
         <DescriptionItemsWrapper>
-          {metadataList.map(({ icon, value }, idx) => (
-            <DescriptionItem key={idx}>
-              {icon} {value}
-            </DescriptionItem>
-          ))}
+          {metadataList.map(
+            ({ icon, value }, idx) =>
+              value && (
+                <DescriptionItem key={idx}>
+                  {icon} {value}
+                </DescriptionItem>
+              )
+          )}
         </DescriptionItemsWrapper>
       </ModalContent>
     </StyledModal>

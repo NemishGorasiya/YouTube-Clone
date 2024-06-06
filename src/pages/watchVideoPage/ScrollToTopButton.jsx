@@ -1,33 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { Button } from "./ScrollToTopButtonStyledComponents";
 
 const ScrollToTopButton = () => {
-	const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-	const toggleVisible = () => {
-		const scrolled = document.documentElement.scrollTop;
-		if (scrolled > 1500) {
-			setVisible(true);
-		} else if (scrolled <= 1500) {
-			setVisible(false);
-		}
-	};
+  const toggleVisible = useCallback(() => {
+    const scrolled = document.documentElement.scrollTop;
+    setVisible(scrolled > 1500);
+  }, []);
 
-	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
-	};
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
-	window.addEventListener("scroll", toggleVisible);
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisible);
+    return () => {
+      window.removeEventListener("scroll", toggleVisible);
+    };
+  }, [toggleVisible]);
 
-	return (
-		<Button visible={visible} onClick={scrollToTop}>
-			<KeyboardDoubleArrowUpIcon /> Scroll To Top
-		</Button>
-	);
+  return (
+    <Button visible={visible} onClick={scrollToTop}>
+      <KeyboardDoubleArrowUpIcon /> Scroll To Top
+    </Button>
+  );
 };
 
 export default ScrollToTopButton;

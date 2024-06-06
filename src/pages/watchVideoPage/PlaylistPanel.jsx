@@ -15,6 +15,7 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
     isLoading: true,
     nextPageToken: "",
   });
+
   const { list, isLoading, nextPageToken } = playlist;
 
   const getPlaylistItems = useCallback(
@@ -63,6 +64,7 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
       };
     });
   };
+
   const renderItem = (playlistItem) => (
     <PlaylistItem
       key={playlistItem.id}

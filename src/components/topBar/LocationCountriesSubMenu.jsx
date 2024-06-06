@@ -1,13 +1,13 @@
-import { Collapse } from "@mui/material";
 import { useContext, useMemo } from "react";
+import PropTypes from "prop-types";
+import { Collapse } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import { UserPreferencesContext } from "../../context/UserPreferencesContext";
+import useFetch from "../../hooks/useFetch";
 import {
   CountryListSubheader,
   CountryMenuItem,
 } from "./TopBarStyledComponents";
-import { UserPreferencesContext } from "../../context/UserPreferencesContext";
-import useFetch from "../../hooks/useFetch";
-import DoneIcon from "@mui/icons-material/Done";
-import PropTypes from "prop-types";
 
 const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   const { location, changeLocation } = useContext(UserPreferencesContext);

@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { ListItemIcon, MenuItem } from "@mui/material";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import { useState } from "react";
 import LocationCountriesSubMenu from "./LocationCountriesSubMenu";
 
 const LocationMenuItem = () => {

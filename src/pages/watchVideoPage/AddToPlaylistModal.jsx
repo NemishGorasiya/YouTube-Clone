@@ -1,8 +1,6 @@
-import AddIcon from "@mui/icons-material/Add";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import {
-  Box,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -13,11 +11,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import PropTypes from "prop-types";
-import { useCallback, useEffect, useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import { httpRequest } from "../../services/services";
 import { privacyOptions } from "../../utils/constant";
 import PlaylistChecklistItemSkeleton from "./PlaylistChecklistItemSkeleton";
@@ -56,8 +53,6 @@ const renderItem = (props) => {
 };
 
 const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
   const [playlists, setPlaylists] = useState({
     list: [],
     isLoading: true,
@@ -94,15 +89,12 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
             privacyStatus: privacyPolicy,
           },
         };
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-        };
+
         const res = await httpRequest({
           url: "/playlists",
           method: "POST",
           queryParams,
           data,
-          headers,
         });
 
         if (res) {
@@ -124,9 +116,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
       const queryParams = {
         part: "snippet",
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
+
       const data = {
         snippet: {
           playlistId,
@@ -140,15 +130,10 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
         url: "/playlistItems",
         method: "POST",
         queryParams,
-        headers,
         data,
       });
 
-      if (res) {
-        return true;
-      } else {
-        return false;
-      }
+      return !!res;
     } catch (error) {
       console.error(error);
     }
@@ -175,13 +160,10 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
           mine: true,
           pageToken: nextPageToken,
         };
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-        };
+
         const res = await httpRequest({
           url: "/playlists",
           queryParams,
-          headers,
           abortController,
         });
         if (res) {
@@ -196,7 +178,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
         console.error(error);
       }
     },
-    [accessToken]
+    []
   );
 
   const loadMorePlaylists = () => {
@@ -233,7 +215,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
             handleCheckboxClick={handleCheckboxClick}
             videoId={videoId}
             skeletonItem={<PlaylistChecklistItemSkeleton />}
-            numberOfSkeletonItems={6}
+            numberOfSkeletonItems={10}
           />
         </FormGroup>
         {isCreateNewPlaylistFormOpen ? (

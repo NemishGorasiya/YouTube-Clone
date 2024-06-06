@@ -1,11 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 const FeedPage = () => {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default FeedPage;

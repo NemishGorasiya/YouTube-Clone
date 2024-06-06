@@ -1,9 +1,9 @@
-import VideoGallery from "../../components/VideoGallery";
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { Box } from "@mui/material";
+import VideoGallery from "../../components/VideoGallery";
 import ChannelHomePageContent from "./ChannelHomePageContent";
 import Playlists from "../../components/playlists/Playlists";
-import { Box } from "@mui/material";
-import PropTypes from "prop-types";
 import { channelSectionTabs } from "../../utils/constant";
 import {
   ChannelSectionTab,

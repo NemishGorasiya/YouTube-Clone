@@ -1,9 +1,9 @@
-import SearchIcon from "@mui/icons-material/Search";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import { useTheme } from "@mui/material/styles";
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 import VoiceSearch from "./VoiceSearch";
 import {
   InputAdornment,
@@ -15,10 +15,13 @@ import {
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInputIsFocused, setSearchInputIsFocused] = useState(false);
+
+  const searchInputRef = useRef(null);
+
+  const navigate = useNavigate();
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const navigate = useNavigate();
-  const searchInputRef = useRef(null);
 
   const handleChangeInSearchQuery = (value) => {
     setSearchQuery(value);
@@ -45,7 +48,7 @@ const SearchInput = () => {
   );
 
   return (
-    <SearchInputContainer>
+    <SearchInputContainer isSmallScreen={isSmallScreen}>
       <form
         style={{
           ...formStyle,

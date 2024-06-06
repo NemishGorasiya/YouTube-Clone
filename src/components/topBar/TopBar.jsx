@@ -1,18 +1,19 @@
+import PropTypes from "prop-types";
+import { memo } from "react";
+import { useTheme } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchInput from "./SearchInput";
-import TopBarRight from "./TopBarRight";
 import logo from "../../assets/logo.svg";
 import logo_dark_mode from "../../assets/logo_dark_mode.svg";
-import { useTheme } from "@mui/material/styles";
-import { memo } from "react";
-import PropTypes from "prop-types";
+import SearchInput from "./SearchInput";
+import TopBarRight from "./TopBarRight";
 import {
   AppBar,
-  IconButton,
   LogoContainer,
   Toolbar,
   TopBarLeft,
 } from "./TopBarStyledComponents";
+import { Link } from "react-router-dom";
 
 const TopBar = ({ toggleDrawer }) => {
   const theme = useTheme();
@@ -33,12 +34,14 @@ const TopBar = ({ toggleDrawer }) => {
           >
             <MenuIcon />
           </IconButton>
-          <LogoContainer>
-            <img
-              src={themeMode === "dark" ? logo_dark_mode : logo}
-              alt="YouTube logo"
-            />
-          </LogoContainer>
+          <Link to="/">
+            <LogoContainer>
+              <img
+                src={themeMode === "dark" ? logo_dark_mode : logo}
+                alt="YouTube logo"
+              />
+            </LogoContainer>
+          </Link>
         </TopBarLeft>
         <SearchInput />
         <TopBarRight />

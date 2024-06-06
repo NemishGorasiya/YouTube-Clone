@@ -1,5 +1,8 @@
-import { Logout } from "@mui/icons-material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { fetchAccessToken, getUserInfo } from "../../services/services";
+import { AuthContext } from "../../context/AuthContext";
 import {
   Avatar,
   Box,
@@ -9,11 +12,11 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { fetchAccessToken, getUserInfo } from "../../services/services";
 import SignInButton from "../SignInButton";
-import { AuthContext } from "../../context/AuthContext";
+import { Logout } from "@mui/icons-material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import LocationMenuItem from "./LocationMenuItem";
+import ThemeMenuItem from "./ThemeMenuItem";
 import {
   AvatarWrapper,
   ProfilePictureImage,
@@ -21,21 +24,20 @@ import {
   TopBarRightDivider,
   UsernameMenuItem,
 } from "./TopBarStyledComponents";
-import LocationMenuItem from "./LocationMenuItem";
-import ThemeMenuItem from "./ThemeMenuItem";
-import toast from "react-hot-toast";
 
 const TopBarRight = () => {
-  const navigate = useNavigate();
-
   const { user, isLoggedIn, handleLogin, handleLogout } =
     useContext(AuthContext);
-  const { username, email, profilePicture } = user ?? {};
+
+  const navigate = useNavigate();
+
+  const { username, email, profilePicture } = user || {};
 
   const [searchParams] = useSearchParams();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

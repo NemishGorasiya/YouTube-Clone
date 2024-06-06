@@ -7,16 +7,16 @@ import CommentContent from "./CommentContent";
 import PropTypes from "prop-types";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
+// import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
+import CommentSkeleton from "./CommentSkeleton";
 
 import {
   calcDistanceToNow,
   formatCompactNumber,
   handleFallBackImage,
 } from "../../utils/utilityFunction";
-import { TextField } from "@mui/material";
 import { httpRequest } from "../../services/services";
-import { memo, useCallback, useContext, useState } from "react";
+import { Fragment, memo, useCallback, useContext, useState } from "react";
 import CommentReplies from "./CommentReplies";
 import { AuthContext } from "../../context/AuthContext";
 import {
@@ -29,10 +29,12 @@ import {
   CommentMetadata,
   CommentPublishTime,
   ReplyCommentForm,
+  ReplyTextField,
 } from "./CommentsStyledComponents";
 
 const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   const { isLoggedIn } = useContext(AuthContext);
+
   const [isRepliesVisible, setIsRepliesVisible] = useState(false);
   const [isReplyCommentInputVisible, setIsReplyCommentInputVisible] =
     useState(false);
@@ -48,8 +50,9 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
   const {
     list: repliesList,
     isLoading: isRepliesLoading,
-    nextPageToken,
+    // nextPageToken,
   } = commentReplies || {};
+
   const {
     textDisplay,
     authorDisplayName,
@@ -119,6 +122,10 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
 
   const getComments = useCallback(
     async ({ nextPageToken } = {}) => {
+      setCommentReplies((prevComments) => ({
+        ...prevComments,
+        isLoading: true,
+      }));
       try {
         const queryParams = {
           part: "snippet",
@@ -146,11 +153,11 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
     [commentId]
   );
 
-  const loadMoreCommentReplies = () => {
-    if (nextPageToken) {
-      getComments({ nextPageToken: nextPageToken });
-    }
-  };
+  // const loadMoreCommentReplies = () => {
+  //   if (nextPageToken) {
+  //     getComments({ nextPageToken: nextPageToken });
+  //   }
+  // };
 
   return (
     <CommentComponent>
@@ -200,11 +207,10 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
         </CommentEngagement>
         {isReplyCommentInputVisible && (
           <ReplyCommentForm onSubmit={handleReplyComment}>
-            <TextField
+            <ReplyTextField
               label="Add a reply..."
               variant="standard"
               name="newComment"
-              sx={{ flex: 1 }}
               autoComplete="off"
             />
             <Button type="submit" variant="contained">
@@ -227,7 +233,17 @@ const Comment = ({ snippet, totalReplyCount, commentId, updateLikeCount }) => {
             {totalReplyCount <= 20 ? totalReplyCount : "20"} Replies
           </Button>
         )}
-        {isRepliesVisible && <CommentReplies list={repliesList} />}
+        {isRepliesVisible &&
+          (isRepliesLoading ? (
+            Array.from({ length: 10 }).map((_, idx) => (
+              <Fragment key={idx}>
+                <CommentSkeleton />
+              </Fragment>
+            ))
+          ) : (
+            <CommentReplies list={repliesList} />
+          ))}
+
         {/* {nextPageToken && isRepliesVisible && (
           <Button
             variant="text"

@@ -1,10 +1,10 @@
-import { Box, Button, useMediaQuery } from "@mui/material";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import MemoizedComment from "../../components/watchVideoPage/Comment";
-import { httpRequest } from "../../services/services";
 import SwipeableCommentsSection from "./SwipeableCommentsSection";
-import PropTypes from "prop-types";
+import { httpRequest } from "../../services/services";
 import { formatCompactNumber } from "../../utils/utilityFunction";
 import { AuthContext } from "../../context/AuthContext";
 import { commentsAreOffGooglePageLink } from "../../utils/constant";
@@ -21,7 +21,9 @@ import {
 
 const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const isWideScreen = useMediaQuery("(min-width:1200px)");
+
   const { isLoggedIn } = useContext(AuthContext);
+
   const [comments, setComments] = useState({
     list: [],
     isLoading: true,
@@ -70,7 +72,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
 
   const loadMoreComments = useCallback(() => {
     if (nextPageToken) {
-      getComments({ nextPageToken: nextPageToken });
+      getComments({ nextPageToken });
     }
   }, [getComments, nextPageToken]);
 

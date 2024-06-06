@@ -1,5 +1,5 @@
+import { styled } from "@mui/material";
 import MuiGrid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
 
 export const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
   display: "grid",

@@ -1,11 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { httpRequest } from "../../services/services";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import ChannelCard from "./ChannelCard";
-import InfiniteScroll from "../../components/InfiniteScroll";
-import { SubscribedChannelsPageComponent } from "./SubscribedChannelsPageStyledComponents";
-import ChannelCardSkeleton from "./ChannelCardSkeleton";
 import { SubscriptionListContext } from "../../context/SubscriptionListContext";
+import ChannelCard from "./ChannelCard";
+import ChannelCardSkeleton from "./ChannelCardSkeleton";
+import { SubscribedChannelsPageComponent } from "./SubscribedChannelsPageStyledComponents";
+import InfiniteScroll from "../../components/InfiniteScroll";
 
 const SubscribedChannelsPage = () => {
   const { channelToRemove } = useContext(SubscriptionListContext);
@@ -16,8 +15,6 @@ const SubscribedChannelsPage = () => {
   });
 
   const { list, isLoading } = channels;
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
 
   const getSubscribedChannels = useCallback(
     async ({ nextPageToken, abortController } = {}) => {
@@ -27,13 +24,9 @@ const SubscribedChannelsPage = () => {
           part: "snippet,contentDetails",
           pageToken: nextPageToken,
         };
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-        };
         const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
-          headers,
           abortController: abortController,
         });
 
@@ -49,7 +42,7 @@ const SubscribedChannelsPage = () => {
         console.error(error);
       }
     },
-    [accessToken]
+    []
   );
 
   const loadMore = () => {

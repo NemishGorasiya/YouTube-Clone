@@ -4,8 +4,8 @@ import SideBar from "../sideBar/SideBar";
 
 const AppBar = () => {
   const [open, setOpen] = useState(false);
-  const toggleDrawer = useCallback((shouldClose) => {
-    if (shouldClose === false) {
+  const toggleDrawer = useCallback((toOpen) => {
+    if (toOpen === false) {
       setOpen(false);
       return;
     }

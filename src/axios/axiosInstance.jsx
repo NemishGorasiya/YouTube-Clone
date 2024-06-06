@@ -29,14 +29,16 @@ const refreshAccessToken = async () => {
     });
 
     if (response && response.data) {
-      const { access_token: newAccessToken } = response.data;
+      const {
+        data: { access_token: newAccessToken },
+      } = response;
       const userInfo = getUserInfo();
       const updatedUserInfo = {
         ...userInfo,
         accessToken: newAccessToken,
       };
-      localStorage.setItem("user", JSON.stringify(updatedUserInfo));
 
+      localStorage.setItem("user", JSON.stringify(updatedUserInfo));
       accessToken = newAccessToken;
 
       return newAccessToken;

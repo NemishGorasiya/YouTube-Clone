@@ -1,11 +1,12 @@
 import { useCallback, useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { httpRequest } from "../services/services";
-import useLocalStorage from "../hooks/useLocalStorage";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
 import { Menu, Typography } from "@mui/material";
-import PropTypes from "prop-types";
 import { AuthContext } from "../context/AuthContext";
+import { SubscriptionListContext } from "../context/SubscriptionListContext";
+import toast from "react-hot-toast";
 import {
   DoSubscribeButton,
   MenuItem,
@@ -16,8 +17,6 @@ import {
   UserActionButtonWrapper,
 } from "./SubscribeButtonStyledComponents";
 import StyledModal from "./StyledModal";
-import { SubscriptionListContext } from "../context/SubscriptionListContext";
-import toast from "react-hot-toast";
 
 const SubscribeButton = ({
   channelId,
@@ -28,16 +27,16 @@ const SubscribeButton = ({
     SubscriptionListContext
   );
   const { isLoggedIn } = useContext(AuthContext);
+
   const [subscriptionStatus, setSubscriptionStatus] = useState({
     isSubscribed: !!subscriptionIdProp,
     isLoading: subscriptionIdProp || !isLoggedIn ? false : true,
   });
   const [subscriptionId, setSubscriptionId] = useState(subscriptionIdProp);
-  const { isSubscribed, isLoading } = subscriptionStatus || {};
-  const [user] = useLocalStorage("user", {});
-  const { accessToken } = user;
-
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
+
+  const { isSubscribed, isLoading } = subscriptionStatus || {};
   const isOpenMenu = Boolean(anchorEl);
 
   const handleOpenMenu = (event) => {
@@ -50,7 +49,6 @@ const SubscribeButton = ({
     setAnchorEl(null);
   };
 
-  const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
   const handleCloseConfirmationModal = (event) => {
     event.preventDefault();
     setIsOpenConfirmationModal(false);
@@ -68,14 +66,10 @@ const SubscribeButton = ({
       const queryParams = {
         id: subscriptionId,
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
       const res = await httpRequest({
         url: "/subscriptions",
         method: "DELETE",
         queryParams,
-        headers,
         returnEntireResponseWithStatusCode: true,
       });
       if (res.status === 204) {
@@ -104,15 +98,11 @@ const SubscribeButton = ({
           },
         },
       };
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
       const res = await httpRequest({
         url: "/subscriptions",
         method: "POST",
         queryParams,
         data,
-        headers,
       });
       if (res) {
         const { id: subscriptionId } = res;
@@ -139,13 +129,9 @@ const SubscribeButton = ({
           forChannelId: channelId,
           mine: true,
         };
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-        };
         const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
-          headers,
           abortController,
         });
         if (res) {
@@ -163,7 +149,7 @@ const SubscribeButton = ({
         console.error(error);
       }
     },
-    [accessToken, channelId]
+    [channelId]
   );
 
   useEffect(() => {

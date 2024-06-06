@@ -56,13 +56,13 @@ export const SideBarLinks = [
         queryKey: "list",
         queryValue: "LL",
       },
-      {
-        icon: <SubscriptionsOutlinedIcon />,
-        filledIcon: <SubscriptionsIcon />,
-        outlinedIcon: <SubscriptionsOutlinedIcon />,
-        label: "Subscriptions",
-        link: "/feed/channels",
-      },
+      // {
+      //   icon: <SubscriptionsOutlinedIcon />,
+      //   filledIcon: <SubscriptionsIcon />,
+      //   outlinedIcon: <SubscriptionsOutlinedIcon />,
+      //   label: "Subscriptions",
+      //   link: "/feed/channels",
+      // },
     ],
   },
 ];
@@ -257,3 +257,9 @@ export const themeMenuList = [
     icon: <LightModeIcon fontSize="small" />,
   },
 ];
+
+export const nprogressConfig = {
+  showSpinner: false,
+  easing: "ease",
+  speed: 1000,
+};

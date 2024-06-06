@@ -1,18 +1,11 @@
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import VideoGallery from "../../components/VideoGallery";
 import VideoFilter from "./VideoFilter";
-import { styled } from "@mui/material";
-import MuiBox from "@mui/material/Box";
-import { useContext, useEffect, useState } from "react";
-import { UserPreferencesContext } from "../../context/UserPreferencesContext";
-
-const VideoFilterButtonWrapper = styled(MuiBox)(() => ({
-  textAlign: "end",
-}));
+import VideoGallery from "../../components/VideoGallery";
+import { VideoFilterButtonWrapper } from "./SearchResultPageStyledComponents";
 
 const SearchResultPage = () => {
   const [searchParams] = useSearchParams();
-  // const { location } = useContext(UserPreferencesContext);
   const searchQuery = searchParams.get("search_query");
 
   const [queryParams, setQueryParams] = useState({
@@ -20,16 +13,12 @@ const SearchResultPage = () => {
     maxResults: 10,
     q: searchQuery,
     type: "video",
-    // videoDefinition: "high",
-    // regionCode: location,
   });
 
   const updateQueryParams = ({ key, value, isRemoving = false }) => {
     setQueryParams((prevParams) => {
       if (isRemoving) {
-        // Create a copy of prevParams to avoid direct mutation
         const newParams = { ...prevParams };
-        // Use the delete operator to remove the key-value pair
         delete newParams[key];
         return newParams;
       } else {
@@ -44,8 +33,6 @@ const SearchResultPage = () => {
   useEffect(() => {
     updateQueryParams({ key: "q", value: searchQuery });
   }, [searchQuery]);
-
-  console.log("filters in search page", queryParams);
 
   return (
     <div>
