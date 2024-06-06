@@ -1,10 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Skeleton } from "@mui/material";
 import { httpRequest } from "../../services/services";
 import { AuthContext } from "../../context/AuthContext";
 import {
