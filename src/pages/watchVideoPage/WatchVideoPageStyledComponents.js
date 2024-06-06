@@ -89,7 +89,7 @@ export const VideoTitle = styled(MuiTypography)({
   display: "-webkit-box",
   WebkitLineClamp: 2,
   WebkitBoxOrient: "vertical",
-  fontWeight: 500,
+  fontWeight: 700,
 });
 
 export const YouTubeIframe = styled("iframe")({

@@ -163,7 +163,7 @@ const WatchVideoPage = () => {
                 allow="fullscreen"
               />
             </YouTubeIframeWrapper>
-            <VideoTitle variant="h5" component="h2">
+            <VideoTitle variant="h6" component="h2">
               {title}
             </VideoTitle>
             <VideoMetadataWrapper>
