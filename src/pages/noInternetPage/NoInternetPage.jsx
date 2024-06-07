@@ -1,37 +1,52 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import {
+  NoInternetFallbackPageContainer,
+  NoInternetImage,
+  NoInternetImageWrapper,
+} from "./NoInternetPageStyledComponents";
+import { Typography } from "@mui/material";
+import noInternetSvg from "./NoInternet.svg";
 
 const NoInternetPage = ({ children }) => {
-	// state variable holds the state of the internet connection
-	const [isOnline, setOnline] = useState(true);
+  console.log("image", noInternetSvg);
+  const [isOnline, setOnline] = useState(navigator.onLine);
 
-	// On initization set the isOnline state.
-	useEffect(() => {
-		setOnline(navigator.onLine);
-	}, []);
+  useEffect(() => {
+    const handleOnline = () => setOnline(true);
+    const handleOffline = () => setOnline(false);
 
-	// event listeners to update the state
-	window.addEventListener("online", () => {
-		setOnline(true);
-	});
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
-	window.addEventListener("offline", () => {
-		setOnline(false);
-	});
+    // Clean up the event listeners on component unmount
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
-	// if user is online, return the child component else return a custom component
-	if (isOnline) {
-		return children;
-	} else {
-		return (
-			<NotAuthorizedFallbackPageContainer>
-				<IconWrapper>
-					<NoAccountsStyledIcon />
-				</IconWrapper>
-				<Typography>Sign in to access this page</Typography>
-				<SignInButton />
-			</NotAuthorizedFallbackPageContainer>
-		);
-	}
+  if (isOnline) {
+    return children;
+  } else {
+    return (
+      <NoInternetFallbackPageContainer>
+        <NoInternetImageWrapper>
+          <NoInternetImage
+            src={noInternetSvg}
+            // referrerPolicy="no-referrer"
+            alt="No Internet"
+          />
+        </NoInternetImageWrapper>
+        <Typography>Connect to the internet</Typography>
+        <Typography>You&apos;re offline. Check your connection.</Typography>
+      </NoInternetFallbackPageContainer>
+    );
+  }
+};
+
+NoInternetPage.propTypes = {
+  children: PropTypes.node,
 };
 
 export default NoInternetPage;
