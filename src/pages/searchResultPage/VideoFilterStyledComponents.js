@@ -1,16 +1,17 @@
-import { Box, Button, Typography, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box, Button, Typography } from "@mui/material";
 import MuiDivider from "@mui/material/Divider";
 import ClearIcon from "@mui/icons-material/Clear";
 import StyledModal from "../../components/StyledModal";
 
-export const FiltersButton = styled(Button)({
+export const FiltersButton = styledConfig(Button)({
   padding: "8px 16px",
   "&:hover": {
     background: "rgba(255, 255, 255, 0.2)",
   },
 });
 
-export const FilterFieldWrapper = styled(Box)({
+export const FilterFieldWrapper = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
@@ -19,7 +20,7 @@ export const FilterFieldWrapper = styled(Box)({
   flex: "1 1 auto",
 });
 
-export const FilterContentWrapper = styled(Box)({
+export const FilterContentWrapper = styledConfig(Box)({
   display: "flex",
   gap: "16px",
   paddingTop: "16px",
@@ -43,22 +44,24 @@ export const FilterContentWrapper = styled(Box)({
   },
 });
 
-export const Divider = styled(MuiDivider)({
+export const Divider = styledConfig(MuiDivider)({
   borderBottomWidth: "2px",
 });
 
-export const FilterFieldTypography = styled(Typography)(({ textColor }) => ({
-  color: textColor || "grey",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-}));
+export const FilterFieldTypography = styledConfig(Typography)(
+  ({ $textColor }) => ({
+    color: $textColor || "grey",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  })
+);
 
-export const FilterModal = styled(StyledModal)({
+export const FilterModal = styledConfig(StyledModal)({
   minHeight: "200vh",
 });
 
-export const StyledClearFilterIcon = styled(ClearIcon)({
+export const StyledClearFilterIcon = styledConfig(ClearIcon)({
   fontSize: "16px",
 });

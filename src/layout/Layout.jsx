@@ -7,7 +7,6 @@ import NoInternetPage from "../pages/noInternetPage/NoInternetPage";
 import {
   DrawerHeader,
   LayoutComponent,
-  OutletWrapper,
   RightPanel,
 } from "./LayoutStyledComponent";
 
@@ -28,11 +27,9 @@ const Layout = () => {
       <AppBar />
       <RightPanel component="main">
         <DrawerHeader />
-        <OutletWrapper>
-          <NoInternetPage>
-            <Outlet />
-          </NoInternetPage>
-        </OutletWrapper>
+        <NoInternetPage>
+          <Outlet />
+        </NoInternetPage>
       </RightPanel>
     </LayoutComponent>
   );

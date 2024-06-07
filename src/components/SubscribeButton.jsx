@@ -201,7 +201,7 @@ const SubscribeButton = ({
               Cancel
             </UserActionButton>
             <UserActionButton
-              textColor="#3EA6FF"
+              $textColor="#3EA6FF"
               onClick={handleUnsubscribeToChannel}
             >
               Unsubscribe

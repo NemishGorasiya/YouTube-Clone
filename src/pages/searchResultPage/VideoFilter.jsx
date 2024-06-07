@@ -59,7 +59,7 @@ const VideoFilter = ({ updateQueryParams, queryParams }) => {
                       }
                       key={idx}
                       variant="body2"
-                      textColor={
+                      $textColor={
                         queryParams[filterKey] === value ? "#fff" : null
                       }
                     >

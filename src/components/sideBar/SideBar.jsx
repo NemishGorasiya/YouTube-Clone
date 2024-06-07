@@ -50,8 +50,8 @@ const SideBar = ({ open, toggleDrawer }) => {
           (sideBarSection, idx) =>
             (!sideBarSection.isProtected || isLoggedIn) && (
               <Fragment key={idx}>
-                <NavBarList open={open}>
-                  <NavBarListTitle open={open}>
+                <NavBarList $open={open}>
+                  <NavBarListTitle $open={open}>
                     {sideBarSection.title}
                     {sideBarSection.titleIcon}
                   </NavBarListTitle>
@@ -72,14 +72,14 @@ const SideBar = ({ open, toggleDrawer }) => {
                           : {}
                       }
                     >
-                      <ListItem key={idx} open={open}>
-                        <ListItemButton open={open}>
+                      <ListItem key={idx}>
+                        <ListItemButton $open={open}>
                           <ListItemIcon>{link.icon}</ListItemIcon>
                           <ListItemText>
                             <NavLinkTypography
                               variant="body2"
                               noWrap
-                              open={open}
+                              $open={open}
                             >
                               {link.label}
                             </NavLinkTypography>

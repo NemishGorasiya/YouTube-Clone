@@ -1,11 +1,12 @@
-import { Box, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box } from "@mui/material";
 import MuiSwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-export const StyledBox = styled(Box)({
+export const StyledBox = styledConfig(Box)({
   backgroundColor: "grey",
 });
 
-export const Puller = styled(Box)({
+export const Puller = styledConfig(Box)({
   width: 60,
   height: 6,
   backgroundColor: "#fff",
@@ -16,7 +17,7 @@ export const Puller = styled(Box)({
   transform: "translateX(-50%)",
 });
 
-export const SwipeableDrawer = styled(MuiSwipeableDrawer)({
+export const SwipeableDrawer = styledConfig(MuiSwipeableDrawer)({
   ".MuiPaper-root": {
     height: "75%",
     overflow: "visible",

@@ -1,5 +1,6 @@
-import { IconButton, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { IconButton } from "@mui/material";
 
-export const StyledIconButton = styled(IconButton)(({ theme }) => ({
-	background: theme.palette.background.light,
+export const StyledIconButton = styledConfig(IconButton)(({ theme }) => ({
+  background: theme.palette.background.light,
 }));

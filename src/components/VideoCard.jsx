@@ -100,10 +100,10 @@ const VideoCard = ({ video, isListView = false }) => {
 
   return (
     <Card elevation={0} className="videoCard" onClick={handleVideoCardClick}>
-      <CardActionArea isListView={isListView}>
+      <CardActionArea $isListView={isListView}>
         <CardMediaWrapper>
           <CardMedia
-            isListView={isListView}
+            // isListView={isListView}
             component="img"
             image={url || VideoThumbnailFallbackImage}
             alt="Video Thumbnail"

@@ -28,7 +28,7 @@ const CommentContent = ({ textDisplay }) => {
         variant="subtitle1"
         component="pre"
         ref={commentContentRef}
-        isExpanded={isExpanded}
+        $isExpanded={isExpanded}
       >
         <span dangerouslySetInnerHTML={{ __html: customParser(textDisplay) }} />
       </CommentContentTypography>

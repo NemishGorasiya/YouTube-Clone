@@ -16,9 +16,9 @@ const VideoCardSkeleton = ({ isListView }) => {
   return (
     <Grid item>
       <Card elevation={0}>
-        <CardActionArea isListView={isListView}>
+        <CardActionArea $isListView={isListView}>
           <CardMediaWrapper>
-            <CardMedia isListView={isListView}>
+            <CardMedia>
               <VideoThumbnailSkeleton
                 animation="wave"
                 variant="rectangular"

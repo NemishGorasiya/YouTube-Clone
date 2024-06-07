@@ -10,7 +10,11 @@ import {
   UserActionButtonsWrapper,
 } from "./EditableComponentStyledComponents";
 
-const EditableComponent = ({ currentValue, playlistId }) => {
+const EditableComponent = ({
+  currentValue,
+  playlistId,
+  updatePlaylistTitle,
+}) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [newValue, setNewValue] = useState(currentValue);
 
@@ -20,6 +24,7 @@ const EditableComponent = ({ currentValue, playlistId }) => {
 
   const handleCancelButtonClick = () => {
     setIsEditMode(false);
+    setNewValue(currentValue);
   };
 
   const handleInputChange = ({ target: { value } }) => {
@@ -50,20 +55,23 @@ const EditableComponent = ({ currentValue, playlistId }) => {
       });
 
       if (res) {
-        toast("title updated successfully");
+        toast("Playlist title updated successfully");
+        setIsEditMode(false);
+        updatePlaylistTitle(newValue);
       }
     } catch (error) {
+      setNewValue(currentValue);
       console.error(error);
     }
   };
   return (
-    <EditableContentWrapper isEditMode={isEditMode}>
+    <EditableContentWrapper $isEditMode={isEditMode}>
       {isEditMode ? (
         <>
           <TextField
             required={true}
             variant="standard"
-            defaultValue={currentValue}
+            value={newValue}
             onChange={handleInputChange}
             error={newValue === ""}
             helperText={newValue === "" ? "required" : ""}
@@ -75,7 +83,7 @@ const EditableComponent = ({ currentValue, playlistId }) => {
         </>
       ) : (
         <>
-          <h1>{currentValue}</h1>
+          <h1>{newValue}</h1>
           <IconButton onClick={handleEditButtonClick}>
             <EditOutlinedIcon />
           </IconButton>
@@ -88,6 +96,7 @@ const EditableComponent = ({ currentValue, playlistId }) => {
 EditableComponent.propTypes = {
   playlistId: PropTypes.string,
   currentValue: PropTypes.string,
+  updatePlaylistTitle: PropTypes.func,
 };
 
 export default EditableComponent;

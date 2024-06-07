@@ -1,8 +1,9 @@
-import { styled, Typography } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Typography } from "@mui/material";
 
-export const VideoDescriptionComponent = styled(Typography)(
-  ({ isExpanded }) => ({
-    display: isExpanded ? "block" : "-webkit-box",
+export const VideoDescriptionComponent = styledConfig(Typography)(
+  ({ $isExpanded }) => ({
+    display: $isExpanded ? "block" : "-webkit-box",
     WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
@@ -13,7 +14,7 @@ export const VideoDescriptionComponent = styled(Typography)(
   })
 );
 
-export const ToggleButton = styled("span")(({ theme }) => ({
+export const ToggleButton = styledConfig("span")(({ theme }) => ({
   position: "absolute",
   paddingLeft: "8px",
   cursor: "pointer",

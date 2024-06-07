@@ -18,7 +18,7 @@ const PlaylistCardSkeleton = () => {
         />
       </PlaylistCardThumbnailWrapper>
       <Box>
-        <PlaylistMetadata isTitle>
+        <PlaylistMetadata $isTitle>
           <Skeleton animation="wave" variant="text" width="50%" />
         </PlaylistMetadata>
         <PlaylistMetadata>

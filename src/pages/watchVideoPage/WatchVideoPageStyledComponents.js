@@ -1,10 +1,11 @@
+import styledConfig from "../../utils/styledConfig";
 import { Link } from "react-router-dom";
-import { Box, Skeleton, Stack, styled } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import MuiDivider from "@mui/material/Divider";
 import MuiTypography from "@mui/material/Typography";
 import MuiButton from "@mui/material/Button";
 
-export const VideoPageContainer = styled(Box)({
+export const VideoPageContainer = styledConfig(Box)({
   display: "flex",
   gap: "12px",
   "@media (max-width: 1200px)": {
@@ -12,78 +13,78 @@ export const VideoPageContainer = styled(Box)({
   },
 });
 
-export const VideoPageLeftSection = styled(Box)({
+export const VideoPageLeftSection = styledConfig(Box)({
   flex: 3,
 });
 
-export const RelatedVideosWrapper = styled(Box)({
+export const RelatedVideosWrapper = styledConfig(Box)({
   flex: 1,
   gap: "12px",
   display: "flex",
   flexDirection: "column",
 });
 
-export const RelatedVideosContainer = styled(Box)({
+export const RelatedVideosContainer = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
 });
 
-export const VideoPlayerWrapper = styled(Box)({
+export const VideoPlayerWrapper = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
 });
 
-export const ChannelDetailsWrapper = styled(Box)({
+export const ChannelDetailsWrapper = styledConfig(Box)({
   display: "flex",
   gap: "12px",
   alignItems: "center",
 });
 
-export const ChannelTitleTypography = styled(MuiTypography)({
+export const ChannelTitleTypography = styledConfig(MuiTypography)({
   display: "flex",
   alignItems: "center",
   fontSize: "18px",
 });
 
-export const SubscriberCountTypography = styled(MuiTypography)({
+export const SubscriberCountTypography = styledConfig(MuiTypography)({
   fontSize: "15px",
 });
 
-export const ChannelThumbnail = styled("img")({
+export const ChannelThumbnail = styledConfig("img")({
   height: 50,
   width: 50,
   borderRadius: "50%",
 });
 
-export const CommentSectionSkeleton = styled(Skeleton)({
+export const CommentSectionSkeleton = styledConfig(Skeleton)({
   margin: "24px 0",
   transform: "scale(1)",
 });
 
-export const VideoMetadataSkeletonWrapper = styled(Box)({
+export const VideoMetadataSkeletonWrapper = styledConfig(Box)({
   display: "flex",
   justifyContent: "space-between",
 });
 
-export const VideoFunctionButtonSkeletonWrapper = styled(Box)({
+export const VideoFunctionButtonSkeletonWrapper = styledConfig(Box)({
   display: "flex",
   alignItems: "center",
   gap: "8px",
 });
 
-export const YouTubeIframeWrapper = styled(Box)({
+export const YouTubeIframeWrapper = styledConfig(Box)({
   width: "100%",
   height: "auto",
   aspectRatio: "16/9",
 });
 
-export const VideoTitleSkeletonWrapper = styled(Box)({
+export const VideoTitleSkeletonWrapper = styledConfig(Box)({
   height: "50px",
 });
 
-export const VideoTitle = styled(MuiTypography)({
+export const VideoTitle = styledConfig(MuiTypography)({
   overflow: "hidden",
   textOverflow: "ellipsis",
   display: "-webkit-box",
@@ -92,22 +93,22 @@ export const VideoTitle = styled(MuiTypography)({
   fontWeight: 700,
 });
 
-export const YouTubeIframe = styled("iframe")({
+export const YouTubeIframe = styledConfig("iframe")({
   width: "100%",
   height: "100%",
   border: "none",
 });
 
-export const Divider = styled(MuiDivider)(({ theme }) => ({
+export const Divider = styledConfig(MuiDivider)(({ theme }) => ({
   background: theme.palette.primary.main,
 }));
 
-export const ChannelLink = styled(Link)({
+export const ChannelLink = styledConfig(Link)({
   display: "flex",
   gap: "8px",
 });
 
-export const VideoMetadataWrapper = styled(Box)(({ theme }) => ({
+export const VideoMetadataWrapper = styledConfig(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
@@ -119,13 +120,13 @@ export const VideoMetadataWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const Tag = styled(MuiTypography)({
+export const Tag = styledConfig(MuiTypography)({
   display: "inline-block",
   marginRight: "4px",
   color: "#3EA6FF",
 });
 
-export const UserActionButton = styled(MuiButton)(({ theme }) => ({
+export const UserActionButton = styledConfig(MuiButton)(({ theme }) => ({
   background: theme.palette.secondaryBackground.default,
   color: theme.palette.primary.main,
   "&:hover": {
@@ -133,7 +134,7 @@ export const UserActionButton = styled(MuiButton)(({ theme }) => ({
   },
 }));
 
-export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
+export const PlaylistPanelWrapper = styledConfig(Box)(({ theme }) => ({
   maxHeight: "500px",
   background: theme.palette.background.light,
   padding: 3,
@@ -160,7 +161,7 @@ export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const VideoDescriptionContainer = styled(Box)(({ theme }) => ({
+export const VideoDescriptionContainer = styledConfig(Box)(({ theme }) => ({
   background: theme.palette.background.secondary,
   borderRadius: "8px",
   padding: "12px",

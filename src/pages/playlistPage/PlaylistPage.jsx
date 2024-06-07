@@ -62,6 +62,22 @@ const PlaylistPage = () => {
   const { itemCount } = contentDetails || {};
   const { privacyStatus } = status || {};
 
+  const updatePlaylistTitle = (newTitle) => {
+    setPlaylist((prevPlaylist) => {
+      const { list } = prevPlaylist || {};
+      const [firstItem = {}] = list;
+      const updatedFirstItem = {
+        ...firstItem,
+        snippet: { ...firstItem.snippet, title: newTitle },
+      };
+
+      return {
+        ...prevPlaylist,
+        list: [updatedFirstItem],
+      };
+    });
+  };
+
   const getPlaylistDetails = useCallback(
     async ({ abortController }) => {
       try {
@@ -184,6 +200,7 @@ const PlaylistPage = () => {
             <EditableComponent
               playlistId={playlistId}
               currentValue={playlistTitle}
+              updatePlaylistTitle={updatePlaylistTitle}
             />
             <PlaylistDetailTypography>{description}</PlaylistDetailTypography>
             <PlaylistDetailTypography>{channelTitle}</PlaylistDetailTypography>
@@ -251,7 +268,7 @@ const PlaylistPage = () => {
                         Cancel
                       </UserActionButton>
                       <UserActionButton
-                        textColor="#3EA6FF"
+                        $textColor="#3EA6FF"
                         onClick={handleDeletePlaylist}
                       >
                         Delete
@@ -263,7 +280,7 @@ const PlaylistPage = () => {
             )}
           </PlaylistDetails>
           <BlurredBackground
-            playlistThumbnail={standardThumbnailUrl || highThumbnailUrl}
+            $playlistThumbnail={standardThumbnailUrl || highThumbnailUrl}
           />
         </PlaylistSidebar>
       )}

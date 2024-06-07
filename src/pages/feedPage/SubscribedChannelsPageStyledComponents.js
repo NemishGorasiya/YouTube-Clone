@@ -1,7 +1,8 @@
-import { Box, styled, Typography } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box, Typography } from "@mui/material";
 import MuiCheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-export const SubscribedChannelsPageComponent = styled(Box)({
+export const SubscribedChannelsPageComponent = styledConfig(Box)({
   maxWidth: "1300px",
   margin: "0 auto",
   display: "flex",
@@ -9,7 +10,7 @@ export const SubscribedChannelsPageComponent = styled(Box)({
   gap: "20px",
 });
 
-export const ChannelName = styled(Typography)(({ theme }) => ({
+export const ChannelName = styledConfig(Typography)(({ theme }) => ({
   fontSize: "18px",
   lineHeight: "26px",
   marginBottom: "7px",
@@ -18,19 +19,21 @@ export const ChannelName = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
 
-export const CheckCircleIcon = styled(MuiCheckCircleIcon)(({ theme }) => ({
-  fontSize: "14px",
-  marginLeft: "5px",
-  color: theme.palette.primary.light,
-}));
+export const CheckCircleIcon = styledConfig(MuiCheckCircleIcon)(
+  ({ theme }) => ({
+    fontSize: "14px",
+    marginLeft: "5px",
+    color: theme.palette.primary.light,
+  })
+);
 
-export const ChannelMetadataWrapper = styled(Box)({
+export const ChannelMetadataWrapper = styledConfig(Box)({
   flex: "1",
   overflow: "hidden",
   textOverflow: "ellipsis",
 });
 
-export const ChannelCardComponent = styled(Box)(({ theme }) => ({
+export const ChannelCardComponent = styledConfig(Box)(({ theme }) => ({
   display: "flex",
   gap: "100px",
   [theme.breakpoints.down("md")]: {
@@ -41,7 +44,7 @@ export const ChannelCardComponent = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const ChannelThumbnailWrapper = styled(Box)(({ theme }) => ({
+export const ChannelThumbnailWrapper = styledConfig(Box)(({ theme }) => ({
   height: "136px",
   width: "136px",
   minWidth: "136px",
@@ -57,14 +60,14 @@ export const ChannelThumbnailWrapper = styled(Box)(({ theme }) => ({
     minWidth: "45px",
   },
 }));
-export const ChannelThumbnail = styled("img")({
+export const ChannelThumbnail = styledConfig("img")({
   height: "100%",
   width: "100%",
   objectFit: "cover",
   borderRadius: "inherit",
 });
 
-export const ChannelMetadata = styled(Typography)(({ theme }) => ({
+export const ChannelMetadata = styledConfig(Typography)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "12px",
   lineHeight: "18px",

@@ -1,16 +1,17 @@
-import { Box, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box } from "@mui/material";
 
-export const PlaylistChecklistItemSkeletonComponent = styled(Box)({
-	display: "flex",
-	justifyContent: "space-between",
-	alignItems: "center",
-	gap: 8,
-	margin: "8px 0",
+export const PlaylistChecklistItemSkeletonComponent = styledConfig(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: 8,
+  margin: "8px 0",
 });
 
-export const PlaylistChecklistLeftSkeleton = styled(Box)({
-	display: "flex",
-	alignItems: "center",
-	gap: 8,
-	flex: 1,
+export const PlaylistChecklistLeftSkeleton = styledConfig(Box)({
+  display: "flex",
+  alignItems: "center",
+  gap: 8,
+  flex: 1,
 });

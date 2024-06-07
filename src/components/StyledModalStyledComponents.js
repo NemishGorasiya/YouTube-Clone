@@ -1,6 +1,7 @@
-import { IconButton, styled, Box } from "@mui/material";
+import styledConfig from "../utils/styledConfig";
+import { IconButton, Box } from "@mui/material";
 
-export const ModalContentWrapper = styled(Box)(({ theme }) => ({
+export const ModalContentWrapper = styledConfig(Box)(({ theme }) => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -14,13 +15,13 @@ export const ModalContentWrapper = styled(Box)(({ theme }) => ({
   background: theme.palette.background.light,
 }));
 
-export const CloseModalButton = styled(IconButton)({
+export const CloseModalButton = styledConfig(IconButton)({
   position: "absolute",
   right: 5,
   top: 5,
 });
 
-export const ModalContentComponent = styled(Box)({
+export const ModalContentComponent = styledConfig(Box)({
   overflow: "auto",
   maxHeight: "80vh",
   "&::-webkit-scrollbar": {

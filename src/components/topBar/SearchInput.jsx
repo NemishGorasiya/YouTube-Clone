@@ -48,17 +48,15 @@ const SearchInput = () => {
   );
 
   return (
-    <SearchInputContainer isSmallScreen={isSmallScreen}>
+    <SearchInputContainer $isSmallScreen={isSmallScreen}>
       <StyledForm
         onSubmit={handleSearch}
-        searchInputIsFocused={searchInputIsFocused}
-        isSmallScreen={isSmallScreen}
+        $isSmallScreen={isSmallScreen}
+        $searchInputIsFocused={searchInputIsFocused}
       >
         <StyledInputBase
           inputRef={searchInputRef}
           value={searchQuery}
-          searchInputIsFocused={searchInputIsFocused}
-          isSmallScreen={isSmallScreen}
           type="search"
           onFocus={() => {
             setSearchInputIsFocused(true);
@@ -71,11 +69,13 @@ const SearchInput = () => {
             handleChangeInSearchQuery(event.target.value);
           }}
           startAdornment={searchIconAdornment}
+          $isSmallScreen={isSmallScreen}
+          $searchInputIsFocused={searchInputIsFocused}
         />
         {(!isSmallScreen || !searchInputIsFocused) && (
           <SearchIconWrapper
             type={isSmallScreen && !searchInputIsFocused ? "button" : "submit"}
-            isSmallScreen={isSmallScreen}
+            $isSmallScreen={isSmallScreen}
             onClick={(event) => {
               event.stopPropagation();
               setSearchInputIsFocused(true);

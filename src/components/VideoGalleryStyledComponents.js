@@ -1,11 +1,11 @@
-import { styled } from "@mui/material";
+import styledConfig from "../utils/styledConfig";
 import MuiGrid from "@mui/material/Grid";
 
-export const Grid = styled(MuiGrid)(({ theme, isListView }) => ({
+export const Grid = styledConfig(MuiGrid)(({ theme, $isListView }) => ({
   display: "grid",
   gap: "16px",
   paddingTop: "8px",
-  ...(isListView
+  ...($isListView
     ? {
         gridTemplateColumns: "1fr",
         maxWidth: "1300px",

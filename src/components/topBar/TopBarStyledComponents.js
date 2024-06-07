@@ -1,5 +1,5 @@
+import styledConfig from "../../utils/styledConfig";
 import {
-  styled,
   MenuItem,
   ListSubheader,
   Divider,
@@ -10,14 +10,14 @@ import MuiAppBar from "@mui/material/AppBar";
 import MuiIconButton from "@mui/material/IconButton";
 import MuiToolbar from "@mui/material/Toolbar";
 
-export const AppBar = styled(MuiAppBar)(({ theme }) => ({
+export const AppBar = styledConfig(MuiAppBar)(({ theme }) => ({
   zIndex: 1000,
   background: theme.palette.background.default,
   color: theme.palette.primary.main,
   height: "56px",
 }));
 
-export const StyledMenuPaper = styled("div")(({ theme }) => ({
+export const StyledMenuPaper = styledConfig(Box)(({ theme }) => ({
   overflow: "visible !important",
   filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
   marginTop: "0.5rem",
@@ -38,7 +38,7 @@ export const StyledMenuPaper = styled("div")(({ theme }) => ({
   },
 }));
 
-export const Toolbar = styled(MuiToolbar)({
+export const Toolbar = styledConfig(MuiToolbar)({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -48,63 +48,65 @@ export const Toolbar = styled(MuiToolbar)({
   },
 });
 
-export const ListItemLabel = styled(Box)({
+export const ListItemLabel = styledConfig(Box)({
   display: "flex",
   alignItems: "center",
   gap: "8px",
 });
 
-export const TopBarRightMenuItem = styled(MenuItem)(({ theme, isActive }) => ({
-  ...(isActive && { color: theme.palette.blue.primary }),
-}));
+export const TopBarRightMenuItem = styledConfig(MenuItem)(
+  ({ theme, $isActive }) => ({
+    ...($isActive && { color: theme.palette.blue.primary }),
+  })
+);
 
-export const ListItemStyledIcon = styled(ListItemIcon)({
+export const ListItemStyledIcon = styledConfig(ListItemIcon)({
   color: "inherit",
 });
 
-export const CountryMenuItem = styled(MenuItem)(({ isActive }) => ({
+export const CountryMenuItem = styledConfig(MenuItem)(({ $isActive }) => ({
   display: "flex",
   gap: "8px",
-  ...(isActive && { color: "#3EA6FF" }),
+  ...($isActive && { color: "#3EA6FF" }),
 }));
 
-export const TopBarRightDivider = styled(Divider)({
+export const TopBarRightDivider = styledConfig(Divider)({
   "&.MuiDivider-root": {
     margin: "0 !important",
   },
 });
 
-export const TopBarLeft = styled(Box)({
+export const TopBarLeft = styledConfig(Box)({
   display: "flex",
   alignItems: "center",
   gap: "12px",
   marginRight: "24px",
 });
 
-export const IconButton = styled(MuiIconButton)({
+export const IconButton = styledConfig(MuiIconButton)({
   padding: 0,
   marginLeft: "1px",
 });
 
-export const ProfilePictureImage = styled("img")({
+export const ProfilePictureImage = styledConfig("img")({
   width: "32px",
   height: "32px",
   borderRadius: "50%",
   objectFit: "cover",
 });
 
-export const UsernameMenuItem = styled(MenuItem)({
+export const UsernameMenuItem = styledConfig(MenuItem)({
   display: "flex",
   gap: "10px",
 });
 
-export const AvatarWrapper = styled(Box)({
+export const AvatarWrapper = styledConfig(Box)({
   display: "flex",
   alignItems: "center",
   textAlign: "center",
 });
 
-export const CountryListSubheader = styled(ListSubheader)({
+export const CountryListSubheader = styledConfig(ListSubheader)({
   maxHeight: "50vh",
   overflow: "auto",
   "&::-webkit-scrollbar": {
@@ -123,7 +125,7 @@ export const CountryListSubheader = styled(ListSubheader)({
   },
 });
 
-export const LogoContainer = styled(Box)(({ theme }) => ({
+export const LogoContainer = styledConfig(Box)(({ theme }) => ({
   height: "40px",
   display: "flex",
   alignItems: "center",

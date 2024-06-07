@@ -75,7 +75,7 @@ const VideoGallery = ({
   );
 
   return (
-    <Grid container isListView={isListView}>
+    <Grid container $isListView={isListView}>
       <InfiniteScroll
         items={list}
         fetchMoreData={loadMore}

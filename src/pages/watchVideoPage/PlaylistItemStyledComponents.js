@@ -1,9 +1,10 @@
-import { Box, Skeleton, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box, Skeleton } from "@mui/material";
 import MuiIconButton from "@mui/material/IconButton";
 import MuiMenuItem from "@mui/material/MenuItem";
 import MuiTypography from "@mui/material/Typography";
 
-export const VideoImageWrapper = styled(Box)(({ theme }) => ({
+export const VideoImageWrapper = styledConfig(Box)(({ theme }) => ({
   width: "140px",
   aspectRatio: "16/9",
   borderRadius: "8px",
@@ -13,30 +14,30 @@ export const VideoImageWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const VideoImage = styled("img")({
+export const VideoImage = styledConfig("img")({
   height: "100%",
   width: "100%",
   objectFit: "cover",
   borderRadius: "inherit",
 });
 
-export const VideoThumbnailSkeleton = styled(Skeleton)({
+export const VideoThumbnailSkeleton = styledConfig(Skeleton)({
   borderRadius: "inherit",
 });
 
-export const PlaylistItemComponent = styled(Box)({
+export const PlaylistItemComponent = styledConfig(Box)({
   display: "flex",
   justifyContent: "space-between",
   gap: "12px",
 });
 
-export const PlaylistContent = styled(Box)({
+export const PlaylistContent = styledConfig(Box)({
   display: "flex",
   gap: "12px",
   flex: 1,
 });
 
-export const VideoTitle = styled(MuiTypography)(({ theme }) => ({
+export const VideoTitle = styledConfig(MuiTypography)(({ theme }) => ({
   overflow: "hidden",
   textOverflow: "ellipsis",
   display: "-webkit-box",
@@ -46,23 +47,23 @@ export const VideoTitle = styled(MuiTypography)(({ theme }) => ({
   fontWeight: 600,
 }));
 
-export const ChannelName = styled(MuiTypography)(({ theme }) => ({
+export const ChannelName = styledConfig(MuiTypography)(({ theme }) => ({
   overflow: "hidden",
   textOverflow: "ellipsis",
   color: theme.palette.primary.light,
   fontSize: "14px",
 }));
 
-export const IconButton = styled(MuiIconButton)({
+export const IconButton = styledConfig(MuiIconButton)({
   height: "35px",
   width: "35px",
   padding: "5px",
 });
 
-export const MenuItem = styled(MuiMenuItem)({
+export const MenuItem = styledConfig(MuiMenuItem)({
   gap: "4px",
 });
 
-export const VideoTitleWrapper = styled(Box)({
+export const VideoTitleWrapper = styledConfig(Box)({
   flex: 1,
 });

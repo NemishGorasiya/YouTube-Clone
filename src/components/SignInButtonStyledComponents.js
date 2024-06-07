@@ -1,8 +1,8 @@
+import styledConfig from "../utils/styledConfig";
 import { Link } from "react-router-dom";
-import { styled } from "@mui/material";
 import MuiButton from "@mui/material/Button";
 
-export const Button = styled(MuiButton)({
+export const Button = styledConfig(MuiButton)({
   color: "#3EA6FF",
   display: "flex",
   alignItems: "center",
@@ -12,6 +12,6 @@ export const Button = styled(MuiButton)({
   fontSize: 15,
 });
 
-export const StyledLink = styled(Link)({
+export const StyledLink = styledConfig(Link)({
   minWidth: "fit-content",
 });

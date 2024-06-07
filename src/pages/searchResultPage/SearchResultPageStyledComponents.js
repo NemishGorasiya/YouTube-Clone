@@ -1,5 +1,6 @@
-import { Box, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box } from "@mui/material";
 
-export const VideoFilterButtonWrapper = styled(Box)(() => ({
+export const VideoFilterButtonWrapper = styledConfig(Box)(() => ({
   textAlign: "end",
 }));

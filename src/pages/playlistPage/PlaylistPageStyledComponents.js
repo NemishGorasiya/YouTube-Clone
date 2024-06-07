@@ -1,11 +1,12 @@
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
 import MuiSelect from "@mui/material/Select";
 import MuiIconButton from "@mui/material/IconButton";
+import styledConfig from "../../utils/styledConfig";
 import MuiButton from "@mui/material/Button";
 import MuiMenuItem from "@mui/material/MenuItem";
 
-export const PlaylistPageComponent = styled(Box)(({ theme }) => ({
+export const PlaylistPageComponent = styledConfig(Box)(({ theme }) => ({
   display: "flex",
   gap: "8px",
   [theme.breakpoints.down("lg")]: {
@@ -13,7 +14,7 @@ export const PlaylistPageComponent = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const PlaylistSidebar = styled(Box)(({ theme }) => ({
+export const PlaylistSidebar = styledConfig(Box)(({ theme }) => ({
   width: "360px",
   height: "calc(100vh - 56px)",
   borderRadius: 16,
@@ -39,21 +40,23 @@ export const PlaylistSidebar = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const BlurredBackground = styled(Box)(({ playlistThumbnail }) => ({
-  position: "absolute",
-  backgroundImage: `url(${playlistThumbnail})`,
-  filter: "blur(75px)",
-  backdropFilter: "blur(5px)",
-  height: "100%",
-  width: "100%",
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: -1,
-  borderRadius: "inherit",
-}));
+export const BlurredBackground = styledConfig(Box)(
+  ({ $playlistThumbnail }) => ({
+    position: "absolute",
+    backgroundImage: `url(${$playlistThumbnail})`,
+    filter: "blur(75px)",
+    backdropFilter: "blur(5px)",
+    height: "100%",
+    width: "100%",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: -1,
+    borderRadius: "inherit",
+  })
+);
 
-export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
+export const PlaylistPanelWrapper = styledConfig(Box)(({ theme }) => ({
   flex: 1,
   overflow: "auto",
   height: "calc(100vh - 56px)",
@@ -78,7 +81,7 @@ export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const PlaylistImageWrapper = styled(Box)(({ theme }) => ({
+export const PlaylistImageWrapper = styledConfig(Box)(({ theme }) => ({
   width: "100%",
   aspectRatio: "16/9",
   borderRadius: 12,
@@ -88,18 +91,18 @@ export const PlaylistImageWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const PlaylistImage = styled("img")({
+export const PlaylistImage = styledConfig("img")({
   width: "100%",
   height: "100%",
   borderRadius: "inherit",
   objectFit: "cover",
 });
 
-export const SecondaryTypography = styled(MuiTypography)(({ theme }) => ({
+export const SecondaryTypography = styledConfig(MuiTypography)(({ theme }) => ({
   color: theme.palette.primary.light,
 }));
 
-export const PlaylistDetails = styled(Box)({
+export const PlaylistDetails = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   width: "100%",
@@ -107,30 +110,30 @@ export const PlaylistDetails = styled(Box)({
   color: "#F1F1F1",
 });
 
-export const PlaylistDetailTypography = styled(MuiTypography)({
+export const PlaylistDetailTypography = styledConfig(MuiTypography)({
   display: "flex",
   alignItems: "center",
   gap: 2,
 });
 
-export const MenuItem = styled(MuiMenuItem)({
+export const MenuItem = styledConfig(MuiMenuItem)({
   gap: 4,
 });
 
-export const UserActionButtonWrapper = styled(Box)({
+export const UserActionButtonWrapper = styledConfig(Box)({
   textAlign: "end",
 });
 
-export const IconButton = styled(MuiIconButton)({
+export const IconButton = styledConfig(MuiIconButton)({
   background: "rgba(255,255,255,0.2)",
   width: "fit-content",
 });
 
-export const PrivacyPolicySelect = styled(MuiSelect)({
+export const PrivacyPolicySelect = styledConfig(MuiSelect)({
   width: "fit-content",
 });
 
-export const MenuItemTextWrapper = styled(MuiMenuItem)({
+export const MenuItemTextWrapper = styledConfig(MuiMenuItem)({
   display: "flex",
   flexDirection: "column",
   alignItems: "start",
@@ -139,15 +142,17 @@ export const MenuItemTextWrapper = styled(MuiMenuItem)({
   },
 });
 
-export const UserActionButton = styled(MuiButton)(({ theme, textColor }) => ({
-  color: textColor || theme.palette.primary.main,
-}));
+export const UserActionButton = styledConfig(MuiButton)(
+  ({ theme, textColor }) => ({
+    color: textColor || theme.palette.primary.main,
+  })
+);
 
-export const PlaylistSidebarSkeletonWrapper = styled(PlaylistSidebar)({
+export const PlaylistSidebarSkeletonWrapper = styledConfig(PlaylistSidebar)({
   padding: 0,
 });
 
-export const ConfirmationModalContent = styled(Box)({
+export const ConfirmationModalContent = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "12px",

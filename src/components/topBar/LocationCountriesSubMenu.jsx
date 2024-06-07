@@ -46,7 +46,7 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
           return (
             <CountryMenuItem
               key={id}
-              isActive={isActive}
+              $isActive={isActive}
               onClick={() => {
                 handleChangeLocation(gl);
               }}

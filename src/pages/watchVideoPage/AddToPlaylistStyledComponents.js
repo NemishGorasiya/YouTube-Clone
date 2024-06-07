@@ -1,8 +1,9 @@
-import { Box, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box } from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import MuiMenuItem from "@mui/material/MenuItem";
 
-export const AddToPlaylistButton = styled(Box)({
+export const AddToPlaylistButton = styledConfig(Box)({
   display: "flex",
   alignItems: "center",
   gap: "4px",
@@ -10,13 +11,13 @@ export const AddToPlaylistButton = styled(Box)({
   borderRadius: "inherit",
 });
 
-export const CreatePlaylistButton = styled(MuiButton)({
+export const CreatePlaylistButton = styledConfig(MuiButton)({
   width: "fit-content",
   alignSelf: "end",
   padding: "8px",
 });
 
-export const CreateNewPlaylistButton = styled(MuiButton)({
+export const CreateNewPlaylistButton = styledConfig(MuiButton)({
   display: "flex",
   justifyContent: "flex-start",
   paddingLeft: 0,
@@ -25,19 +26,19 @@ export const CreateNewPlaylistButton = styled(MuiButton)({
   textTransform: "capitalize",
 });
 
-export const FormControlWrapper = styled(Box)({
+export const FormControlWrapper = styledConfig(Box)({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
 });
 
-export const NewPlaylistForm = styled("form")({
+export const NewPlaylistForm = styledConfig("form")({
   display: "flex",
   flexDirection: "column",
   gap: 16,
 });
 
-export const MenuItemTextWrapper = styled(MuiMenuItem)({
+export const MenuItemTextWrapper = styledConfig(MuiMenuItem)({
   display: "flex",
   flexDirection: "column",
   alignItems: "start",
@@ -46,7 +47,7 @@ export const MenuItemTextWrapper = styled(MuiMenuItem)({
   },
 });
 
-export const AddToPlaylistModalContent = styled(Box)({
+export const AddToPlaylistModalContent = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "12px",

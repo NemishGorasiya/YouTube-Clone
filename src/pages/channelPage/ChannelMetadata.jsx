@@ -106,7 +106,7 @@ const ChannelMetadata = ({ channelId }) => {
               />
             </ChannelThumbnailWrapper>
             <ChannelDetailsWrapper>
-              <Typography variant="h4" component="h1" channelTitle>
+              <Typography variant="h4" component="h1" $channelTitle>
                 {title}
               </Typography>
               <Typography variant="body2" component="p">
@@ -116,7 +116,7 @@ const ChannelMetadata = ({ channelId }) => {
               <Typography
                 variant="body2"
                 component="p"
-                channelDescription
+                $channelDescription
                 onClick={openChannelDescriptionModal}
               >
                 <p

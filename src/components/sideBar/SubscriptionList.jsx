@@ -113,8 +113,8 @@ const SubscriptionList = ({ open }) => {
   return (
     open && (
       <Box>
-        <NavBarList open={open}>
-          <NavBarListTitle open={open}>Subscriptions</NavBarListTitle>
+        <NavBarList $open={open}>
+          <NavBarListTitle $open={open}>Subscriptions</NavBarListTitle>
           {subscribedChannelsList.map((channel) => (
             <SubscribedChannelSideBarLink key={channel.id} channel={channel} />
           ))}
@@ -122,12 +122,12 @@ const SubscriptionList = ({ open }) => {
           {subscribedChannelsList.length > 0 && (
             <StyledNavLink to="/feed/channels">
               <ListItem open={open}>
-                <ListItemButton open={open}>
+                <ListItemButton $open={open}>
                   <ListItemIcon>
                     <FormatListBulletedIcon />
                   </ListItemIcon>
                   <ListItemText>
-                    <NavLinkTypography variant="body2" noWrap open={open}>
+                    <NavLinkTypography variant="body2" noWrap $open={open}>
                       All subscription
                     </NavLinkTypography>
                   </ListItemText>
@@ -145,7 +145,7 @@ const SubscriptionList = ({ open }) => {
                   : getSubscribedChannels
               }
             >
-              <ListItemButton open={open}>
+              <ListItemButton $open={open}>
                 <ListItemIcon>
                   {hasMoreSubscribedChannels ? (
                     <KeyboardArrowDownIcon />
@@ -154,7 +154,7 @@ const SubscriptionList = ({ open }) => {
                   )}
                 </ListItemIcon>
                 <ListItemText>
-                  <NavLinkTypography variant="body2" noWrap open={open}>
+                  <NavLinkTypography variant="body2" noWrap $open={open}>
                     Show {hasMoreSubscribedChannels ? "more" : "less"}
                   </NavLinkTypography>
                 </ListItemText>

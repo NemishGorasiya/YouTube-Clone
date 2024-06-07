@@ -20,8 +20,7 @@ const VideoDescription = ({ description, parentRef }) => {
   return (
     description && (
       <VideoDescriptionComponent
-        isExpanded={isExpanded}
-        className={`videoDescription ${isExpanded ? "expanded" : ""}`}
+        $isExpanded={isExpanded}
         variant="body1"
         component="pre"
       >

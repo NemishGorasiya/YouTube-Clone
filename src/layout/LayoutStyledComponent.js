@@ -14,11 +14,7 @@ export const RightPanel = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const OutletWrapper = styled(Box)({
-  // paddingTop: "8px",
-});
-
-export const DrawerHeader = styled("div")(({ theme }) => ({
+export const DrawerHeader = styled(Box)(({ theme }) => ({
   ...theme.mixins.toolbar,
   height: "56px",
   "@media (min-width: 600px)": {

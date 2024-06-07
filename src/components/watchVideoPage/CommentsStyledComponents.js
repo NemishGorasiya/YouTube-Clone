@@ -1,31 +1,32 @@
-import { Box, Skeleton, TextField, styled } from "@mui/material";
+import styledConfig from "../../utils/styledConfig";
+import { Box, Skeleton, TextField } from "@mui/material";
 import MuiButton from "@mui/material/Button";
 import MuiTypography from "@mui/material/Typography";
 
-export const Button = styled(MuiButton)(
-  ({ textColor, onHoverBackgroundColor }) => ({
-    color: textColor,
+export const Button = styledConfig(MuiButton)(
+  ({ $textColor, $onHoverBackgroundColor }) => ({
+    color: $textColor,
     "&:hover": {
-      background: onHoverBackgroundColor,
+      background: $onHoverBackgroundColor,
     },
   })
 );
 
-export const CommentEngagement = styled(Box)({
+export const CommentEngagement = styledConfig(Box)({
   display: "flex",
   alignItems: "center",
   gap: "8px",
   marginTop: "4px",
 });
 
-export const CommentAuthorName = styled(MuiTypography)({
+export const CommentAuthorName = styledConfig(MuiTypography)({
   textOverflow: "ellipsis",
   overflow: "hidden",
   whiteSpace: "nowrap",
   maxWidth: "200px",
 });
 
-export const CommentPublishTime = styled(MuiTypography)({
+export const CommentPublishTime = styledConfig(MuiTypography)({
   textOverflow: "ellipsis",
   overflow: "hidden",
   whiteSpace: "nowrap",
@@ -33,41 +34,43 @@ export const CommentPublishTime = styled(MuiTypography)({
   color: "gray",
 });
 
-export const CommentDetails = styled(MuiTypography)({
+export const CommentDetails = styledConfig(MuiTypography)({
   flex: 1,
 });
 
-export const CommentMetadata = styled(Box)({
+export const CommentMetadata = styledConfig(Box)({
   display: "flex",
   gap: "8px",
   alignItems: "center",
 });
 
-export const CommentComponent = styled(Box)({
+export const CommentComponent = styledConfig(Box)({
   display: "flex",
   gap: "12px",
 });
 
-export const CommentAuthorImage = styled("img")({
+export const CommentAuthorImage = styledConfig("img")({
   height: "50px",
   borderRadius: "50%",
 });
 
-export const ReplyCommentForm = styled("form")({
+export const ReplyCommentForm = styledConfig("form")({
   display: "flex",
 });
 
-export const ReadMoreCommentContent = styled(MuiTypography)(({ theme }) => ({
-  padding: 0,
-  color: theme.palette.primary.light,
-  cursor: "pointer",
-  "&: hover": {
-    textDecoration: "underline",
-  },
-}));
+export const ReadMoreCommentContent = styledConfig(MuiTypography)(
+  ({ theme }) => ({
+    padding: 0,
+    color: theme.palette.primary.light,
+    cursor: "pointer",
+    "&: hover": {
+      textDecoration: "underline",
+    },
+  })
+);
 
-export const CommentContentTypography = styled(MuiTypography)(
-  ({ isExpanded }) => ({
+export const CommentContentTypography = styledConfig(MuiTypography)(
+  ({ $isExpanded }) => ({
     textWrap: "wrap",
     lineHeight: "20px",
     rowGap: 0,
@@ -76,16 +79,16 @@ export const CommentContentTypography = styled(MuiTypography)(
     display: "-webkit-box",
     WebkitLineClamp: 4,
     WebkitBoxOrient: "vertical",
-    ...(isExpanded && {
+    ...($isExpanded && {
       display: "block",
     }),
   })
 );
 
-export const CommentAuthorThumbnailSkeleton = styled(Skeleton)({
+export const CommentAuthorThumbnailSkeleton = styledConfig(Skeleton)({
   minWidth: "50px",
 });
 
-export const ReplyTextField = styled(TextField)({
+export const ReplyTextField = styledConfig(TextField)({
   flex: 1,
 });

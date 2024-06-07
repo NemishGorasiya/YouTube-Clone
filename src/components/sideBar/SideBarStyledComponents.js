@@ -1,5 +1,5 @@
+import styledConfig from "../../utils/styledConfig";
 import { NavLink } from "react-router-dom";
-import { styled } from "@mui/material";
 import List from "@mui/material/List";
 import MuiListItem from "@mui/material/ListItem";
 import MuiListItemButton from "@mui/material/ListItemButton";
@@ -8,25 +8,25 @@ import MuiTypography from "@mui/material/Typography";
 import MuiBox from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 
-export const DrawerHeader = styled(MuiBox)(({ theme }) => ({
+export const DrawerHeader = styledConfig(MuiBox)(({ theme }) => ({
   ...theme.mixins.toolbar,
   top: "50px",
 }));
 
-export const ListItemButton = styled(MuiListItemButton)(({ open }) => ({
+export const ListItemButton = styledConfig(MuiListItemButton)(({ $open }) => ({
   paddingRight: "12px",
   paddingLeft: "12px",
   gap: "24px",
   height: "40px",
   position: "relative",
-  ...(!open && {
+  ...(!$open && {
     flexDirection: "column",
     gap: "0",
     height: "auto",
   }),
 }));
 
-export const ListItem = styled(MuiListItem)(({ theme }) => ({
+export const ListItem = styledConfig(MuiListItem)(({ theme }) => ({
   color: theme.palette.primary.main,
   borderRadius: "10px",
   padding: "0",
@@ -35,14 +35,14 @@ export const ListItem = styled(MuiListItem)(({ theme }) => ({
   },
 }));
 
-export const SignInSection = styled(MuiBox)({
+export const SignInSection = styledConfig(MuiBox)({
   padding: "12px 0",
   display: "flex",
   flexDirection: "column",
   gap: "10px",
 });
 
-export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
+export const Drawer = styledConfig(MuiDrawer)(({ theme, open }) => ({
   display: "flex",
   justifyContent: "center",
   zIndex: 1,
@@ -71,14 +71,14 @@ export const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
   },
 }));
 
-export const ListItemIcon = styled(MuiListItemIcon)(({ theme }) => ({
+export const ListItemIcon = styledConfig(MuiListItemIcon)(({ theme }) => ({
   color: theme.palette.primary.light,
   minWidth: 0,
   height: "24px",
   width: "24px",
 }));
 
-export const StyledNavLink = styled(NavLink)(({ theme }) => ({
+export const StyledNavLink = styledConfig(NavLink)(({ theme }) => ({
   "&.active li": {
     display: "block",
     background: theme.palette.background.light,
@@ -86,36 +86,23 @@ export const StyledNavLink = styled(NavLink)(({ theme }) => ({
   },
 }));
 
-export const ListItemIconImage = styled("img")({
+export const ListItemIconImage = styledConfig("img")({
   height: "100%",
   width: "100%",
   borderRadius: "50%",
   objectFit: "cover",
 });
-export const NewItemIndicator = styled(MuiBox)(({ open }) => ({
-  position: "absolute",
-  height: "4px",
-  width: "4px",
-  borderRadius: "50%",
-  top: "50%",
-  right: "5px",
-  transform: "translateY(-50%)",
-  background: "#3EA6FF",
-  ...(!open && {
-    display: "none",
-  }),
-}));
 
-export const NavBarListTitle = styled("p")(({ open }) => ({
+export const NavBarListTitle = styledConfig("p")(({ $open }) => ({
   paddingLeft: "13px",
   display: "flex",
   alignItems: "center",
-  ...(!open && {
+  ...(!$open && {
     display: "none",
   }),
 }));
 
-export const SideBarLinksWrapper = styled(MuiBox)({
+export const SideBarLinksWrapper = styledConfig(MuiBox)({
   overflowY: "auto",
   overflowX: "hidden",
   "&::-webkit-scrollbar": {
@@ -123,13 +110,13 @@ export const SideBarLinksWrapper = styled(MuiBox)({
   },
 });
 
-export const NavBarList = styled(List)(({ open }) =>
-  open ? { maxWidth: "200px" } : { maxWidth: "100%" }
+export const NavBarList = styledConfig(List)(({ $open }) =>
+  $open ? { maxWidth: "200px" } : { maxWidth: "100%" }
 );
 
-export const NavLinkTypography = styled(MuiTypography)(
-  ({ open }) =>
-    !open && {
+export const NavLinkTypography = styledConfig(MuiTypography)(
+  ({ $open }) =>
+    !$open && {
       fontSize: "10px",
       maxWidth: "50px",
     }

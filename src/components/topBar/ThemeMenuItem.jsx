@@ -38,7 +38,7 @@ const ThemeMenuItem = () => {
                 onClick={() => {
                   changeThemeMode(value);
                 }}
-                isActive={isActive}
+                $isActive={isActive}
               >
                 <ListItemStyledIcon>{icon}</ListItemStyledIcon>
                 <ListItemLabel>

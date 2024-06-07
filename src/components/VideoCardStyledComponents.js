@@ -1,4 +1,5 @@
-import { Skeleton, styled } from "@mui/material";
+import styledConfig from "../utils/styledConfig";
+import { Skeleton } from "@mui/material";
 import MuiBox from "@mui/material/Box";
 import MuiCard from "@mui/material/Card";
 import MuiCardContent from "@mui/material/CardContent";
@@ -7,13 +8,14 @@ import MuiTypography from "@mui/material/Typography";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 
-export const Card = styled(MuiCard)(({ theme }) => ({
+export const Card = styledConfig(MuiCard)(({ theme }) => ({
   background: theme.palette.background.default,
   color: theme.palette.primary.main,
   position: "relative",
   overflow: "visible",
   cursor: "pointer",
   height: "100%",
+
   "&::before": {
     content: `""`,
     position: "absolute",
@@ -26,33 +28,35 @@ export const Card = styled(MuiCard)(({ theme }) => ({
     zIndex: 0,
     opacity: 0,
   },
+
   "&:hover::before": {
     transform: "scale(1.04)",
     borderRadius: "16px",
     opacity: 1,
   },
+
   "& > *": {
     position: "relative",
     zIndex: 1,
   },
 }));
 
-export const CardMedia = styled(MuiCardMedia)({
+export const CardMedia = styledConfig(MuiCardMedia)({
   borderRadius: "14px",
   aspectRatio: "25/14",
   height: "auto",
 });
 
-export const VideoThumbnailSkeleton = styled(Skeleton)({
+export const VideoThumbnailSkeleton = styledConfig(Skeleton)({
   borderRadius: "inherit",
 });
 
-export const CardMediaWrapper = styled(MuiBox)({
+export const CardMediaWrapper = styledConfig(MuiBox)({
   position: "relative",
   width: "100%",
 });
 
-export const VideoIsLiveIndicator = styled("span")({
+export const VideoIsLiveIndicator = styledConfig("span")({
   background: "red",
   fontSize: "12px",
   borderRadius: "2px",
@@ -62,7 +66,7 @@ export const VideoIsLiveIndicator = styled("span")({
   display: "inline-block",
 });
 
-export const UpcomingIndicator = styled("span")(({ theme }) => ({
+export const UpcomingIndicator = styledConfig("span")(({ theme }) => ({
   background: theme.palette.background.light,
   fontSize: "12px",
   borderRadius: "2px",
@@ -73,12 +77,12 @@ export const UpcomingIndicator = styled("span")(({ theme }) => ({
   marginRight: "4px",
 }));
 
-export const LiveTvStyledIcon = styled(LiveTvIcon)({
+export const LiveTvStyledIcon = styledConfig(LiveTvIcon)({
   fontSize: "12px",
   marginRight: "4px",
 });
 
-export const VideoDurationBadge = styled(MuiBox)({
+export const VideoDurationBadge = styledConfig(MuiBox)({
   position: "absolute",
   bottom: "8px",
   right: "12px",
@@ -92,7 +96,7 @@ export const VideoDurationBadge = styled(MuiBox)({
   color: "#fff",
 });
 
-export const CardContent = styled(MuiCardContent)({
+export const CardContent = styledConfig(MuiCardContent)({
   padding: "0",
   display: "flex",
   gap: "8px",
@@ -105,15 +109,15 @@ export const CardContent = styled(MuiCardContent)({
   },
 });
 
-export const ChannelThumbnail = styled("img")({
+export const ChannelThumbnail = styledConfig("img")({
   height: "36px",
   width: "36px",
   borderRadius: "50%",
 });
 
-export const CardActionArea = styled(MuiBox)(({ isListView }) => ({
+export const CardActionArea = styledConfig(MuiBox)(({ $isListView }) => ({
   display: "flex",
-  ...(isListView
+  ...($isListView
     ? {
         gap: "16px",
         alignItems: "start",
@@ -124,7 +128,7 @@ export const CardActionArea = styled(MuiBox)(({ isListView }) => ({
       }),
 }));
 
-export const VideoTitle = styled(MuiTypography)({
+export const VideoTitle = styledConfig(MuiTypography)({
   lineHeight: "1.5",
   fontSize: "16px",
   fontWeight: "500",
@@ -135,26 +139,26 @@ export const VideoTitle = styled(MuiTypography)({
   WebkitLineClamp: "2",
 });
 
-export const ChannelName = styled(MuiTypography)({
+export const ChannelName = styledConfig(MuiTypography)({
   display: "flex",
   alignItems: "center",
   fontSize: "14px",
 });
 
-export const VideoMetadata = styled(MuiBox)(({ theme }) => ({
+export const VideoMetadata = styledConfig(MuiBox)(({ theme }) => ({
   color: theme.palette.primary.light,
   fontSize: "14px",
 }));
 
-export const VideoMetadataTypography = styled(MuiTypography)(() => ({
+export const VideoMetadataTypography = styledConfig(MuiTypography)(() => ({
   fontSize: "14px",
 }));
 
-export const VideoDetail = styled(MuiBox)({
+export const VideoDetail = styledConfig(MuiBox)({
   flex: 1,
   overflow: "hidden",
 });
 
-export const CheckCircleStyledIcon = styled(CheckCircleIcon)({
+export const CheckCircleStyledIcon = styledConfig(CheckCircleIcon)({
   marginLeft: "5px",
 });

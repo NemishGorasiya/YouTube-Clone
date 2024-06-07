@@ -53,13 +53,14 @@ const LikeDislike = ({
     }),
     [videoId]
   );
+
   const requestProps = useMemo(
     () => ({
       url: "/videos/getRating",
       queryParams,
-      disabled: !isLoggedIn,
+      disabled: !isLoggedIn || isCommentLikeDislike,
     }),
-    [isLoggedIn, queryParams]
+    [isCommentLikeDislike, isLoggedIn, queryParams]
   );
   const { data } = useFetch(requestProps);
 
@@ -71,13 +72,13 @@ const LikeDislike = ({
   }, [data]);
 
   return (
-    <LikeDislikeButtonWrapper isCommentLikeDislike={isCommentLikeDislike}>
+    <LikeDislikeButtonWrapper $isCommentLikeDislike={isCommentLikeDislike}>
       <LikeButton
         disabled={!isLoggedIn}
         onClick={() => {
           rateVideo("like");
         }}
-        isCommentLikeDislike={isCommentLikeDislike}
+        $isCommentLikeDislike={isCommentLikeDislike}
       >
         {rating === "like" ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
         {formatCompactNumber(likeCount)}
@@ -90,7 +91,7 @@ const LikeDislike = ({
         onClick={() => {
           rateVideo("dislike");
         }}
-        isCommentLikeDislike={isCommentLikeDislike}
+        $isCommentLikeDislike={isCommentLikeDislike}
       >
         {rating === "dislike" ? <ThumbDownIcon /> : <ThumbDownOffAltIcon />}
       </DislikeButton>
@@ -102,6 +103,7 @@ LikeDislike.propTypes = {
   isLoggedIn: PropTypes.bool,
   videoId: PropTypes.string,
   likeCount: PropTypes.string,
+  isCommentLikeDislike: PropTypes.bool,
 };
 
 export default LikeDislike;

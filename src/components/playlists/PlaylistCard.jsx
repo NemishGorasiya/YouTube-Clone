@@ -71,15 +71,15 @@ const PlaylistCard = ({ playlist }) => {
           alt="playlist Thumbnail"
           referrerPolicy="no-referrer"
         />
-        <PlaylistCardStackLayer layer={1} />
-        <PlaylistCardStackLayer layer={2} />
+        <PlaylistCardStackLayer $layer={1} />
+        <PlaylistCardStackLayer $layer={2} />
         <VideoCountBadge>
           <PlaylistPlayStyledIcon />
           {itemCount === 0 ? "No" : itemCount} videos
         </VideoCountBadge>
       </PlaylistCardThumbnailWrapper>
       <Box>
-        <PlaylistMetadata isTitle>{title}</PlaylistMetadata>
+        <PlaylistMetadata $isTitle>{title}</PlaylistMetadata>
         <PlaylistMetadata>{privacyStatus}</PlaylistMetadata>
         <PlaylistMetadata>
           published {calcDistanceToNow({ time: publishedAt })}

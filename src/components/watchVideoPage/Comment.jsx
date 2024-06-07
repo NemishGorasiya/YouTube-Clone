@@ -181,8 +181,8 @@ const Comment = ({ snippet, totalReplyCount, commentId }) => {
           <Button
             variant="text"
             onClick={handleReplyCountButtonClick}
-            textColor="#3EA6FF"
-            onHoverBackgroundColor="#263850"
+            $textColor="#3EA6FF"
+            $onHoverBackgroundColor="#263850"
           >
             {isRepliesVisible ? (
               <KeyboardArrowUpIcon />
