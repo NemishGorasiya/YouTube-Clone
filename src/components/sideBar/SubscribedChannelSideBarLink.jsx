@@ -21,7 +21,7 @@ const SubscribedChannelSideBarLink = ({ channel }) => {
   return (
     title && (
       <StyledNavLink key={channelId} to={`/channel/${channelId}`}>
-        <ListItem open={open}>
+        <ListItem>
           <ListItemButton $open={open}>
             <ListItemIcon>
               <ListItemIconImage

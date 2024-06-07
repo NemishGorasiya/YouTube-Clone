@@ -40,7 +40,7 @@ const SearchInput = () => {
   };
 
   const searchIconAdornment = searchInputIsFocused ? (
-    <InputAdornment>
+    <InputAdornment position="start">
       <SearchIcon />
     </InputAdornment>
   ) : (

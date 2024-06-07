@@ -119,7 +119,7 @@ const ChannelMetadata = ({ channelId }) => {
                 $channelDescription
                 onClick={openChannelDescriptionModal}
               >
-                <p
+                <span
                   dangerouslySetInnerHTML={{
                     __html: customParser(description),
                   }}

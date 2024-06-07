@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styledConfig from "../utils/styledConfig";
 import { Box, Button, Typography } from "@mui/material";
 
@@ -19,4 +20,8 @@ export const PlaylistTitleTypography = styledConfig(Typography)({
 export const PlaylistViewAllButton = styledConfig(Button)({
   minWidth: "fit-content",
   height: "fit-content",
+});
+
+export const PlaylistViewAllButtonWrapperLink = styledConfig(Link)({
+  flexShrink: 0,
 });

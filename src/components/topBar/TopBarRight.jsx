@@ -139,32 +139,29 @@ const TopBarRight = () => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {isLoggedIn && (
-          <>
-            <UsernameMenuItem>
-              <ProfilePictureImage
-                src={profilePicture}
-                referrerPolicy="no-referrer"
-                alt="profileImage"
-              />
-              <div>
-                <p>{username}</p> <p>{email}</p>
-              </div>
-            </UsernameMenuItem>
-            <TopBarRightDivider />
-          </>
+          <UsernameMenuItem>
+            <ProfilePictureImage
+              src={profilePicture}
+              referrerPolicy="no-referrer"
+              alt="profileImage"
+            />
+            <div>
+              <p>{username}</p>
+              <p>{email}</p>
+            </div>
+          </UsernameMenuItem>
         )}
+        {isLoggedIn && <TopBarRightDivider />}
         <ThemeMenuItem />
         <LocationMenuItem />
+        {isLoggedIn && <TopBarRightDivider />}
         {isLoggedIn && (
-          <>
-            <TopBarRightDivider />
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Sign out
-            </MenuItem>
-          </>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Sign out
+          </MenuItem>
         )}
       </Menu>
     </Box>

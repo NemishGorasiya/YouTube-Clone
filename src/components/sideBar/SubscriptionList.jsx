@@ -121,7 +121,7 @@ const SubscriptionList = ({ open }) => {
 
           {subscribedChannelsList.length > 0 && (
             <StyledNavLink to="/feed/channels">
-              <ListItem open={open}>
+              <ListItem>
                 <ListItemButton $open={open}>
                   <ListItemIcon>
                     <FormatListBulletedIcon />
@@ -138,7 +138,6 @@ const SubscriptionList = ({ open }) => {
 
           {(subscribedChannelsList.length > 5 || hasMoreSubscribedChannels) && (
             <ListItem
-              open={open}
               onClick={
                 hasMoreSubscribedChannels
                   ? loadMoreSubscribedChannels

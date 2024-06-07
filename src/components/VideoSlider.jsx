@@ -14,6 +14,7 @@ import {
   PlaylistTitleTypography,
   PlaylistTitleWrapper,
   PlaylistViewAllButton,
+  PlaylistViewAllButtonWrapperLink,
 } from "./VideoSliderStyledComponents";
 import "./VideoSlider.scss";
 
@@ -125,7 +126,7 @@ const VideoSlider = ({ playlistId }) => {
         <PlaylistTitleTypography component="h3">
           {playlistTitle}
         </PlaylistTitleTypography>
-        <Link
+        <PlaylistViewAllButtonWrapperLink
           to={`/watch?v=${firstVideoId}&list=${playlistId}&listName=${encodeURIComponent(
             playlistTitle
           )}`}
@@ -133,12 +134,13 @@ const VideoSlider = ({ playlistId }) => {
           <PlaylistViewAllButton variant="text" startIcon={<PlayArrowIcon />}>
             Play all
           </PlaylistViewAllButton>
-        </Link>
+        </PlaylistViewAllButtonWrapperLink>
       </PlaylistTitleWrapper>
       <Swiper
         navigation={true}
         modules={[Navigation]}
         slidesPerView={2}
+        slidesPerGroup={2}
         spaceBetween={5}
         breakpointsBase="container"
         breakpoints={{

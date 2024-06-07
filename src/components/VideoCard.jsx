@@ -52,6 +52,10 @@ const VideoCard = ({ video, isListView = false }) => {
 
   const handleVideoCardClick = () => {
     navigate(`/watch?v=${videoId || id.videoId || id}`);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const navigateToChannelPage = (event) => {

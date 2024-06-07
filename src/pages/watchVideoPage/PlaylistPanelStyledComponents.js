@@ -6,6 +6,8 @@ export const PlaylistPanelComponent = styledConfig(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
+  maxHeight: "inherit",
+  maxWidth: "100%",
 });
 
 export const PlaylistPanelTitle = styledConfig(Typography)({

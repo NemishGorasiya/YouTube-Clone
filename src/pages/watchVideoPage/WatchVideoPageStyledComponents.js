@@ -155,8 +155,6 @@ export const PlaylistPanelWrapper = styledConfig(Box)(({ theme }) => ({
   [theme.breakpoints.down("lg")]: {
     maxWidth: "768px",
     margin: "0 auto",
-    height: "auto",
-    overflow: "visible",
     minWidth: "100%",
   },
 }));
