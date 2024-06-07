@@ -138,6 +138,26 @@ export const PlaylistPanelWrapper = styled(Box)(({ theme }) => ({
   background: theme.palette.background.light,
   padding: 3,
   borderRadius: "12px",
+  overflow: "auto",
+  "&::-webkit-scrollbar-track": {
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    borderRadius: "12px",
+  },
+  "&::-webkit-scrollbar": {
+    width: "12px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    borderRadius: "10px",
+    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
+    backgroundColor: "#555",
+  },
+  [theme.breakpoints.down("lg")]: {
+    maxWidth: "768px",
+    margin: "0 auto",
+    height: "auto",
+    overflow: "visible",
+    minWidth: "100%",
+  },
 }));
 
 export const VideoDescriptionContainer = styled(Box)(({ theme }) => ({
