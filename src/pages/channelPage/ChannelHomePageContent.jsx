@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import RenderIfVisible from "react-render-if-visible";
-
 import { httpRequest } from "../../services/services";
 import useLocalStorage from "../../hooks/useLocalStorage";
-
 import VideoSlider from "../../components/VideoSlider";
-
 import { ContentWrapper, Divider } from "./ChannelContentStyledComponents";
 
 const ChannelHomePageContent = ({ channelId }) => {
