@@ -6,7 +6,6 @@ import {
 	NoInternetImageWrapper,
 } from "./NoInternetPageStyledComponents";
 import { Typography } from "@mui/material";
-import noInternetImage from "../../assets/noInternet.png";
 import { noInternetBase64Url } from "../../utils/constant";
 
 const NoInternetPage = ({ children }) => {
