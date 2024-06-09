@@ -14,8 +14,9 @@ import {
 	PlaylistTitleWrapper,
 	PlaylistViewAllButton,
 	PlaylistViewAllButtonWrapperLink,
+	StyledSwiper,
+	VideoSliderWrapper,
 } from "./VideoSliderStyledComponents";
-import "./VideoSlider.scss";
 
 const VideoSlider = ({ playlistId }) => {
 	const [videos, setVideos] = useState({
@@ -54,7 +55,7 @@ const VideoSlider = ({ playlistId }) => {
 					setVideos((prevVideos) => ({
 						list: [...prevVideos.list, ...filteredItems],
 						isLoading: false,
-						nextPageToken: nextPageToken,
+						nextPageToken,
 					}));
 				}
 			} catch (error) {
@@ -92,14 +93,14 @@ const VideoSlider = ({ playlistId }) => {
 
 	const loadMorePlaylistVideos = useCallback(() => {
 		if (nextPageToken) {
-			getPlaylistVideos({ nextPageToken: nextPageToken });
+			getPlaylistVideos({ nextPageToken });
 		}
 	}, [getPlaylistVideos, nextPageToken]);
 
 	useEffect(() => {
 		const abortController = new AbortController();
-		getPlaylistVideos({ abortController: abortController });
-		getPlaylistDetails({ abortController: abortController });
+		getPlaylistVideos({ abortController });
+		getPlaylistDetails({ abortController });
 		return () => {
 			abortController.abort();
 		};
@@ -122,7 +123,7 @@ const VideoSlider = ({ playlistId }) => {
 	}, [isLoading, loadMorePlaylistVideos]);
 
 	return (
-		<Box className="videoSliderWrapper">
+		<VideoSliderWrapper>
 			<PlaylistTitleWrapper>
 				<PlaylistTitleTypography component="h3">
 					{playlistTitle}
@@ -137,7 +138,7 @@ const VideoSlider = ({ playlistId }) => {
 					</PlaylistViewAllButton>
 				</PlaylistViewAllButtonWrapperLink>
 			</PlaylistTitleWrapper>
-			<Swiper
+			<StyledSwiper
 				navigation={true}
 				modules={[Navigation]}
 				slidesPerView={2}
@@ -181,8 +182,8 @@ const VideoSlider = ({ playlistId }) => {
 							<VideoCardSkeleton />
 						</SwiperSlide>
 					))}
-			</Swiper>
-		</Box>
+			</StyledSwiper>
+		</VideoSliderWrapper>
 	);
 };
 
