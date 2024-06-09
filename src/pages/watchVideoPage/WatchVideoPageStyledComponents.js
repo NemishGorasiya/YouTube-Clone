@@ -42,11 +42,14 @@ export const ChannelDetailsWrapper = styledConfig(Box)({
 	alignItems: "center",
 });
 
-export const ChannelTitleTypography = styledConfig(MuiTypography)({
-	display: "flex",
-	alignItems: "center",
-	fontSize: "18px",
-});
+export const ChannelTitleTypography = styledConfig(MuiTypography)(
+	({ theme }) => ({
+		display: "flex",
+		alignItems: "center",
+		fontSize: "18px",
+		color: theme.palette.primary.main,
+	})
+);
 
 export const SubscriberCountTypography = styledConfig(MuiTypography)({
 	fontSize: "15px",
@@ -130,8 +133,10 @@ export const Tag = styledConfig(MuiTypography)({
 export const UserActionButton = styledConfig(MuiButton)(({ theme }) => ({
 	background: theme.palette.secondaryBackground.default,
 	color: theme.palette.primary.main,
+	boxShadow: "none",
 	"&:hover": {
 		background: theme.palette.secondaryBackground.light,
+		boxShadow: "none",
 	},
 }));
 
