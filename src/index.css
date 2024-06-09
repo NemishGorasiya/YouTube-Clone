@@ -1,0 +1,12 @@
+@font-face {
+	font-family: "Yt Regular";
+	src: local("Yt-regular"), url("./fonts/YT-Regular.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Yt Medium";
+	src: local("Yt-medium"), url("./fonts/YT-Medium.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Yt Bold";
+	src: local("Yt-bold"), url("./fonts/YT-Bold.woff2") format("woff2");
+}
