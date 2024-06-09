@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { httpRequest } from "../services/services";
 import "swiper/css";
 import "swiper/css/navigation";

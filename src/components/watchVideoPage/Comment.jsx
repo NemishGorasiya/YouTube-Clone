@@ -120,7 +120,7 @@ const Comment = ({ snippet, totalReplyCount, commentId }) => {
           setCommentReplies((prevComments) => ({
             list: [...prevComments.list, ...items],
             isLoading: false,
-            nextPageToken: nextPageToken,
+            nextPageToken,
           }));
         }
       } catch (error) {

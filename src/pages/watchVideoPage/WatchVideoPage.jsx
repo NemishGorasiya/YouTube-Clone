@@ -74,28 +74,6 @@ const WatchVideoPage = () => {
 	} = snippet || {};
 	const { viewCount, likeCount, commentCount } = statistics || {};
 
-	const updateLikeCount = ({ isIncreasing }) => {
-		setVideoDetails((prevVideoDetails) => {
-			const prevLikeCount = prevVideoDetails.data.statistics.likeCount;
-			let newLikeCount;
-			if (isIncreasing) {
-				newLikeCount = (+prevLikeCount + 1).toString();
-			} else {
-				newLikeCount = (+prevLikeCount - 1).toString();
-			}
-			return {
-				...prevVideoDetails,
-				data: {
-					...prevVideoDetails.data,
-					statistics: {
-						...prevVideoDetails.data.statistics,
-						likeCount: newLikeCount,
-					},
-				},
-			};
-		});
-	};
-
 	const fetchVideoDetails = useCallback(
 		async ({ abortController }) => {
 			try {
@@ -193,7 +171,6 @@ const WatchVideoPage = () => {
 									isLoggedIn={isLoggedIn}
 									videoId={videoId}
 									likeCount={likeCount}
-									updateLikeCount={updateLikeCount}
 								/>
 								<UserActionButton variant="contained" disabled={!isLoggedIn}>
 									<AddToPlaylist videoId={videoId} />

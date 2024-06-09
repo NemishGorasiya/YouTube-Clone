@@ -7,8 +7,6 @@ import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
-import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
-import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import {
@@ -56,13 +54,6 @@ export const SideBarLinks = [
 				queryKey: "list",
 				queryValue: "LL",
 			},
-			// {
-			//   icon: <SubscriptionsOutlinedIcon />,
-			//   filledIcon: <SubscriptionsIcon />,
-			//   outlinedIcon: <SubscriptionsOutlinedIcon />,
-			//   label: "Subscriptions",
-			//   link: "/feed/channels",
-			// },
 		],
 	},
 ];

@@ -5,50 +5,48 @@ import GraphicEqIcon from "@mui/icons-material/GraphicEq";
 import { StyledIconButton } from "./VoiceSearchStyledComponents";
 
 const VoiceSearch = ({ handleChangeInSearchQuery, searchVideos }) => {
-  const [isRecognizing, setIsRecognizing] = useState(false);
+	const [isRecognizing, setIsRecognizing] = useState(false);
 
-  const startSpeechRecognition = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+	const startSpeechRecognition = () => {
+		const SpeechRecognition =
+			window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const recognition = new SpeechRecognition();
+		const recognition = new SpeechRecognition();
 
-    recognition.onstart = function () {
-      setIsRecognizing(true);
-    };
+		recognition.onstart = function () {
+			setIsRecognizing(true);
+		};
 
-    recognition.onspeechend = function () {
-      // when user is done speaking
-      setIsRecognizing(false);
-      recognition.stop();
-    };
+		recognition.onspeechend = function () {
+			setIsRecognizing(false);
+			recognition.stop();
+		};
 
-    recognition.onresult = function (event) {
-      const transcript = event.results[0][0].transcript;
-      console.log("transcript", transcript);
-      handleChangeInSearchQuery(transcript);
-      searchVideos(transcript);
-    };
+		recognition.onresult = function (event) {
+			const transcript = event.results[0][0].transcript;
+			handleChangeInSearchQuery(transcript);
+			searchVideos(transcript);
+		};
 
-    recognition.start();
-  };
-  return (
-    <StyledIconButton
-      aria-label="voice search"
-      onClick={startSpeechRecognition}
-    >
-      {isRecognizing ? (
-        <GraphicEqIcon fontSize="small" />
-      ) : (
-        <KeyboardVoiceIcon fontSize="small" />
-      )}
-    </StyledIconButton>
-  );
+		recognition.start();
+	};
+	return (
+		<StyledIconButton
+			aria-label="voice search"
+			onClick={startSpeechRecognition}
+		>
+			{isRecognizing ? (
+				<GraphicEqIcon fontSize="small" />
+			) : (
+				<KeyboardVoiceIcon fontSize="small" />
+			)}
+		</StyledIconButton>
+	);
 };
 
 VoiceSearch.propTypes = {
-  handleChangeInSearchQuery: PropTypes.func,
-  searchVideos: PropTypes.func,
+	handleChangeInSearchQuery: PropTypes.func,
+	searchVideos: PropTypes.func,
 };
 
 export default VoiceSearch;
