@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import styledConfig from "../utils/styledConfig";
 import MuiGrid from "@mui/material/Grid";
 
@@ -19,3 +20,8 @@ export const Grid = styledConfig(MuiGrid)(({ theme, $isListView }) => ({
     gridTemplateColumns: "1fr",
   },
 }));
+
+export const NoVideosFoundTypography = styledConfig(Typography)({
+  textAlign: "center",
+  margin: "24px auto",
+});

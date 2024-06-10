@@ -13,8 +13,6 @@ export const Button = styledConfig(MuiButton)(({ theme, $visible }) => ({
     transform: "translateX(-50%)",
     fontSize: "17px",
     zIndex: 1,
-    color: theme.palette.primary.main,
-    background: "grey",
     width: "max-content",
   }),
 }));

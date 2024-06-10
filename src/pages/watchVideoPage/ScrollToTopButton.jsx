@@ -25,7 +25,7 @@ const ScrollToTopButton = () => {
   }, [toggleVisible]);
 
   return (
-    <Button $visible={visible} onClick={scrollToTop}>
+    <Button $visible={visible} variant="contained" onClick={scrollToTop}>
       <KeyboardDoubleArrowUpIcon /> Scroll To Top
     </Button>
   );

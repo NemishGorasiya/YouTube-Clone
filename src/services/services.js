@@ -6,7 +6,7 @@ export const getUserInfo = async ({ accessToken }) => {
   const params = { access_token: accessToken };
   const url = "https://www.googleapis.com/oauth2/v2/userinfo";
   const response = await axios.get(url, {
-    params: params,
+    params,
   });
   const responseData = response.data;
   if (responseData) {

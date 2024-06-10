@@ -2,7 +2,7 @@ import styledConfig from "../../utils/styledConfig";
 import { Box, Button } from "@mui/material";
 
 export const LikeDislikeButtonWrapper = styledConfig(Box)(
-  ({ theme, $isCommentLikeDislike }) => ({
+  ({ theme, $isCommentLikeDislike, $disabled }) => ({
     display: "flex",
     alignItems: "center",
     borderColor: "divider",
@@ -10,6 +10,8 @@ export const LikeDislikeButtonWrapper = styledConfig(Box)(
     gap: $isCommentLikeDislike ? "12px" : 0,
     background: $isCommentLikeDislike
       ? "none"
+      : $disabled
+      ? theme.palette.secondaryBackground.secondary
       : theme.palette.secondaryBackground.default,
   })
 );
@@ -22,7 +24,7 @@ export const LikeButton = styledConfig(Button)(
     paddingLeft: 12,
     display: "flex",
     gap: 8,
-    background: disabled ? "#1F1F1F" : null,
+    background: disabled ? theme.palette.secondaryBackground.secondary : null,
     "&:hover": {
       background: $isCommentLikeDislike
         ? "none"
@@ -38,7 +40,8 @@ export const DislikeButton = styledConfig(Button)(
     padding: $isCommentLikeDislike ? 0 : "auto",
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
-    background: disabled ? "#1F1F1F" : null,
+    height: "100%",
+    background: disabled ? theme.palette.secondaryBackground.secondary : null,
     "&:hover": {
       background: $isCommentLikeDislike
         ? "none"

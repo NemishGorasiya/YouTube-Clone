@@ -4,7 +4,7 @@ import { httpRequest } from "../services/services";
 import InfiniteScroll from "./InfiniteScroll";
 import VideoCard from "./VideoCard";
 import VideoCardSkeleton from "./VideoCardSkeleton";
-import { Grid } from "./VideoGalleryStyledComponents";
+import { Grid, NoVideosFoundTypography } from "./VideoGalleryStyledComponents";
 
 const VideoGallery = ({
   isListView = false,
@@ -74,6 +74,13 @@ const VideoGallery = ({
     <VideoCard key={video.id} video={video} isListView={isListView} />
   );
 
+  if (!isLoading && list.length === 0) {
+    return (
+      <NoVideosFoundTypography variant="body1">
+        No videos found.
+      </NoVideosFoundTypography>
+    );
+  }
   return (
     <Grid container $isListView={isListView}>
       <InfiniteScroll

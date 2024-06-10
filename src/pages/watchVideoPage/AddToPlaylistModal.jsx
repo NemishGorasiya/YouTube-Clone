@@ -100,7 +100,12 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
         if (res) {
           const { id: playlistId } = res;
           if (playlistId) {
-            addToPlaylist({ playlistId, videoId });
+            const response = await addToPlaylist({ playlistId, videoId });
+            if (response) {
+              toast(`Video added to ${playlistName}`);
+            } else {
+              toast.error("something went wrong while adding into playlist");
+            }
           }
         }
       } catch (error) {

@@ -109,7 +109,10 @@ const LikeDislike = ({
   }, [data]);
 
   return (
-    <LikeDislikeButtonWrapper $isCommentLikeDislike={isCommentLikeDislike}>
+    <LikeDislikeButtonWrapper
+      $disabled={!isLoggedIn}
+      $isCommentLikeDislike={isCommentLikeDislike}
+    >
       <LikeButton
         disabled={!isLoggedIn}
         onClick={() => {

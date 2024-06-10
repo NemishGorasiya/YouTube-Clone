@@ -5,30 +5,31 @@ import useLocalStorage from "../hooks/useLocalStorage";
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-	const [user, setUser, removeUser] = useLocalStorage("user", {});
-	const { accessToken = "" } = user || {};
+  const [user, setUser, removeUser] = useLocalStorage("user", null);
+  const { accessToken = "" } = user || {};
 
-	const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
-	const handleLogin = (userInfo) => {
-		setUser(userInfo);
-		setIsLoggedIn(true);
-	};
+  const handleLogin = (userInfo) => {
+    console.log("in login auth context");
+    setUser(userInfo);
+    setIsLoggedIn(true);
+  };
 
-	const handleLogout = () => {
-		removeUser();
-		setIsLoggedIn(false);
-	};
+  const handleLogout = () => {
+    removeUser();
+    setIsLoggedIn(false);
+  };
 
-	return (
-		<AuthContext.Provider
-			value={{ user, isLoggedIn, handleLogin, handleLogout }}
-		>
-			{children}
-		</AuthContext.Provider>
-	);
+  return (
+    <AuthContext.Provider
+      value={{ user, isLoggedIn, handleLogin, handleLogout }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 AuthContextProvider.propTypes = {
-	children: PropTypes.node,
+  children: PropTypes.node,
 };

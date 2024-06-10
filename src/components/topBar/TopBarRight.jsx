@@ -57,22 +57,24 @@ const TopBarRight = () => {
 
       try {
         const res = await fetchAccessToken({
-          urlencoded: urlencoded,
-          abortController: abortController,
+          urlencoded,
+          abortController,
         });
         if (res) {
           const { access_token = "", refresh_token = "" } = res;
-          const userInfo = await getUserInfo({ accessToken: access_token });
-          if (userInfo) {
-            const { name = "", picture = "", email = "" } = userInfo;
-            handleLogin({
-              accessToken: access_token,
-              refreshToken: refresh_token,
-              username: name,
-              profilePicture: picture,
-              email: email,
-            });
-            navigate("/");
+          if (access_token) {
+            const userInfo = await getUserInfo({ accessToken: access_token });
+            if (userInfo) {
+              const { name = "", picture = "", email = "" } = userInfo;
+              handleLogin({
+                accessToken: access_token,
+                refreshToken: refresh_token,
+                username: name,
+                profilePicture: picture,
+                email: email,
+              });
+              navigate("/");
+            }
           }
         }
       } catch (error) {

@@ -102,8 +102,8 @@ export const YouTubeIframe = styledConfig("iframe")({
   border: "none",
 });
 
-export const Divider = styledConfig(MuiDivider)(({ theme }) => ({
-  background: theme.palette.secondaryBackground.default,
+export const Divider = styledConfig(MuiDivider)(({ theme, $disabled }) => ({
+  background: $disabled ? theme.palette.secondaryBackground.secondary : null,
 }));
 
 export const ChannelLink = styledConfig(Link)({
