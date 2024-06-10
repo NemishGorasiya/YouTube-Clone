@@ -61,7 +61,6 @@ export const PlaylistPanelWrapper = styledConfig(Box)(({ theme }) => ({
   overflow: "auto",
   height: "calc(100vh - 56px)",
   "&::-webkit-scrollbar-track": {
-    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
     borderRadius: "12px",
   },
   "&::-webkit-scrollbar": {

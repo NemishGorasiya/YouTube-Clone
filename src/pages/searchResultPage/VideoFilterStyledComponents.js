@@ -33,7 +33,6 @@ export const FilterContentWrapper = styledConfig(Box)({
     backgroundColor: "transparent",
   },
   "&::-webkit-scrollbar-track": {
-    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
     borderRadius: "10px",
     backgroundColor: "transparent",
   },

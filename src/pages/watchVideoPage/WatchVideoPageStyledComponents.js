@@ -142,12 +142,11 @@ export const UserActionButton = styledConfig(MuiButton)(({ theme }) => ({
 
 export const PlaylistPanelWrapper = styledConfig(Box)(({ theme }) => ({
   maxHeight: "500px",
-  background: theme.palette.background.light,
+  background: theme.palette.background.secondary,
   padding: 3,
   borderRadius: "12px",
   overflow: "auto",
   "&::-webkit-scrollbar-track": {
-    boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)",
     borderRadius: "12px",
   },
   "&::-webkit-scrollbar": {
