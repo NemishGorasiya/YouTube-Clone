@@ -5,6 +5,7 @@ import MuiTypography from "@mui/material/Typography";
 export const AddCommentForm = styledConfig("form")({
   display: "flex",
   width: "100%",
+  marginBottom: "16px",
 });
 
 export const Typography = styledConfig(MuiTypography)({

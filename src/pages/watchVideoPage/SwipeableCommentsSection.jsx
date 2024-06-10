@@ -11,8 +11,6 @@ import {
   SwipeableDrawerHeader,
 } from "./SwipeableCommentsSectionStyledComponents";
 
-const drawerBleeding = 0;
-
 const SwipeableCommentsSection = ({ children, commentCount }) => {
   const [open, setOpen] = useState(false);
 
@@ -31,27 +29,16 @@ const SwipeableCommentsSection = ({ children, commentCount }) => {
         open={open}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
-        swipeAreaWidth={drawerBleeding}
+        swipeAreaWidth={0}
         disableSwipeToOpen={false}
         ModalProps={{
           keepMounted: true,
         }}
       >
-        <SwipeableDrawerContent
-          drawerBleeding={drawerBleeding}
-          // sx={{
-          //   position: "absolute",
-          //   top: -drawerBleeding,
-          //   borderTopLeftRadius: 8,
-          //   borderTopRightRadius: 8,
-          //   visibility: "visible",
-          //   right: 0,
-          //   left: 0,
-          // }}
-        >
+        <SwipeableDrawerContent drawerBleeding={0}>
           <Puller />
           <SwipeableDrawerHeader variant="h4" component="h1">
-            Comments
+            {formatCompactNumber(commentCount)} Comments
           </SwipeableDrawerHeader>
         </SwipeableDrawerContent>
         <SwipeableDrawerCommentsWrapper>

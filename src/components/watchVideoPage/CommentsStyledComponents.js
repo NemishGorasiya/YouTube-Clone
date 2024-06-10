@@ -56,6 +56,7 @@ export const CommentAuthorImage = styledConfig("img")({
 
 export const ReplyCommentForm = styledConfig("form")({
   display: "flex",
+  marginBottom: "8px",
 });
 
 export const ReadMoreCommentContent = styledConfig(MuiTypography)(

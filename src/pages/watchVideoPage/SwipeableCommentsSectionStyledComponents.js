@@ -47,7 +47,7 @@ export const SwipeableDrawerContent = styledConfig(Box)({
 });
 
 export const SwipeableDrawerHeader = styledConfig(MuiTypography)({
-  padding: "8px",
+  padding: "16px",
   color: "#fff",
   fontWeight: "700",
 });
