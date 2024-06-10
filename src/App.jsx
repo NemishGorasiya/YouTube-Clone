@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
 import { RouterProvider } from "react-router-dom";
 import { ThemeContext } from "./context/ThemeContext";
@@ -11,6 +10,7 @@ import { SubscriptionListContextProvider } from "./context/SubscriptionListConte
 import { router } from "./routes/Routes";
 import "./App.css";
 import "nprogress/nprogress.css";
+import ToastConfig from "./utils/ToastConfig";
 
 const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -101,12 +101,7 @@ const App = () => {
         <AuthContextProvider>
           <SubscriptionListContextProvider>
             <CssBaseline />
-            <Toaster
-              position="bottom-left"
-              toastOptions={{
-                duration: 3000,
-              }}
-            />
+            <ToastConfig />
             <RouterProvider router={router} />
           </SubscriptionListContextProvider>
         </AuthContextProvider>
