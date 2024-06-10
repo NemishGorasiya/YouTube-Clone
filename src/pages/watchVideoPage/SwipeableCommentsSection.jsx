@@ -1,11 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { formatCompactNumber } from "../../utils/utilityFunction";
 import {
   Puller,
-  StyledBox,
+  SwipeableCommentsSectionComponent,
   SwipeableDrawer,
+  SwipeableDrawerCommentsWrapper,
+  SwipeableDrawerContent,
+  SwipeableDrawerHeader,
 } from "./SwipeableCommentsSectionStyledComponents";
 
 const drawerBleeding = 0;
@@ -19,10 +22,10 @@ const SwipeableCommentsSection = ({ children, commentCount }) => {
 
   return (
     <>
-      <Box sx={{ p: 1, background: "grey", borderRadius: 2, mt: 2 }}>
+      <SwipeableCommentsSectionComponent>
         <h1>{formatCompactNumber(commentCount)} Comments</h1>
         <Button onClick={toggleDrawer(true)}>View comments</Button>
-      </Box>
+      </SwipeableCommentsSectionComponent>
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -34,37 +37,26 @@ const SwipeableCommentsSection = ({ children, commentCount }) => {
           keepMounted: true,
         }}
       >
-        <StyledBox
+        <SwipeableDrawerContent
           drawerBleeding={drawerBleeding}
-          sx={{
-            position: "absolute",
-            top: -drawerBleeding,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            visibility: "visible",
-            right: 0,
-            left: 0,
-          }}
+          // sx={{
+          //   position: "absolute",
+          //   top: -drawerBleeding,
+          //   borderTopLeftRadius: 8,
+          //   borderTopRightRadius: 8,
+          //   visibility: "visible",
+          //   right: 0,
+          //   left: 0,
+          // }}
         >
           <Puller />
-          <Typography
-            variant="h4"
-            component={"h1"}
-            sx={{ p: 1, color: "#fff", fontWeight: "700" }}
-          >
+          <SwipeableDrawerHeader variant="h4" component="h1">
             Comments
-          </Typography>
-        </StyledBox>
-        <StyledBox
-          sx={{
-            px: 2,
-            p: 2,
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
+          </SwipeableDrawerHeader>
+        </SwipeableDrawerContent>
+        <SwipeableDrawerCommentsWrapper>
           {children}
-        </StyledBox>
+        </SwipeableDrawerCommentsWrapper>
       </SwipeableDrawer>
     </>
   );

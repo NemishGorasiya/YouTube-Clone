@@ -23,7 +23,7 @@ const CommentContent = ({ textDisplay }) => {
   }, []);
 
   return (
-    <Box className="commentContentWrapper">
+    <Box>
       <CommentContentTypography
         variant="subtitle1"
         component="pre"

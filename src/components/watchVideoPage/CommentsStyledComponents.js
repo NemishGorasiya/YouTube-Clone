@@ -34,7 +34,7 @@ export const CommentPublishTime = styledConfig(MuiTypography)({
   color: "gray",
 });
 
-export const CommentDetails = styledConfig(MuiTypography)({
+export const CommentDetails = styledConfig(Box)({
   flex: 1,
 });
 
