@@ -31,9 +31,9 @@ Follow these steps to get the project up and running on your local machine:
    ```
 
 3. **Add .env file**
-   Don't forget to add API keys in .env file.
-   .sample.env is given for reference
-   You can find out API keys from <a href="https://console.cloud.google.com/">Google console</a> dev
+   Don't forget to add API keys in .env file<br />
+   .sample.env is given for reference<br />
+   You can find out API keys from <a href="https://console.cloud.google.com/">Google console</a>
 4. **Start the development server:**
    ```sh
    npm run dev
