@@ -135,8 +135,7 @@ const WatchVideoPage = () => {
           <VideoPlayerWrapper>
             <YouTubeIframeWrapper>
               <YouTubeIframe
-                src={`https://www.youtube.com/embed/${videoId}`}
-                // ?autoplay=1&mute=1
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`}
                 title="YouTube video player"
                 allow="fullscreen"
               />
