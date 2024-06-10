@@ -202,9 +202,9 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
 };
 
 CommentsSection.propTypes = {
-  videoId: PropTypes.string.isRequired,
-  channelId: PropTypes.string.isRequired,
-  commentCount: PropTypes.number.isRequired,
+  videoId: PropTypes.string,
+  channelId: PropTypes.string,
+  commentCount: PropTypes.string,
 };
 
 export default CommentsSection;

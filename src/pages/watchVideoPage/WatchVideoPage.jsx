@@ -180,7 +180,12 @@ const WatchVideoPage = () => {
               <Typography variant="body1">
                 {formatCompactNumber(viewCount)} views{" "}
                 {calcDistanceToNow({ time: publishedAt })}{" "}
-                {tags && tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
+                {tags &&
+                  tags.map((tag) => (
+                    <Tag component="span" key={tag}>
+                      #{tag}{" "}
+                    </Tag>
+                  ))}
               </Typography>
               <VideoDescription
                 parentRef={videoDescriptionRef}

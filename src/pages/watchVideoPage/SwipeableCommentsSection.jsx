@@ -35,7 +35,7 @@ const SwipeableCommentsSection = ({ children, commentCount }) => {
           keepMounted: true,
         }}
       >
-        <SwipeableDrawerContent drawerBleeding={0}>
+        <SwipeableDrawerContent>
           <Puller />
           <SwipeableDrawerHeader variant="h4" component="h1">
             {formatCompactNumber(commentCount)} Comments

@@ -153,7 +153,7 @@ const Comment = ({ snippet, totalReplyCount, commentId }) => {
         <CommentEngagement className="commentEngagement">
           <LikeDislike
             isLoggedIn={isLoggedIn}
-            likeCount={likeCount}
+            likeCount={likeCount.toString()}
             isCommentLikeDislike={true}
           />
           <Button

@@ -24,7 +24,11 @@ export const LikeButton = styledConfig(Button)(
     paddingLeft: 12,
     display: "flex",
     gap: 8,
-    background: disabled ? theme.palette.secondaryBackground.secondary : null,
+    background: $isCommentLikeDislike
+      ? "none"
+      : disabled
+      ? theme.palette.secondaryBackground.secondary
+      : null,
     "&:hover": {
       background: $isCommentLikeDislike
         ? "none"
@@ -41,7 +45,11 @@ export const DislikeButton = styledConfig(Button)(
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     height: "100%",
-    background: disabled ? theme.palette.secondaryBackground.secondary : null,
+    background: $isCommentLikeDislike
+      ? "none"
+      : disabled
+      ? theme.palette.secondaryBackground.secondary
+      : null,
     "&:hover": {
       background: $isCommentLikeDislike
         ? "none"

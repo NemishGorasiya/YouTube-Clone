@@ -63,6 +63,7 @@ export const CardMediaWrapper = styledConfig(MuiBox)({
     width: "100%",
     pointerEvents: "none",
     border: "none",
+    aspectRatio: "25/14",
   },
 });
 

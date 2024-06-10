@@ -6,17 +6,29 @@ import {
   CardMediaWrapper,
   VideoDurationBadge,
 } from "./VideoCardStyledComponents";
+import { YouTubeIframe } from "../pages/watchVideoPage/WatchVideoPageStyledComponents";
 
 const CardThumbnail = ({ id, thumbnailUrl, duration }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseOutEvent = (event) => {
+    setTimeout(() => setIsHovered(false), 100);
+    event.stopPropagation();
+  };
+
+  const handleMouseInEvent = () => {
+    setIsHovered(true);
+  };
+
   return (
     <CardMediaWrapper
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseInEvent}
+      onMouseLeave={handleMouseOutEvent}
+      sx={{ position: "relative" }}
     >
       {isHovered ? (
-        <iframe
-          src={`https:/www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1&showinfo=0`}
+        <YouTubeIframe
+          src={`https:/www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1`}
           title="YouTube video player"
           allow="fullscreen"
         />

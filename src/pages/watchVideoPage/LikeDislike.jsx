@@ -150,7 +150,7 @@ const LikeDislike = ({
 LikeDislike.propTypes = {
   isLoggedIn: PropTypes.bool,
   videoId: PropTypes.string,
-  likeCount: PropTypes.number,
+  likeCount: PropTypes.string,
   isCommentLikeDislike: PropTypes.bool,
 };
 
