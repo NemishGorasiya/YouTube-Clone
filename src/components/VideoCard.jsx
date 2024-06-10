@@ -3,26 +3,23 @@ import { useNavigate } from "react-router-dom";
 import {
   calcDistanceToNow,
   formatCompactNumber,
-  isoDurationToDDHHMM,
 } from "../utils/utilityFunction";
 import VideoThumbnailFallbackImage from "../assets/video-placeholder.jpg";
 import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
-  CardMediaWrapper,
   ChannelName,
   LiveTvStyledIcon,
   UpcomingIndicator,
   VideoDetail,
-  VideoDurationBadge,
   VideoIsLiveIndicator,
   VideoMetadata,
   VideoMetadataTypography,
   VideoTitle,
 } from "./VideoCardStyledComponents";
 import ChannelThumbnail from "./ChannelThumbnail";
+import CardThumbnail from "./CardThumbnail";
 
 const VideoCard = ({ video, isListView = false }) => {
   const navigate = useNavigate();
@@ -57,18 +54,11 @@ const VideoCard = ({ video, isListView = false }) => {
   return (
     <Card elevation={0} className="videoCard" onClick={handleVideoCardClick}>
       <CardActionArea $isListView={isListView}>
-        <CardMediaWrapper>
-          <CardMedia
-            component="img"
-            image={url || VideoThumbnailFallbackImage}
-            alt="Video Thumbnail"
-          />
-          {duration && (
-            <VideoDurationBadge>
-              {isoDurationToDDHHMM(duration)}
-            </VideoDurationBadge>
-          )}
-        </CardMediaWrapper>
+        <CardThumbnail
+          id={videoId || id.videoId || id}
+          thumbnailUrl={url || VideoThumbnailFallbackImage}
+          duration={duration}
+        />
         <CardContent>
           {!isListView && <ChannelThumbnail channelId={channelId} />}
           <VideoDetail>
