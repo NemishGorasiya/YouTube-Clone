@@ -1,44 +1,52 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Collapse } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import { UserPreferencesContext } from "../../context/UserPreferencesContext";
-import useFetch from "../../hooks/useFetch";
 import {
   CountryListSubheader,
   CountryMenuItem,
 } from "./TopBarStyledComponents";
+import { httpRequest } from "../../services/services";
 
 const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
   const { location, changeLocation } = useContext(UserPreferencesContext);
 
-  const queryParams = useMemo(
-    () => ({
-      part: "snippet",
-    }),
-    []
-  );
-
-  const requestProps = useMemo(
-    () => ({
-      url: "/i18nRegions",
-      queryParams,
-    }),
-    [queryParams]
-  );
-
-  const { data } = useFetch(requestProps);
-  const { items } = data || {};
-  const countryList = items || [];
+  const [countries, setCountries] = useState([]);
 
   const handleChangeLocation = (countryCode) => {
     changeLocation(countryCode);
   };
 
+  const getCountries = async ({ abortController }) => {
+    try {
+      const queryParams = { part: "snippet" };
+      const res = await httpRequest({
+        url: "/i18nRegions",
+        queryParams,
+        abortController,
+      });
+      if (res) {
+        const { items } = res;
+        setCountries(items);
+      }
+    } catch (error) {
+      console.error(error.message || error);
+    }
+  };
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    getCountries({ abortController });
+    return () => {
+      abortController.abort();
+    };
+  }, []);
+
   return (
     <Collapse in={isLocationMenuOpen} timeout="auto" unmountOnExit>
       <CountryListSubheader>
-        {countryList.map((country) => {
+        {countries.map((country) => {
           const { id = "", snippet: { gl = "", name = "" } = {} } =
             country || {};
           const isActive = location === id;
