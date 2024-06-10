@@ -83,11 +83,6 @@ export const TopBarLeft = styledConfig(Box)({
   marginRight: "24px",
 });
 
-export const IconButton = styledConfig(MuiIconButton)({
-  padding: 0,
-  marginLeft: "1px",
-});
-
 export const ProfilePictureImage = styledConfig("img")({
   width: "32px",
   height: "32px",

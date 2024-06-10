@@ -19,12 +19,6 @@ export const DescriptionItemsWrapper = styledConfig(MuiBox)({
   gap: "12px",
 });
 
-export const CloseModalButton = styledConfig(IconButton)({
-  position: "absolute",
-  right: 5,
-  top: 5,
-});
-
 export const ChannelDescription = styledConfig(MuiTypography)(({ theme }) => ({
   fontSize: "15px",
   color: theme.palette.primary.main,
