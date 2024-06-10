@@ -29,6 +29,7 @@ const ChannelHomePageContent = ({ channelId }) => {
           const { items } = res;
           setChannelSections({
             list: items,
+            isLoading: false,
           });
         }
       } catch (error) {
