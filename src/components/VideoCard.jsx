@@ -5,8 +5,6 @@ import {
   formatCompactNumber,
   isoDurationToDDHHMM,
 } from "../utils/utilityFunction";
-import { useCallback, useState } from "react";
-import { httpRequest } from "../services/services";
 import VideoThumbnailFallbackImage from "../assets/video-placeholder.jpg";
 import {
   Card,
@@ -15,7 +13,6 @@ import {
   CardMedia,
   CardMediaWrapper,
   ChannelName,
-  ChannelThumbnail,
   LiveTvStyledIcon,
   UpcomingIndicator,
   VideoDetail,
@@ -25,16 +22,10 @@ import {
   VideoMetadataTypography,
   VideoTitle,
 } from "./VideoCardStyledComponents";
+import ChannelThumbnail from "./ChannelThumbnail";
 
 const VideoCard = ({ video, isListView = false }) => {
   const navigate = useNavigate();
-  const [channelThumbnail, setChannelThumbnail] = useState({
-    url: "",
-    isLoading: true,
-  });
-
-  const { url: channelThumbnailUrl, isLoading: channelThumbnailIsLoading } =
-    channelThumbnail;
   const { id, snippet, statistics: { viewCount } = {}, contentDetails } = video;
   const {
     publishedAt,
@@ -63,51 +54,11 @@ const VideoCard = ({ video, isListView = false }) => {
     navigate(`/channel/${channelId}`);
   };
 
-  const getChannelDetails = useCallback(
-    async ({ abortController }) => {
-      const queryParams = {
-        part: "snippet",
-        id: channelId,
-      };
-      try {
-        const res = await httpRequest({
-          url: "/channels",
-          queryParams,
-
-          abortController,
-        });
-        if (res) {
-          const { items } = res ?? {};
-          const { snippet } = items[0] ?? {};
-          const { thumbnails } = snippet ?? {};
-          const { high } = thumbnails ?? {};
-          const { url } = high ?? {};
-          setChannelThumbnail({
-            url: url,
-            isLoading: false,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [channelId]
-  );
-
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   getChannelDetails({ abortController: abortController });
-  //   return () => {
-  //     abortController.abort();
-  //   };
-  // }, [getChannelDetails]);
-
   return (
     <Card elevation={0} className="videoCard" onClick={handleVideoCardClick}>
       <CardActionArea $isListView={isListView}>
         <CardMediaWrapper>
           <CardMedia
-            // isListView={isListView}
             component="img"
             image={url || VideoThumbnailFallbackImage}
             alt="Video Thumbnail"
@@ -119,23 +70,7 @@ const VideoCard = ({ video, isListView = false }) => {
           )}
         </CardMediaWrapper>
         <CardContent>
-          {!isListView && (
-            // <ChannelThumbnail
-            //   src={
-            //     !channelThumbnailUrl || channelThumbnailIsLoading
-            //       ? "https://placehold.jp/150x150.png"
-            //       : channelThumbnailUrl
-            //   }
-            //   alt="Channel Thumbnail"
-            //   referrerPolicy="no-referrer"
-            // />
-            <ChannelThumbnail
-              src={"https://placehold.jp/150x150.png"}
-              alt="Channel Thumbnail"
-              referrerPolicy="no-referrer"
-            />
-          )}
-
+          {!isListView && <ChannelThumbnail channelId={channelId} />}
           <VideoDetail>
             <VideoTitle
               dangerouslySetInnerHTML={{
