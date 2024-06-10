@@ -2,7 +2,6 @@ import axios from "axios";
 
 // Get user info from local storage
 const getUserInfo = () => JSON.parse(localStorage.getItem("user")) || {};
-let { accessToken = "", refreshToken = "" } = getUserInfo();
 
 const axiosInstance = axios.create({
   baseURL: "https://youtube.googleapis.com/youtube/v3",
@@ -10,6 +9,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    const { accessToken } = getUserInfo();
     config.headers["Content-Type"] = "application/json";
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -20,6 +20,7 @@ axiosInstance.interceptors.request.use(
 );
 
 const refreshAccessToken = async () => {
+  const { refreshToken } = getUserInfo();
   try {
     const response = await axios.post("https://oauth2.googleapis.com/token", {
       client_id: import.meta.env.VITE_CLIENT_ID,
@@ -29,17 +30,11 @@ const refreshAccessToken = async () => {
     });
 
     if (response && response.data) {
-      const {
-        data: { access_token: newAccessToken },
-      } = response;
+      const { access_token: newAccessToken } = response.data;
       const userInfo = getUserInfo();
-      const updatedUserInfo = {
-        ...userInfo,
-        accessToken: newAccessToken,
-      };
+      const updatedUserInfo = { ...userInfo, accessToken: newAccessToken };
 
       localStorage.setItem("user", JSON.stringify(updatedUserInfo));
-      accessToken = newAccessToken;
 
       return newAccessToken;
     }
@@ -64,19 +59,16 @@ axiosInstance.interceptors.response.use(
     ) {
       if (!isRefreshing) {
         isRefreshing = true;
+        originalRequest._retry = true;
+
         try {
           const newAccessToken = await refreshAccessToken();
 
           // Retry all requests in the queue with the new token
-          for (const req of refreshAndRetryQueue) {
+          refreshAndRetryQueue.forEach((req) => {
             req.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-            try {
-              const response = await axiosInstance.request(req.config);
-              req.resolve(response);
-            } catch (err) {
-              req.reject(err);
-            }
-          }
+            req.resolve(axiosInstance(req.config));
+          });
 
           refreshAndRetryQueue.length = 0;
           isRefreshing = false;
