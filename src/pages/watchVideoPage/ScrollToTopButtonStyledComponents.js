@@ -1,7 +1,7 @@
 import styledConfig from "../../utils/styledConfig";
 import MuiButton from "@mui/material/Button";
 
-export const Button = styledConfig(MuiButton)(({ theme, $visible }) => ({
+export const Button = styledConfig(MuiButton)(({ $visible }) => ({
   display: "none",
   ...($visible && {
     display: "flex",

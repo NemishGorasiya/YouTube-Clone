@@ -56,7 +56,6 @@ const SubscribedChannelsPage = () => {
   };
 
   useEffect(() => {
-    console.log("first");
     const abortController = new AbortController();
     setChannels({
       list: [],
@@ -70,7 +69,6 @@ const SubscribedChannelsPage = () => {
   }, [getSubscribedChannels]);
 
   useEffect(() => {
-    console.log("firsdd d d d d");
     if (channelToRemove) {
       setChannels((prevChannels) => ({
         ...prevChannels,

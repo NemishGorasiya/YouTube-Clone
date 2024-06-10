@@ -7,7 +7,6 @@ import {
   Box,
 } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
-import MuiIconButton from "@mui/material/IconButton";
 import MuiToolbar from "@mui/material/Toolbar";
 
 export const AppBar = styledConfig(MuiAppBar)(({ theme }) => ({

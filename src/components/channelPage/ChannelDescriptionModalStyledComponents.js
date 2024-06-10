@@ -1,5 +1,4 @@
 import styledConfig from "../../utils/styledConfig";
-import { IconButton } from "@mui/material";
 import MuiTypography from "@mui/material/Typography";
 import MuiBox from "@mui/material/Box";
 

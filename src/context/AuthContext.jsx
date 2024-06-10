@@ -11,7 +11,6 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
   const handleLogin = (userInfo) => {
-    console.log("in login auth context");
     setUser(userInfo);
     setIsLoggedIn(true);
   };
