@@ -140,7 +140,6 @@ const PlaylistPage = () => {
   };
 
   const handlePrivacyPolicyChange = async ({ target: { value } }) => {
-    setPrivacyPolicy(value);
     if (value === privacyStatus) {
       return;
     }
@@ -165,8 +164,10 @@ const PlaylistPage = () => {
       });
       if (res) {
         toast("privacy policy changed successfully");
+        setPrivacyPolicy(value);
       }
     } catch (error) {
+      toast.error("This playlist cannot be edited");
       console.error(error);
     }
   };

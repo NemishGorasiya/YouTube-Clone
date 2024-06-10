@@ -52,16 +52,15 @@ const EditableComponent = ({
         method: "PUT",
         queryParams,
         data,
-        returnEntireResponseWithStatusCode: true,
       });
-      if (res.status === 400) {
-        toast.error("This playlist cannot be edited");
-      } else if (res.status === 204) {
+
+      if (res) {
         toast("Playlist title updated successfully");
         setIsEditMode(false);
         updatePlaylistTitle(newValue);
       }
     } catch (error) {
+      toast.error("This playlist cannot be edited");
       setNewValue(currentValue);
       console.error(error);
     }
