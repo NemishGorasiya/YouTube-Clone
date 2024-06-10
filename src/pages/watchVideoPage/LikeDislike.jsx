@@ -12,6 +12,8 @@ import {
   LikeButton,
   LikeDislikeButtonWrapper,
 } from "./LikeDislikeStyledComponents";
+import { httpRequest } from "../../services/services";
+import toast from "react-hot-toast";
 
 const LikeDislike = ({
   isLoggedIn,
@@ -22,27 +24,62 @@ const LikeDislike = ({
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const [rating, setRating] = useState(null);
 
+  const updateRating = async (rating) => {
+    if (isCommentLikeDislike) {
+      return;
+    }
+    try {
+      const queryParams = {
+        id: videoId,
+        rating,
+      };
+      const res = await httpRequest({
+        url: "/videos/rate",
+        method: "POST",
+        queryParams,
+        returnEntireResponseWithStatusCode: true,
+      });
+      if (res.status === 204) {
+        let toastMessage;
+        switch (rating) {
+          case "like":
+            toastMessage = "Video liked";
+            break;
+          case "dislike":
+            toastMessage = "Video disliked";
+            break;
+          default:
+            toastMessage = "Video rating removed";
+            break;
+        }
+        toast(toastMessage);
+      }
+    } catch (error) {
+      console.error(error.message || error);
+    }
+  };
+
   const rateVideo = async (operation) => {
     const LIKE = "like";
     const DISLIKE = "dislike";
 
     if (operation === LIKE && rating !== LIKE) {
-      // API call to like
+      updateRating("like");
       setRating(LIKE);
       setLikeCount((prevCount) => String(+prevCount + 1));
     } else if (operation === LIKE && rating === LIKE) {
-      // API call to undo like
+      updateRating("none");
       setRating(null);
       setLikeCount((prevCount) => String(+prevCount - 1));
     } else if (operation === DISLIKE && rating === LIKE) {
-      // API call to dislike
+      updateRating("dislike");
       setRating(DISLIKE);
       setLikeCount((prevCount) => String(+prevCount - 1));
     } else if (operation === DISLIKE && rating === DISLIKE) {
-      // API call to undo dislike
+      updateRating("none");
       setRating(null);
     } else if (operation === DISLIKE && rating !== DISLIKE) {
-      // API call to dislike
+      updateRating("dislike");
       setRating(DISLIKE);
     }
   };
@@ -102,7 +139,7 @@ const LikeDislike = ({
 LikeDislike.propTypes = {
   isLoggedIn: PropTypes.bool,
   videoId: PropTypes.string,
-  likeCount: PropTypes.string,
+  likeCount: PropTypes.number,
   isCommentLikeDislike: PropTypes.bool,
 };
 

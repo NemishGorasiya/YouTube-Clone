@@ -15,13 +15,14 @@ export const LikeDislikeButtonWrapper = styledConfig(Box)(
 );
 
 export const LikeButton = styledConfig(Button)(
-  ({ theme, $isCommentLikeDislike }) => ({
+  ({ theme, $isCommentLikeDislike, disabled }) => ({
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
     padding: $isCommentLikeDislike ? 0 : "auto",
     paddingLeft: 12,
     display: "flex",
     gap: 8,
+    background: disabled ? "#1F1F1F" : null,
     "&:hover": {
       background: $isCommentLikeDislike
         ? "none"
@@ -31,12 +32,13 @@ export const LikeButton = styledConfig(Button)(
 );
 
 export const DislikeButton = styledConfig(Button)(
-  ({ theme, $isCommentLikeDislike }) => ({
+  ({ theme, $isCommentLikeDislike, disabled }) => ({
     minWidth: "0",
     paddingRight: 12,
     padding: $isCommentLikeDislike ? 0 : "auto",
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
+    background: disabled ? "#1F1F1F" : null,
     "&:hover": {
       background: $isCommentLikeDislike
         ? "none"
