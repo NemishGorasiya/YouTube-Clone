@@ -6,32 +6,38 @@ import { AuthContext } from "../../context/AuthContext";
 import { AddToPlaylistButton } from "./AddToPlaylistStyledComponents";
 
 const AddToPlaylist = ({ videoId }) => {
-  const [open, setOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { isLoggedIn } = useContext(AuthContext);
+	const { isLoggedIn } = useContext(AuthContext);
 
-  const handleOpen = () => setOpen(true);
+	const openModal = () => {
+		if (isLoggedIn) {
+			setIsModalOpen(true);
+		}
+	};
 
-  const handleClose = () => setOpen(false);
+	const closeModal = () => {
+		setIsModalOpen(false);
+	};
 
-  return (
-    <>
-      <AddToPlaylistButton onClick={isLoggedIn ? handleOpen : null}>
-        <PlaylistAddIcon /> Save
-      </AddToPlaylistButton>
-      {open && (
-        <AddToPlaylistModal
-          videoId={videoId}
-          open={open}
-          handleClose={handleClose}
-        />
-      )}
-    </>
-  );
+	return (
+		<>
+			<AddToPlaylistButton onClick={openModal}>
+				<PlaylistAddIcon /> Save
+			</AddToPlaylistButton>
+			{isModalOpen && (
+				<AddToPlaylistModal
+					videoId={videoId}
+					open={isModalOpen}
+					handleClose={closeModal}
+				/>
+			)}
+		</>
+	);
 };
 
 AddToPlaylist.propTypes = {
-  videoId: PropTypes.string,
+	videoId: PropTypes.string,
 };
 
 export default AddToPlaylist;

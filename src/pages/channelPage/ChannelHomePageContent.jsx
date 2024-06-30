@@ -7,78 +7,80 @@ import { ContentWrapper, Divider } from "./ChannelContentStyledComponents";
 import VideoGallery from "../../components/VideoGallery";
 
 const ChannelHomePageContent = ({ channelId }) => {
-  const [channelSections, setChannelSections] = useState({
-    list: [],
-    isLoading: true,
-  });
-  const { list, isLoading } = channelSections;
+	const [channelSections, setChannelSections] = useState({
+		list: [],
+		isLoading: true,
+	});
+	const { list, isLoading } = channelSections;
 
-  const getChannelSections = useCallback(
-    async ({ abortController }) => {
-      const queryParams = {
-        part: "snippet,contentDetails",
-        channelId,
-      };
-      try {
-        const res = await httpRequest({
-          url: "/channelSections",
-          queryParams,
-          abortController,
-        });
-        if (res) {
-          const { items } = res;
-          setChannelSections({
-            list: items,
-            isLoading: false,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [channelId]
-  );
+	const getChannelSections = useCallback(
+		async ({ abortController }) => {
+			const queryParams = {
+				part: "snippet,contentDetails",
+				channelId,
+			};
+			try {
+				const res = await httpRequest({
+					url: "/channelSections",
+					queryParams,
+					abortController,
+				});
+				if (res) {
+					const { items } = res;
+					setChannelSections({
+						list: items,
+						isLoading: false,
+					});
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		[channelId]
+	);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    getChannelSections({ abortController });
-    return () => {
-      abortController.abort();
-    };
-  }, [getChannelSections]);
+	useEffect(() => {
+		const abortController = new AbortController();
+		getChannelSections({ abortController });
+		return () => {
+			abortController.abort();
+		};
+	}, [getChannelSections]);
 
-  if (!isLoading && list.length === 0) {
-    <VideoGallery
-      queryParams={{
-        part: "snippet",
-        channelId,
-        maxResults: 10,
-      }}
-      url="/search"
-    />;
-  }
+	if (!isLoading && list.length === 0) {
+		return (
+			<VideoGallery
+				queryParams={{
+					part: "snippet",
+					channelId,
+					maxResults: 10,
+				}}
+				url="/search"
+			/>
+		);
+	}
 
-  return (
-    <ContentWrapper>
-      {list.map(
-        (section) =>
-          section?.contentDetails?.playlists?.length && (
-            <RenderIfVisible
-              key={section.id}
-              stayRendered={true}
-              visibleOffset={600}
-            >
-              <VideoSlider playlistId={section.contentDetails.playlists[0]} />
-              <Divider />
-            </RenderIfVisible>
-          )
-      )}
-    </ContentWrapper>
-  );
+	return (
+		<ContentWrapper>
+			{list.map(
+				(section) =>
+					section?.contentDetails?.playlists?.length && (
+						<RenderIfVisible
+							key={section.id}
+							stayRendered={true}
+							visibleOffset={600}
+						>
+							<VideoSlider playlistId={section.contentDetails.playlists[0]} />
+							<Divider />
+						</RenderIfVisible>
+					)
+			)}
+		</ContentWrapper>
+	);
 };
 
 ChannelHomePageContent.propTypes = {
-  channelId: PropTypes.string,
+	channelId: PropTypes.string,
 };
 
 export default ChannelHomePageContent;
