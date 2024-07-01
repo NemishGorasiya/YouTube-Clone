@@ -1,87 +1,80 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { Typography } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { filterFields } from "../../utils/constant";
 import {
-  Divider,
-  FilterContentWrapper,
-  FilterFieldTypography,
-  FilterFieldWrapper,
-  FilterModal,
-  FiltersButton,
-  StyledClearFilterIcon,
+	Divider,
+	FilterContentWrapper,
+	FilterFieldTypography,
+	FilterFieldWrapper,
+	FilterModal,
+	FiltersButton,
+	StyledClearFilterIcon,
 } from "./VideoFilterStyledComponents";
 
 const VideoFilter = ({ updateQueryParams, queryParams }) => {
-  const [open, setOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+	const openModal = useCallback(() => setIsModalOpen(true), []);
+	const closeModal = useCallback(() => setIsModalOpen(false), []);
 
-  const handleClose = () => setOpen(false);
+	const handleFilterChange = useCallback(
+		({ filterKey, filterValue }) => {
+			const isRemoving = queryParams[filterKey] === filterValue;
+			updateQueryParams({ key: filterKey, value: filterValue, isRemoving });
+			closeModal();
+		},
+		[queryParams, updateQueryParams, closeModal]
+	);
 
-  const handleFilterFieldClick = ({
-    filterKey,
-    filterValue,
-    isClearingFilter,
-  }) => {
-    updateQueryParams({
-      key: filterKey,
-      value: filterValue,
-      isRemoving: isClearingFilter,
-    });
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <FiltersButton onClick={handleOpen} variant="text" endIcon={<TuneIcon />}>
-        Filters
-      </FiltersButton>
-      <FilterModal open={open} handleClose={handleClose}>
-        <FilterContentWrapper>
-          {filterFields.map((filter) => {
-            const { title, filterKey, fields } = filter || {};
-            return (
-              <FilterFieldWrapper key={title}>
-                <Typography variant="body2">{title}</Typography>
-                <Divider flexItem />
-                {fields.map((field, idx) => {
-                  const { label, value } = field || {};
-                  return (
-                    <FilterFieldTypography
-                      onClick={() =>
-                        handleFilterFieldClick({
-                          filterKey: filterKey,
-                          filterValue: value,
-                          isClearingFilter: queryParams[filterKey] === value,
-                        })
-                      }
-                      key={idx}
-                      variant="body2"
-                      $textColor={
-                        queryParams[filterKey] === value ? "#fff" : null
-                      }
-                    >
-                      {label}{" "}
-                      {queryParams[filterKey] === value && (
-                        <StyledClearFilterIcon />
-                      )}
-                    </FilterFieldTypography>
-                  );
-                })}
-              </FilterFieldWrapper>
-            );
-          })}
-        </FilterContentWrapper>
-      </FilterModal>
-    </>
-  );
+	return (
+		<>
+			<FiltersButton onClick={openModal} variant="text" endIcon={<TuneIcon />}>
+				Filters
+			</FiltersButton>
+			<FilterModal open={isModalOpen} handleClose={closeModal}>
+				<Typography variant="h6">Search filters</Typography>
+				<FilterContentWrapper>
+					{filterFields.map((filter) => {
+						const { title, filterKey, fields } = filter || {};
+						return (
+							<FilterFieldWrapper key={title}>
+								<Typography variant="body2">{title}</Typography>
+								<Divider flexItem />
+								{fields.map((field, idx) => {
+									const { label, value } = field || {};
+									return (
+										<FilterFieldTypography
+											onClick={() =>
+												handleFilterChange({
+													filterKey,
+													filterValue: value,
+												})
+											}
+											key={idx}
+											variant="body2"
+											$isApplied={queryParams[filterKey] === value}
+										>
+											{label}{" "}
+											{queryParams[filterKey] === value && (
+												<StyledClearFilterIcon />
+											)}
+										</FilterFieldTypography>
+									);
+								})}
+							</FilterFieldWrapper>
+						);
+					})}
+				</FilterContentWrapper>
+			</FilterModal>
+		</>
+	);
 };
 
 VideoFilter.propTypes = {
-  updateQueryParams: PropTypes.func,
-  queryParams: PropTypes.object,
+	updateQueryParams: PropTypes.func,
+	queryParams: PropTypes.object,
 };
 
 export default VideoFilter;

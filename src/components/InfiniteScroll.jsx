@@ -18,7 +18,7 @@ const InfiniteScroll = ({
 }) => {
 	const observer = useRef();
 
-	const lastUserRef = useCallback(
+	const observeLastItem = useCallback(
 		(node) => {
 			if (isLoading) return;
 			if (observer.current) observer.current.disconnect();
@@ -37,7 +37,7 @@ const InfiniteScroll = ({
 			{items.map((item, index) => (
 				<RenderIfVisible key={index} stayRendered={true}>
 					<RenderItemWrapper
-						ref={items.length === index + 1 ? lastUserRef : null}
+						ref={items.length === index + 1 ? observeLastItem : null}
 					>
 						{renderItem({
 							...item,

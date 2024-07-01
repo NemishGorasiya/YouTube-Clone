@@ -6,7 +6,8 @@ export const ThemeContext = createContext();
 export const ThemeContextProvider = ({ children }) => {
 	const [themeMode, setThemeMode] = useState("systemPreference");
 
-	const changeThemeMode = (mode) => {
+	const changeThemeMode = (event) => {
+		const mode = event.target.closest("[data-id]").getAttribute("data-id");
 		setThemeMode(mode);
 	};
 

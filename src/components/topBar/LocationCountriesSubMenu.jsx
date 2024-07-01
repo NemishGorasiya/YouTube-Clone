@@ -4,72 +4,73 @@ import { Collapse } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import { UserPreferencesContext } from "../../context/UserPreferencesContext";
 import {
-  CountryListSubheader,
-  CountryMenuItem,
+	CountryListSubheader,
+	CountryMenuItem,
 } from "./TopBarStyledComponents";
 import { httpRequest } from "../../services/services";
 
 const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
-  const { location, changeLocation } = useContext(UserPreferencesContext);
+	const { location, changeLocation } = useContext(UserPreferencesContext);
 
-  const [countries, setCountries] = useState([]);
+	const [countries, setCountries] = useState([]);
 
-  const handleChangeLocation = (countryCode) => {
-    changeLocation(countryCode);
-  };
+	const handleChangeLocation = (event) => {
+		const countryCode = event.target
+			.closest("[data-gl]")
+			.getAttribute("data-gl");
+		changeLocation(countryCode);
+	};
 
-  const getCountries = async ({ abortController }) => {
-    try {
-      const queryParams = { part: "snippet" };
-      const res = await httpRequest({
-        url: "/i18nRegions",
-        queryParams,
-        abortController,
-      });
-      if (res) {
-        const { items } = res;
-        setCountries(items);
-      }
-    } catch (error) {
-      console.error(error.message || error);
-    }
-  };
+	const getCountries = async ({ abortController }) => {
+		try {
+			const queryParams = { part: "snippet" };
+			const res = await httpRequest({
+				url: "/i18nRegions",
+				queryParams,
+				abortController,
+			});
+			if (res?.items) {
+				setCountries(res.items);
+			}
+		} catch (error) {
+			console.error(error.message || error);
+		}
+	};
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    getCountries({ abortController });
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+	useEffect(() => {
+		const abortController = new AbortController();
+		getCountries({ abortController });
+		return () => {
+			abortController.abort();
+		};
+	}, []);
 
-  return (
-    <Collapse in={isLocationMenuOpen} timeout="auto" unmountOnExit>
-      <CountryListSubheader>
-        {countries.map((country) => {
-          const { id = "", snippet: { gl = "", name = "" } = {} } =
-            country || {};
-          const isActive = location === id;
+	return (
+		<Collapse in={isLocationMenuOpen} timeout="auto" unmountOnExit>
+			<CountryListSubheader>
+				{countries.map((country) => {
+					const { id = "", snippet: { gl = "", name = "" } = {} } =
+						country || {};
+					const isActive = location === id;
 
-          return (
-            <CountryMenuItem
-              key={id}
-              $isActive={isActive}
-              onClick={() => {
-                handleChangeLocation(gl);
-              }}
-            >
-              {name} {isActive && <DoneIcon fontSize="small" />}
-            </CountryMenuItem>
-          );
-        })}
-      </CountryListSubheader>
-    </Collapse>
-  );
+					return (
+						<CountryMenuItem
+							key={id}
+							$isActive={isActive}
+							data-gl={gl}
+							onClick={handleChangeLocation}
+						>
+							{name} {isActive && <DoneIcon fontSize="small" />}
+						</CountryMenuItem>
+					);
+				})}
+			</CountryListSubheader>
+		</Collapse>
+	);
 };
 
 LocationCountriesSubMenu.propTypes = {
-  isLocationMenuOpen: PropTypes.bool,
+	isLocationMenuOpen: PropTypes.bool,
 };
 
 export default LocationCountriesSubMenu;

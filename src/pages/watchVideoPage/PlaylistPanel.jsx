@@ -56,7 +56,7 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
 		}
 	}, [getPlaylistItems, nextPageToken]);
 
-	const filterPlaylist = useCallback(({ playlistItemId }) => {
+	const filterItemFromPlaylist = useCallback(({ playlistItemId }) => {
 		setPlaylist((prevPlaylist) => {
 			const { list } = prevPlaylist;
 			const filteredList = list.filter(
@@ -75,10 +75,10 @@ const PlaylistPanel = ({ playlistId, playlistName }) => {
 				key={playlistItem.id}
 				playlistItem={playlistItem}
 				playlistName={playlistName}
-				filterPlaylist={filterPlaylist}
+				filterPlaylist={filterItemFromPlaylist}
 			/>
 		),
-		[filterPlaylist, playlistName]
+		[filterItemFromPlaylist, playlistName]
 	);
 
 	useEffect(() => {

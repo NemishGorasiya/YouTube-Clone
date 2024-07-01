@@ -24,7 +24,6 @@ const CardThumbnail = ({ id, thumbnailUrl, duration }) => {
     <CardMediaWrapper
       onMouseEnter={handleMouseInEvent}
       onMouseLeave={handleMouseOutEvent}
-      sx={{ position: "relative" }}
     >
       {isHovered ? (
         <YouTubeIframe
