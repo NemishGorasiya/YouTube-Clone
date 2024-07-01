@@ -4,20 +4,23 @@ import PropTypes from "prop-types";
 export const ThemeContext = createContext();
 
 export const ThemeContextProvider = ({ children }) => {
-	const [themeMode, setThemeMode] = useState("systemPreference");
+  const [themeMode, setThemeMode] = useState(
+    localStorage.getItem("themeMode") || "systemPreference"
+  );
 
-	const changeThemeMode = (event) => {
-		const mode = event.target.closest("[data-id]").getAttribute("data-id");
-		setThemeMode(mode);
-	};
+  const changeThemeMode = (event) => {
+    const mode = event.target.closest("[data-id]").getAttribute("data-id");
+    localStorage.setItem("themeMode", mode);
+    setThemeMode(mode);
+  };
 
-	return (
-		<ThemeContext.Provider value={{ themeMode, changeThemeMode }}>
-			{children}
-		</ThemeContext.Provider>
-	);
+  return (
+    <ThemeContext.Provider value={{ themeMode, changeThemeMode }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
 
 ThemeContextProvider.propTypes = {
-	children: PropTypes.node,
+  children: PropTypes.node,
 };

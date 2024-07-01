@@ -20,6 +20,7 @@ import ThemeMenuItem from "./ThemeMenuItem";
 import {
   AvatarWrapper,
   ProfilePictureImage,
+  SignInButtonWrapper,
   StyledMenuPaper,
   TopBarRightDivider,
   UsernameMenuItem,
@@ -126,7 +127,9 @@ const TopBarRight = () => {
             )}
           </IconButton>
         </Tooltip>
-        {!isLoggedIn && <SignInButton />}
+        <SignInButtonWrapper>
+          {!isLoggedIn && <SignInButton />}
+        </SignInButtonWrapper>
       </AvatarWrapper>
       <Menu
         anchorEl={anchorEl}

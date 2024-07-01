@@ -6,12 +6,12 @@ import { httpRequest } from "../../services/services";
 import { AuthContext } from "../../context/AuthContext";
 import {
   calcDistanceToNow,
+  customParser,
   formatCompactNumber,
 } from "../../utils/utilityFunction";
 import CommentsSection from "./CommentsSection";
 import PlaylistPanel from "./PlaylistPanel";
 import ScrollToTopButton from "./ScrollToTopButton";
-import VideoDescription from "./VideoDescription";
 import AddToPlaylist from "./AddToPlaylist";
 import SubscribeButton from "../../components/SubscribeButton";
 import LikeDislike from "./LikeDislike";
@@ -37,6 +37,10 @@ import {
   YouTubeIframeWrapper,
 } from "./WatchVideoPageStyledComponents";
 import VideoPlayerSkeleton from "./VideoPlayerSkeleton";
+import {
+  ToggleButton,
+  VideoDescriptionComponent,
+} from "./VideoDescriptionStyledComponents";
 
 const WatchVideoPage = () => {
   const [videoDetails, setVideoDetails] = useState({
@@ -46,6 +50,7 @@ const WatchVideoPage = () => {
   const [channelDetails, setChannelDetails] = useState({
     data: {},
   });
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   const { isLoggedIn } = useContext(AuthContext);
 
@@ -118,6 +123,14 @@ const WatchVideoPage = () => {
     [videoId]
   );
 
+  const toggleVisibilityOfText = () => {
+    setIsDescriptionExpanded((prevState) => !prevState);
+    videoDescriptionRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   useEffect(() => {
     const abortController = new AbortController();
     fetchVideoDetails({ abortController: abortController });
@@ -187,10 +200,25 @@ const WatchVideoPage = () => {
                     </Tag>
                   ))}
               </Typography>
-              <VideoDescription
-                parentRef={videoDescriptionRef}
-                description={description}
-              />
+              {description && (
+                <VideoDescriptionComponent
+                  $isExpanded={isDescriptionExpanded}
+                  variant="body1"
+                  component="pre"
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: customParser(description),
+                    }}
+                  />
+                  <ToggleButton
+                    onClick={toggleVisibilityOfText}
+                    className="toggleTextVisibilityButton"
+                  >
+                    {isDescriptionExpanded ? "show less" : "...more"}
+                  </ToggleButton>
+                </VideoDescriptionComponent>
+              )}
             </VideoDescriptionContainer>
           </VideoPlayerWrapper>
         )}
