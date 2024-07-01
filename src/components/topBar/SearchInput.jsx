@@ -17,10 +17,10 @@ const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInputIsFocused, setSearchInputIsFocused] = useState(false);
 
+  const navigate = useNavigate();
+
   const searchInputRef = useRef(null);
   const searchButtonRef = useRef(null);
-
-  const navigate = useNavigate();
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -37,17 +37,18 @@ const SearchInput = () => {
   };
 
   const handleSearchSubmit = (event) => {
-    console.log("submit called");
     event.preventDefault();
     event.stopPropagation();
     searchVideos(searchQuery);
-    if (searchInputRef.current) {
-      console.log("focus hua");
-      searchInputRef.current.focus();
-    }
+    searchInputRef?.current?.focus();
   };
 
-  const handleInputBlur = (event) => {
+  const openSearchInput = () => {
+    setSearchInputIsFocused(true);
+    searchInputRef?.current?.focus();
+  };
+
+  const handleBlur = (event) => {
     if (
       searchButtonRef.current &&
       searchButtonRef.current.contains(event.relatedTarget)
@@ -58,13 +59,9 @@ const SearchInput = () => {
     setSearchInputIsFocused(false);
   };
 
-  const openSearchInput = () => {
+  const handleFocus = () => {
     setSearchInputIsFocused(true);
-    if (searchInputRef.current) {
-      console.log("focus");
-      console.log("ef", searchInputRef.current);
-      searchInputRef.current.focus();
-    }
+    searchInputRef?.current?.focus();
   };
 
   const searchIconAdornment = (
@@ -74,8 +71,8 @@ const SearchInput = () => {
   );
 
   useEffect(() => {
-    if (searchInputIsFocused && searchInputRef.current) {
-      searchInputRef.current.focus();
+    if (searchInputIsFocused) {
+      searchInputRef?.current?.focus();
     }
   }, [searchInputIsFocused]);
 
@@ -83,6 +80,8 @@ const SearchInput = () => {
     <SearchInputContainer
       $isSmallScreen={isSmallScreen}
       $searchInputIsFocused={searchInputIsFocused}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
     >
       <StyledForm
         onSubmit={handleSearchSubmit}
@@ -98,8 +97,6 @@ const SearchInput = () => {
           startAdornment={searchIconAdornment}
           $isSmallScreen={isSmallScreen}
           $searchInputIsFocused={searchInputIsFocused}
-          onFocus={() => setSearchInputIsFocused(true)}
-          onBlur={handleInputBlur}
         />
         <SearchIconWrapper
           ref={searchButtonRef}
