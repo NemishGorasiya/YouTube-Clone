@@ -50,7 +50,7 @@ const ChannelMetadata = ({ channelId }) => {
     setIsChannelDescriptionModalOpen(false);
 
   const getChannelDetails = useCallback(
-    async ({ signal }) => {
+    async ({ signal } = {}) => {
       const queryParams = {
         part: "snippet,statistics,brandingSettings",
         id: channelId,

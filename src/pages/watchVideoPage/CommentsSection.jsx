@@ -34,7 +34,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const { list, isLoading, nextPageToken, isDisabled } = comments;
 
   const getComments = useCallback(
-    async ({ nextPageToken, signal }) => {
+    async ({ nextPageToken, signal } = {}) => {
       try {
         const queryParams = {
           part: "snippet",
