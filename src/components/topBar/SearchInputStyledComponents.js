@@ -5,32 +5,26 @@ import crossImage from "../../assets/cross.png";
 
 const SEARCH_INPUT_HEIGHT = "40px";
 
-export const SearchIconWrapper = styledConfig("button")(
-  ({ theme, $isSmallScreen, $searchInputIsFocused }) => ({
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "55px",
-    color: theme.palette.primary.main,
-    border: `0.5px solid ${theme.palette.background.light}`,
-    background: theme.palette.background.light,
-    borderRadius: `0 ${SEARCH_INPUT_HEIGHT} ${SEARCH_INPUT_HEIGHT} 0`,
-    marginLeft: "auto",
-    cursor: "pointer",
-    ...($isSmallScreen &&
-      !$searchInputIsFocused && {
-        display: "none",
-      }),
-  })
-);
+export const SearchIconWrapper = styledConfig("button")(({ theme }) => ({
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "55px",
+  color: theme.palette.primary.main,
+  border: `0.5px solid ${theme.palette.background.light}`,
+  background: theme.palette.background.light,
+  borderRadius: `0 ${SEARCH_INPUT_HEIGHT} ${SEARCH_INPUT_HEIGHT} 0`,
+  marginLeft: "auto",
+  cursor: "pointer",
+}));
 
 export const InputAdornment = styledConfig(MuiInputAdornment)(({ theme }) => ({
   color: theme.palette.primary.main,
   position: "absolute",
   left: "0",
   transform: "translateX(-100%)",
-  border: `1px solid #5475c4f7`,
+  border: `1px solid ${theme.palette.background.light}`,
   minHeight: SEARCH_INPUT_HEIGHT,
   width: SEARCH_INPUT_HEIGHT,
   borderRight: "none",
@@ -41,120 +35,112 @@ export const InputAdornment = styledConfig(MuiInputAdornment)(({ theme }) => ({
   alignItems: "center",
 }));
 
-export const SearchInputContainer = styledConfig(Box)(
-  ({ theme, $isSmallScreen, $searchInputIsFocused }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    ...($isSmallScreen &&
-      $searchInputIsFocused && {
-        position: "fixed",
-        width: "calc(100% - 52px)",
-        background: theme.palette.background.default,
-        zIndex: "99",
-        margin: "auto",
-        left: "26px",
-        "@media (max-width: 600px)": {
-          width: "calc(100% - 32px)",
-          left: "16px",
-        },
-      }),
-    [theme.breakpoints.down("md")]: {
-      marginLeft: "auto",
+export const SearchInputContainer = styledConfig(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+    "&.visible": {
+      display: "flex",
+      position: "fixed",
+      background: theme.palette.background.default,
+      width: "calc(100% - 52px)",
+      zIndex: 99,
+      [theme.breakpoints.down("sm")]: {
+        width: "calc(100% - 32px)",
+      },
     },
-  })
-);
+  },
+}));
 
-export const StyledForm = styledConfig("form")(
-  ({ theme, $isSmallScreen, $searchInputIsFocused }) => ({
-    display: "flex",
-    alignItems: "center",
-    height: SEARCH_INPUT_HEIGHT,
-    maxWidth: "550px",
-    flex: $isSmallScreen ? "1" : "unset",
+export const StyledForm = styledConfig("form")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  height: SEARCH_INPUT_HEIGHT,
+  maxWidth: "550px",
+  "& .MuiInputBase-root:has(input[type='search']:focus)": {
+    borderRadius: 0,
+    border: "1px solid #5475c4f7",
+    borderLeft: "none",
+    paddingLeft: "9px",
+  },
+  "& .MuiInputBase-root .MuiInputAdornment-root": {
+    display: "none",
+  },
+
+  "& .MuiInputBase-root:has(input[type='search']:focus) .MuiInputAdornment-root":
+    {
+      display: "flex",
+      border: "1px solid #5475c4f7",
+      borderRight: "none",
+    },
+  [theme.breakpoints.down("md")]: {
+    flex: "1",
+    maxWidth: "unset",
     "& .MuiInputBase-root .MuiInputAdornment-root": {
-      display: "none",
+      display: "flex",
     },
     "& .MuiInputBase-root:has(input[type='search']:focus)": {
-      marginLeft: $isSmallScreen ? "40px" : "0",
+      paddingLeft: "8px",
     },
-    "& .MuiInputBase-root:has(input[type='search']:focus) .MuiInputAdornment-root":
-      {
-        display: "flex",
-      },
-    [theme.breakpoints.down("md")]: {
-      maxWidth: "unset",
-      "& .MuiInputBase-root .MuiInputAdornment-root": {
-        display: "flex",
-      },
+    "& .MuiInputBase-root": {
+      borderLeft: "none",
+      borderRadius: 0,
     },
-    ...($isSmallScreen && !$searchInputIsFocused && { display: "none" }),
-  })
-);
+  },
+}));
 
-export const StyledInputBase = styledConfig(InputBase)(
-  ({ theme, $searchInputIsFocused, $isSmallScreen }) => {
-    return {
-      height: "100%",
-      width: "100%",
-      border: `1px solid ${theme.palette.background.light}`,
-      borderRadius: "40px 0 0 40px",
-      paddingLeft: "0",
-      ...($searchInputIsFocused
-        ? {
-            paddingLeft: "11px",
-            borderColor: "#5475c4f7",
-          }
-        : {
-            borderRadius: "40px 0 0 40px",
-            paddingLeft: "10px",
-          }),
-      ...($isSmallScreen &&
-        ($searchInputIsFocused
-          ? {
-              borderRight: `1px solid #5475c4f7`,
-            }
-          : { opacity: 0, width: 0 })),
-      "& input[type='search']::-webkit-search-cancel-button": {
-        WebkitAppearance: "none",
-        height: "15px",
-        width: "15px",
-        background: `url(${crossImage})`,
-        backgroundSize: "cover",
-        filter: `invert(${theme.palette.mode === "light" ? 1 : 0})`,
-        position: "absolute",
-        right: "8px",
-        top: "50%",
-        transform: "translateY(-50%)",
-        cursor: "pointer",
-        ...($isSmallScreen && {
-          right: "12px",
-        }),
-      },
-      "& input[type='search']": {
-        paddingRight: "32px",
-      },
-      "&:has(input[type='search']:focus)": {
-        borderColor: "#5475c4f7",
-        borderRadius: "0",
-        borderLeft: "none",
-        paddingLeft: "11px",
-      },
-      [theme.breakpoints.down("md")]: {
-        borderRadius: "0",
-        borderLeft: "none",
-        paddingLeft: "12px",
-      },
-    };
-  }
-);
+export const StyledInputBase = styledConfig(InputBase)(({ theme }) => {
+  return {
+    height: "100%",
+    width: "100%",
+    border: `1px solid ${theme.palette.background.light}`,
+    borderRadius: `${SEARCH_INPUT_HEIGHT} 0 0 ${SEARCH_INPUT_HEIGHT}`,
+    paddingLeft: "8px",
+    "& input[type='search']::-webkit-search-cancel-button": {
+      WebkitAppearance: "none",
+      height: "15px",
+      width: "15px",
+      background: `url(${crossImage})`,
+      backgroundSize: "cover",
+      filter: `invert(${theme.palette.mode === "light" ? 1 : 0})`,
+      position: "absolute",
+      right: "8px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      cursor: "pointer",
+    },
+    "& input[type='search']": {
+      paddingRight: "32px",
+    },
+  };
+});
 
-export const OpenSearchInputButton = styledConfig(Box)({
-  height: "40px",
+export const OpenSearchInputButton = styledConfig(Box)(({ theme }) => ({
+  display: "none",
+  height: SEARCH_INPUT_HEIGHT,
   aspectRatio: "1/1",
-  display: "flex",
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
   marginRight: "5px",
-});
+  [theme.breakpoints.down("md")]: {
+    display: "flex",
+    marginLeft: "auto",
+    "&.hidden": {
+      display: "none",
+    },
+  },
+}));
+
+export const CloseSearchInputButton = styledConfig(Box)(({ theme }) => ({
+  paddingRight: SEARCH_INPUT_HEIGHT,
+  display: "none",
+  justifyContent: "center",
+  alignItems: "center",
+  cursor: "pointer",
+  [theme.breakpoints.down("md")]: {
+    display: "flex",
+  },
+}));

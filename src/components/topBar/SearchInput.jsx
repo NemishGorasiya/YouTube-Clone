@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
 import VoiceSearch from "./VoiceSearch";
 import {
+  CloseSearchInputButton,
   InputAdornment,
   OpenSearchInputButton,
   SearchIconWrapper,
@@ -15,15 +15,12 @@ import {
 
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchInputIsFocused, setSearchInputIsFocused] = useState(false);
 
   const navigate = useNavigate();
 
   const searchInputRef = useRef(null);
-  const searchButtonRef = useRef(null);
-
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const searchInputContainerRef = useRef(null);
+  const openSearchInputBtnRef = useRef(null);
 
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value);
@@ -44,24 +41,14 @@ const SearchInput = () => {
   };
 
   const openSearchInput = () => {
-    setSearchInputIsFocused(true);
+    searchInputContainerRef?.current?.classList.add("visible");
+    openSearchInputBtnRef?.current?.classList.add("hidden");
     searchInputRef?.current?.focus();
   };
 
-  const handleBlur = (event) => {
-    if (
-      searchButtonRef.current &&
-      searchButtonRef.current.contains(event.relatedTarget)
-    ) {
-      event.preventDefault();
-      return;
-    }
-    setSearchInputIsFocused(false);
-  };
-
-  const handleFocus = () => {
-    setSearchInputIsFocused(true);
-    searchInputRef?.current?.focus();
+  const closeSearchInput = () => {
+    searchInputContainerRef?.current?.classList.remove("visible");
+    openSearchInputBtnRef?.current?.classList.remove("hidden");
   };
 
   const searchIconAdornment = (
@@ -70,56 +57,34 @@ const SearchInput = () => {
     </InputAdornment>
   );
 
-  useEffect(() => {
-    if (searchInputIsFocused) {
-      searchInputRef?.current?.focus();
-    }
-  }, [searchInputIsFocused]);
-
   return (
-    <SearchInputContainer
-      $isSmallScreen={isSmallScreen}
-      $searchInputIsFocused={searchInputIsFocused}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-    >
-      <StyledForm
-        onSubmit={handleSearchSubmit}
-        $isSmallScreen={isSmallScreen}
-        $searchInputIsFocused={searchInputIsFocused}
-      >
-        <StyledInputBase
-          inputRef={searchInputRef}
-          value={searchQuery}
-          type="search"
-          placeholder="Search"
-          onChange={handleSearchQueryChange}
-          startAdornment={searchIconAdornment}
-          $isSmallScreen={isSmallScreen}
-          $searchInputIsFocused={searchInputIsFocused}
-        />
-        <SearchIconWrapper
-          ref={searchButtonRef}
-          $isSmallScreen={isSmallScreen}
-          $searchInputIsFocused={searchInputIsFocused}
-        >
-          <SearchIcon />
-        </SearchIconWrapper>
-      </StyledForm>
-      <>
-        {isSmallScreen && !searchInputIsFocused && (
-          <OpenSearchInputButton>
-            <SearchIcon onClick={openSearchInput} />
-          </OpenSearchInputButton>
-        )}
-        {(!isSmallScreen || searchInputIsFocused) && (
-          <VoiceSearch
-            handleSearchQueryChange={handleSearchQueryChange}
-            searchVideos={searchVideos}
+    <>
+      <SearchInputContainer ref={searchInputContainerRef}>
+        <CloseSearchInputButton>
+          <ArrowBackIcon onClick={closeSearchInput} />
+        </CloseSearchInputButton>
+        <StyledForm onSubmit={handleSearchSubmit}>
+          <StyledInputBase
+            inputRef={searchInputRef}
+            value={searchQuery}
+            type="search"
+            placeholder="Search"
+            onChange={handleSearchQueryChange}
+            startAdornment={searchIconAdornment}
           />
-        )}
-      </>
-    </SearchInputContainer>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+        </StyledForm>
+        <VoiceSearch
+          handleSearchQueryChange={handleSearchQueryChange}
+          searchVideos={searchVideos}
+        />
+      </SearchInputContainer>
+      <OpenSearchInputButton ref={openSearchInputBtnRef}>
+        <SearchIcon onClick={openSearchInput} />
+      </OpenSearchInputButton>
+    </>
   );
 };
 
