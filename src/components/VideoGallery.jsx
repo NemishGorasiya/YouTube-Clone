@@ -20,7 +20,7 @@ const VideoGallery = ({
   const { list, isLoading, nextPageToken } = videos;
 
   const fetchData = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
+    async ({ nextPageToken, signal } = {}) => {
       try {
         setVideos((prevVideos) => ({
           ...prevVideos,
@@ -33,7 +33,7 @@ const VideoGallery = ({
         };
         const response = await httpRequest({
           url: url,
-          abortController,
+          signal,
           queryParams,
         });
         if (response) {
@@ -64,7 +64,7 @@ const VideoGallery = ({
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    fetchData({ abortController: abortController });
+    fetchData({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

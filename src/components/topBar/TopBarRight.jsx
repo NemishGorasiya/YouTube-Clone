@@ -48,7 +48,7 @@ const TopBarRight = () => {
   };
 
   const getAccessToken = useCallback(
-    async ({ code, abortController }) => {
+    async ({ code, signal }) => {
       const urlencoded = new URLSearchParams();
       urlencoded.append("code", code);
       urlencoded.append("client_id", import.meta.env.VITE_CLIENT_ID);
@@ -59,7 +59,7 @@ const TopBarRight = () => {
       try {
         const res = await fetchAccessToken({
           urlencoded,
-          abortController,
+          signal,
         });
         if (res) {
           const { access_token = "", refresh_token = "" } = res;
@@ -94,7 +94,7 @@ const TopBarRight = () => {
     }
     const abortController = new AbortController();
     if (code) {
-      getAccessToken({ code, abortController });
+      getAccessToken({ code, signal: abortController.signal });
     }
     return () => {
       abortController.abort();

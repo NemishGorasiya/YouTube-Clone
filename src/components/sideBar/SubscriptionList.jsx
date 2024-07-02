@@ -35,7 +35,7 @@ const SubscriptionList = ({ open }) => {
   } = subscribedChannels;
 
   const getSubscribedChannels = useCallback(
-    async ({ abortController, nextPageToken, subscriptionId } = {}) => {
+    async ({ signal, nextPageToken, subscriptionId } = {}) => {
       try {
         const queryParams = {
           part: "snippet,contentDetails",
@@ -47,7 +47,7 @@ const SubscriptionList = ({ open }) => {
         const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
-          abortController,
+          signal,
         });
 
         if (res) {
@@ -87,7 +87,7 @@ const SubscriptionList = ({ open }) => {
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    getSubscribedChannels({ abortController });
+    getSubscribedChannels({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

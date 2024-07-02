@@ -32,7 +32,7 @@ const VideoSlider = ({ playlistId }) => {
   const slideToObserve = useRef(null);
 
   const getPlaylistVideos = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
+    async ({ nextPageToken, signal } = {}) => {
       const queryParams = {
         part: "snippet,status",
         playlistId,
@@ -44,7 +44,7 @@ const VideoSlider = ({ playlistId }) => {
         const res = await httpRequest({
           url: "/playlistItems",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { nextPageToken = "", items = [] } = res || {};
@@ -65,7 +65,7 @@ const VideoSlider = ({ playlistId }) => {
   );
 
   const getPlaylistDetails = useCallback(
-    async ({ abortController } = {}) => {
+    async ({ signal } = {}) => {
       const queryParams = {
         part: "snippet",
         id: playlistId,
@@ -75,7 +75,7 @@ const VideoSlider = ({ playlistId }) => {
         const res = await httpRequest({
           url: "/playlists",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { items = [] } = res;
@@ -98,8 +98,8 @@ const VideoSlider = ({ playlistId }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getPlaylistVideos({ abortController });
-    getPlaylistDetails({ abortController });
+    getPlaylistVideos({ signal: abortController.signal });
+    getPlaylistDetails({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

@@ -18,7 +18,7 @@ const ChannelHomePageContent = ({ channelId }) => {
   const { list, isLoading } = channelSections;
 
   const getChannelSections = useCallback(
-    async ({ abortController }) => {
+    async ({ signal } = {}) => {
       const queryParams = {
         part: "snippet,contentDetails",
         channelId,
@@ -27,7 +27,7 @@ const ChannelHomePageContent = ({ channelId }) => {
         const res = await httpRequest({
           url: "/channelSections",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { items } = res;
@@ -51,7 +51,7 @@ const ChannelHomePageContent = ({ channelId }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getChannelSections({ abortController });
+    getChannelSections({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

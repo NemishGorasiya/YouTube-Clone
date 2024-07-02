@@ -80,7 +80,7 @@ const WatchVideoPage = () => {
   const { viewCount, likeCount, commentCount } = statistics || {};
 
   const fetchVideoDetails = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       try {
         const queryParams = {
           part: "snippet,statistics",
@@ -89,7 +89,7 @@ const WatchVideoPage = () => {
         const response = await httpRequest({
           url: "/videos",
           queryParams,
-          abortController,
+          signal,
         });
         if (response) {
           setChannelDetails({
@@ -133,7 +133,7 @@ const WatchVideoPage = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    fetchVideoDetails({ abortController: abortController });
+    fetchVideoDetails({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

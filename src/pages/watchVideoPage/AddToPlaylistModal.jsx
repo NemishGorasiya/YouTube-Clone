@@ -132,35 +132,32 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   };
 
   const { list, isLoading, nextPageToken } = playlists || {};
-  const getPlaylists = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
-      try {
-        const queryParams = {
-          part: "snippet,status",
-          maxResults: 15,
-          mine: true,
-          pageToken: nextPageToken,
-        };
+  const getPlaylists = useCallback(async ({ nextPageToken, signal } = {}) => {
+    try {
+      const queryParams = {
+        part: "snippet,status",
+        maxResults: 15,
+        mine: true,
+        pageToken: nextPageToken,
+      };
 
-        const res = await httpRequest({
-          url: "/playlists",
-          queryParams,
-          abortController,
-        });
-        if (res) {
-          const { items, nextPageToken } = res;
-          setPlaylists((prevList) => ({
-            list: [...prevList.list, ...items],
-            isLoading: false,
-            nextPageToken,
-          }));
-        }
-      } catch (error) {
-        console.error(error);
+      const res = await httpRequest({
+        url: "/playlists",
+        queryParams,
+        signal,
+      });
+      if (res) {
+        const { items, nextPageToken } = res;
+        setPlaylists((prevList) => ({
+          list: [...prevList.list, ...items],
+          isLoading: false,
+          nextPageToken,
+        }));
       }
-    },
-    []
-  );
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   const loadMorePlaylists = () => {
     if (nextPageToken) {
@@ -200,7 +197,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    getPlaylists({ abortController: abortController });
+    getPlaylists({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

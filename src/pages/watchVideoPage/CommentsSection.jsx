@@ -34,7 +34,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
   const { list, isLoading, nextPageToken, isDisabled } = comments;
 
   const getComments = useCallback(
-    async ({ nextPageToken, abortController }) => {
+    async ({ nextPageToken, signal }) => {
       try {
         const queryParams = {
           part: "snippet",
@@ -47,7 +47,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
         const response = await httpRequest({
           url: "/commentThreads",
           queryParams,
-          abortController: abortController,
+          signal,
         });
 
         setComments((prevComments) => ({
@@ -125,7 +125,7 @@ const CommentsSection = ({ videoId, channelId, commentCount }) => {
       isDisabled: false,
     });
     const abortController = new AbortController();
-    getComments({ abortController: abortController });
+    getComments({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

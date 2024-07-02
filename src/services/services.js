@@ -14,11 +14,11 @@ export const getUserInfo = async ({ accessToken }) => {
   }
 };
 
-export const fetchAccessToken = async ({ urlencoded, abortController }) => {
+export const fetchAccessToken = async ({ urlencoded, signal }) => {
   const requestOptions = {
     method: "POST",
     body: urlencoded,
-    signal: abortController ? abortController.signal : null,
+    signal,
   };
 
   try {
@@ -40,7 +40,7 @@ export const httpRequest = async ({
   queryParams = {},
   headers = {},
   data = {},
-  abortController = null,
+  signal,
   returnEntireResponseWithStatusCode = false,
 }) => {
   const params = { ...queryParams, key: import.meta.env.VITE_GOOGLE_API_KEY };
@@ -51,7 +51,7 @@ export const httpRequest = async ({
       params: params,
       headers,
       data,
-      ...(abortController && { signal: abortController.signal }),
+      signal,
     };
     const res = await axiosInstance(config);
     if (returnEntireResponseWithStatusCode) {

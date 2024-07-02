@@ -74,7 +74,7 @@ const LikeDislike = ({
   };
 
   const getRating = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       try {
         const queryParams = {
           id: videoId,
@@ -82,7 +82,7 @@ const LikeDislike = ({
         const res = await httpRequest({
           url: "/videos/getRating",
           queryParams,
-          abortController,
+          signal,
         });
         if (res && res.items.length > 0) {
           setRating(res.items[0].rating || null);
@@ -97,7 +97,7 @@ const LikeDislike = ({
   useEffect(() => {
     const abortController = new AbortController();
     if (isLoggedIn && !isCommentLikeDislike) {
-      getRating({ abortController });
+      getRating({ signal: abortController.signal });
     }
     return () => {
       abortController.abort();
