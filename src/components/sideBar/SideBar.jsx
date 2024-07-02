@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Fragment, useContext } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ListItemText from "@mui/material/ListItemText";
@@ -21,6 +20,7 @@ import {
   NavLinkTypography,
   SideBarLinksWrapper,
   SignInSection,
+  StyledNavLink,
 } from "./SideBarStyledComponents";
 
 const SideBar = ({ open, toggleDrawer }) => {
@@ -28,13 +28,6 @@ const SideBar = ({ open, toggleDrawer }) => {
 
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-
-  const [searchParams] = useSearchParams();
-
-  const isActiveByQueryParam = (paramName, paramValue) => {
-    const params = new URLSearchParams(searchParams);
-    return params.get(paramName) === paramValue;
-  };
 
   return (
     <Drawer
@@ -56,22 +49,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                     {sideBarSection.titleIcon}
                   </NavBarListTitle>
                   {sideBarSection.links.map((link, idx) => (
-                    <NavLink
-                      to={link.link}
-                      key={idx}
-                      style={({ isActive }) =>
-                        isActive &&
-                        (link.queryKey
-                          ? isActiveByQueryParam(link.queryKey, link.queryValue)
-                          : true)
-                          ? {
-                              display: "block",
-                              background: theme.palette.background.light,
-                              borderRadius: "10px",
-                            }
-                          : {}
-                      }
-                    >
+                    <StyledNavLink to={link.link} key={idx}>
                       <ListItem key={idx}>
                         <ListItemButton $open={open}>
                           <ListItemIcon>{link.icon}</ListItemIcon>
@@ -86,7 +64,7 @@ const SideBar = ({ open, toggleDrawer }) => {
                           </ListItemText>
                         </ListItemButton>
                       </ListItem>
-                    </NavLink>
+                    </StyledNavLink>
                   ))}
                 </NavBarList>
                 <Divider />

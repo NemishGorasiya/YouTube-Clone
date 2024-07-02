@@ -47,13 +47,19 @@ export const Divider = styledConfig(MuiDivider)({
   borderBottomWidth: "2px",
 });
 
+export const FilterTitleTypography = styledConfig(Typography)({
+  fontWeight: "500",
+  fontSize: "12px",
+});
+
 export const FilterFieldTypography = styledConfig(Typography)(
-  ({ $textColor }) => ({
-    color: $textColor || "grey",
+  ({ theme, $isApplied }) => ({
+    color: $isApplied ? theme.palette.primary.main : "grey",
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
     gap: "8px",
+    fontWeight: $isApplied ? "700" : "400",
   })
 );
 

@@ -15,7 +15,7 @@ const ChannelThumbnail = ({ channelId }) => {
   const { url: thumbnailUrl, isLoading } = channelThumbnail;
 
   const getChannelDetails = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       const queryParams = {
         part: "snippet",
         id: channelId,
@@ -24,17 +24,11 @@ const ChannelThumbnail = ({ channelId }) => {
         const res = await httpRequest({
           url: "/channels",
           queryParams,
-
-          abortController,
+          signal,
         });
         if (res) {
-          const { items } = res ?? {};
-          const { snippet } = items[0] ?? {};
-          const { thumbnails } = snippet ?? {};
-          const { high } = thumbnails ?? {};
-          const { url } = high ?? {};
           setChannelThumbnail({
-            url: url,
+            url: res?.items?.[0]?.snippet?.thumbnails?.high?.url || "",
             isLoading: false,
           });
         }
@@ -46,7 +40,7 @@ const ChannelThumbnail = ({ channelId }) => {
   );
   useEffect(() => {
     const abortController = new AbortController();
-    getChannelDetails({ abortController });
+    getChannelDetails({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

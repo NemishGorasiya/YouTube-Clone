@@ -35,9 +35,8 @@ const ThemeMenuItem = () => {
             return (
               <TopBarRightMenuItem
                 key={value}
-                onClick={() => {
-                  changeThemeMode(value);
-                }}
+                data-id={value}
+                onClick={changeThemeMode}
                 $isActive={isActive}
               >
                 <ListItemStyledIcon>{icon}</ListItemStyledIcon>

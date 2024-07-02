@@ -46,6 +46,8 @@ const refreshAccessToken = async () => {
 
 const refreshAndRetryQueue = [];
 let isRefreshing = false;
+let retryCount = 0;
+const maxRetries = 3;
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -57,12 +59,20 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
+      if (retryCount >= maxRetries) {
+        // Clear local storage and log out user
+        localStorage.removeItem("user");
+        window.location.href = "/"; // Redirect to login page
+        return Promise.reject(error);
+      }
+
       if (!isRefreshing) {
         isRefreshing = true;
         originalRequest._retry = true;
 
         try {
           const newAccessToken = await refreshAccessToken();
+          retryCount = 0; // Reset retry count on success
 
           // Retry all requests in the queue with the new token
           refreshAndRetryQueue.forEach((req) => {
@@ -77,6 +87,7 @@ axiosInstance.interceptors.response.use(
           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosInstance(originalRequest);
         } catch (refreshError) {
+          retryCount++;
           isRefreshing = false;
           console.error("Token refresh failed", refreshError);
           window.location.href = "/";

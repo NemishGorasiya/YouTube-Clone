@@ -3,11 +3,11 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 import { Button } from "./ScrollToTopButtonStyledComponents";
 
 const ScrollToTopButton = () => {
-  const [visible, setVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const toggleVisible = useCallback(() => {
+  const checkScrollTop = useCallback(() => {
     const scrolled = document.documentElement.scrollTop;
-    setVisible(scrolled > 1500);
+    setIsScrolled(scrolled > 1500);
   }, []);
 
   const scrollToTop = () => {
@@ -18,14 +18,14 @@ const ScrollToTopButton = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisible);
+    window.addEventListener("scroll", checkScrollTop);
     return () => {
-      window.removeEventListener("scroll", toggleVisible);
+      window.removeEventListener("scroll", checkScrollTop);
     };
-  }, [toggleVisible]);
+  }, [checkScrollTop]);
 
   return (
-    <Button $visible={visible} variant="contained" onClick={scrollToTop}>
+    <Button $isScrolled={isScrolled} variant="contained" onClick={scrollToTop}>
       <KeyboardDoubleArrowUpIcon /> Scroll To Top
     </Button>
   );

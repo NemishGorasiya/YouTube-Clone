@@ -23,9 +23,7 @@ const SubscribeButton = ({
   channelName,
   subscriptionId: subscriptionIdProp,
 }) => {
-  const { handleAddChannel, handleRemoveChannel } = useContext(
-    SubscriptionListContext
-  );
+  const { addChannel, removeChannel } = useContext(SubscriptionListContext);
   const { isLoggedIn } = useContext(AuthContext);
 
   const [subscriptionStatus, setSubscriptionStatus] = useState({
@@ -39,28 +37,28 @@ const SubscribeButton = ({
   const { isSubscribed, isLoading } = subscriptionStatus || {};
   const isOpenMenu = Boolean(anchorEl);
 
-  const handleOpenMenu = (event) => {
+  const openMenu = (event) => {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseMenu = (event) => {
+  const closeMenu = (event) => {
     event.preventDefault();
     setAnchorEl(null);
   };
 
-  const handleCloseConfirmationModal = (event) => {
+  const closeConfirmationModal = (event) => {
     event.preventDefault();
     setIsOpenConfirmationModal(false);
   };
 
-  const handleOpenConfirmationModal = (event) => {
+  const openConfirmationModal = (event) => {
     event.preventDefault();
     setIsOpenConfirmationModal(true);
     setAnchorEl(null);
   };
 
-  const handleUnsubscribeToChannel = async (event) => {
+  const unsubscribeToChannel = async (event) => {
     event.preventDefault();
     try {
       const queryParams = {
@@ -73,7 +71,7 @@ const SubscribeButton = ({
         returnEntireResponseWithStatusCode: true,
       });
       if (res.status === 204) {
-        handleRemoveChannel(subscriptionId);
+        removeChannel(subscriptionId);
         setSubscriptionStatus((prevState) => ({
           ...prevState,
           isSubscribed: false,
@@ -85,7 +83,7 @@ const SubscribeButton = ({
     }
   };
 
-  const handleSubscribeToChannel = async (event) => {
+  const subscribeToChannel = async (event) => {
     event.preventDefault();
     try {
       const queryParams = {
@@ -106,7 +104,7 @@ const SubscribeButton = ({
       });
       if (res) {
         const { id: subscriptionId } = res;
-        handleAddChannel(subscriptionId);
+        addChannel(subscriptionId);
         setSubscriptionStatus((prevState) => ({
           ...prevState,
           isSubscribed: true,
@@ -122,7 +120,7 @@ const SubscribeButton = ({
   };
 
   const getSubscriptionStatus = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       try {
         const queryParams = {
           part: "snippet",
@@ -132,7 +130,7 @@ const SubscribeButton = ({
         const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { items = [] } = res;
@@ -155,7 +153,7 @@ const SubscribeButton = ({
   useEffect(() => {
     const abortController = new AbortController();
     if (!subscriptionIdProp && isLoggedIn) {
-      getSubscriptionStatus({ abortController });
+      getSubscriptionStatus({ signal: abortController.signal });
     }
     return () => {
       abortController.abort();
@@ -171,38 +169,35 @@ const SubscribeButton = ({
     />
   ) : isSubscribed ? (
     <>
-      <SubscribedButton
-        endIcon={<KeyboardArrowDownIcon />}
-        onClick={handleOpenMenu}
-      >
+      <SubscribedButton endIcon={<KeyboardArrowDownIcon />} onClick={openMenu}>
         Subscribed
       </SubscribedButton>
       <Menu
         open={isOpenMenu}
-        onClose={handleCloseMenu}
+        onClose={closeMenu}
         anchorEl={anchorEl}
         transformOrigin={{ horizontal: "left", vertical: "top" }}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleOpenConfirmationModal}>
+        <MenuItem onClick={openConfirmationModal}>
           <PersonRemoveAlt1OutlinedIcon /> Unsubscribe
         </MenuItem>
       </Menu>
       <StyledModal
         open={isOpenConfirmationModal}
-        handleClose={handleCloseConfirmationModal}
+        handleClose={closeConfirmationModal}
       >
         <ModalContent>
           <Typography variant="subtitle1">
             Unsubscribe from {channelName}?
           </Typography>
           <UserActionButtonWrapper>
-            <UserActionButton onClick={handleCloseConfirmationModal}>
+            <UserActionButton onClick={closeConfirmationModal}>
               Cancel
             </UserActionButton>
             <UserActionButton
               $textColor="#3EA6FF"
-              onClick={handleUnsubscribeToChannel}
+              onClick={unsubscribeToChannel}
             >
               Unsubscribe
             </UserActionButton>
@@ -213,7 +208,7 @@ const SubscribeButton = ({
   ) : (
     <DoSubscribeButton
       variant="contained"
-      onClick={handleSubscribeToChannel}
+      onClick={subscribeToChannel}
       disabled={!isLoggedIn}
     >
       Subscribe

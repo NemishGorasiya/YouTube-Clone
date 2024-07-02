@@ -50,7 +50,7 @@ const ChannelMetadata = ({ channelId }) => {
     setIsChannelDescriptionModalOpen(false);
 
   const getChannelDetails = useCallback(
-    async ({ abortController }) => {
+    async ({ signal } = {}) => {
       const queryParams = {
         part: "snippet,statistics,brandingSettings",
         id: channelId,
@@ -58,7 +58,7 @@ const ChannelMetadata = ({ channelId }) => {
       try {
         const res = await httpRequest({
           url: "/channels",
-          abortController,
+          signal,
           queryParams,
         });
         if (res) {
@@ -76,7 +76,7 @@ const ChannelMetadata = ({ channelId }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getChannelDetails({ abortController: abortController });
+    getChannelDetails({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

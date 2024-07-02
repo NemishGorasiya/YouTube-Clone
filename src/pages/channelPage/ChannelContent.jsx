@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import VideoGallery from "../../components/VideoGallery";
@@ -14,6 +14,14 @@ import {
 
 const ChannelContent = ({ channelId }) => {
   const [currentContentCategory, setCurrentContentCategory] = useState("home");
+
+  const handleTabClick = useCallback((event) => {
+    const category = event.target
+      .closest("[data-category]")
+      .getAttribute("data-category");
+    setCurrentContentCategory(category);
+  }, []);
+
   return (
     <div>
       <TabsWrapper>
@@ -23,9 +31,8 @@ const ChannelContent = ({ channelId }) => {
             return (
               <ChannelSectionTab
                 key={value}
-                onClick={() => {
-                  setCurrentContentCategory(value);
-                }}
+                data-category={value}
+                onClick={handleTabClick}
                 $isActive={value === currentContentCategory}
               >
                 {label}

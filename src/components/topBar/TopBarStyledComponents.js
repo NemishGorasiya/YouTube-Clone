@@ -42,6 +42,7 @@ export const Toolbar = styledConfig(MuiToolbar)({
   alignItems: "center",
   justifyContent: "space-between",
   height: "56px",
+  gap: "8px",
   "@media (min-width: 600px)": {
     minHeight: "100%",
   },
@@ -83,8 +84,8 @@ export const TopBarLeft = styledConfig(Box)({
 });
 
 export const ProfilePictureImage = styledConfig("img")({
-  width: "32px",
-  height: "32px",
+  width: "40px",
+  height: "40px",
   borderRadius: "50%",
   objectFit: "cover",
 });
@@ -99,6 +100,12 @@ export const AvatarWrapper = styledConfig(Box)({
   alignItems: "center",
   textAlign: "center",
 });
+
+export const SignInButtonWrapper = styledConfig(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}));
 
 export const CountryListSubheader = styledConfig(ListSubheader)({
   maxHeight: "50vh",
@@ -134,8 +141,8 @@ export const LogoContainer = styledConfig(Box)(({ theme }) => ({
     top: "3px",
     left: "103%",
     position: "absolute",
-    height: "50px",
-    width: "50px",
+    height: "fit-content",
+    width: "fit-content",
     fontSize: "10px",
     color: theme.palette.primary.light,
     fontFamily: "sans-serif",

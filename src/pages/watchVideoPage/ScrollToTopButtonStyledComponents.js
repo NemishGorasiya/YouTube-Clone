@@ -1,9 +1,9 @@
 import styledConfig from "../../utils/styledConfig";
 import MuiButton from "@mui/material/Button";
 
-export const Button = styledConfig(MuiButton)(({ $visible }) => ({
+export const Button = styledConfig(MuiButton)(({ $isScrolled }) => ({
   display: "none",
-  ...($visible && {
+  ...($isScrolled && {
     display: "flex",
     flexWrap: "nowrap",
     padding: "4px 8px",

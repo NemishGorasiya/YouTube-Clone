@@ -6,24 +6,30 @@ import { AuthContext } from "../../context/AuthContext";
 import { AddToPlaylistButton } from "./AddToPlaylistStyledComponents";
 
 const AddToPlaylist = ({ videoId }) => {
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { isLoggedIn } = useContext(AuthContext);
 
-  const handleOpen = () => setOpen(true);
+  const openModal = () => {
+    if (isLoggedIn) {
+      setIsModalOpen(true);
+    }
+  };
 
-  const handleClose = () => setOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
-      <AddToPlaylistButton onClick={isLoggedIn ? handleOpen : null}>
+      <AddToPlaylistButton onClick={openModal}>
         <PlaylistAddIcon /> Save
       </AddToPlaylistButton>
-      {open && (
+      {isModalOpen && (
         <AddToPlaylistModal
           videoId={videoId}
-          open={open}
-          handleClose={handleClose}
+          open={isModalOpen}
+          handleClose={closeModal}
         />
       )}
     </>

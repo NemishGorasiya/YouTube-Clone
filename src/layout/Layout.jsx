@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import NProgress from "nprogress";
 import { nprogressConfig } from "../utils/constant";
@@ -28,7 +28,9 @@ const Layout = () => {
       <RightPanel component="main">
         <DrawerHeader />
         <NoInternetPage>
-          <Outlet />
+          <Suspense fallback={<></>}>
+            <Outlet />
+          </Suspense>
         </NoInternetPage>
       </RightPanel>
     </LayoutComponent>

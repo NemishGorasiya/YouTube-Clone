@@ -34,11 +34,7 @@ export const formatDate = (date) => {
 };
 
 const formatNumber = (number) => {
-  if (number < 10) {
-    return `0${number}`;
-  } else {
-    return number;
-  }
+  return number.toString().padStart(2, "0");
 };
 
 export const isoDurationToDDHHMM = (isoDuration) => {

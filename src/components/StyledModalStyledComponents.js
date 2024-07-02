@@ -12,7 +12,7 @@ export const ModalContentWrapper = styledConfig(Box)(({ theme }) => ({
   padding: "40px 32px",
   borderRadius: "12px",
   outline: "none",
-  background: theme.palette.background.light,
+  background: theme.palette.background.main,
 }));
 
 export const CloseModalButton = styledConfig(IconButton)({

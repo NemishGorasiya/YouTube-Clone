@@ -37,17 +37,17 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
     } = {},
   } = playlistItem || {};
 
-  const openMoreOptionsMenu = (event) => {
+  const openMenu = (event) => {
     event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseMoreOptionsMenu = (event) => {
+  const closeMenu = (event) => {
     event.stopPropagation();
     setAnchorEl(null);
   };
 
-  const handleRemoveFromPlaylist = async () => {
+  const removeFromPlaylist = async () => {
     try {
       const queryParams = {
         id: playlistItemId,
@@ -84,20 +84,20 @@ const PlaylistItem = ({ playlistItem, playlistName, filterPlaylist }) => {
           </VideoTitleWrapper>
         </PlaylistContent>
       </Link>
-      <IconButton onClick={openMoreOptionsMenu}>
+      <IconButton onClick={openMenu}>
         <MoreVertIcon />
       </IconButton>
       <Menu
         open={isOpenMoreOptions}
         anchorEl={anchorEl}
-        onClose={handleCloseMoreOptionsMenu}
+        onClose={closeMenu}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem disabled={!isLoggedIn}>
           <AddToPlaylist videoId={videoId} />
         </MenuItem>
-        <MenuItem onClick={handleRemoveFromPlaylist}>
+        <MenuItem onClick={removeFromPlaylist}>
           <DeleteOutlineOutlinedIcon />
           Remove from {playlistName}
         </MenuItem>

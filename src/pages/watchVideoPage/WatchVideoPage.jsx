@@ -6,12 +6,12 @@ import { httpRequest } from "../../services/services";
 import { AuthContext } from "../../context/AuthContext";
 import {
   calcDistanceToNow,
+  customParser,
   formatCompactNumber,
 } from "../../utils/utilityFunction";
 import CommentsSection from "./CommentsSection";
 import PlaylistPanel from "./PlaylistPanel";
 import ScrollToTopButton from "./ScrollToTopButton";
-import VideoDescription from "./VideoDescription";
 import AddToPlaylist from "./AddToPlaylist";
 import SubscribeButton from "../../components/SubscribeButton";
 import LikeDislike from "./LikeDislike";
@@ -37,6 +37,10 @@ import {
   YouTubeIframeWrapper,
 } from "./WatchVideoPageStyledComponents";
 import VideoPlayerSkeleton from "./VideoPlayerSkeleton";
+import {
+  ToggleButton,
+  VideoDescriptionComponent,
+} from "./VideoDescriptionStyledComponents";
 
 const WatchVideoPage = () => {
   const [videoDetails, setVideoDetails] = useState({
@@ -46,6 +50,7 @@ const WatchVideoPage = () => {
   const [channelDetails, setChannelDetails] = useState({
     data: {},
   });
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   const { isLoggedIn } = useContext(AuthContext);
 
@@ -75,7 +80,7 @@ const WatchVideoPage = () => {
   const { viewCount, likeCount, commentCount } = statistics || {};
 
   const fetchVideoDetails = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       try {
         const queryParams = {
           part: "snippet,statistics",
@@ -84,7 +89,7 @@ const WatchVideoPage = () => {
         const response = await httpRequest({
           url: "/videos",
           queryParams,
-          abortController,
+          signal,
         });
         if (response) {
           setChannelDetails({
@@ -118,9 +123,17 @@ const WatchVideoPage = () => {
     [videoId]
   );
 
+  const toggleVisibilityOfText = () => {
+    setIsDescriptionExpanded((prevState) => !prevState);
+    videoDescriptionRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   useEffect(() => {
     const abortController = new AbortController();
-    fetchVideoDetails({ abortController: abortController });
+    fetchVideoDetails({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };
@@ -135,7 +148,7 @@ const WatchVideoPage = () => {
           <VideoPlayerWrapper>
             <YouTubeIframeWrapper>
               <YouTubeIframe
-                src={`https:/www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1`}
+                src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1`}
                 title="YouTube video player"
                 allow="fullscreen"
               />
@@ -187,10 +200,25 @@ const WatchVideoPage = () => {
                     </Tag>
                   ))}
               </Typography>
-              <VideoDescription
-                parentRef={videoDescriptionRef}
-                description={description}
-              />
+              {description && (
+                <VideoDescriptionComponent
+                  $isExpanded={isDescriptionExpanded}
+                  variant="body1"
+                  component="pre"
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: customParser(description),
+                    }}
+                  />
+                  <ToggleButton
+                    onClick={toggleVisibilityOfText}
+                    className="toggleTextVisibilityButton"
+                  >
+                    {isDescriptionExpanded ? "show less" : "...more"}
+                  </ToggleButton>
+                </VideoDescriptionComponent>
+              )}
             </VideoDescriptionContainer>
           </VideoPlayerWrapper>
         )}

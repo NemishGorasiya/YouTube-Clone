@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
@@ -13,6 +13,7 @@ import {
 } from "./LikeDislikeStyledComponents";
 import toast from "react-hot-toast";
 import { httpRequest } from "../../services/services.js";
+import { videoLikeDislikeMessages } from "../../utils/constant.jsx";
 
 const LikeDislike = ({
   isLoggedIn,
@@ -39,52 +40,41 @@ const LikeDislike = ({
         returnEntireResponseWithStatusCode: true,
       });
       if (res.status === 204) {
-        let toastMessage;
-        switch (rating) {
-          case "like":
-            toastMessage = "Video liked";
-            break;
-          case "dislike":
-            toastMessage = "Video disliked";
-            break;
-          default:
-            toastMessage = "Video rating removed";
-            break;
-        }
-        toast(toastMessage);
+        toast(videoLikeDislikeMessages[rating] || "Rating updated");
       }
     } catch (error) {
       console.error(error.message || error);
     }
   };
 
-  const rateVideo = async (operation) => {
+  const handleLikeDislike = async (event) => {
     const LIKE = "like";
     const DISLIKE = "dislike";
 
-    if (operation === LIKE && rating !== LIKE) {
-      updateRating("like");
-      setRating(LIKE);
-      setLikeCount((prevCount) => String(+prevCount + 1));
-    } else if (operation === LIKE && rating === LIKE) {
-      updateRating("none");
-      setRating(null);
-      setLikeCount((prevCount) => String(+prevCount - 1));
-    } else if (operation === DISLIKE && rating === LIKE) {
-      updateRating("dislike");
-      setRating(DISLIKE);
-      setLikeCount((prevCount) => String(+prevCount - 1));
-    } else if (operation === DISLIKE && rating === DISLIKE) {
-      updateRating("none");
-      setRating(null);
-    } else if (operation === DISLIKE && rating !== DISLIKE) {
-      updateRating("dislike");
-      setRating(DISLIKE);
+    const type = event.target
+      .closest("[data-rating]")
+      .getAttribute("data-rating");
+
+    const isLike = type === LIKE;
+    const isDislike = type === DISLIKE;
+
+    if (isLike) {
+      const newRating = rating === LIKE ? "none" : LIKE;
+      setLikeCount((prev) => String(rating === LIKE ? +prev - 1 : +prev + 1));
+      setRating(newRating);
+      await updateRating(newRating);
+    } else if (isDislike) {
+      const newRating = rating === DISLIKE ? "none" : DISLIKE;
+      setRating(newRating);
+      if (rating === LIKE) {
+        setLikeCount((prev) => String(+prev - 1));
+      }
+      await updateRating(newRating);
     }
   };
 
   const getRating = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       try {
         const queryParams = {
           id: videoId,
@@ -92,12 +82,10 @@ const LikeDislike = ({
         const res = await httpRequest({
           url: "/videos/getRating",
           queryParams,
-          abortController,
+          signal,
         });
-        if (res) {
-          const { items } = res;
-          const { rating } = items.length > 0 ? items[0] : {};
-          setRating(rating);
+        if (res && res.items.length > 0) {
+          setRating(res.items[0].rating || null);
         }
       } catch (error) {
         console.error(error.message || error);
@@ -109,7 +97,7 @@ const LikeDislike = ({
   useEffect(() => {
     const abortController = new AbortController();
     if (isLoggedIn && !isCommentLikeDislike) {
-      getRating({ abortController });
+      getRating({ signal: abortController.signal });
     }
     return () => {
       abortController.abort();
@@ -123,9 +111,8 @@ const LikeDislike = ({
     >
       <LikeButton
         disabled={!isLoggedIn}
-        onClick={() => {
-          rateVideo("like");
-        }}
+        data-rating="like"
+        onClick={handleLikeDislike}
         $isCommentLikeDislike={isCommentLikeDislike}
       >
         {rating === "like" ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
@@ -136,9 +123,8 @@ const LikeDislike = ({
       )}
       <DislikeButton
         disabled={!isLoggedIn}
-        onClick={() => {
-          rateVideo("dislike");
-        }}
+        data-rating="dislike"
+        onClick={handleLikeDislike}
         $isCommentLikeDislike={isCommentLikeDislike}
       >
         {rating === "dislike" ? <ThumbDownIcon /> : <ThumbDownOffAltIcon />}

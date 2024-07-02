@@ -154,7 +154,9 @@ export const ChannelName = styledConfig(MuiTypography)({
   fontSize: "14px",
   overflow: "hidden",
   textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  WebkitLineClamp: "1",
 });
 
 export const VideoMetadata = styledConfig(MuiBox)(({ theme }) => ({

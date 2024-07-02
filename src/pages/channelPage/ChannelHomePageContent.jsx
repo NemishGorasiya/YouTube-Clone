@@ -11,10 +11,14 @@ const ChannelHomePageContent = ({ channelId }) => {
     list: [],
     isLoading: true,
   });
+  const [
+    isChannelSectionPlaylistsAvailable,
+    setIsChannelSectionPlaylistsAvailable,
+  ] = useState(false);
   const { list, isLoading } = channelSections;
 
   const getChannelSections = useCallback(
-    async ({ abortController }) => {
+    async ({ signal } = {}) => {
       const queryParams = {
         part: "snippet,contentDetails",
         channelId,
@@ -23,10 +27,16 @@ const ChannelHomePageContent = ({ channelId }) => {
         const res = await httpRequest({
           url: "/channelSections",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { items } = res;
+          const isChannelSectionPlaylistsAvailable = items.some(
+            (section) => section?.contentDetails?.playlists?.length
+          );
+          setIsChannelSectionPlaylistsAvailable(
+            isChannelSectionPlaylistsAvailable
+          );
           setChannelSections({
             list: items,
             isLoading: false,
@@ -41,21 +51,23 @@ const ChannelHomePageContent = ({ channelId }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getChannelSections({ abortController });
+    getChannelSections({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };
   }, [getChannelSections]);
 
-  if (!isLoading && list.length === 0) {
-    <VideoGallery
-      queryParams={{
-        part: "snippet",
-        channelId,
-        maxResults: 10,
-      }}
-      url="/search"
-    />;
+  if (!isLoading && !isChannelSectionPlaylistsAvailable) {
+    return (
+      <VideoGallery
+        queryParams={{
+          part: "snippet",
+          channelId,
+          maxResults: 10,
+        }}
+        url="/search"
+      />
+    );
   }
 
   return (

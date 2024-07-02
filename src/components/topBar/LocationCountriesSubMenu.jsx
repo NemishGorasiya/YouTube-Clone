@@ -14,21 +14,23 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
 
   const [countries, setCountries] = useState([]);
 
-  const handleChangeLocation = (countryCode) => {
+  const handleChangeLocation = (event) => {
+    const countryCode = event.target
+      .closest("[data-gl]")
+      .getAttribute("data-gl");
     changeLocation(countryCode);
   };
 
-  const getCountries = async ({ abortController }) => {
+  const getCountries = async ({ signal }) => {
     try {
       const queryParams = { part: "snippet" };
       const res = await httpRequest({
         url: "/i18nRegions",
         queryParams,
-        abortController,
+        signal,
       });
-      if (res) {
-        const { items } = res;
-        setCountries(items);
+      if (res?.items) {
+        setCountries(res.items);
       }
     } catch (error) {
       console.error(error.message || error);
@@ -37,7 +39,7 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getCountries({ abortController });
+    getCountries({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };
@@ -55,9 +57,8 @@ const LocationCountriesSubMenu = ({ isLocationMenuOpen }) => {
             <CountryMenuItem
               key={id}
               $isActive={isActive}
-              onClick={() => {
-                handleChangeLocation(gl);
-              }}
+              data-gl={gl}
+              onClick={handleChangeLocation}
             >
               {name} {isActive && <DoneIcon fontSize="small" />}
             </CountryMenuItem>

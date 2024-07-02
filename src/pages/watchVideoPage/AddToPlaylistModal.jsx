@@ -29,37 +29,13 @@ import {
 } from "./AddToPlaylistStyledComponents";
 import toast from "react-hot-toast";
 
-const renderItem = (props) => {
-  const { snippet, id, status, handleCheckboxClick, videoId } = props || {};
-  const { title = "" } = snippet || {};
-  const { privacyStatus = "" } = status || {};
-
-  return (
-    <FormControlWrapper key={id}>
-      <FormControlLabel
-        control={<Checkbox />}
-        label={title}
-        onChange={(event) => {
-          handleCheckboxClick({ event, playlistId: id, videoId, title });
-        }}
-      />
-      {privacyStatus === "private" ? (
-        <LockOutlinedIcon />
-      ) : (
-        <PublicOutlinedIcon />
-      )}
-    </FormControlWrapper>
-  );
-};
-
 const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   const [playlists, setPlaylists] = useState({
     list: [],
     isLoading: true,
     nextPageToken: "",
   });
-  const [isCreateNewPlaylistFormOpen, setIsCreateNewPlaylistFormOpen] =
-    useState(false);
+  const [isCreatingNewPlaylist, setIsCreatingNewPlaylist] = useState(false);
   const [selectedPrivacyPolicy, setSelectedPrivacyPolicy] = useState("private");
 
   const handlePrivacyPolicyChange = ({ target: { value } }) => {
@@ -67,7 +43,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   };
 
   const createNewPlaylistForm = () => {
-    setIsCreateNewPlaylistFormOpen(true);
+    setIsCreatingNewPlaylist(true);
   };
 
   const createPlaylistAndAddVideo = async (event) => {
@@ -156,40 +132,62 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
   };
 
   const { list, isLoading, nextPageToken } = playlists || {};
-  const getPlaylists = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
-      try {
-        const queryParams = {
-          part: "snippet,status",
-          maxResults: 10,
-          mine: true,
-          pageToken: nextPageToken,
-        };
+  const getPlaylists = useCallback(async ({ nextPageToken, signal } = {}) => {
+    try {
+      const queryParams = {
+        part: "snippet,status",
+        maxResults: 15,
+        mine: true,
+        pageToken: nextPageToken,
+      };
 
-        const res = await httpRequest({
-          url: "/playlists",
-          queryParams,
-          abortController,
-        });
-        if (res) {
-          const { items, nextPageToken } = res;
-          setPlaylists((prevList) => ({
-            list: [...prevList.list, ...items],
-            isLoading: false,
-            nextPageToken: nextPageToken,
-          }));
-        }
-      } catch (error) {
-        console.error(error);
+      const res = await httpRequest({
+        url: "/playlists",
+        queryParams,
+        signal,
+      });
+      if (res) {
+        const { items, nextPageToken } = res;
+        setPlaylists((prevList) => ({
+          list: [...prevList.list, ...items],
+          isLoading: false,
+          nextPageToken,
+        }));
       }
-    },
-    []
-  );
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   const loadMorePlaylists = () => {
     if (nextPageToken) {
-      getPlaylists({ nextPageToken: nextPageToken });
+      getPlaylists({ nextPageToken });
     }
+  };
+
+  const renderItem = (playlist) => {
+    const {
+      snippet: { title = "" } = {},
+      id,
+      status: { privacyStatus = "" } = {},
+    } = playlist || {};
+
+    return (
+      <FormControlWrapper key={id}>
+        <FormControlLabel
+          control={<Checkbox />}
+          label={title}
+          onChange={(event) => {
+            handleCheckboxClick({ event, playlistId: id, videoId, title });
+          }}
+        />
+        {privacyStatus === "private" ? (
+          <LockOutlinedIcon />
+        ) : (
+          <PublicOutlinedIcon />
+        )}
+      </FormControlWrapper>
+    );
   };
 
   useEffect(() => {
@@ -199,7 +197,7 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    getPlaylists({ abortController: abortController });
+    getPlaylists({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };
@@ -217,13 +215,11 @@ const AddToPlaylistModal = ({ open, handleClose, videoId }) => {
             fetchMoreData={loadMorePlaylists}
             renderItem={renderItem}
             isLoading={isLoading}
-            handleCheckboxClick={handleCheckboxClick}
-            videoId={videoId}
             skeletonItem={<PlaylistChecklistItemSkeleton />}
             numberOfSkeletonItems={10}
           />
         </FormGroup>
-        {isCreateNewPlaylistFormOpen ? (
+        {isCreatingNewPlaylist ? (
           <NewPlaylistForm action="" onSubmit={createPlaylistAndAddVideo}>
             <TextField label="Name" variant="standard" name="playlistName" />
             <FormControl variant="standard">

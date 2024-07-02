@@ -3,22 +3,22 @@ import TopBar from "../topBar/TopBar";
 import SideBar from "../sideBar/SideBar";
 
 const AppBar = () => {
-	const [open, setOpen] = useState(false);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
-	const toggleDrawer = useCallback((toOpen) => {
-		if (toOpen === false) {
-			setOpen(false);
-			return;
-		}
-		setOpen((prevState) => !prevState);
-	}, []);
+  const toggleDrawer = useCallback((toOpen) => {
+    if (toOpen === false) {
+      setIsSideBarOpen(false);
+      return;
+    }
+    setIsSideBarOpen((prevState) => !prevState);
+  }, []);
 
-	return (
-		<>
-			<TopBar toggleDrawer={toggleDrawer} />
-			<SideBar open={open} toggleDrawer={toggleDrawer} />
-		</>
-	);
+  return (
+    <>
+      <TopBar toggleDrawer={toggleDrawer} />
+      <SideBar open={isSideBarOpen} toggleDrawer={toggleDrawer} />
+    </>
+  );
 };
 
 export default AppBar;

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -10,22 +10,31 @@ export const AuthContextProvider = ({ children }) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
 
-  const handleLogin = (userInfo) => {
-    setUser(userInfo);
-    setIsLoggedIn(true);
-  };
+  const handleLogin = useCallback(
+    (userInfo) => {
+      setUser(userInfo);
+      setIsLoggedIn(true);
+    },
+    [setUser]
+  );
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     removeUser();
     setIsLoggedIn(false);
-  };
+  }, [removeUser]);
+
+  const contextValue = useMemo(
+    () => ({
+      user,
+      isLoggedIn,
+      handleLogin,
+      handleLogout,
+    }),
+    [user, isLoggedIn, handleLogin, handleLogout]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{ user, isLoggedIn, handleLogin, handleLogout }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 

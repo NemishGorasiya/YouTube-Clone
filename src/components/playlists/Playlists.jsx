@@ -22,7 +22,7 @@ const Playlists = ({ channelId }) => {
   const listQuery = searchParams.get("list");
 
   const getPlaylists = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
+    async ({ nextPageToken, signal } = {}) => {
       const queryParams = {
         part: "snippet,contentDetails,status",
         maxResults: 20,
@@ -36,7 +36,7 @@ const Playlists = ({ channelId }) => {
         const res = await httpRequest({
           url: "/playlists",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { nextPageToken, items } = res;
@@ -66,7 +66,7 @@ const Playlists = ({ channelId }) => {
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    getPlaylists({ abortController });
+    getPlaylists({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

@@ -2,9 +2,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -238,6 +235,21 @@ export const nprogressConfig = {
   showSpinner: false,
   easing: "ease",
   speed: 1000,
+};
+
+export const SCOPE =
+  "https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+
+export const SIGNIN_REDIRECT_LINK = `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent&include_granted_scopes=true&state=state_parameter_passthrough_value&scope=${SCOPE}&client_id=${
+  import.meta.env.VITE_CLIENT_ID
+}&response_type=code&redirect_uri=${
+  import.meta.env.VITE_REDIRECT_URI
+}&credentials=include&withCredentials=true`;
+
+export const videoLikeDislikeMessages = {
+  like: "Video liked",
+  dislike: "Video disliked",
+  none: "Video rating removed",
 };
 
 export const noInternetBase64Url =

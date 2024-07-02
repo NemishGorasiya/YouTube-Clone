@@ -79,7 +79,7 @@ const PlaylistPage = () => {
   };
 
   const getPlaylistDetails = useCallback(
-    async ({ abortController }) => {
+    async ({ signal }) => {
       try {
         const queryParams = {
           part: "snippet,contentDetails,status",
@@ -88,7 +88,7 @@ const PlaylistPage = () => {
         const res = await httpRequest({
           url: "/playlists",
           queryParams,
-          abortController,
+          signal,
         });
         if (res) {
           const { items } = res;
@@ -178,7 +178,7 @@ const PlaylistPage = () => {
       isLoading: true,
     });
     const abortController = new AbortController();
-    getPlaylistDetails({ abortController });
+    getPlaylistDetails({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };

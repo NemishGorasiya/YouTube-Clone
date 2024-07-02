@@ -20,7 +20,7 @@ const VideoGallery = ({
   const { list, isLoading, nextPageToken } = videos;
 
   const fetchData = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
+    async ({ nextPageToken, signal } = {}) => {
       try {
         setVideos((prevVideos) => ({
           ...prevVideos,
@@ -33,7 +33,7 @@ const VideoGallery = ({
         };
         const response = await httpRequest({
           url: url,
-          abortController,
+          signal,
           queryParams,
         });
         if (response) {
@@ -64,14 +64,17 @@ const VideoGallery = ({
       nextPageToken: "",
     });
     const abortController = new AbortController();
-    fetchData({ abortController: abortController });
+    fetchData({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };
   }, [fetchData]);
 
-  const renderItem = (video) => (
-    <VideoCard key={video.id} video={video} isListView={isListView} />
+  const renderItem = useCallback(
+    (video) => (
+      <VideoCard key={video.id} video={video} isListView={isListView} />
+    ),
+    [isListView]
   );
 
   if (!isLoading && list.length === 0) {
@@ -85,8 +88,8 @@ const VideoGallery = ({
     <Grid container $isListView={isListView}>
       <InfiniteScroll
         items={list}
-        fetchMoreData={loadMore}
         renderItem={renderItem}
+        fetchMoreData={loadMore}
         isLoading={isLoading}
         skeletonItem={<VideoCardSkeleton isListView={isListView} />}
         numberOfSkeletonItems={15}

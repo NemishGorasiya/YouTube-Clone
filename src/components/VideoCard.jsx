@@ -23,39 +23,41 @@ import CardThumbnail from "./CardThumbnail";
 
 const VideoCard = ({ video, isListView = false }) => {
   const navigate = useNavigate();
-  const { id, snippet, statistics: { viewCount } = {}, contentDetails } = video;
   const {
-    publishedAt,
-    title,
-    channelTitle,
-    channelId,
-    thumbnails,
-    resourceId: { videoId = "" } = {},
-    liveBroadcastContent,
-  } = snippet || {};
-  const { high } = thumbnails || {};
-  const { url } = high || {};
+    id,
+    snippet: {
+      publishedAt,
+      title,
+      channelTitle,
+      channelId,
+      thumbnails: { high: { url = "" } = {} } = {},
+      resourceId: { videoId = "" } = {},
+      liveBroadcastContent,
+    },
+    statistics: { viewCount = "" } = {},
+    contentDetails: { duration = "" } = {},
+  } = video;
 
-  const { duration = "" } = contentDetails || {};
+  const videoKey = videoId || id.videoId || id;
 
-  const handleVideoCardClick = () => {
-    navigate(`/watch?v=${videoId || id.videoId || id}`);
+  const navigateToVideo = () => {
+    navigate(`/watch?v=${videoKey}`);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
 
-  const navigateToChannelPage = (event) => {
+  const navigateToChannel = (event) => {
     event.stopPropagation();
     navigate(`/channel/${channelId}`);
   };
 
   return (
-    <Card elevation={0} className="videoCard" onClick={handleVideoCardClick}>
+    <Card elevation={0} className="videoCard" onClick={navigateToVideo}>
       <CardActionArea $isListView={isListView}>
         <CardThumbnail
-          id={videoId || id.videoId || id}
+          id={videoKey}
           thumbnailUrl={url || VideoThumbnailFallbackImage}
           duration={duration}
         />
@@ -69,7 +71,7 @@ const VideoCard = ({ video, isListView = false }) => {
             />
 
             <VideoMetadata>
-              <ChannelName onClick={navigateToChannelPage}>
+              <ChannelName onClick={navigateToChannel}>
                 {channelTitle}
               </ChannelName>
               <VideoMetadataTypography>

@@ -24,11 +24,10 @@ const CardThumbnail = ({ id, thumbnailUrl, duration }) => {
     <CardMediaWrapper
       onMouseEnter={handleMouseInEvent}
       onMouseLeave={handleMouseOutEvent}
-      sx={{ position: "relative" }}
     >
       {isHovered ? (
         <YouTubeIframe
-          src={`https:/www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1`}
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&disablekb=1&loop=1`}
           title="YouTube video player"
           allow="fullscreen"
         />

@@ -21,7 +21,7 @@ const SubscribedChannelsPage = () => {
   const { list, isLoading, nextPageToken } = channels;
 
   const getSubscribedChannels = useCallback(
-    async ({ nextPageToken, abortController } = {}) => {
+    async ({ nextPageToken, signal } = {}) => {
       try {
         const queryParams = {
           mine: true,
@@ -31,7 +31,7 @@ const SubscribedChannelsPage = () => {
         const res = await httpRequest({
           url: "/subscriptions",
           queryParams,
-          abortController,
+          signal,
         });
 
         if (res) {
@@ -62,7 +62,7 @@ const SubscribedChannelsPage = () => {
       isLoading: true,
       nextPageToken: "",
     });
-    getSubscribedChannels({ abortController });
+    getSubscribedChannels({ signal: abortController.signal });
     return () => {
       abortController.abort();
     };
