@@ -4,44 +4,45 @@ import axios from "axios";
 const getUserInfo = () => JSON.parse(localStorage.getItem("user")) || {};
 
 const axiosInstance = axios.create({
-  baseURL: "https://youtube.googleapis.com/youtube/v3",
+	baseURL: "https://youtube.googleapis.com/youtube/v3",
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const { accessToken } = getUserInfo();
-    config.headers["Content-Type"] = "application/json";
-    if (accessToken) {
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
+	(config) => {
+		const { accessToken } = getUserInfo();
+		config.headers["Content-Type"] = "application/json";
+		if (accessToken) {
+			config.headers["Authorization"] = `Bearer ${accessToken}`;
+		}
+		return config;
+	},
+	(error) => Promise.reject(error)
 );
 
 const refreshAccessToken = async () => {
-  const { refreshToken } = getUserInfo();
-  try {
-    const response = await axios.post("https://oauth2.googleapis.com/token", {
-      client_id: import.meta.env.VITE_CLIENT_ID,
-      client_secret: import.meta.env.VITE_CLIENT_SECRET,
-      refresh_token: refreshToken,
-      grant_type: "refresh_token",
-    });
+	const { refreshToken } = getUserInfo();
+	try {
+		const response = await axios.post("https://oauth2.googleapis.com/token", {
+			client_id: import.meta.env.VITE_CLIENT_ID,
+			client_secret: import.meta.env.VITE_CLIENT_SECRET,
+			refresh_token: refreshToken,
+			grant_type: "refresh_token",
+		});
 
-    if (response && response.data) {
-      const { access_token: newAccessToken } = response.data;
-      const userInfo = getUserInfo();
-      const updatedUserInfo = { ...userInfo, accessToken: newAccessToken };
+		if (response && response.data) {
+			const { access_token: newAccessToken } = response.data;
+			const userInfo = getUserInfo();
+			const updatedUserInfo = { ...userInfo, accessToken: newAccessToken };
 
-      localStorage.setItem("user", JSON.stringify(updatedUserInfo));
+			localStorage.setItem("user", JSON.stringify(updatedUserInfo));
 
-      return newAccessToken;
-    }
-  } catch (error) {
-    console.error("Error refreshing access token", error);
-    throw error;
-  }
+			return newAccessToken;
+		}
+	} catch (error) {
+		localStorage.removeItem("user");
+		console.error("Error refreshing access token", error);
+		throw error;
+	}
 };
 
 const refreshAndRetryQueue = [];
@@ -50,59 +51,59 @@ let retryCount = 0;
 const maxRetries = 3;
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+	(response) => response,
+	async (error) => {
+		const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      if (retryCount >= maxRetries) {
-        // Clear local storage and log out user
-        localStorage.removeItem("user");
-        window.location.href = "/"; // Redirect to login page
-        return Promise.reject(error);
-      }
+		if (
+			error.response &&
+			error.response.status === 401 &&
+			!originalRequest._retry
+		) {
+			if (retryCount >= maxRetries) {
+				// Clear local storage and log out user
+				localStorage.removeItem("user");
+				window.location.href = "/"; // Redirect to login page
+				return Promise.reject(error);
+			}
 
-      if (!isRefreshing) {
-        isRefreshing = true;
-        originalRequest._retry = true;
+			if (!isRefreshing) {
+				isRefreshing = true;
+				originalRequest._retry = true;
 
-        try {
-          const newAccessToken = await refreshAccessToken();
-          retryCount = 0; // Reset retry count on success
+				try {
+					const newAccessToken = await refreshAccessToken();
+					retryCount = 0; // Reset retry count on success
 
-          // Retry all requests in the queue with the new token
-          refreshAndRetryQueue.forEach((req) => {
-            req.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-            req.resolve(axiosInstance(req.config));
-          });
+					// Retry all requests in the queue with the new token
+					refreshAndRetryQueue.forEach((req) => {
+						req.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+						req.resolve(axiosInstance(req.config));
+					});
 
-          refreshAndRetryQueue.length = 0;
-          isRefreshing = false;
+					refreshAndRetryQueue.length = 0;
+					isRefreshing = false;
 
-          // Retry the original request with the new token
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return axiosInstance(originalRequest);
-        } catch (refreshError) {
-          retryCount++;
-          isRefreshing = false;
-          console.error("Token refresh failed", refreshError);
-          window.location.href = "/";
-          return Promise.reject(refreshError);
-        }
-      }
+					// Retry the original request with the new token
+					originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+					return axiosInstance(originalRequest);
+				} catch (refreshError) {
+					retryCount++;
+					isRefreshing = false;
+					console.error("Token refresh failed", refreshError);
+					window.location.href = "/";
+					return Promise.reject(refreshError);
+				}
+			}
 
-      // Add the original request to the queue
-      return new Promise((resolve, reject) => {
-        refreshAndRetryQueue.push({ config: originalRequest, resolve, reject });
-      });
-    }
+			// Add the original request to the queue
+			return new Promise((resolve, reject) => {
+				refreshAndRetryQueue.push({ config: originalRequest, resolve, reject });
+			});
+		}
 
-    return Promise.reject(error);
-  }
+		return Promise.reject(error);
+	}
 );
 
 export default axiosInstance;
