@@ -72,7 +72,7 @@ const SearchInput = () => {
             onChange={handleSearchQueryChange}
             startAdornment={searchIconAdornment}
           />
-          <SearchIconWrapper>
+          <SearchIconWrapper aria-label="search">
             <SearchIcon />
           </SearchIconWrapper>
         </StyledForm>
