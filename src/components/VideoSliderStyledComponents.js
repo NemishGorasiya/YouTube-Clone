@@ -35,7 +35,7 @@ export const VideoSliderWrapper = styledConfig(Box)({
 export const StyledSwiper = styledConfig(Swiper)({
   width: "100%",
   padding: "4px",
-  position: "static",
+  position: "static !important",
   "& .swiper-button-prev, & .swiper-button-next": {
     top: "50%",
     height: "40px",
@@ -54,11 +54,11 @@ export const StyledSwiper = styledConfig(Swiper)({
   },
   "& .swiper-button-prev": {
     left: 0,
-    transform: "translate(-50%, -50%)",
+    transform: "translate(-50%, -100%)",
   },
   "& .swiper-button-next": {
     right: 0,
-    transform: "translate(50%, -50%)",
+    transform: "translate(50%, -100%)",
   },
   "& .swiper-button-disabled": {
     display: "none",
